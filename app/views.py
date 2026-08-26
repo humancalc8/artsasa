@@ -1,0 +1,22 @@
+from django.shortcuts import render
+
+
+def index_view(request):
+    return render(
+        request,
+        "index.html"
+    )
+
+
+def collection_view(request):
+    return render(
+        request,
+        "collection.html"
+    )
+
+
+def about_view(request):
+    return render(
+        request,
+        "about.html"
+    )
