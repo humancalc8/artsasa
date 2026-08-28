@@ -5,14 +5,15 @@
 ARTSASA — Collection
 {% endblock %}
 
+
 {% block extra_css %}
 
 <style>
 
 /* =========================================================
    ARTSASA — COLLECTION
-   Editorial gallery collection
-========================================================= */
+   Human-first gallery shopping experience
+   ========================================================= */
 
 .collection-page {
     background: var(--paper);
@@ -22,14 +23,34 @@ ARTSASA — Collection
 
 
 /* =========================================================
-   COLLECTION HERO
-========================================================= */
+   ACCESSIBILITY
+   ========================================================= */
+
+.collection-page button,
+.collection-page a,
+.collection-page input,
+.collection-page select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.collection-page button:focus-visible,
+.collection-page a:focus-visible,
+.collection-page input:focus-visible,
+.collection-page select:focus-visible {
+    outline: 2px solid var(--terracotta);
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
 
 .collection-hero {
     padding:
-        clamp(120px, 14vw, 190px)
+        clamp(115px, 13vw, 180px)
         0
-        clamp(70px, 8vw, 110px);
+        clamp(60px, 7vw, 95px);
 
     border-bottom: 1px solid var(--line);
 }
@@ -38,99 +59,270 @@ ARTSASA — Collection
     position: relative;
 }
 
+.collection-hero-inner {
+    max-width: 900px;
+}
+
 .collection-title {
-    margin: 20px 0 25px;
+    margin: 18px 0 24px;
 
     font-family: var(--font-display);
-
-    font-size:
-        clamp(58px, 8vw, 110px);
-
+    font-size: clamp(56px, 8vw, 108px);
     font-weight: 400;
-
     line-height: .88;
-
-    letter-spacing: -.035em;
+    letter-spacing: -.04em;
 }
 
 .collection-intro {
-    max-width: 600px;
-
+    max-width: 650px;
     margin: 0;
 
     font-family: var(--font-reading);
-
     font-size: 17px;
-
     line-height: 1.75;
-
     color: var(--ink-soft);
 }
 
+.collection-help {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 20px;
 
-/* =========================================================
-   COLLECTION SECTION
-========================================================= */
+    margin-top: 28px;
 
-.collection-section {
-    padding-bottom: 120px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.collection-help span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.collection-help span::before {
+    content: "";
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--terracotta);
 }
 
 
 /* =========================================================
-   TOOLBAR
-========================================================= */
+   COLLECTION MAIN
+   ========================================================= */
 
-.collection-toolbar {
-    display: flex;
+.collection-section {
+    padding: 0 0 120px;
+}
 
+
+/* =========================================================
+   SHOP CONTROLS
+   ========================================================= */
+
+.collection-controls-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+
+    background: color-mix(
+        in srgb,
+        var(--paper) 94%,
+        transparent
+    );
+
+    border-bottom: 1px solid var(--line);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.collection-controls {
+    display: grid;
+    grid-template-columns: minmax(280px, 1fr) auto;
+    gap: 24px;
     align-items: center;
 
-    justify-content: space-between;
+    padding: 18px 0;
+}
 
-    gap: 30px;
 
-    padding: 27px 0;
+/* =========================================================
+   SEARCH
+   ========================================================= */
 
-    margin-bottom: 58px;
+.collection-search {
+    position: relative;
+    min-width: 0;
+}
 
+.collection-search-label {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+    border: 0;
+}
+
+.collection-search input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 48px 0 17px;
+
+    border: 1px solid var(--line);
+    border-radius: 0;
+
+    background: rgba(255,255,255,.18);
+    color: var(--midnight);
+
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .02em;
+
+    transition:
+        border-color .25s ease,
+        background .25s ease;
+}
+
+.collection-search input::placeholder {
+    color: var(--muted);
+}
+
+.collection-search input:hover {
+    border-color: var(--midnight);
+}
+
+.collection-search input:focus {
+    background: var(--paper);
+    border-color: var(--midnight);
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+
+    width: 17px;
+    height: 17px;
+
+    transform: translateY(-50%);
+
+    color: var(--muted);
+    pointer-events: none;
+}
+
+.search-icon svg {
+    width: 100%;
+    height: 100%;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+}
+
+
+/* =========================================================
+   SORT
+   ========================================================= */
+
+.collection-sort {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.collection-sort label {
+    font-family: var(--font-body);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.collection-sort select {
+    min-width: 175px;
+    height: 42px;
+
+    padding: 0 34px 0 12px;
+
+    border: 1px solid var(--line);
+    border-radius: 0;
+
+    background: var(--paper);
+    color: var(--midnight);
+
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   CATEGORY NAVIGATION
+   ========================================================= */
+
+.collection-navigation {
     border-bottom: 1px solid var(--line);
 }
 
-
-/* =========================================================
-   FILTERS
-========================================================= */
-
-.collection-filters {
+.collection-navigation-inner {
     display: flex;
-
     align-items: center;
+    gap: 8px;
 
-    flex-wrap: wrap;
+    padding: 18px 0;
 
-    gap: 7px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.collection-navigation-inner::-webkit-scrollbar {
+    display: none;
 }
 
 .filter-button {
     appearance: none;
 
+    flex: 0 0 auto;
+
+    min-height: 38px;
+
+    padding: 0 16px;
+
     border: 1px solid var(--line);
+    border-radius: 0;
 
     background: transparent;
-
     color: var(--ink-soft);
 
-    padding: 9px 15px;
-
     font-family: var(--font-body);
-
-    font-size: 10px;
-
-    font-weight: 600;
-
+    font-size: 9px;
+    font-weight: 700;
     letter-spacing: .075em;
-
     text-transform: uppercase;
 
     cursor: pointer;
@@ -144,48 +336,72 @@ ARTSASA — Collection
 
 .filter-button:hover {
     border-color: var(--midnight);
-
     color: var(--midnight);
-
     transform: translateY(-1px);
 }
 
 .filter-button.active {
     background: var(--midnight);
-
     border-color: var(--midnight);
-
     color: var(--paper);
 }
 
 
 /* =========================================================
-   ARTWORK COUNT
-========================================================= */
+   RESULTS BAR
+   ========================================================= */
+
+.collection-results {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 26px 0 25px;
+}
 
 .artwork-count {
-    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.collection-reset {
+    display: none;
+
+    appearance: none;
+
+    border: 0;
+    background: none;
+
+    padding: 0;
 
     font-family: var(--font-body);
-
     font-size: 9px;
-
-    font-weight: 600;
-
-    letter-spacing: .13em;
-
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
 
-    color: var(--muted);
+    color: var(--terracotta);
+
+    cursor: pointer;
+}
+
+.collection-reset.visible {
+    display: inline-flex;
+}
+
+.collection-reset:hover {
+    text-decoration: underline;
 }
 
 
 /* =========================================================
    ARTWORK GRID
-   DESKTOP = 4
-   TABLET = 3 / 2
-   MOBILE = 2
-========================================================= */
+   ========================================================= */
 
 .art-grid {
     display: grid;
@@ -194,39 +410,29 @@ ARTSASA — Collection
         repeat(4, minmax(0, 1fr));
 
     column-gap: 28px;
+    row-gap: 70px;
 
-    row-gap: 72px;
-
-    align-items: stretch;
+    align-items: start;
 }
 
 
 /* =========================================================
    ARTWORK CARD
-
-   Each card is a grid so that the bottom action area
-   remains consistent even when descriptions differ.
-========================================================= */
+   ========================================================= */
 
 .art-piece {
     position: relative;
 
     min-width: 0;
 
-    display: grid;
-
-    grid-template-rows:
-        auto
-        minmax(190px, auto)
-        auto;
-
-    align-self: stretch;
+    display: flex;
+    flex-direction: column;
 
     opacity: 1;
 
     transition:
-        opacity .35s ease,
-        transform .35s ease;
+        opacity .3s ease,
+        transform .3s ease;
 }
 
 .art-piece.is-hidden {
@@ -235,8 +441,18 @@ ARTSASA — Collection
 
 
 /* =========================================================
-   ARTWORK IMAGE
-========================================================= */
+   IMAGE AREA
+   ========================================================= */
+
+.art-image-wrap {
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--sandstone-deep);
+}
 
 .art-image {
     position: relative;
@@ -245,11 +461,9 @@ ARTSASA — Collection
 
     width: 100%;
 
-    overflow: hidden;
-
     aspect-ratio: .82;
 
-    background: var(--sandstone-deep);
+    overflow: hidden;
 
     text-decoration: none;
 }
@@ -258,7 +472,6 @@ ARTSASA — Collection
     display: block;
 
     width: 100%;
-
     height: 100%;
 
     object-fit: cover;
@@ -266,30 +479,27 @@ ARTSASA — Collection
     transform: scale(1);
 
     transition:
-        transform .8s cubic-bezier(.2,.7,.2,1),
+        transform .75s cubic-bezier(.2,.7,.2,1),
         filter .5s ease;
 }
 
 .art-image:hover img {
     transform: scale(1.045);
-
-    filter: brightness(.84);
+    filter: brightness(.86);
 }
 
 
 /* =========================================================
-   IMAGE PLACEHOLDER
-========================================================= */
+   PLACEHOLDER
+   ========================================================= */
 
 .art-no-image {
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     width: 100%;
-
     height: 100%;
 
     background:
@@ -302,109 +512,43 @@ ARTSASA — Collection
     color: var(--muted);
 
     font-family: var(--font-body);
-
     font-size: 9px;
-
-    font-weight: 600;
-
+    font-weight: 700;
     letter-spacing: .12em;
-
     text-transform: uppercase;
-}
-
-
-/* =========================================================
-   IMAGE OVERLAY
-========================================================= */
-
-.art-overlay {
-    position: absolute;
-
-    inset: 0;
-
-    display: flex;
-
-    align-items: flex-end;
-
-    justify-content: space-between;
-
-    padding: 19px;
-
-    background:
-        linear-gradient(
-            180deg,
-            transparent 48%,
-            rgba(23,21,19,.72)
-        );
-
-    color: #fff;
-
-    opacity: 0;
-
-    transition: opacity .35s ease;
-
-    pointer-events: none;
-}
-
-.art-image:hover .art-overlay {
-    opacity: 1;
-}
-
-.art-overlay span:first-child {
-    font-family: var(--font-body);
-
-    font-size: 9px;
-
-    font-weight: 600;
-
-    letter-spacing: .11em;
-
-    text-transform: uppercase;
-}
-
-.arrow {
-    font-family: var(--font-body);
-
-    font-size: 19px;
-
-    line-height: 1;
 }
 
 
 /* =========================================================
    WISHLIST
-   TOP LEFT CORNER OF IMAGE
-========================================================= */
+   ========================================================= */
 
 .art-wishlist-button {
     position: absolute;
 
     top: 12px;
-
     left: 12px;
 
-    z-index: 10;
+    z-index: 15;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     width: 40px;
-
     height: 40px;
 
     padding: 0;
 
-    border: 1px solid rgba(255,255,255,.45);
+    border: 1px solid rgba(255,255,255,.55);
+    border-radius: 0;
 
     background: rgba(23,21,19,.72);
 
     color: #fff;
 
     backdrop-filter: blur(7px);
-
     -webkit-backdrop-filter: blur(7px);
 
     cursor: pointer;
@@ -418,39 +562,27 @@ ARTSASA — Collection
 
 .art-wishlist-button:hover {
     background: var(--paper);
-
     border-color: var(--paper);
-
     color: var(--midnight);
-
     transform: translateY(-1px);
 }
 
 .art-wishlist-button svg {
     width: 17px;
-
     height: 17px;
 
     fill: none;
 
     stroke: currentColor;
-
     stroke-width: 1.45;
 
     stroke-linecap: round;
-
     stroke-linejoin: round;
-
-    transition:
-        transform .3s ease,
-        fill .25s ease;
 }
 
 .art-wishlist-button.is-liked {
     background: var(--paper);
-
     border-color: var(--paper);
-
     color: var(--terracotta);
 }
 
@@ -480,39 +612,73 @@ ARTSASA — Collection
 
 
 /* =========================================================
-   ARTWORK INFORMATION
-========================================================= */
+   IMAGE VIEW LABEL
+   ========================================================= */
 
-.art-info {
-    min-width: 0;
+.art-overlay {
+    position: absolute;
 
-    min-height: 190px;
+    inset: 0;
 
     display: flex;
-
-    align-items: flex-start;
-
+    align-items: flex-end;
     justify-content: space-between;
 
-    gap: 15px;
+    padding: 18px;
 
-    margin-top: 16px;
+    background:
+        linear-gradient(
+            180deg,
+            transparent 45%,
+            rgba(23,21,19,.74)
+        );
 
-    padding-top: 17px;
+    color: #fff;
+
+    opacity: 0;
+
+    transition: opacity .3s ease;
+
+    pointer-events: none;
+}
+
+.art-image:hover .art-overlay {
+    opacity: 1;
+}
+
+.art-overlay span:first-child {
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .11em;
+    text-transform: uppercase;
+}
+
+.art-overlay .arrow {
+    font-family: var(--font-body);
+    font-size: 20px;
+}
+
+
+/* =========================================================
+   ARTWORK INFORMATION
+   ========================================================= */
+
+.art-info {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    margin-top: 15px;
+    padding-top: 16px;
 
     border-top: 1px solid var(--line);
 }
 
 .art-copy {
     min-width: 0;
-
-    width: 100%;
 }
-
-
-/* =========================================================
-   ARTWORK TITLE
-========================================================= */
 
 .art-title {
     margin: 0 0 7px;
@@ -520,7 +686,6 @@ ARTSASA — Collection
     font-family: var(--font-display);
 
     font-size: 23px;
-
     font-weight: 400;
 
     line-height: 1.05;
@@ -530,18 +695,12 @@ ARTSASA — Collection
     color: var(--midnight);
 }
 
-
-/* =========================================================
-   ARTIST
-========================================================= */
-
 .art-artist {
-    margin: 0 0 9px;
+    margin: 0 0 8px;
 
     font-family: var(--font-body);
 
     font-size: 9px;
-
     font-weight: 700;
 
     letter-spacing: .105em;
@@ -553,18 +712,12 @@ ARTSASA — Collection
     color: var(--terracotta);
 }
 
-
-/* =========================================================
-   MEDIUM / YEAR
-========================================================= */
-
 .art-meta {
     margin: 0;
 
     font-family: var(--font-body);
 
     font-size: 9px;
-
     font-weight: 500;
 
     letter-spacing: .075em;
@@ -578,79 +731,91 @@ ARTSASA — Collection
 
 .meta-divider {
     display: inline-block;
-
     margin: 0 4px;
 }
-
-
-/* =========================================================
-   DESCRIPTION
-
-   Maximum of 3 lines.
-
-   This is the main alignment fix:
-   long descriptions cannot push the buttons down.
-========================================================= */
 
 .art-desc {
     display: -webkit-box;
 
-    max-width: 34ch;
+    max-width: 38ch;
 
-    height: 63px;
+    min-height: 63px;
 
-    margin: 13px 0 0;
+    margin: 12px 0 0;
 
     overflow: hidden;
 
     font-family: var(--font-reading);
 
-    font-size: 14px;
-
+    font-size: 13.5px;
     font-style: italic;
-
     font-weight: 400;
 
     line-height: 1.5;
 
-    letter-spacing: .002em;
-
     color: var(--ink-soft);
 
     -webkit-box-orient: vertical;
-
     -webkit-line-clamp: 3;
 }
 
 
 /* =========================================================
-   PRICE / STATUS
-========================================================= */
+   PRICE + AVAILABILITY
+   ALWAYS VISIBLE
+   ========================================================= */
 
-.art-availability {
-    flex-shrink: 0;
+.art-purchase-info {
+    display: flex;
 
-    padding-top: 3px;
+    align-items: flex-end;
+    justify-content: space-between;
 
-    text-align: right;
+    gap: 15px;
+
+    margin-top: 16px;
+    padding: 13px 0;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
 }
 
-.art-price,
-.art-status {
-    display: inline-flex;
+.art-price-block {
+    min-width: 0;
+}
 
-    align-items: center;
+.price-label {
+    display: block;
 
-    gap: 7px;
+    margin-bottom: 4px;
 
     font-family: var(--font-body);
+    font-size: 7px;
+    font-weight: 700;
 
-    white-space: nowrap;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+
+    color: var(--muted);
 }
 
 .art-price {
-    font-size: 10px;
+    display: block;
 
+    font-family: var(--font-body);
+
+    font-size: 14px;
+    font-weight: 700;
+
+    letter-spacing: .015em;
+
+    color: var(--terracotta);
+}
+
+.art-enquire-price {
+    font-family: var(--font-body);
+
+    font-size: 12px;
     font-weight: 700;
 
     letter-spacing: .02em;
@@ -659,11 +824,20 @@ ARTSASA — Collection
 }
 
 .art-status {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    flex-shrink: 0;
+
+    font-family: var(--font-body);
+
     font-size: 8px;
+    font-weight: 700;
 
-    font-weight: 600;
-
-    letter-spacing: .11em;
+    letter-spacing: .1em;
 
     text-transform: uppercase;
 
@@ -673,7 +847,6 @@ ARTSASA — Collection
 .availability-dot,
 .status-dot {
     width: 6px;
-
     height: 6px;
 
     flex-shrink: 0;
@@ -692,13 +865,7 @@ ARTSASA — Collection
 
 /* =========================================================
    ACTIONS
-
-   ONLY TWO BUTTONS
-
-   WhatsApp | Add to Cart
-
-   Both columns are exactly equal.
-========================================================= */
+   ========================================================= */
 
 .art-actions {
     display: grid;
@@ -710,34 +877,22 @@ ARTSASA — Collection
 
     width: 100%;
 
-    margin-top: 14px;
+    margin-top: 12px;
 }
-
-
-/* =========================================================
-   SHARED ACTION BUTTONS
-
-   EXACT SAME SIZE
-========================================================= */
 
 .art-whatsapp-button,
 .art-cart-button {
-
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     width: 100%;
-
     min-width: 0;
 
-    height: 42px;
+    height: 43px;
 
-    min-height: 42px;
-
-    padding: 0 10px;
+    padding: 0 9px;
 
     box-sizing: border-box;
 
@@ -746,10 +901,9 @@ ARTSASA — Collection
     font-family: var(--font-body);
 
     font-size: 8px;
-
     font-weight: 700;
 
-    letter-spacing: .065em;
+    letter-spacing: .06em;
 
     line-height: 1;
 
@@ -769,11 +923,10 @@ ARTSASA — Collection
 
 
 /* =========================================================
-   WHATSAPP BUTTON
-========================================================= */
+   WHATSAPP
+   ========================================================= */
 
 .art-whatsapp-button {
-
     gap: 7px;
 
     border: 1px solid var(--line);
@@ -786,9 +939,7 @@ ARTSASA — Collection
 }
 
 .art-whatsapp-button svg {
-
     width: 15px;
-
     height: 15px;
 
     flex-shrink: 0;
@@ -797,16 +948,12 @@ ARTSASA — Collection
 }
 
 .art-whatsapp-button .whatsapp-inner {
-
     fill: var(--paper);
 }
 
 .art-whatsapp-button:hover {
-
     background: #53634a;
-
     border-color: #53634a;
-
     color: #fff;
 
     transform: translateY(-2px);
@@ -814,12 +961,11 @@ ARTSASA — Collection
 
 
 /* =========================================================
-   ADD TO CART
-========================================================= */
+   CART
+   ========================================================= */
 
 .art-cart-button {
-
-    gap: 8px;
+    gap: 7px;
 
     border: 1px solid var(--midnight);
 
@@ -831,7 +977,6 @@ ARTSASA — Collection
 }
 
 .art-cart-button:hover {
-
     transform: translateY(-2px);
 
     box-shadow:
@@ -839,59 +984,44 @@ ARTSASA — Collection
 }
 
 .art-cart-button:active {
-
     transform: translateY(0);
-
     box-shadow: none;
 }
 
-
-/* =========================================================
-   CART ICON
-========================================================= */
-
 .cart-icon-wrap {
-
     display: inline-flex;
 
     align-items: center;
-
     justify-content: center;
 
     width: 19px;
-
     height: 19px;
 
     flex-shrink: 0;
 }
 
 .cart-icon {
-
     display: block;
 
     width: 18px;
-
     height: 18px;
 
     fill: none;
 
     stroke: currentColor;
-
     stroke-width: 1.6;
 
     stroke-linecap: round;
-
     stroke-linejoin: round;
 }
 
 
 /* =========================================================
    CART ANIMATION
-========================================================= */
+   ========================================================= */
 
 .art-cart-button.is-adding
 .cart-icon-wrap {
-
     animation:
         cartTravel
         .78s
@@ -943,23 +1073,14 @@ ARTSASA — Collection
     }
 }
 
-
-/* =========================================================
-   CART SUCCESS
-========================================================= */
-
 .art-cart-button.is-added {
-
     background: #53634a;
-
     border-color: #53634a;
-
     color: #fff;
 }
 
 .art-cart-button.is-added
 .cart-label {
-
     animation:
         labelReveal
         .32s
@@ -970,64 +1091,477 @@ ARTSASA — Collection
 
     0% {
         opacity: 0;
-
-        transform:
-            translateY(5px);
+        transform: translateY(5px);
     }
 
     100% {
         opacity: 1;
-
-        transform:
-            translateY(0);
-    }
-}
-
-@keyframes labelReveal {
-
-    0% {
-        opacity: 0;
-
-        transform:
-            translateY(5px);
-    }
-
-    100% {
-        opacity: 1;
-
-        transform:
-            translateY(0);
+        transform: translateY(0);
     }
 }
 
 
 /* =========================================================
-   EMPTY COLLECTION
-========================================================= */
+   NO RESULTS
+   ========================================================= */
 
-.collection-empty {
+.collection-no-results {
+    display: none;
 
     grid-column: 1 / -1;
 
-    padding:
-        120px
-        20px;
+    padding: 100px 20px;
 
     text-align: center;
 
     border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
 
+.collection-no-results.visible {
+    display: block;
+}
+
+.collection-no-results h2 {
+    margin: 18px 0 13px;
+
+    font-family: var(--font-display);
+
+    font-size: clamp(38px, 5vw, 58px);
+
+    font-weight: 400;
+
+    line-height: .95;
+}
+
+.collection-no-results p {
+    max-width: 460px;
+
+    margin: 0 auto;
+
+    font-family: var(--font-reading);
+
+    font-size: 15px;
+
+    font-style: italic;
+
+    line-height: 1.7;
+
+    color: var(--ink-soft);
+}
+
+
+/* =========================================================
+   HOW TO BUY
+   ========================================================= */
+
+.how-to-buy {
+    margin-top: 130px;
+
+    padding:
+        clamp(55px, 7vw, 90px)
+        0;
+
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.how-to-buy-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(250px, .75fr)
+        minmax(300px, 1fr);
+
+    gap: 70px;
+
+    margin-bottom: 55px;
+}
+
+.how-to-buy-title {
+    margin: 16px 0 0;
+
+    font-family: var(--font-display);
+
+    font-size: clamp(42px, 5.2vw, 70px);
+
+    font-weight: 400;
+
+    line-height: .93;
+
+    letter-spacing: -.03em;
+}
+
+.how-to-buy-intro {
+    max-width: 560px;
+
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 16px;
+
+    line-height: 1.75;
+
+    color: var(--ink-soft);
+}
+
+.buy-steps {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    border-top: 1px solid var(--line);
+}
+
+.buy-step {
+    min-width: 0;
+
+    padding: 28px 24px 28px 0;
+
+    border-right: 1px solid var(--line);
+}
+
+.buy-step:not(:first-child) {
+    padding-left: 24px;
+}
+
+.buy-step:last-child {
+    border-right: 0;
+}
+
+.buy-number {
+    display: block;
+
+    margin-bottom: 27px;
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    color: var(--terracotta);
+}
+
+.buy-step h3 {
+    margin: 0 0 12px;
+
+    font-family: var(--font-display);
+
+    font-size: 25px;
+
+    font-weight: 400;
+
+    line-height: 1;
+}
+
+.buy-step p {
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 13px;
+
+    line-height: 1.65;
+
+    color: var(--ink-soft);
+}
+
+.buy-step strong {
+    color: var(--midnight);
+}
+
+
+/* =========================================================
+   BUYING NOTES
+   ========================================================= */
+
+.buying-notes {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 1px;
+
+    margin-top: 55px;
+
+    background: var(--line);
+
+    border: 1px solid var(--line);
+}
+
+.buying-note {
+    padding: 27px;
+
+    background: var(--paper);
+}
+
+.buying-note h3 {
+    margin: 0 0 10px;
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+}
+
+.buying-note p {
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 13px;
+
+    line-height: 1.65;
+
+    color: var(--ink-soft);
+}
+
+
+/* =========================================================
+   BUY CTA
+   ========================================================= */
+
+.buy-cta {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-top: 45px;
+
+    padding: 25px 0 0;
+
+    border-top: 1px solid var(--line);
+}
+
+.buy-cta-copy h3 {
+    margin: 0 0 5px;
+
+    font-family: var(--font-display);
+
+    font-size: 28px;
+
+    font-weight: 400;
+}
+
+.buy-cta-copy p {
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 13px;
+
+    color: var(--ink-soft);
+}
+
+.buy-cta-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 45px;
+
+    padding: 0 20px;
+
+    border: 1px solid var(--midnight);
+
+    background: var(--midnight);
+
+    color: var(--paper);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .09em;
+
+    text-transform: uppercase;
+
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.buy-cta-button:hover {
+    transform: translateY(-2px);
+
+    background: var(--terracotta);
+
+    border-color: var(--terracotta);
+}
+
+
+/* =========================================================
+   FAQ
+   ========================================================= */
+
+.collection-faq {
+    padding:
+        100px
+        0
+        20px;
+}
+
+.collection-faq-heading {
+    margin-bottom: 35px;
+
+    font-family: var(--font-display);
+
+    font-size: clamp(38px, 5vw, 58px);
+
+    font-weight: 400;
+
+    line-height: .95;
+}
+
+.faq-list {
+    border-top: 1px solid var(--line);
+}
+
+.faq-item {
+    border-bottom: 1px solid var(--line);
+}
+
+.faq-question {
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 20px 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--midnight);
+
+    text-align: left;
+
+    font-family: var(--font-body);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: .08em;
+
+    text-transform: uppercase;
+
+    cursor: pointer;
+}
+
+.faq-plus {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 24px;
+    height: 24px;
+
+    flex-shrink: 0;
+
+    border: 1px solid var(--line);
+
+    font-size: 17px;
+
+    font-weight: 400;
+
+    transition:
+        transform .25s ease,
+        background .25s ease;
+}
+
+.faq-answer {
+    display: grid;
+
+    grid-template-rows: 0fr;
+
+    transition:
+        grid-template-rows .3s ease;
+}
+
+.faq-answer-inner {
+    min-height: 0;
+
+    overflow: hidden;
+}
+
+.faq-answer p {
+    max-width: 650px;
+
+    margin: 0;
+
+    padding: 0 0 23px;
+
+    font-family: var(--font-reading);
+
+    font-size: 14px;
+
+    line-height: 1.7;
+
+    color: var(--ink-soft);
+}
+
+.faq-item.open .faq-answer {
+    grid-template-rows: 1fr;
+}
+
+.faq-item.open .faq-plus {
+    transform: rotate(45deg);
+
+    background: var(--midnight);
+
+    color: var(--paper);
+}
+
+
+/* =========================================================
+   EMPTY COLLECTION
+   ========================================================= */
+
+.collection-empty {
+    grid-column: 1 / -1;
+
+    padding: 120px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
 }
 
 .collection-empty h2 {
-
     margin: 20px 0 15px;
 
     font-family: var(--font-display);
 
-    font-size:
-        clamp(38px, 5vw, 58px);
+    font-size: clamp(38px, 5vw, 58px);
 
     font-weight: 400;
 
@@ -1035,7 +1569,6 @@ ARTSASA — Collection
 }
 
 .collection-empty p {
-
     max-width: 450px;
 
     margin: 0 auto;
@@ -1054,349 +1587,360 @@ ARTSASA — Collection
 
 /* =========================================================
    LARGE TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 1200px) {
 
     .art-grid {
-
         grid-template-columns:
             repeat(3, minmax(0, 1fr));
 
         column-gap: 22px;
-
         row-gap: 60px;
     }
 
     .art-title {
-
         font-size: 21px;
     }
 
+    .buy-steps {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .buy-step {
+        border-bottom: 1px solid var(--line);
+    }
+
+    .buy-step:nth-child(2) {
+        border-right: 0;
+    }
+
+    .buy-step:nth-child(3),
+    .buy-step:nth-child(4) {
+        border-bottom: 0;
+    }
 }
 
 
 /* =========================================================
    TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 900px) {
 
-    .collection-toolbar {
-
-        align-items: flex-start;
-
-        flex-direction: column;
-
-        gap: 18px;
+    .collection-controls {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 
-    .collection-filters {
-
-        width: 100%;
-
-        overflow-x: auto;
-
-        flex-wrap: nowrap;
-
-        padding-bottom: 4px;
-
-        scrollbar-width: none;
+    .collection-sort {
+        justify-content: space-between;
     }
 
-    .collection-filters::-webkit-scrollbar {
-
-        display: none;
-    }
-
-    .filter-button {
-
-        flex-shrink: 0;
+    .collection-sort select {
+        flex: 1;
+        min-width: 0;
     }
 
     .art-grid {
-
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
         column-gap: 18px;
-
         row-gap: 55px;
     }
 
-    .art-info {
-
-        min-height: 180px;
+    .how-to-buy-header {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
-    .art-title {
-
-        font-size: 20px;
-    }
-
-    .art-desc {
-
-        font-size: 13.5px;
-    }
-
-    .art-availability {
-
-        display: none;
+    .buying-notes {
+        grid-template-columns: 1fr;
     }
 }
 
 
 /* =========================================================
    MOBILE
-   STILL TWO COLUMNS
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 560px) {
 
     .collection-hero {
-
-        padding-top: 105px;
-
-        padding-bottom: 65px;
+        padding-top: 100px;
+        padding-bottom: 58px;
     }
 
     .collection-title {
-
-        font-size: 51px;
-
+        font-size: 50px;
         line-height: .9;
     }
 
     .collection-intro {
-
-        max-width: 100%;
-
         font-size: 15px;
-
         line-height: 1.7;
     }
 
-    .collection-section {
-
-        padding-bottom: 80px;
+    .collection-help {
+        gap: 9px 14px;
+        margin-top: 22px;
+        font-size: 8px;
     }
 
-    .collection-toolbar {
+    .collection-controls-wrap {
+        position: relative;
+    }
 
+    .collection-controls {
+        padding: 13px 0;
+    }
+
+    .collection-search input {
+        height: 44px;
+    }
+
+    .collection-navigation-inner {
+        padding: 13px 0;
+    }
+
+    .filter-button {
+        min-height: 36px;
+        padding: 0 13px;
+        font-size: 8px;
+    }
+
+    .collection-results {
         padding: 20px 0;
-
-        margin-bottom: 38px;
     }
 
     .art-grid {
-
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
         column-gap: 13px;
-
-        row-gap: 42px;
+        row-gap: 43px;
     }
 
     .art-image {
-
         aspect-ratio: .78;
     }
 
     .art-overlay {
-
         display: none;
     }
 
-
-    /* =====================================================
-       MOBILE WISHLIST
-    ===================================================== */
-
     .art-wishlist-button {
-
         top: 8px;
-
         left: 8px;
 
         width: 34px;
-
         height: 34px;
     }
 
     .art-wishlist-button svg {
-
         width: 15px;
-
         height: 15px;
     }
 
-
-    /* =====================================================
-       MOBILE INFORMATION
-    ===================================================== */
-
     .art-info {
-
-        display: block;
-
-        min-height: 155px;
-
-        margin-top: 12px;
-
-        padding-top: 13px;
+        margin-top: 11px;
+        padding-top: 12px;
     }
 
     .art-title {
-
         margin-bottom: 5px;
-
         font-size: 17px;
-
         line-height: 1.08;
     }
 
     .art-artist {
-
-        margin-bottom: 7px;
-
+        margin-bottom: 6px;
         font-size: 8px;
-
         letter-spacing: .08em;
     }
 
     .art-meta {
-
-        font-size: 8px;
-
-        letter-spacing: .055em;
+        font-size: 7.5px;
+        letter-spacing: .05em;
     }
 
     .art-desc {
-
-        max-width: none;
-
-        height: 54px;
-
-        margin-top: 10px;
-
-        font-size: 12px;
-
+        min-height: 54px;
+        margin-top: 9px;
+        font-size: 11.5px;
         line-height: 1.5;
-
-        -webkit-line-clamp: 3;
     }
 
-
-    /* =====================================================
-       MOBILE ACTIONS
-       TWO EQUAL BUTTONS
-    ===================================================== */
-
-    .art-actions {
-
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap: 5px;
+    .art-purchase-info {
+        align-items: center;
 
         margin-top: 10px;
+        padding: 10px 0;
+    }
+
+    .price-label {
+        font-size: 6px;
+    }
+
+    .art-price {
+        font-size: 11px;
+    }
+
+    .art-enquire-price {
+        font-size: 10px;
+    }
+
+    .art-status {
+        font-size: 7px;
+        letter-spacing: .07em;
+    }
+
+    .art-actions {
+        gap: 5px;
+        margin-top: 9px;
     }
 
     .art-whatsapp-button,
     .art-cart-button {
+        height: 39px;
+        min-height: 39px;
 
-        width: 100%;
+        padding: 0 5px;
 
-        height: 40px;
+        font-size: 6.5px;
 
-        min-height: 40px;
-
-        padding: 0 6px;
-
-        font-size: 7px;
+        letter-spacing: .045em;
     }
 
     .art-whatsapp-button {
-
-        gap: 5px;
+        gap: 4px;
     }
 
     .art-whatsapp-button svg {
-
-        width: 14px;
-
-        height: 14px;
+        width: 13px;
+        height: 13px;
     }
 
     .art-cart-button {
-
-        gap: 5px;
+        gap: 4px;
     }
 
     .cart-icon-wrap {
-
-        width: 17px;
-
-        height: 17px;
+        width: 16px;
+        height: 16px;
     }
 
     .cart-icon {
+        width: 15px;
+        height: 15px;
+    }
 
-        width: 16px;
+    .how-to-buy {
+        margin-top: 90px;
+        padding: 55px 0;
+    }
 
-        height: 16px;
+    .how-to-buy-title {
+        font-size: 44px;
+    }
+
+    .how-to-buy-intro {
+        font-size: 14px;
+    }
+
+    .buy-steps {
+        grid-template-columns: 1fr;
+    }
+
+    .buy-step,
+    .buy-step:not(:first-child) {
+        padding: 23px 0;
+
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .buy-step:last-child {
+        border-bottom: 0;
+    }
+
+    .buy-number {
+        margin-bottom: 16px;
+    }
+
+    .buy-step h3 {
+        font-size: 23px;
+    }
+
+    .buying-note {
+        padding: 23px;
+    }
+
+    .buy-cta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .buy-cta-button {
+        width: 100%;
+    }
+
+    .collection-faq {
+        padding-top: 70px;
+    }
+
+    .collection-faq-heading {
+        font-size: 43px;
     }
 }
 
 
 /* =========================================================
    VERY SMALL PHONES
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 380px) {
 
     .art-grid {
-
         column-gap: 10px;
-
         row-gap: 35px;
     }
 
     .art-title {
-
         font-size: 15px;
     }
 
     .art-desc {
+        font-size: 10.5px;
+    }
 
-        font-size: 11px;
+    .art-price {
+        font-size: 10px;
+    }
+
+    .art-status {
+        font-size: 6px;
     }
 
     .art-whatsapp-button,
     .art-cart-button {
-
-        font-size: 6.5px;
-
-        padding-left: 4px;
-
-        padding-right: 4px;
+        font-size: 6px;
+        padding-left: 3px;
+        padding-right: 3px;
     }
-
 }
 
 
 /* =========================================================
    REDUCED MOTION
-========================================================= */
+   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
 
-    .art-cart-button.is-adding
-    .cart-icon-wrap,
-
+    .art-cart-button.is-adding .cart-icon-wrap,
     .art-wishlist-button.is-liked svg {
-
         animation: none;
     }
 
@@ -1405,8 +1949,7 @@ ARTSASA — Collection
     .art-piece,
     .art-cart-button,
     .art-wishlist-button,
-    .art-whatsapp-button {
-
+    .faq-answer {
         transition: none;
     }
 }
@@ -1415,545 +1958,1079 @@ ARTSASA — Collection
 
 {% endblock %}
 
+
 {% block content %}
 
 <section class="collection-page">
 
-```
-<!-- =====================================================
-     COLLECTION HERO
-====================================================== -->
 
-<header class="collection-hero">
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
 
-    <div class="site-container">
+    <header class="collection-hero">
 
-        <span class="eyebrow">
-            ARTSASA Gallery
-        </span>
+        <div class="site-container collection-hero-inner">
 
-        <h1 class="collection-title">
-            The collection.
-        </h1>
+            <span class="eyebrow">
+                ARTSASA Gallery
+            </span>
 
-        <p class="collection-intro">
-            A considered selection of contemporary works by artists
-            working across Kenya, East Africa and beyond.
-        </p>
+            <h1 class="collection-title">
+                Find a work<br>
+                that speaks.
+            </h1>
 
-    </div>
+            <p class="collection-intro">
+                Explore a considered selection of contemporary
+                artworks by artists working across Kenya, East
+                Africa and beyond. Browse by category, search by
+                artist or title, and contact us when you find a
+                piece you would like to make yours.
+            </p>
 
-</header>
+            <div class="collection-help">
+                <span>Original artworks</span>
+                <span>Kenyan & East African artists</span>
+                <span>Secure enquiries</span>
+                <span>Delivery available</span>
+            </div>
+
+        </div>
+
+    </header>
 
 
-<!-- =====================================================
-     COLLECTION
-====================================================== -->
+    <!-- =====================================================
+         COLLECTION
+    ====================================================== -->
 
-<section class="collection-section">
+    <section class="collection-section">
 
-    <div class="site-container">
+        <div class="site-container">
 
 
-        <!-- =================================================
-             FILTER TOOLBAR
-        ================================================== -->
+            <!-- =================================================
+                 SEARCH + SORT
+            ================================================== -->
 
-        <div class="collection-toolbar">
+            <div class="collection-controls-wrap">
 
-            <div
-                class="collection-filters"
-                aria-label="Filter artworks by category"
+                <div class="collection-controls">
+
+                    <div class="collection-search">
+
+                        <label
+                            class="collection-search-label"
+                            for="artwork-search"
+                        >
+                            Search artworks
+                        </label>
+
+                        <input
+                            type="search"
+                            id="artwork-search"
+                            placeholder="Search by artwork, artist, medium..."
+                            autocomplete="off"
+                            aria-label="Search artworks"
+                        >
+
+                        <span
+                            class="search-icon"
+                            aria-hidden="true"
+                        >
+                            <svg viewBox="0 0 24 24">
+                                <circle
+                                    cx="11"
+                                    cy="11"
+                                    r="6.5"
+                                />
+                                <path
+                                    d="M16 16l5 5"
+                                />
+                            </svg>
+                        </span>
+
+                    </div>
+
+
+                    <div class="collection-sort">
+
+                        <label for="artwork-sort">
+                            Sort
+                        </label>
+
+                        <select
+                            id="artwork-sort"
+                            aria-label="Sort artworks"
+                        >
+
+                            <option value="default">
+                                Curated selection
+                            </option>
+
+                            <option value="price-low">
+                                Price: Low to high
+                            </option>
+
+                            <option value="price-high">
+                                Price: High to low
+                            </option>
+
+                            <option value="title">
+                                Title: A–Z
+                            </option>
+
+                            <option value="artist">
+                                Artist: A–Z
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 CATEGORY FILTERS
+            ================================================== -->
+
+            <nav
+                class="collection-navigation"
+                aria-label="Artwork categories"
             >
 
-                <button
-                    type="button"
-                    class="filter-button active"
-                    data-filter="all"
+                <div class="collection-navigation-inner">
+
+                    <button
+                        type="button"
+                        class="filter-button active"
+                        data-filter="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="painting"
+                    >
+                        Paintings
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="sculpture"
+                    >
+                        Sculpture
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="woodwork"
+                    >
+                        Woodwork
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="photography"
+                    >
+                        Photography
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="mixed-media"
+                    >
+                        Mixed Media
+                    </button>
+
+                </div>
+
+            </nav>
+
+
+            <!-- =================================================
+                 RESULT COUNT
+            ================================================== -->
+
+            <div class="collection-results">
+
+                <span
+                    class="artwork-count"
+                    id="artwork-count"
+                    aria-live="polite"
                 >
-                    All
-                </button>
+                    {{ artworks|length }}
+                    {% if artworks|length == 1 %}
+                        work
+                    {% else %}
+                        works
+                    {% endif %}
+                </span>
 
                 <button
                     type="button"
-                    class="filter-button"
-                    data-filter="painting"
+                    class="collection-reset"
+                    id="clear-filters"
                 >
-                    Paintings
-                </button>
-
-                <button
-                    type="button"
-                    class="filter-button"
-                    data-filter="sculpture"
-                >
-                    Sculpture
-                </button>
-
-                <button
-                    type="button"
-                    class="filter-button"
-                    data-filter="woodwork"
-                >
-                    Woodwork
-                </button>
-
-                <button
-                    type="button"
-                    class="filter-button"
-                    data-filter="photography"
-                >
-                    Photography
-                </button>
-
-                <button
-                    type="button"
-                    class="filter-button"
-                    data-filter="mixed-media"
-                >
-                    Mixed Media
+                    Clear filters
                 </button>
 
             </div>
 
 
-            <span class="artwork-count">
+            <!-- =================================================
+                 ARTWORK GRID
+            ================================================== -->
 
-                {{ artworks|length }}
+            <div
+                class="art-grid"
+                id="art-grid"
+            >
 
-                {% if artworks|length == 1 %}
-                    work
-                {% else %}
-                    works
-                {% endif %}
+                {% for artwork in artworks %}
 
-            </span>
-
-        </div>
-
-
-        <!-- =================================================
-             ARTWORK GRID
-        ================================================== -->
-
-        <div
-            class="art-grid"
-            id="art-grid"
-        >
-
-            {% for artwork in artworks %}
-
-
-                <article
-                    class="art-piece reveal"
-                    data-category="{% if artwork.category %}{{ artwork.category.slug }}{% else %}uncategorised{% endif %}"
-                    data-artwork-id="{{ artwork.id }}"
-                >
-
-
-                    <!-- =====================================
-                         ARTWORK IMAGE
-                    ====================================== -->
-
-                    <a
-                        href="{% url 'product_detail' artwork.slug %}"
-                        class="art-image"
-                        aria-label="View {{ artwork.title }}"
+                    <article
+                        class="art-piece reveal"
+                        data-category="{% if artwork.category %}{{ artwork.category.slug }}{% else %}uncategorised{% endif %}"
+                        data-artwork-id="{{ artwork.id }}"
+                        data-title="{{ artwork.title|lower }}"
+                        data-artist="{% if artwork.artist %}{{ artwork.artist.name|lower }}{% endif %}"
+                        data-medium="{{ artwork.medium|default:''|lower }}"
+                        data-description="{{ artwork.short_description|default:''|lower }}"
+                        data-price="{% if artwork.price %}{{ artwork.price }}{% else %}0{% endif %}"
                     >
 
-                        {% if artwork.image %}
 
-                            <img
-                                src="{{ artwork.image.url }}"
-                                alt="{{ artwork.title }}{% if artwork.artist %} — {{ artwork.artist.name }}{% endif %}"
-                                loading="lazy"
+                        <!-- =====================================
+                             IMAGE
+                        ====================================== -->
+
+                        <div class="art-image-wrap">
+
+                            <a
+                                href="{% url 'product_detail' artwork.slug %}"
+                                class="art-image"
+                                aria-label="View {{ artwork.title }}"
                             >
 
-                        {% else %}
+                                {% if artwork.image %}
 
-                            <div class="art-no-image">
+                                    <img
+                                        src="{{ artwork.image.url }}"
+                                        alt="{{ artwork.title }}{% if artwork.artist %} — {{ artwork.artist.name }}{% endif %}"
+                                        loading="lazy"
+                                    >
 
-                                <span>
-                                    Image coming soon
-                                </span>
+                                {% else %}
 
-                            </div>
+                                    <div class="art-no-image">
 
-                        {% endif %}
+                                        <span>
+                                            Image coming soon
+                                        </span>
+
+                                    </div>
+
+                                {% endif %}
 
 
-                        <!-- =================================
-                             WISHLIST
-                        ================================== -->
+                                <div class="art-overlay">
 
-                        <button
-                            type="button"
-                            class="art-wishlist-button"
-                            data-wishlist-id="{{ artwork.id }}"
-                            aria-label="Add {{ artwork.title }} to wishlist"
-                            title="Add to wishlist"
-                        >
+                                    <span>
+                                        View artwork
+                                    </span>
 
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
+                                    <span
+                                        class="arrow"
+                                        aria-hidden="true"
+                                    >
+                                        ↗
+                                    </span>
+
+                                </div>
+
+                            </a>
+
+
+                            <!-- =================================
+                                 WISHLIST
+                            ================================== -->
+
+                            <button
+                                type="button"
+                                class="art-wishlist-button"
+                                data-wishlist-id="{{ artwork.id }}"
+                                aria-label="Add {{ artwork.title }} to wishlist"
+                                title="Add to wishlist"
                             >
 
-                                <path
-                                    d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"
-                                />
+                                <svg
+                                    viewBox="0 0 24 24"
+                                    aria-hidden="true"
+                                >
 
-                            </svg>
+                                    <path
+                                        d="M20.8 4.6a5.4 5.4 0 0 0-7.6 0L12 5.8l-1.2-1.2a5.4 5.4 0 0 0-7.6 7.6l1.2 1.2L12 21l7.6-7.6 1.2-1.2a5.4 5.4 0 0 0 0-7.6Z"
+                                    />
 
-                        </button>
+                                </svg>
 
-
-                        <!-- =================================
-                             IMAGE OVERLAY
-                        ================================== -->
-
-                        <div class="art-overlay">
-
-                            <span>
-                                View work
-                            </span>
-
-                            <span
-                                class="arrow"
-                                aria-hidden="true"
-                            >
-                                ↗
-                            </span>
+                            </button>
 
                         </div>
 
-                    </a>
+
+                        <!-- =====================================
+                             INFORMATION
+                        ====================================== -->
+
+                        <div class="art-info">
+
+                            <div class="art-copy">
+
+                                <h2 class="art-title">
+                                    {{ artwork.title }}
+                                </h2>
 
 
-                    <!-- =====================================
-                         ARTWORK INFORMATION
-                    ====================================== -->
+                                {% if artwork.artist %}
 
-                    <div class="art-info">
+                                    <p class="art-artist">
+                                        {{ artwork.artist.name }}
+                                    </p>
 
-
-                        <div class="art-copy">
-
-
-                            <h2 class="art-title">
-                                {{ artwork.title }}
-                            </h2>
+                                {% endif %}
 
 
-                            {% if artwork.artist %}
+                                {% if artwork.medium or artwork.year %}
 
-                                <p class="art-artist">
-                                    {{ artwork.artist.name }}
-                                </p>
+                                    <p class="art-meta">
 
-                            {% endif %}
+                                        {% if artwork.medium %}
+                                            {{ artwork.medium }}
+                                        {% endif %}
+
+                                        {% if artwork.medium and artwork.year %}
+
+                                            <span class="meta-divider">
+                                                ·
+                                            </span>
+
+                                        {% endif %}
+
+                                        {% if artwork.year %}
+                                            {{ artwork.year }}
+                                        {% endif %}
+
+                                    </p>
+
+                                {% endif %}
 
 
-                            {% if artwork.medium or artwork.year %}
+                                {% if artwork.short_description %}
 
-                                <p class="art-meta">
+                                    <p class="art-desc">
+                                        {{ artwork.short_description }}
+                                    </p>
 
-                                    {% if artwork.medium %}
+                                {% endif %}
 
-                                        {{ artwork.medium }}
-
-                                    {% endif %}
+                            </div>
 
 
-                                    {% if artwork.medium and artwork.year %}
+                            <!-- =================================
+                                 PRICE / AVAILABILITY
+                            ================================== -->
 
-                                        <span class="meta-divider">
-                                            ·
+                            <div class="art-purchase-info">
+
+                                <div class="art-price-block">
+
+                                    <span class="price-label">
+                                        Price
+                                    </span>
+
+                                    {% if artwork.status == "Available" %}
+
+                                        {% if artwork.price %}
+
+                                            <span class="art-price">
+                                                KES {{ artwork.price|floatformat:0 }}
+                                            </span>
+
+                                        {% else %}
+
+                                            <span class="art-enquire-price">
+                                                Price on enquiry
+                                            </span>
+
+                                        {% endif %}
+
+                                    {% elif artwork.status == "Reserved" %}
+
+                                        <span class="art-enquire-price">
+                                            Reserved
+                                        </span>
+
+                                    {% elif artwork.status == "Sold" %}
+
+                                        <span class="art-enquire-price">
+                                            Sold
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="art-enquire-price">
+                                            Enquire
                                         </span>
 
                                     {% endif %}
 
-
-                                    {% if artwork.year %}
-
-                                        {{ artwork.year }}
-
-                                    {% endif %}
-
-                                </p>
-
-                            {% endif %}
+                                </div>
 
 
-                            {% if artwork.short_description %}
+                                <div class="art-status">
 
-                                <p class="art-desc">
-                                    {{ artwork.short_description }}
-                                </p>
-
-                            {% endif %}
-
-                        </div>
-
-
-                        <!-- =================================
-                             PRICE / STATUS
-                        ================================== -->
-
-                        <div class="art-availability">
-
-
-                            {% if artwork.status == "Available" %}
-
-
-                                {% if artwork.price %}
-
-                                    <span class="art-price">
+                                    {% if artwork.status == "Available" %}
 
                                         <span
                                             class="availability-dot"
                                             aria-hidden="true"
                                         ></span>
 
-                                        KES
-                                        {{ artwork.price|floatformat:0 }}
+                                        Available
 
-                                    </span>
-
-                                {% else %}
-
-                                    <span class="art-price">
+                                    {% elif artwork.status == "Reserved" %}
 
                                         <span
-                                            class="availability-dot"
+                                            class="status-dot"
+                                            aria-hidden="true"
+                                        ></span>
+
+                                        Reserved
+
+                                    {% elif artwork.status == "Sold" %}
+
+                                        <span
+                                            class="status-dot"
+                                            aria-hidden="true"
+                                        ></span>
+
+                                        Sold
+
+                                    {% else %}
+
+                                        <span
+                                            class="status-dot"
                                             aria-hidden="true"
                                         ></span>
 
                                         Enquire
 
-                                    </span>
+                                    {% endif %}
 
-                                {% endif %}
+                                </div>
 
-
-                            {% elif artwork.status == "Reserved" %}
-
-
-                                <span class="art-status">
-
-                                    <span
-                                        class="status-dot"
-                                        aria-hidden="true"
-                                    ></span>
-
-                                    Reserved
-
-                                </span>
+                            </div>
 
 
-                            {% elif artwork.status == "Sold" %}
+                            <!-- =================================
+                                 ACTIONS
+                            ================================== -->
+
+                            <div class="art-actions">
 
 
-                                <span class="art-status">
+                                <!-- =============================
+                                     WHATSAPP
+                                ============================== -->
 
-                                    <span
-                                        class="status-dot"
-                                        aria-hidden="true"
-                                    ></span>
-
-                                    Sold
-
-                                </span>
-
-
-                            {% else %}
-
-
-                                <span class="art-status">
-
-                                    <span
-                                        class="status-dot"
-                                        aria-hidden="true"
-                                    ></span>
-
-                                    Enquire
-
-                                </span>
-
-
-                            {% endif %}
-
-                        </div>
-
-                    </div>
-
-
-                    <!-- =====================================
-                         TWO ACTION BUTTONS ONLY
-                    ====================================== -->
-
-                    <div class="art-actions">
-
-
-                        <!-- =================================
-                             WHATSAPP
-                        ================================== -->
-
-                        <a
-                            href="https://wa.me/?text=Hello%20ARTSASA,%20I%20am%20interested%20in%20%22{{ artwork.title|urlencode }}%22."
-                            class="art-whatsapp-button"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            aria-label="Enquire about {{ artwork.title }} on WhatsApp"
-                            title="Enquire on WhatsApp"
-                        >
-
-                            <svg
-                                viewBox="0 0 24 24"
-                                aria-hidden="true"
-                            >
-
-                                <path
-                                    d="M20.52 3.48A11.87 11.87 0 0 0 12.05 0C5.48 0 .13 5.35.13 11.92c0 2.1.55 4.15 1.59 5.96L.03 24l6.26-1.64a11.9 11.9 0 0 0 5.75 1.47h.01c6.57 0 11.92-5.35 11.92-11.92 0-3.19-1.24-6.18-3.45-8.43ZM12.05 21.84h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.72.98.99-3.63-.23-.37a9.89 9.89 0 0 1-1.52-5.3c0-5.48 4.46-9.94 9.95-9.94 2.66 0 5.16 1.04 7.04 2.93a9.9 9.9 0 0 1 2.91 7.05c0 5.48-4.46 9.94-9.94 9.94Z"
-                                />
-
-                                <path
-                                    class="whatsapp-inner"
-                                    d="M17.46 14.34c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.23-.65.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.74-1.64-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.64-.93-2.25-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.53.08-.81.38-.28.3-1.06 1.04-1.06 2.53 0 1.49 1.08 2.92 1.23 3.12.15.2 2.12 3.24 5.14 4.54.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.18-1.44-.07-.13-.27-.2-.57-.35Z"
-                                />
-
-                            </svg>
-
-                            <span>
-                                WhatsApp
-                            </span>
-
-                        </a>
-
-
-                        <!-- =================================
-                             ADD TO CART
-                        ================================== -->
-
-                        {% if artwork.status == "Available" %}
-
-                            <button
-                                type="button"
-                                class="art-cart-button"
-                                data-cart-id="{{ artwork.id }}"
-                                data-cart-slug="{{ artwork.slug }}"
-                                data-cart-title="{{ artwork.title|escapejs }}"
-                                aria-label="Add {{ artwork.title }} to cart"
-                            >
-
-                                <span class="cart-icon-wrap">
+                                <a
+                                    href="https://wa.me/?text=Hello%20ARTSASA,%20I%20am%20interested%20in%20%22{{ artwork.title|urlencode }}%22."
+                                    class="art-whatsapp-button"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    aria-label="Enquire about {{ artwork.title }} on WhatsApp"
+                                    title="Enquire about this artwork"
+                                >
 
                                     <svg
-                                        class="cart-icon"
                                         viewBox="0 0 24 24"
                                         aria-hidden="true"
                                     >
 
                                         <path
-                                            d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 7H6"
+                                            d="M20.52 3.48A11.87 11.87 0 0 0 12.05 0C5.48 0 .13 5.35.13 11.92c0 2.1.55 4.15 1.59 5.96L.03 24l6.26-1.64a11.9 11.9 0 0 0 5.75 1.47h.01c6.57 0 11.92-5.35 11.92-11.92 0-3.19-1.24-6.18-3.45-8.43ZM12.05 21.84h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.21-3.72.98.99-3.63-.23-.37a9.89 9.89 0 0 1-1.52-5.3c0-5.48 4.46-9.94 9.95-9.94 2.66 0 5.16 1.04 7.04 2.93a9.9 9.9 0 0 1 2.91 7.05c0 5.48-4.46 9.94-9.94 9.94Z"
                                         />
 
-                                        <circle
-                                            cx="10"
-                                            cy="20"
-                                            r="1.2"
-                                        />
-
-                                        <circle
-                                            cx="18"
-                                            cy="20"
-                                            r="1.2"
+                                        <path
+                                            class="whatsapp-inner"
+                                            d="M17.46 14.34c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.23-.65.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.74-1.64-2.04-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.64-.93-2.25-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.53.08-.81.38-.28.3-1.06 1.04-1.06 2.53 0 1.49 1.08 2.92 1.23 3.12.15.2 2.12 3.24 5.14 4.54.72.31 1.28.5 1.72.64.72.23 1.38.2 1.9.12.58-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.18-1.44-.07-.13-.27-.2-.57-.35Z"
                                         />
 
                                     </svg>
 
-                                </span>
+                                    <span>
+                                        WhatsApp
+                                    </span>
 
-                                <span class="cart-label">
-                                    Add to cart
-                                </span>
+                                </a>
 
-                            </button>
 
-                        {% else %}
+                                <!-- =============================
+                                     CART
+                                ============================== -->
 
-                            <a
-                                href="{% url 'product_detail' artwork.slug %}"
-                                class="art-cart-button"
-                                aria-label="View {{ artwork.title }}"
-                            >
+                                {% if artwork.status == "Available" %}
 
-                                <span>
+                                    <button
+                                        type="button"
+                                        class="art-cart-button"
+                                        data-cart-id="{{ artwork.id }}"
+                                        data-cart-slug="{{ artwork.slug }}"
+                                        data-cart-title="{{ artwork.title|escapejs }}"
+                                        aria-label="Add {{ artwork.title }} to cart"
+                                    >
 
-                                    {% if artwork.status == "Sold" %}
+                                        <span class="cart-icon-wrap">
 
-                                        Sold
+                                            <svg
+                                                class="cart-icon"
+                                                viewBox="0 0 24 24"
+                                                aria-hidden="true"
+                                            >
 
-                                    {% elif artwork.status == "Reserved" %}
+                                                <path
+                                                    d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 7H6"
+                                                />
 
-                                        Reserved
+                                                <circle
+                                                    cx="10"
+                                                    cy="20"
+                                                    r="1.2"
+                                                />
 
-                                    {% else %}
+                                                <circle
+                                                    cx="18"
+                                                    cy="20"
+                                                    r="1.2"
+                                                />
 
-                                        Enquire
+                                            </svg>
 
-                                    {% endif %}
+                                        </span>
 
-                                </span>
+                                        <span class="cart-label">
+                                            Add to cart
+                                        </span>
 
-                            </a>
+                                    </button>
 
-                        {% endif %}
+                                {% else %}
 
+                                    <a
+                                        href="{% url 'product_detail' artwork.slug %}"
+                                        class="art-cart-button"
+                                        aria-label="View {{ artwork.title }}"
+                                    >
+
+                                        {% if artwork.status == "Sold" %}
+                                            Sold
+                                        {% elif artwork.status == "Reserved" %}
+                                            Reserved
+                                        {% else %}
+                                            View artwork
+                                        {% endif %}
+
+                                    </a>
+
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                {% empty %}
+
+
+                    <!-- =====================================
+                         EMPTY COLLECTION
+                    ====================================== -->
+
+                    <div class="collection-empty">
+
+                        <span class="eyebrow">
+                            Collection
+                        </span>
+
+                        <h2>
+                            No works currently available.
+                        </h2>
+
+                        <p>
+                            New work will be added to the collection
+                            soon. If you are looking for something
+                            specific, contact ARTSASA and we will
+                            help you find it.
+                        </p>
 
                     </div>
 
 
-                </article>
+                {% endfor %}
 
 
-            {% empty %}
+                <!-- =========================================
+                     SEARCH EMPTY STATE
+                ========================================== -->
 
-
-                <!-- =====================================
-                     EMPTY COLLECTION
-                ====================================== -->
-
-                <div class="collection-empty">
+                <div
+                    class="collection-no-results"
+                    id="collection-no-results"
+                >
 
                     <span class="eyebrow">
-                        Collection
+                        No matches
                     </span>
 
                     <h2>
-                        No works currently available.
+                        Nothing found.
                     </h2>
 
                     <p>
-                        New work will be added to the collection soon.
+                        Try another artwork title, artist name,
+                        medium or category. You can also clear
+                        the filters and browse the full collection.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 HOW TO BUY
+            ================================================== -->
+
+            <section
+                class="how-to-buy"
+                id="how-to-buy"
+            >
+
+                <div class="how-to-buy-header">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Buying artwork
+                        </span>
+
+                        <h2 class="how-to-buy-title">
+                            Buying art should feel simple.
+                        </h2>
+
+                    </div>
+
+                    <p class="how-to-buy-intro">
+                        Found something you love? You do not need
+                        to know everything about the art market
+                        before buying a work. Start with the piece
+                        that speaks to you. Our team can then help
+                        with availability, dimensions, delivery,
+                        payment and any other questions before you
+                        make your decision.
                     </p>
 
                 </div>
 
 
-            {% endfor %}
+                <!-- =============================================
+                     STEPS
+                ============================================== -->
+
+                <div class="buy-steps">
+
+
+                    <article class="buy-step">
+
+                        <span class="buy-number">
+                            01
+                        </span>
+
+                        <h3>
+                            Choose a work
+                        </h3>
+
+                        <p>
+                            Browse the collection and open any
+                            artwork you would like to know more
+                            about. Check the artist, medium, year
+                            and displayed price.
+                        </p>
+
+                    </article>
+
+
+                    <article class="buy-step">
+
+                        <span class="buy-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Ask us anything
+                        </h3>
+
+                        <p>
+                            Use the <strong>WhatsApp</strong> button
+                            on the artwork or contact ARTSASA
+                            directly. We can confirm availability,
+                            dimensions, framing, delivery and other
+                            details.
+                        </p>
+
+                    </article>
+
+
+                    <article class="buy-step">
+
+                        <span class="buy-number">
+                            03
+                        </span>
+
+                        <h3>
+                            Confirm your order
+                        </h3>
+
+                        <p>
+                            Once you are happy with the artwork,
+                            we will confirm the final order details
+                            with you before payment is completed.
+                        </p>
+
+                    </article>
+
+
+                    <article class="buy-step">
+
+                        <span class="buy-number">
+                            04
+                        </span>
+
+                        <h3>
+                            Payment & delivery
+                        </h3>
+
+                        <p>
+                            Complete payment using the payment
+                            method provided by ARTSASA. Your artwork
+                            can then be arranged for collection or
+                            delivery according to the agreed terms.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+
+                <!-- =============================================
+                     BUYING NOTES
+                ============================================== -->
+
+                <div class="buying-notes">
+
+
+                    <article class="buying-note">
+
+                        <h3>
+                            Not sure what to choose?
+                        </h3>
+
+                        <p>
+                            Tell us the kind of space you are
+                            decorating, your preferred size, colours
+                            or budget and we can help narrow down
+                            the collection.
+                        </p>
+
+                    </article>
+
+
+                    <article class="buying-note">
+
+                        <h3>
+                            Buying as a gift?
+                        </h3>
+
+                        <p>
+                            Let us know that the artwork is a gift.
+                            We can help you choose a suitable piece
+                            and discuss presentation and delivery
+                            options.
+                        </p>
+
+                    </article>
+
+
+                    <article class="buying-note">
+
+                        <h3>
+                            Need more information?
+                        </h3>
+
+                        <p>
+                            Artwork is personal. If you want more
+                            photographs, dimensions, installation
+                            information or artist details, ask us
+                            before purchasing.
+                        </p>
+
+                    </article>
+
+
+                </div>
+
+
+                <!-- =============================================
+                     CTA
+                ============================================== -->
+
+                <div class="buy-cta">
+
+                    <div class="buy-cta-copy">
+
+                        <h3>
+                            Found a piece you love?
+                        </h3>
+
+                        <p>
+                            Start a conversation with ARTSASA.
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="#collection"
+                        class="buy-cta-button"
+                        onclick="document.getElementById('artwork-search').focus(); return false;"
+                    >
+                        Continue browsing
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 FAQ
+            ================================================== -->
+
+            <section
+                class="collection-faq"
+                id="collection-faq"
+            >
+
+                <span class="eyebrow">
+                    Before you buy
+                </span>
+
+                <h2 class="collection-faq-heading">
+                    Questions, answered.
+                </h2>
+
+
+                <div class="faq-list">
+
+
+                    <article class="faq-item">
+
+                        <button
+                            type="button"
+                            class="faq-question"
+                            aria-expanded="false"
+                        >
+
+                            <span>
+                                Is the price shown the final artwork price?
+                            </span>
+
+                            <span
+                                class="faq-plus"
+                                aria-hidden="true"
+                            >
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <div class="faq-answer-inner">
+
+                                <p>
+                                    The displayed price is the listed
+                                    artwork price. Before payment,
+                                    ARTSASA will confirm availability
+                                    and any applicable delivery or
+                                    additional charges with you.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="faq-item">
+
+                        <button
+                            type="button"
+                            class="faq-question"
+                            aria-expanded="false"
+                        >
+
+                            <span>
+                                Can I ask for more photographs?
+                            </span>
+
+                            <span
+                                class="faq-plus"
+                                aria-hidden="true"
+                            >
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <div class="faq-answer-inner">
+
+                                <p>
+                                    Yes. If you would like additional
+                                    photographs, close-up details,
+                                    dimensions or installation views,
+                                    contact us through WhatsApp and
+                                    mention the artwork title.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="faq-item">
+
+                        <button
+                            type="button"
+                            class="faq-question"
+                            aria-expanded="false"
+                        >
+
+                            <span>
+                                Can I reserve an artwork?
+                            </span>
+
+                            <span
+                                class="faq-plus"
+                                aria-hidden="true"
+                            >
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <div class="faq-answer-inner">
+
+                                <p>
+                                    Availability and reservation
+                                    arrangements depend on the
+                                    individual artwork. Contact ARTSASA
+                                    before making payment so the team
+                                    can confirm the current status.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                    <article class="faq-item">
+
+                        <button
+                            type="button"
+                            class="faq-question"
+                            aria-expanded="false"
+                        >
+
+                            <span>
+                                Can you help me choose artwork?
+                            </span>
+
+                            <span
+                                class="faq-plus"
+                                aria-hidden="true"
+                            >
+                                +
+                            </span>
+
+                        </button>
+
+                        <div class="faq-answer">
+
+                            <div class="faq-answer-inner">
+
+                                <p>
+                                    Absolutely. Share the kind of
+                                    artwork you are looking for,
+                                    your approximate budget and where
+                                    you intend to display it. We can
+                                    help you explore suitable works.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </article>
+
+
+                </div>
+
+            </section>
 
 
         </div>
 
-    </div>
-
-</section>
-```
+    </section>
 
 </section>
 
 {% endblock %}
+
 
 {% block extra_js %}
 
@@ -1962,134 +3039,431 @@ ARTSASA — Collection
 document.addEventListener("DOMContentLoaded", function () {
 
 
-    /* =====================================================
-       FILTER SYSTEM
-    ===================================================== */
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
+
+    const grid =
+        document.getElementById("art-grid");
+
+    const searchInput =
+        document.getElementById("artwork-search");
+
+    const sortSelect =
+        document.getElementById("artwork-sort");
+
+    const countElement =
+        document.getElementById("artwork-count");
+
+    const clearButton =
+        document.getElementById("clear-filters");
+
+    const noResults =
+        document.getElementById("collection-no-results");
 
     const filterButtons =
         document.querySelectorAll(".filter-button");
 
     const artworkCards =
-        document.querySelectorAll(".art-piece");
+        Array.from(
+            document.querySelectorAll(".art-piece")
+        );
 
 
-    filterButtons.forEach(function (button) {
-
-        button.addEventListener("click", function () {
+    let activeFilter = "all";
 
 
-            const selectedFilter =
-                button.dataset.filter;
+    /* =========================================================
+       UPDATE COUNT
+    ========================================================= */
+
+    function updateCount(number) {
+
+        countElement.textContent =
+            number +
+            (number === 1 ? " work" : " works");
+
+    }
 
 
-            /* ---------------------------------------------
-               Update active filter
-            --------------------------------------------- */
+    /* =========================================================
+       CHECK WHETHER FILTERS ARE ACTIVE
+    ========================================================= */
 
-            filterButtons.forEach(function (item) {
+    function updateClearButton() {
 
-                item.classList.remove("active");
+        const hasSearch =
+            searchInput.value.trim().length > 0;
 
-            });
+        const hasFilter =
+            activeFilter !== "all";
 
-            button.classList.add("active");
+        const hasSort =
+            sortSelect.value !== "default";
 
+        if (
+            hasSearch ||
+            hasFilter ||
+            hasSort
+        ) {
 
-            /* ---------------------------------------------
-               Filter artworks
-            --------------------------------------------- */
+            clearButton.classList.add("visible");
 
-            artworkCards.forEach(function (card) {
+        } else {
 
+            clearButton.classList.remove("visible");
 
-                const category =
-                    card.dataset.category;
+        }
 
-
-                const shouldShow =
-                    selectedFilter === "all" ||
-                    category === selectedFilter;
-
-
-                if (shouldShow) {
-
-
-                    card.classList.remove(
-                        "is-hidden"
-                    );
+    }
 
 
-                    if (
-                        typeof card.animate === "function"
-                    ) {
+    /* =========================================================
+       FILTER + SEARCH
+    ========================================================= */
 
-                        card.animate(
-                            [
-                                {
-                                    opacity: 0,
+    function applyFilters() {
 
-                                    transform:
-                                        "translateY(10px)"
-                                },
-
-                                {
-                                    opacity: 1,
-
-                                    transform:
-                                        "translateY(0)"
-                                }
-                            ],
-                            {
-                                duration: 320,
-
-                                easing:
-                                    "cubic-bezier(.2,.7,.2,1)"
-                            }
-                        );
-
-                    }
+        const searchTerm =
+            searchInput.value
+                .trim()
+                .toLowerCase();
 
 
-                } else {
+        let visibleCount = 0;
 
 
-                    card.classList.add(
-                        "is-hidden"
-                    );
+        artworkCards.forEach(function (card) {
 
-                }
+            const category =
+                card.dataset.category || "";
 
-            });
+            const title =
+                card.dataset.title || "";
+
+            const artist =
+                card.dataset.artist || "";
+
+            const medium =
+                card.dataset.medium || "";
+
+            const description =
+                card.dataset.description || "";
 
 
-            /* ---------------------------------------------
-               Mobile filter scrolling
-            --------------------------------------------- */
+            const matchesCategory =
+                activeFilter === "all" ||
+                category === activeFilter;
 
-            if (
-                window.innerWidth <= 800
-            ) {
 
-                button.scrollIntoView({
+            const searchableText =
+                title +
+                " " +
+                artist +
+                " " +
+                medium +
+                " " +
+                description;
 
-                    behavior: "smooth",
 
-                    block: "nearest",
+            const matchesSearch =
+                !searchTerm ||
+                searchableText.includes(searchTerm);
 
-                    inline: "center"
 
-                });
+            const shouldShow =
+                matchesCategory &&
+                matchesSearch;
+
+
+            if (shouldShow) {
+
+                card.classList.remove(
+                    "is-hidden"
+                );
+
+                visibleCount++;
+
+            } else {
+
+                card.classList.add(
+                    "is-hidden"
+                );
 
             }
 
         });
 
+
+        updateCount(visibleCount);
+
+        updateClearButton();
+
+
+        if (visibleCount === 0) {
+
+            noResults.classList.add(
+                "visible"
+            );
+
+        } else {
+
+            noResults.classList.remove(
+                "visible"
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CATEGORY FILTER
+    ========================================================= */
+
+    filterButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                activeFilter =
+                    button.dataset.filter;
+
+
+                filterButtons.forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                applyFilters();
+
+
+                if (
+                    window.innerWidth <= 800
+                ) {
+
+                    button.scrollIntoView({
+                        behavior: "smooth",
+                        block: "nearest",
+                        inline: "center"
+                    });
+
+                }
+
+            }
+        );
+
     });
 
 
-    /* =====================================================
+    /* =========================================================
+       LIVE SEARCH
+    ========================================================= */
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            applyFilters();
+
+        }
+    );
+
+
+    /* =========================================================
+       SORT
+    ========================================================= */
+
+    sortSelect.addEventListener(
+        "change",
+        function () {
+
+            const sortValue =
+                sortSelect.value;
+
+
+            const cards =
+                Array.from(
+                    grid.querySelectorAll(
+                        ".art-piece"
+                    )
+                );
+
+
+            if (
+                sortValue === "default"
+            ) {
+
+                location.reload();
+
+                return;
+            }
+
+
+            cards.sort(function (a, b) {
+
+                if (
+                    sortValue === "price-low"
+                ) {
+
+                    return (
+                        Number(
+                            a.dataset.price || 0
+                        ) -
+                        Number(
+                            b.dataset.price || 0
+                        )
+                    );
+
+                }
+
+
+                if (
+                    sortValue === "price-high"
+                ) {
+
+                    return (
+                        Number(
+                            b.dataset.price || 0
+                        ) -
+                        Number(
+                            a.dataset.price || 0
+                        )
+                    );
+
+                }
+
+
+                if (
+                    sortValue === "title"
+                ) {
+
+                    return (
+                        a.dataset.title || ""
+                    ).localeCompare(
+                        b.dataset.title || ""
+                    );
+
+                }
+
+
+                if (
+                    sortValue === "artist"
+                ) {
+
+                    return (
+                        a.dataset.artist || ""
+                    ).localeCompare(
+                        b.dataset.artist || ""
+                    );
+
+                }
+
+
+                return 0;
+
+            });
+
+
+            cards.forEach(function (card) {
+
+                grid.appendChild(card);
+
+            });
+
+
+            applyFilters();
+
+        }
+    );
+
+
+    /* =========================================================
+       CLEAR FILTERS
+    ========================================================= */
+
+    clearButton.addEventListener(
+        "click",
+        function () {
+
+            searchInput.value = "";
+
+            sortSelect.value =
+                "default";
+
+            activeFilter = "all";
+
+
+            filterButtons.forEach(
+                function (button) {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            const allButton =
+                document.querySelector(
+                    '.filter-button[data-filter="all"]'
+                );
+
+
+            if (allButton) {
+
+                allButton.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            artworkCards.forEach(
+                function (card) {
+
+                    card.classList.remove(
+                        "is-hidden"
+                    );
+
+                }
+            );
+
+
+            noResults.classList.remove(
+                "visible"
+            );
+
+
+            updateCount(
+                artworkCards.length
+            );
+
+
+            updateClearButton();
+
+            searchInput.focus();
+
+        }
+    );
+
+
+    /* =========================================================
        ADD TO CART
-    ===================================================== */
+    ========================================================= */
 
     const cartButtons =
         document.querySelectorAll(
@@ -2099,15 +3473,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     cartButtons.forEach(function (button) {
 
-
         button.addEventListener(
             "click",
             function () {
-
-
-                /* -----------------------------------------
-                   Prevent double-click while animating
-                ----------------------------------------- */
 
                 if (
                     button.classList.contains(
@@ -2126,10 +3494,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                /* -----------------------------------------
-                   Start animation
-                ----------------------------------------- */
-
                 button.classList.add(
                     "is-adding"
                 );
@@ -2143,18 +3507,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* -----------------------------------------
-                   Animation complete
-                ----------------------------------------- */
+                /*
+                 * Keep your existing cart backend
+                 * behaviour here if your base/site JS
+                 * already listens for this button.
+                 *
+                 * This visual interaction remains
+                 * compatible with the current markup.
+                 */
+
 
                 window.setTimeout(
                     function () {
 
-
                         button.classList.remove(
                             "is-adding"
                         );
-
 
                         button.classList.add(
                             "is-added"
@@ -2169,13 +3537,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        /* ---------------------------------
-                           Return to normal state
-                        --------------------------------- */
-
                         window.setTimeout(
                             function () {
-
 
                                 button.classList.remove(
                                     "is-added"
@@ -2204,9 +3567,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    /* =====================================================
+    /* =========================================================
        WISHLIST
-    ===================================================== */
+    ========================================================= */
 
     const wishlistButtons =
         document.querySelectorAll(
@@ -2216,11 +3579,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     wishlistButtons.forEach(function (button) {
 
-
         button.addEventListener(
             "click",
             function (event) {
-
 
                 event.preventDefault();
 
@@ -2235,27 +3596,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (active) {
 
-
                     button.setAttribute(
                         "aria-label",
                         "Remove from wishlist"
                     );
-
 
                     button.setAttribute(
                         "title",
                         "Remove from wishlist"
                     );
 
-
                 } else {
-
 
                     button.setAttribute(
                         "aria-label",
                         "Add to wishlist"
                     );
-
 
                     button.setAttribute(
                         "title",
@@ -2269,6 +3625,149 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+
+    /* =========================================================
+       FAQ
+    ========================================================= */
+
+    const faqQuestions =
+        document.querySelectorAll(
+            ".faq-question"
+        );
+
+
+    faqQuestions.forEach(function (question) {
+
+        question.addEventListener(
+            "click",
+            function () {
+
+                const item =
+                    question.closest(
+                        ".faq-item"
+                    );
+
+
+                const isOpen =
+                    item.classList.contains(
+                        "open"
+                    );
+
+
+                document
+                    .querySelectorAll(
+                        ".faq-item.open"
+                    )
+                    .forEach(
+                        function (openItem) {
+
+                            if (
+                                openItem !== item
+                            ) {
+
+                                openItem.classList.remove(
+                                    "open"
+                                );
+
+                                const openButton =
+                                    openItem.querySelector(
+                                        ".faq-question"
+                                    );
+
+                                if (openButton) {
+
+                                    openButton.setAttribute(
+                                        "aria-expanded",
+                                        "false"
+                                    );
+
+                                }
+
+                            }
+
+                        }
+                    );
+
+
+                if (isOpen) {
+
+                    item.classList.remove(
+                        "open"
+                    );
+
+                    question.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                } else {
+
+                    item.classList.add(
+                        "open"
+                    );
+
+                    question.setAttribute(
+                        "aria-expanded",
+                        "true"
+                    );
+
+                }
+
+            }
+        );
+
+    });
+
+
+    /* =========================================================
+       KEYBOARD SEARCH SHORTCUT
+       Press "/" to focus search.
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key === "/" &&
+                document.activeElement.tagName !==
+                    "INPUT" &&
+                document.activeElement.tagName !==
+                    "TEXTAREA" &&
+                document.activeElement.tagName !==
+                    "SELECT"
+            ) {
+
+                event.preventDefault();
+
+                searchInput.focus();
+
+            }
+
+
+            if (
+                event.key === "Escape" &&
+                document.activeElement ===
+                    searchInput
+            ) {
+
+                searchInput.value = "";
+
+                applyFilters();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIAL STATE
+    ========================================================= */
+
+    updateCount(
+        artworkCards.length
+    );
 
 });
 
