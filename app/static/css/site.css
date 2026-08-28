@@ -7,7 +7,7 @@
 
 @font-face {
     font-family: "Dior Edge";
-    src: url("/static/fonts/DiorEdge-Regular.woff2") format("woff2");
+    src: url("../fonts/DiorEdge-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -15,12 +15,11 @@
 
 @font-face {
     font-family: "Black Mantis";
-    src: url("/static/fonts/BlackMantis-Regular.woff2") format("woff2");
+    src: url("../fonts/BlackMantis-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
-
 /* =============================================================
    TOKENS
    Palette pulled from the gallery's own material world —
