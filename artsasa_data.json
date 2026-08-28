@@ -1,0 +1,787 @@
+[
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$1op9nagshGXsEcB47P84c4$fHlXpH5aiCkvE4ZosfW2B7FS5EAZCFLCZeCXPVnz13o=",
+    "last_login": "2026-08-28T09:46:14.691Z",
+    "is_superuser": true,
+    "username": "user",
+    "first_name": "",
+    "last_name": "",
+    "email": "uuser@gmail.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-08-28T09:44:30.618Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "em4geszweiqo272ni3i9hp1mhkirj9m3",
+  "fields": {
+    "session_data": ".eJxVjLsOwjAMAP_FM4qStk7ijux8Q-XELi2gROpjQvw7qtQB1rvTvWHgfZuGfdVlmAV6cHD5ZYnzU8sh5MHlXk2uZVvmZI7EnHY1tyr6up7t32DidYIe0EYabSPUeBlT8CiOKVFImaxiSy5EVcHQEiHH6BUxo_O2zTaPtuvg8wXRfDcz:1wztA6:jT_ES93i7YpEwrnApWxK5buUcaAZPfCdgf7ig2Y66g4",
+    "expire_date": "2026-09-11T09:46:14.708Z"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 1,
+  "fields": {
+    "name": "Photography",
+    "slug": "photography",
+    "description": "",
+    "image": "",
+    "created_at": "2026-08-28T09:49:04.258Z"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 2,
+  "fields": {
+    "name": "Sculpture",
+    "slug": "sculpture",
+    "description": "",
+    "image": "",
+    "created_at": "2026-08-28T09:49:15.531Z"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 3,
+  "fields": {
+    "name": "Painting",
+    "slug": "painting",
+    "description": "",
+    "image": "",
+    "created_at": "2026-08-28T09:49:29.179Z"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 4,
+  "fields": {
+    "name": "Woodwork",
+    "slug": "woodwork",
+    "description": "",
+    "image": "",
+    "created_at": "2026-08-28T09:49:56.368Z"
+  }
+},
+{
+  "model": "app.category",
+  "pk": 5,
+  "fields": {
+    "name": "Mixed Media",
+    "slug": "mixed-media",
+    "description": "",
+    "image": "",
+    "created_at": "2026-08-28T09:50:07.601Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 1,
+  "fields": {
+    "name": "Amina Wanjiku",
+    "slug": "amina-wanjiku",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:47:09.668Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 2,
+  "fields": {
+    "name": "David Otieno",
+    "slug": "david-otieno",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:47:31.134Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 3,
+  "fields": {
+    "name": "Njeri Kamau",
+    "slug": "njeri-kamau",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:47:44.571Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 4,
+  "fields": {
+    "name": "Brian Mwangi",
+    "slug": "brian-mwangi",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:47:56.700Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 5,
+  "fields": {
+    "name": "Samuel Kibet",
+    "slug": "samuel-kibet",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:48:10.206Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 6,
+  "fields": {
+    "name": "Wambui Njoroge",
+    "slug": "wambui-njoroge",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:48:24.982Z"
+  }
+},
+{
+  "model": "app.artist",
+  "pk": 7,
+  "fields": {
+    "name": "Kelvin Maina",
+    "slug": "kelvin-maina",
+    "image": "",
+    "bio": "",
+    "location": "",
+    "website": "",
+    "instagram": "",
+    "created_at": "2026-08-28T09:48:38.255Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 1,
+  "fields": {
+    "title": "Quiet Ground",
+    "slug": "quiet-ground",
+    "artist": 1,
+    "category": 3,
+    "image": "artworks/Golden_Echoes__A_Study_of_Inner_Peace__Ancestral_Presence.jfif",
+    "short_description": "A restrained study of ochre, shadow and memory, exploring the emotional landscape of a familiar place.",
+    "description": "Quiet Ground considers the relationship between landscape and memory. Layers of oil and earth pigment are worked slowly across the canvas, allowing traces of earlier marks to remain visible beneath the surface. The warm, muted palette gives the work a sense of stillness, while subtle changes in texture suggest a landscape remembered rather than directly observed.",
+    "medium": "Oil and earth pigment on canvas",
+    "year": 2026,
+    "dimensions": "90 × 120 cm",
+    "edition": "Unique work",
+    "price": "185000.00",
+    "currency": "KES",
+    "status": "Available",
+    "exhibition": null,
+    "is_featured": true,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T09:53:32.491Z",
+    "updated_at": "2026-08-28T09:53:32.491Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 2,
+  "fields": {
+    "title": "After the Rain",
+    "slug": "after-the-rain",
+    "artist": 2,
+    "category": 1,
+    "image": "artworks/After_The_Rain_Painting_by_Dodi_Ballada___ArtMajeur.jfif",
+    "short_description": "A quiet photographic meditation on Nairobi streets moments after rainfall.",
+    "description": "After the Rain captures the brief transformation of an urban street following a heavy afternoon shower. Reflections, passing figures and softened architectural forms create a scene that feels both familiar and fleeting. The photograph is part of an ongoing body of work examining everyday moments within rapidly changing African cities.",
+    "medium": "Archival pigment print on cotton paper",
+    "year": 2025,
+    "dimensions": "60 * 90 cm",
+    "edition": "Unique work",
+    "price": "78000.00",
+    "currency": "KES",
+    "status": "Reserved",
+    "exhibition": null,
+    "is_featured": true,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T09:57:13.998Z",
+    "updated_at": "2026-08-28T09:57:13.998Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 3,
+  "fields": {
+    "title": "Memory Vessel",
+    "slug": "memory-vessel",
+    "artist": 3,
+    "category": 2,
+    "image": "artworks/407294360064397565.jfif",
+    "short_description": "A sculptural vessel shaped by ideas of inheritance, family and the passing of stories between generations.",
+    "description": "Memory Vessel draws from the traditional language of containers while deliberately avoiding functional form. Its irregular surface carries impressions made by hand, with areas of natural oxide revealing the material beneath. The work reflects on the objects through which families preserve memory and pass knowledge from one generation to another.",
+    "medium": "Hand-built terracotta and natural oxide",
+    "year": 2026,
+    "dimensions": "48 * 32 cm",
+    "edition": "Unique work",
+    "price": "240000.00",
+    "currency": "KES",
+    "status": "Not for Sale",
+    "exhibition": null,
+    "is_featured": true,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T10:00:24.303Z",
+    "updated_at": "2026-08-28T10:00:24.303Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 4,
+  "fields": {
+    "title": "The Long Afternoon",
+    "slug": "the-long-afternoon",
+    "artist": 4,
+    "category": 3,
+    "image": "artworks/1152147517213174092.jfif",
+    "short_description": "An atmospheric composition built from fragments of architecture, figures and afternoon light.",
+    "description": "The Long Afternoon brings together fragments of remembered spaces rather than depicting a single identifiable location. Charcoal lines sit beneath translucent acrylic washes, creating a layered surface that shifts between architectural clarity and abstraction. The work explores the feeling of time slowing down during an ordinary afternoon.",
+    "medium": "Acrylic, charcoal and graphite on canvas",
+    "year": 2024,
+    "dimensions": "110 * 100 cm",
+    "edition": "Unique work",
+    "price": "320000.00",
+    "currency": "KES",
+    "status": "Available",
+    "exhibition": null,
+    "is_featured": true,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T10:05:38.400Z",
+    "updated_at": "2026-08-28T10:05:38.401Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 5,
+  "fields": {
+    "title": ". Roots Remember",
+    "slug": "roots-remember",
+    "artist": 1,
+    "category": 4,
+    "image": "",
+    "short_description": "A hand-carved sculptural work celebrating the resilience and memory held within old timber.",
+    "description": "Roots Remember was carved from reclaimed olive wood, preserving many of the natural cracks, knots and irregularities found in the original timber. Rather than concealing these marks, the artist incorporates them into the form. Small brass interventions provide a quiet contrast to the organic surface, suggesting continuity between past and present.",
+    "medium": "Reclaimed olive wood and brass",
+    "year": 2023,
+    "dimensions": "72 × 38 × 26 cm",
+    "edition": "Unique work",
+    "price": "275000.00",
+    "currency": "KES",
+    "status": "Available",
+    "exhibition": null,
+    "is_featured": false,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T10:08:41.996Z",
+    "updated_at": "2026-08-28T10:08:41.996Z"
+  }
+},
+{
+  "model": "app.artwork",
+  "pk": 6,
+  "fields": {
+    "title": "Between Two Hills",
+    "slug": "between-two-hills",
+    "artist": 1,
+    "category": 5,
+    "image": "artworks/40321359152354068.jfif",
+    "short_description": "A tactile mixed-media work exploring migration, belonging and the spaces that exist between home and elsewhere.",
+    "description": "Between Two Hills combines fragments of fabric, handwritten marks, acrylic paint and found paper. The layered construction reflects the artist's interest in personal histories and the physical objects people carry between places. Stitching becomes both a structural element and a visual metaphor for connection, repair and belonging.",
+    "medium": "Fabric, acrylic, thread and found paper",
+    "year": 2026,
+    "dimensions": "80 * 100cm",
+    "edition": "Unique work",
+    "price": "140000.00",
+    "currency": "KES",
+    "status": "Available",
+    "exhibition": null,
+    "is_featured": true,
+    "is_published": true,
+    "meta_title": "",
+    "meta_description": "",
+    "created_at": "2026-08-28T10:20:29.722Z",
+    "updated_at": "2026-08-28T10:20:29.722Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 1,
+  "fields": {
+    "artwork": 1,
+    "image": "artworks/gallery/_Souvenir_lointain___Oil_and_Acrylic_on_canvas.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T09:53:32.497Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 2,
+  "fields": {
+    "artwork": 2,
+    "image": "artworks/gallery/17099673579633664.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T09:57:14.008Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 3,
+  "fields": {
+    "artwork": 2,
+    "image": "artworks/gallery/1149192029951106355.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T09:57:14.011Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 4,
+  "fields": {
+    "artwork": 3,
+    "image": "artworks/gallery/Untitled_Pot_A.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:00:24.310Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 5,
+  "fields": {
+    "artwork": 3,
+    "image": "artworks/gallery/325525879338407975.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:00:24.316Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 6,
+  "fields": {
+    "artwork": 4,
+    "image": "artworks/gallery/18014467258623621.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:05:38.411Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 7,
+  "fields": {
+    "artwork": 4,
+    "image": "artworks/gallery/364228688637195817.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:05:38.415Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 8,
+  "fields": {
+    "artwork": 5,
+    "image": "artworks/gallery/364228688637195817_0sl5NA0.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:08:42.007Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 9,
+  "fields": {
+    "artwork": 5,
+    "image": "artworks/gallery/18014467258623621_gd0iZFn.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:08:42.010Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 10,
+  "fields": {
+    "artwork": 6,
+    "image": "artworks/gallery/5066618331296121.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:20:29.728Z"
+  }
+},
+{
+  "model": "app.artworkimage",
+  "pk": 11,
+  "fields": {
+    "artwork": 6,
+    "image": "artworks/gallery/5066618331296121_mERCOvO.jfif",
+    "caption": "",
+    "sort_order": 0,
+    "created_at": "2026-08-28T10:20:29.733Z"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 1,
+  "fields": {
+    "action_time": "2026-08-28T09:47:09.676Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "1",
+    "object_repr": "Amina Wanjiku",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 2,
+  "fields": {
+    "action_time": "2026-08-28T09:47:31.136Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "2",
+    "object_repr": "David Otieno",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 3,
+  "fields": {
+    "action_time": "2026-08-28T09:47:44.572Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "3",
+    "object_repr": "Njeri Kamau",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 4,
+  "fields": {
+    "action_time": "2026-08-28T09:47:56.709Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "4",
+    "object_repr": "Brian Mwangi",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 5,
+  "fields": {
+    "action_time": "2026-08-28T09:48:10.210Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "5",
+    "object_repr": "Samuel Kibet",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 6,
+  "fields": {
+    "action_time": "2026-08-28T09:48:24.985Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "6",
+    "object_repr": "Wambui Njoroge",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 7,
+  "fields": {
+    "action_time": "2026-08-28T09:48:38.258Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artist"
+    ],
+    "object_id": "7",
+    "object_repr": "Kelvin Maina",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 8,
+  "fields": {
+    "action_time": "2026-08-28T09:49:04.260Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "category"
+    ],
+    "object_id": "1",
+    "object_repr": "Photography",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 9,
+  "fields": {
+    "action_time": "2026-08-28T09:49:15.534Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "category"
+    ],
+    "object_id": "2",
+    "object_repr": "Sculpture",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 10,
+  "fields": {
+    "action_time": "2026-08-28T09:49:29.180Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "category"
+    ],
+    "object_id": "3",
+    "object_repr": "Painting",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 11,
+  "fields": {
+    "action_time": "2026-08-28T09:49:56.370Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "category"
+    ],
+    "object_id": "4",
+    "object_repr": "Woodwork",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 12,
+  "fields": {
+    "action_time": "2026-08-28T09:50:07.604Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "category"
+    ],
+    "object_id": "5",
+    "object_repr": "Mixed Media",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 13,
+  "fields": {
+    "action_time": "2026-08-28T09:53:32.498Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "1",
+    "object_repr": "Quiet Ground",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"Quiet Ground \\u2014 Image\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 14,
+  "fields": {
+    "action_time": "2026-08-28T09:57:14.012Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "2",
+    "object_repr": "After the Rain",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"After the Rain \\u2014 Image\"}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"After the Rain \\u2014 Image\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 15,
+  "fields": {
+    "action_time": "2026-08-28T10:00:24.318Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "3",
+    "object_repr": "Memory Vessel",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"Memory Vessel \\u2014 Image\"}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"Memory Vessel \\u2014 Image\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 16,
+  "fields": {
+    "action_time": "2026-08-28T10:05:38.417Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "4",
+    "object_repr": "The Long Afternoon",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"The Long Afternoon \\u2014 Image\"}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"The Long Afternoon \\u2014 Image\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 17,
+  "fields": {
+    "action_time": "2026-08-28T10:08:42.011Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "5",
+    "object_repr": ". Roots Remember",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \". Roots Remember \\u2014 Image\"}}, {\"added\": {\"name\": \"artwork image\", \"object\": \". Roots Remember \\u2014 Image\"}}]"
+  }
+},
+{
+  "model": "admin.logentry",
+  "pk": 18,
+  "fields": {
+    "action_time": "2026-08-28T10:20:29.736Z",
+    "user": [
+      "user"
+    ],
+    "content_type": [
+      "app",
+      "artwork"
+    ],
+    "object_id": "6",
+    "object_repr": "Between Two Hills",
+    "action_flag": 1,
+    "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"Between Two Hills \\u2014 Image\"}}, {\"added\": {\"name\": \"artwork image\", \"object\": \"Between Two Hills \\u2014 Image\"}}]"
+  }
+}
+]
