@@ -1,327 +1,1793 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>{% block title %}ARTSASA — Contemporary Art Gallery{% endblock %}</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
+<title>{% block title %}ARTSASA — Contemporary Art Gallery{% endblock %}</title>
 
-    <meta name="theme-color" content="#211E1B">
+<meta name="description"
+      content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#211E1B">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+<!-- =========================================================
+     FONTS
+========================================================== -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link rel="stylesheet" href="{% static 'css/site.css' %}">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap"
+      rel="stylesheet">
 
-    {% block extra_css %}{% endblock %}
+<!-- Font Awesome -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer">
+
+<!-- Main stylesheet -->
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+{% block extra_css %}{% endblock %}
+
+<style>
+
+    /* =========================================================
+       ARTSASA HEADER / FOOTER OVERRIDES
+       Clean, restrained gallery styling.
+    ========================================================== */
+
+    :root {
+        --artsasa-black: #211e1b;
+        --artsasa-paper: #f4f0e8;
+        --artsasa-muted: #777067;
+        --artsasa-line: rgba(33, 30, 27, .16);
+        --artsasa-accent: #a65f43;
+    }
+
+
+    /* =========================================================
+       HEADER
+    ========================================================== */
+
+    .site-header {
+        position: relative;
+        z-index: 900;
+    }
+
+    .header-inner {
+        min-height: 92px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 35px;
+    }
+
+
+    /* =========================================================
+       LOGO
+    ========================================================== */
+
+    .brand {
+        display: inline-flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex: 0 0 auto;
+        width: 150px;
+        height: 70px;
+        text-decoration: none;
+    }
+
+    .brand img {
+        display: block;
+        width: 150px;
+        max-width: 100%;
+        height: auto;
+        max-height: 68px;
+        object-fit: contain;
+        object-position: left center;
+    }
+
+
+    /* =========================================================
+       MAIN NAVIGATION
+    ========================================================== */
+
+    .main-nav {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(20px, 3vw, 42px);
+        flex: 1;
+    }
+
+    .main-nav a {
+        position: relative;
+        color: var(--midnight, var(--artsasa-black));
+        text-decoration: none;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        white-space: nowrap;
+        transition: color .25s ease;
+    }
+
+    .main-nav a::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -7px;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width .3s ease;
+    }
+
+    .main-nav a:hover {
+        color: var(--artsasa-accent);
+    }
+
+    .main-nav a:hover::after {
+        width: 100%;
+    }
+
+
+    /* =========================================================
+       HEADER RIGHT SIDE
+    ========================================================== */
+
+    .header-side {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 17px;
+        flex: 0 0 auto;
+    }
+
+    .header-note {
+        display: inline-block;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: .12em;
+        text-transform: uppercase;
+        color: var(--artsasa-muted);
+        white-space: nowrap;
+    }
+
+
+    /* =========================================================
+       GENERIC ICON BUTTON
+    ========================================================== */
+
+    .icon-btn {
+        width: 34px;
+        height: 34px;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--artsasa-black);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
+        transition:
+            color .25s ease,
+            transform .25s ease;
+    }
+
+    .icon-btn:hover {
+        color: var(--artsasa-accent);
+        transform: translateY(-2px);
+    }
+
+
+    /* =========================================================
+       CART + WISHLIST
+    ========================================================== */
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .header-action {
+        position: relative;
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--artsasa-black);
+        text-decoration: none;
+        font-size: 14px;
+        transition:
+            color .25s ease,
+            transform .25s ease;
+    }
+
+    .header-action:hover {
+        color: var(--artsasa-accent);
+        transform: translateY(-2px);
+    }
+
+    .header-action-count {
+        position: absolute;
+        top: 1px;
+        right: 0;
+        min-width: 14px;
+        height: 14px;
+        padding: 0 3px;
+        border-radius: 50%;
+        background: var(--artsasa-black);
+        color: var(--artsasa-paper);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 7px;
+        font-weight: 700;
+        line-height: 1;
+    }
+
+
+    /* =========================================================
+       SOCIAL MEDIA
+    ========================================================== */
+
+    .header-social {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-left: 3px;
+        padding-left: 15px;
+        border-left: 1px solid var(--artsasa-line);
+    }
+
+    .header-social a,
+    .footer-social a {
+        width: 28px;
+        height: 28px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--artsasa-black);
+        text-decoration: none;
+        font-size: 12px;
+        transform-style: preserve-3d;
+        transition:
+            color .25s ease,
+            transform .7s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .header-social a:hover,
+    .footer-social a:hover {
+        color: var(--artsasa-accent);
+        transform: rotateY(360deg);
+    }
+
+
+    /* =========================================================
+       MOBILE MENU BUTTON
+    ========================================================== */
+
+    .menu-toggle {
+        display: none;
+    }
+
+
+    /* =========================================================
+       MOBILE NAVIGATION
+    ========================================================== */
+
+    .mobile-nav {
+        z-index: 1200;
+    }
+
+    .mobile-nav-mark {
+        display: flex;
+        align-items: center;
+    }
+
+    .mobile-nav-mark img {
+        display: block;
+        width: 120px;
+        height: auto;
+        max-height: 58px;
+        object-fit: contain;
+    }
+
+
+    /* =========================================================
+       FOOTER
+    ========================================================== */
+
+    .site-footer {
+        background: var(--artsasa-black);
+        color: var(--artsasa-paper);
+        padding: 75px 0 25px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.4fr .8fr .9fr .9fr;
+        gap: 55px;
+        padding-bottom: 55px;
+        border-bottom: 1px solid rgba(244, 240, 232, .14);
+    }
+
+
+    /* =========================================================
+       FOOTER LOGO
+    ========================================================== */
+
+    .footer-brand {
+        margin-bottom: 20px;
+    }
+
+    .footer-brand img {
+        display: block;
+        width: 150px;
+        height: auto;
+        max-height: 70px;
+        object-fit: contain;
+        object-position: left center;
+
+        /*
+         * If your logo is already suitable for the dark footer,
+         * this remains unchanged.
+         */
+    }
+
+    .footer-description {
+        max-width: 310px;
+        margin: 0;
+        font-family: var(--font-reading, "Newsreader", serif);
+        font-size: 16px;
+        font-style: italic;
+        line-height: 1.7;
+        color: rgba(244, 240, 232, .68);
+    }
+
+
+    /* =========================================================
+       FOOTER HEADINGS
+    ========================================================== */
+
+    .footer-heading {
+        margin-bottom: 19px;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 9px;
+        font-weight: 700;
+        letter-spacing: .14em;
+        text-transform: uppercase;
+        color: var(--artsasa-paper);
+    }
+
+
+    /* =========================================================
+       FOOTER LINKS
+    ========================================================== */
+
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+    }
+
+    .footer-links a,
+    .footer-location a {
+        color: rgba(244, 240, 232, .68);
+        text-decoration: none;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 11px;
+        line-height: 1.6;
+        transition: color .25s ease;
+    }
+
+    .footer-links a:hover,
+    .footer-location a:hover {
+        color: var(--artsasa-paper);
+    }
+
+
+    /* =========================================================
+       FOOTER LOCATION / CONTACT
+    ========================================================== */
+
+    .footer-location {
+        display: flex;
+        flex-direction: column;
+        gap: 11px;
+        color: rgba(244, 240, 232, .68);
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 11px;
+        line-height: 1.65;
+    }
+
+
+    /* =========================================================
+       FOOTER SOCIAL
+    ========================================================== */
+
+    .footer-social {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        margin-top: 18px;
+    }
+
+    .footer-social a {
+        width: 30px;
+        height: 30px;
+        border: 1px solid rgba(244, 240, 232, .2);
+        border-radius: 50%;
+        color: var(--artsasa-paper);
+    }
+
+    .footer-social a:hover {
+        border-color: var(--artsasa-paper);
+        color: var(--artsasa-paper);
+    }
+
+
+    /* =========================================================
+       FOOTER BOTTOM
+    ========================================================== */
+
+    .footer-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 30px;
+        padding-top: 22px;
+        font-family: var(--font-body, "DM Sans", sans-serif);
+        font-size: 9px;
+        letter-spacing: .06em;
+        color: rgba(244, 240, 232, .48);
+    }
+
+    .footer-bottom-right {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .footer-bottom-right a {
+        color: inherit;
+        text-decoration: none;
+        transition: color .25s ease;
+    }
+
+    .footer-bottom-right a:hover {
+        color: var(--artsasa-paper);
+    }
+
+
+    /* =========================================================
+       REMOVE OLD MATERIAL INDEX
+    ========================================================== */
+
+    .material-index {
+        display: none !important;
+    }
+
+
+    /* =========================================================
+       MOBILE
+    ========================================================== */
+
+    @media (max-width: 1050px) {
+
+        .main-nav {
+            gap: 22px;
+        }
+
+        .header-note {
+            display: none;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1.2fr 1fr 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 850px) {
+
+        .header-inner {
+            min-height: 78px;
+        }
+
+        .brand {
+            width: 125px;
+            height: 60px;
+        }
+
+        .brand img {
+            width: 125px;
+            max-height: 58px;
+        }
+
+        .main-nav {
+            display: none;
+        }
+
+        .header-side {
+            margin-left: auto;
+        }
+
+        .header-social {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: inline-flex;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 45px 30px;
+        }
+
+    }
+
+
+    @media (max-width: 600px) {
+
+        .header-inner {
+            padding-left: 18px;
+            padding-right: 18px;
+        }
+
+        .brand {
+            width: 120px;
+            height: 56px;
+        }
+
+        .brand img {
+            width: 120px;
+            max-height: 54px;
+        }
+
+        .header-actions {
+            gap: 0;
+        }
+
+        .header-action,
+        .icon-btn {
+            width: 32px;
+            height: 32px;
+        }
+
+        .site-footer {
+            padding: 60px 0 22px;
+        }
+
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 38px;
+            padding-bottom: 40px;
+        }
+
+        .footer-brand img {
+            width: 135px;
+            max-height: 62px;
+        }
+
+        .footer-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 13px;
+        }
+
+        .footer-bottom-right {
+            gap: 18px;
+        }
+
+    }
+
+
+    /* =========================================================
+       REDUCED MOTION
+    ========================================================== */
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .header-social a,
+        .footer-social a,
+        .header-action,
+        .icon-btn {
+            transition: none;
+        }
+
+        .header-social a:hover,
+        .footer-social a:hover {
+            transform: none;
+        }
+
+    }
+
+</style>
+
 
 </head>
+
 <body>
 
-    <!-- ============================================
-         PAGE LOADER — a single quiet fade of the mark,
-         nothing more.
-    ============================================= -->
-    <div class="page-loader" id="pageLoader" aria-hidden="true">
-        <span class="loader-mark">Artsasa</span>
-    </div>
+
+<!-- =========================================================
+     PAGE LOADER
+========================================================== -->
+
+<div class="page-loader" id="pageLoader" aria-hidden="true">
+    <span class="loader-mark">Artsasa</span>
+</div>
 
 
-    <!-- ============================================
-         SEARCH PANEL
-    ============================================= -->
-    <div class="search-panel" id="searchPanel" aria-hidden="true">
-        <button type="button" class="search-close" id="searchClose" aria-label="Close search">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <div class="search-inner">
-            <div class="search-kicker">Search ARTSASA</div>
-            <form class="search-form" id="siteSearchForm">
-                <input type="search" id="siteSearchInput" name="q" placeholder="Collection, artists, visit…" autocomplete="off" aria-label="Search ARTSASA">
-                <button type="submit" class="search-submit" aria-label="Search"><i class="fa-solid fa-arrow-right"></i></button>
-            </form>
+<!-- =========================================================
+     SEARCH PANEL
+========================================================== -->
+
+<div class="search-panel" id="searchPanel" aria-hidden="true">
+
+    <button type="button"
+            class="search-close"
+            id="searchClose"
+            aria-label="Close search">
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+    <div class="search-inner">
+
+        <div class="search-kicker">
+            Search ARTSASA
         </div>
-    </div>
 
+        <form class="search-form" id="siteSearchForm">
 
-    <!-- ============================================
-         HEADER
-    ============================================= -->
-    <header class="site-header">
-        <div class="site-container header-inner">
+            <input
+                type="search"
+                id="siteSearchInput"
+                name="q"
+                placeholder="Collection, artists, visit…"
+                autocomplete="off"
+                aria-label="Search ARTSASA">
 
-            <a href="{% url 'index' %}#home" class="brand" aria-label="ARTSASA home">Artsasa</a>
+            <button
+                type="submit"
+                class="search-submit"
+                aria-label="Search">
 
-            <nav class="main-nav" aria-label="Main navigation">
-                <a href="{% url 'index' %}#home">Home</a>
-                <a href="{% url 'collection' %}">Collection</a>
-                <a href="{% url 'about' %}">About</a>
-                <a href="{% url 'index' %}#visit">Visit</a>
-                <a href="{% url 'index' %}#contact">Contact</a>
-            </nav>
+                <i class="fa-solid fa-arrow-right"></i>
 
-            <div class="header-side">
-                <button type="button" class="icon-btn" id="searchToggle" aria-label="Open search" aria-expanded="false">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <span class="header-note">Nairobi · Kenya</span>
-                <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileNav">
-                    <span></span><span></span><span></span>
-                </button>
-            </div>
-
-        </div>
-    </header>
-
-
-    <!-- ============================================
-         MOBILE NAV — side drawer
-    ============================================= -->
-    <div class="mobile-nav-backdrop" id="mobileNavBackdrop" aria-hidden="true"></div>
-
-    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-
-        <div class="mobile-nav-head">
-            <span class="mobile-nav-mark">Artsasa</span>
-            <button type="button" class="mobile-nav-close" id="mobileNavClose" aria-label="Close navigation">
-                <i class="fa-solid fa-xmark"></i>
             </button>
-        </div>
 
-        <div class="mobile-nav-links">
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     HEADER
+========================================================== -->
+
+<header class="site-header">
+
+    <div class="site-container header-inner">
+
+
+        <!-- =====================================================
+             ARTSASA LOGO
+        ====================================================== -->
+
+        <a href="{% url 'index' %}#home"
+           class="brand"
+           aria-label="ARTSASA home">
+
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="ARTSASA"
+                width="150"
+                height="70">
+
+        </a>
+
+
+        <!-- =====================================================
+             DESKTOP NAVIGATION
+        ====================================================== -->
+
+        <nav class="main-nav" aria-label="Main navigation">
+
             <a href="{% url 'index' %}#home">
-                <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
-                <span class="nav-label">Home</span>
-                <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+                Home
             </a>
+
             <a href="{% url 'collection' %}">
-                <span class="nav-icon"><i class="fa-solid fa-images"></i></span>
-                <span class="nav-label">Collection</span>
-                <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+                Collection
             </a>
+
             <a href="{% url 'about' %}">
-                <span class="nav-icon"><i class="fa-solid fa-circle-info"></i></span>
-                <span class="nav-label">About</span>
-                <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+                About
             </a>
+
             <a href="{% url 'index' %}#visit">
-                <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span>
-                <span class="nav-label">Visit</span>
-                <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+                Visit
             </a>
+
             <a href="{% url 'index' %}#contact">
-                <span class="nav-icon"><i class="fa-solid fa-envelope"></i></span>
-                <span class="nav-label">Contact</span>
-                <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+                Contact
             </a>
+
+        </nav>
+
+
+        <!-- =====================================================
+             HEADER ACTIONS
+        ====================================================== -->
+
+        <div class="header-side">
+
+
+            <!-- Search -->
+
+            <button
+                type="button"
+                class="icon-btn"
+                id="searchToggle"
+                aria-label="Open search"
+                aria-expanded="false">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+            </button>
+
+
+            <!-- Cart + Wishlist -->
+
+            <div class="header-actions">
+
+                <a
+                    href="/wishlist/"
+                    class="header-action"
+                    aria-label="Wishlist"
+                    title="Wishlist">
+
+                    <i class="fa-regular fa-heart"></i>
+
+                    <span
+                        class="header-action-count"
+                        id="wishlistCount">
+                        0
+                    </span>
+
+                </a>
+
+
+                <a
+                    href="/cart/"
+                    class="header-action"
+                    aria-label="Shopping cart"
+                    title="Shopping cart">
+
+                    <i class="fa-solid fa-bag-shopping"></i>
+
+                    <span
+                        class="header-action-count"
+                        id="cartCount">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
+
+            <!-- =================================================
+                 SOCIAL MEDIA — DESKTOP
+            ================================================== -->
+
+            <div class="header-social"
+                 aria-label="ARTSASA social media">
+
+                <a
+                    href="#"
+                    aria-label="WhatsApp"
+                    title="WhatsApp">
+
+                    <i class="fa-brands fa-whatsapp"></i>
+
+                </a>
+
+                <a
+                    href="#"
+                    aria-label="TikTok"
+                    title="TikTok">
+
+                    <i class="fa-brands fa-tiktok"></i>
+
+                </a>
+
+                <a
+                    href="#"
+                    aria-label="X"
+                    title="X">
+
+                    <i class="fa-brands fa-x-twitter"></i>
+
+                </a>
+
+                <a
+                    href="#"
+                    aria-label="Twitter"
+                    title="Twitter">
+
+                    <i class="fa-brands fa-twitter"></i>
+
+                </a>
+
+                <a
+                    href="#"
+                    aria-label="Facebook"
+                    title="Facebook">
+
+                    <i class="fa-brands fa-facebook-f"></i>
+
+                </a>
+
+            </div>
+
+
+            <span class="header-note">
+                Nairobi · Kenya
+            </span>
+
+
+            <!-- Mobile menu -->
+
+            <button
+                class="menu-toggle"
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded="false"
+                aria-controls="mobileNav">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </button>
+
         </div>
 
-        <div class="mobile-nav-foot">
-            <span class="mobile-nav-foot-label">Follow ARTSASA</span>
-            <div class="mobile-nav-social">
-                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            </div>
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     MOBILE NAVIGATION
+========================================================== -->
+
+<div
+    class="mobile-nav-backdrop"
+    id="mobileNavBackdrop"
+    aria-hidden="true">
+</div>
+
+
+<nav
+    class="mobile-nav"
+    id="mobileNav"
+    aria-label="Mobile navigation">
+
+
+    <!-- Mobile navigation header -->
+
+    <div class="mobile-nav-head">
+
+        <a
+            href="{% url 'index' %}#home"
+            class="mobile-nav-mark"
+            aria-label="ARTSASA home">
+
+            <img
+                src="{% static 'images/logo.png' %}"
+                alt="ARTSASA"
+                width="120">
+
+        </a>
+
+        <button
+            type="button"
+            class="mobile-nav-close"
+            id="mobileNavClose"
+            aria-label="Close navigation">
+
+            <i class="fa-solid fa-xmark"></i>
+
+        </button>
+
+    </div>
+
+
+    <!-- Mobile links -->
+
+    <div class="mobile-nav-links">
+
+        <a href="{% url 'index' %}#home">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-house"></i>
+            </span>
+
+            <span class="nav-label">
+                Home
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'collection' %}">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-images"></i>
+            </span>
+
+            <span class="nav-label">
+                Collection
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'about' %}">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </span>
+
+            <span class="nav-label">
+                About
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'index' %}#visit">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </span>
+
+            <span class="nav-label">
+                Visit
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'index' %}#contact">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-envelope"></i>
+            </span>
+
+            <span class="nav-label">
+                Contact
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <!-- Mobile shopping -->
+
+        <a href="/wishlist/">
+
+            <span class="nav-icon">
+                <i class="fa-regular fa-heart"></i>
+            </span>
+
+            <span class="nav-label">
+                Wishlist
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="/cart/">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </span>
+
+            <span class="nav-label">
+                Cart
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+    </div>
+
+
+    <!-- =====================================================
+         MOBILE SOCIAL MEDIA
+    ====================================================== -->
+
+    <div class="mobile-nav-foot">
+
+        <span class="mobile-nav-foot-label">
+            Follow ARTSASA
+        </span>
+
+        <div class="mobile-nav-social">
+
+            <a href="#" aria-label="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+
+            <a href="#" aria-label="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+
+            <a href="#" aria-label="X">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+
+            <a href="#" aria-label="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+
+            <a href="#" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
         </div>
 
-    </nav>
+    </div>
+
+</nav>
 
 
-    {% block content %}{% endblock %}
+<!-- =========================================================
+     PAGE CONTENT
+========================================================== -->
+
+{% block content %}{% endblock %}
 
 
-    <!-- ============================================
-         FOOTER
-    ============================================= -->
-    <footer class="site-footer" id="contact">
-        <div class="site-container">
+<!-- =========================================================
+     FOOTER
+========================================================== -->
 
-            <div class="footer-grid">
+<footer class="site-footer" id="contact">
 
-                <div>
-                    <div class="footer-brand">Artsasa</div>
-                    <p class="footer-description">
-                        An independent contemporary art gallery bringing
-                        together painting, sculpture, photography,
-                        woodwork and mixed media.
-                    </p>
+    <div class="site-container">
+
+        <div class="footer-grid">
+
+
+            <!-- =================================================
+                 FOOTER BRAND
+            ================================================== -->
+
+            <div>
+
+                <a
+                    href="{% url 'index' %}#home"
+                    class="footer-brand"
+                    aria-label="ARTSASA home">
+
+                    <img
+                        src="{% static 'images/logo.png' %}"
+                        alt="ARTSASA"
+                        width="150">
+
+                </a>
+
+                <p class="footer-description">
+
+                    An independent contemporary art gallery bringing
+                    together painting, sculpture, photography,
+                    woodwork and mixed media.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 EXPLORE
+            ================================================== -->
+
+            <div>
+
+                <div class="footer-heading">
+                    Explore
                 </div>
 
-                <div>
-                    <div class="footer-heading">Explore</div>
-                    <div class="footer-links">
-                        <a href="{% url 'index' %}#home">Home</a>
-                        <a href="{% url 'collection' %}">Collection</a>
-                        <a href="{% url 'about' %}">About</a>
-                        <a href="{% url 'index' %}#visit">Visit</a>
-                    </div>
-                </div>
+                <div class="footer-links">
 
-                <div>
-                    <div class="footer-heading">Gallery</div>
-                    <div class="footer-location">
-                        <div>Nairobi, Kenya</div>
-                        <div>Tuesday — Saturday<br>10:00 — 18:00</div>
-                        <div><a href="tel:+254700000000">+254 700 000 000</a></div>
-                    </div>
-                </div>
+                    <a href="{% url 'index' %}#home">
+                        Home
+                    </a>
 
-                <div>
-                    <div class="footer-heading">Connect</div>
-                    <div class="footer-location">
-                        <div><a href="#">Instagram — @artsasa</a></div>
-                        <div><a href="#">Facebook — ARTSASA Gallery</a></div>
-                        <div><a href="mailto:hello@artsasa.com">hello@artsasa.com</a></div>
-                    </div>
+                    <a href="{% url 'collection' %}">
+                        Collection
+                    </a>
+
+                    <a href="{% url 'about' %}">
+                        About
+                    </a>
+
+                    <a href="{% url 'index' %}#visit">
+                        Visit
+                    </a>
+
                 </div>
 
             </div>
 
-            <!-- MATERIAL INDEX — the gallery's own palette, named
-                 as the materials artists actually work in. -->
-            <div class="material-index" aria-hidden="true">
-                <div class="material-index-item">
-                    <span class="material-swatch" style="background:var(--terracotta)"></span>
-                    <span class="label">Pigment</span>
-                    <span class="name">Terracotta</span>
+
+            <!-- =================================================
+                 GALLERY
+            ================================================== -->
+
+            <div>
+
+                <div class="footer-heading">
+                    Gallery
                 </div>
-                <div class="material-index-item">
-                    <span class="material-swatch" style="background:var(--concrete)"></span>
-                    <span class="label">Structure</span>
-                    <span class="name">Concrete</span>
+
+                <div class="footer-location">
+
+                    <div>
+                        Nairobi, Kenya
+                    </div>
+
+                    <div>
+                        Tuesday — Saturday<br>
+                        10:00 — 18:00
+                    </div>
+
+                    <div>
+                        <a href="tel:+254700000000">
+                            +254 700 000 000
+                        </a>
+                    </div>
+
                 </div>
-                <div class="material-index-item">
-                    <span class="material-swatch" style="background:var(--rattan)"></span>
-                    <span class="label">Craft</span>
-                    <span class="name">Rattan</span>
-                </div>
-                <div class="material-index-item">
-                    <span class="material-swatch" style="background:var(--sandstone)"></span>
-                    <span class="label">Surface</span>
-                    <span class="name">Sandstone</span>
-                </div>
+
             </div>
 
-            <div class="footer-bottom">
-                <span>© {% now "Y" %} ARTSASA. All rights reserved.</span>
-                <div class="footer-bottom-right">
-                    <a href="#">Privacy</a>
-                    <a href="#">Terms</a>
+
+            <!-- =================================================
+                 CONNECT
+            ================================================== -->
+
+            <div>
+
+                <div class="footer-heading">
+                    Connect
                 </div>
+
+                <div class="footer-location">
+
+                    <div>
+                        <a href="mailto:hello@artsasa.com">
+                            hello@artsasa.com
+                        </a>
+                    </div>
+
+                    <div>
+                        Follow ARTSASA
+                    </div>
+
+                </div>
+
+
+                <!-- Footer social icons -->
+
+                <div
+                    class="footer-social"
+                    aria-label="ARTSASA social media">
+
+                    <a
+                        href="#"
+                        aria-label="WhatsApp"
+                        title="WhatsApp">
+
+                        <i class="fa-brands fa-whatsapp"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="TikTok"
+                        title="TikTok">
+
+                        <i class="fa-brands fa-tiktok"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="X"
+                        title="X">
+
+                        <i class="fa-brands fa-x-twitter"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Twitter"
+                        title="Twitter">
+
+                        <i class="fa-brands fa-twitter"></i>
+
+                    </a>
+
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                        title="Facebook">
+
+                        <i class="fa-brands fa-facebook-f"></i>
+
+                    </a>
+
+                </div>
+
             </div>
 
         </div>
-    </footer>
 
 
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
+        <!-- =====================================================
+             FOOTER BOTTOM
+        ====================================================== -->
 
-        const pageLoader = document.getElementById("pageLoader");
-        const mobileNav = document.getElementById("mobileNav");
-        const mobileNavBackdrop = document.getElementById("mobileNavBackdrop");
-        const mobileNavClose = document.getElementById("mobileNavClose");
-        const menuToggle = document.querySelector(".menu-toggle");
-        const searchPanel = document.getElementById("searchPanel");
-        const searchToggle = document.getElementById("searchToggle");
-        const searchClose = document.getElementById("searchClose");
-        const searchInput = document.getElementById("siteSearchInput");
-        const searchForm = document.getElementById("siteSearchForm");
-        const header = document.querySelector(".site-header");
+        <div class="footer-bottom">
 
-        /* loader — show briefly on internal navigation only */
-        function hideLoader() { pageLoader && pageLoader.classList.remove("is-active"); }
-        window.addEventListener("pageshow", hideLoader);
+            <span>
+                © {% now "Y" %} ARTSASA. All rights reserved.
+            </span>
 
-        /* mobile menu */
-        function closeMenu() {
-            mobileNav && mobileNav.classList.remove("open");
-            mobileNavBackdrop && mobileNavBackdrop.classList.remove("open");
-            document.body.classList.remove("menu-open");
-            menuToggle && menuToggle.classList.remove("active");
+            <div class="footer-bottom-right">
+
+                <a href="#">
+                    Privacy
+                </a>
+
+                <a href="#">
+                    Terms
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     GLOBAL JAVASCRIPT
+========================================================== -->
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ====================================================== */
+
+    const pageLoader =
+        document.getElementById("pageLoader");
+
+    const mobileNav =
+        document.getElementById("mobileNav");
+
+    const mobileNavBackdrop =
+        document.getElementById("mobileNavBackdrop");
+
+    const mobileNavClose =
+        document.getElementById("mobileNavClose");
+
+    const menuToggle =
+        document.querySelector(".menu-toggle");
+
+    const searchPanel =
+        document.getElementById("searchPanel");
+
+    const searchToggle =
+        document.getElementById("searchToggle");
+
+    const searchClose =
+        document.getElementById("searchClose");
+
+    const searchInput =
+        document.getElementById("siteSearchInput");
+
+    const searchForm =
+        document.getElementById("siteSearchForm");
+
+    const header =
+        document.querySelector(".site-header");
+
+
+    /* =====================================================
+       PAGE LOADER
+    ====================================================== */
+
+    function hideLoader() {
+
+        if (pageLoader) {
+            pageLoader.classList.remove("is-active");
         }
-        function openMenu() {
-            closeSearch();
-            mobileNav && mobileNav.classList.add("open");
-            mobileNavBackdrop && mobileNavBackdrop.classList.add("open");
-            document.body.classList.add("menu-open");
-            menuToggle && menuToggle.classList.add("active");
+
+    }
+
+    window.addEventListener("pageshow", hideLoader);
+
+
+    /* =====================================================
+       MOBILE MENU
+    ====================================================== */
+
+    function closeMenu() {
+
+        if (mobileNav) {
+            mobileNav.classList.remove("open");
         }
+
+        if (mobileNavBackdrop) {
+            mobileNavBackdrop.classList.remove("open");
+        }
+
+        document.body.classList.remove("menu-open");
+
         if (menuToggle) {
-            menuToggle.addEventListener("click", function () {
-                mobileNav.classList.contains("open") ? closeMenu() : openMenu();
-            });
+            menuToggle.classList.remove("active");
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
         }
-        mobileNavClose && mobileNavClose.addEventListener("click", closeMenu);
-        mobileNavBackdrop && mobileNavBackdrop.addEventListener("click", closeMenu);
 
-        /* search */
-        function openSearch() {
-            closeMenu();
-            searchPanel.classList.add("open");
-            document.body.classList.add("search-open");
-            setTimeout(function () { searchInput && searchInput.focus(); }, 200);
+    }
+
+
+    function openMenu() {
+
+        closeSearch();
+
+        if (mobileNav) {
+            mobileNav.classList.add("open");
         }
-        function closeSearch() {
+
+        if (mobileNavBackdrop) {
+            mobileNavBackdrop.classList.add("open");
+        }
+
+        document.body.classList.add("menu-open");
+
+        if (menuToggle) {
+            menuToggle.classList.add("active");
+            menuToggle.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+        }
+
+    }
+
+
+    if (menuToggle) {
+
+        menuToggle.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    mobileNav &&
+                    mobileNav.classList.contains("open")
+                ) {
+                    closeMenu();
+                } else {
+                    openMenu();
+                }
+
+            }
+        );
+
+    }
+
+
+    if (mobileNavClose) {
+        mobileNavClose.addEventListener(
+            "click",
+            closeMenu
+        );
+    }
+
+
+    if (mobileNavBackdrop) {
+        mobileNavBackdrop.addEventListener(
+            "click",
+            closeMenu
+        );
+    }
+
+
+    /* =====================================================
+       SEARCH
+    ====================================================== */
+
+    function openSearch() {
+
+        closeMenu();
+
+        if (!searchPanel) {
+            return;
+        }
+
+        searchPanel.classList.add("open");
+
+        document.body.classList.add("search-open");
+
+        if (searchToggle) {
+            searchToggle.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+        }
+
+        setTimeout(function () {
+
+            if (searchInput) {
+                searchInput.focus();
+            }
+
+        }, 200);
+
+    }
+
+
+    function closeSearch() {
+
+        if (searchPanel) {
             searchPanel.classList.remove("open");
-            document.body.classList.remove("search-open");
-        }
-        searchToggle && searchToggle.addEventListener("click", openSearch);
-        searchClose && searchClose.addEventListener("click", closeSearch);
-        searchPanel && searchPanel.addEventListener("click", function (e) {
-            if (e.target === searchPanel) closeSearch();
-        });
-        searchForm && searchForm.addEventListener("submit", function (e) {
-            e.preventDefault();
-            const q = searchInput.value.trim();
-            if (q) window.location.href = "{% url 'collection' %}?q=" + encodeURIComponent(q);
-        });
-
-        document.addEventListener("keydown", function (e) {
-            if (e.key === "Escape") { closeMenu(); closeSearch(); }
-        });
-
-        /* internal links close overlays */
-        mobileNav && mobileNav.querySelectorAll("a").forEach(function (a) {
-            a.addEventListener("click", closeMenu);
-        });
-
-        /* header scroll state */
-        function updateHeader() {
-            if (!header) return;
-            header.classList.toggle("scrolled", window.scrollY > 30);
-        }
-        updateHeader();
-        window.addEventListener("scroll", updateHeader, { passive: true });
-
-        /* scroll reveal */
-        const reveals = document.querySelectorAll(".reveal");
-        if ("IntersectionObserver" in window) {
-            const io = new IntersectionObserver(function (entries, obs) {
-                entries.forEach(function (entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("is-visible");
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: .14 });
-            reveals.forEach(function (el) { io.observe(el); });
-        } else {
-            reveals.forEach(function (el) { el.classList.add("is-visible"); });
         }
 
-    });
-    </script>
+        document.body.classList.remove("search-open");
 
-    {% block extra_js %}{% endblock %}
+        if (searchToggle) {
+            searchToggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+
+    }
+
+
+    if (searchToggle) {
+        searchToggle.addEventListener(
+            "click",
+            openSearch
+        );
+    }
+
+
+    if (searchClose) {
+        searchClose.addEventListener(
+            "click",
+            closeSearch
+        );
+    }
+
+
+    if (searchPanel) {
+
+        searchPanel.addEventListener(
+            "click",
+            function (event) {
+
+                if (event.target === searchPanel) {
+                    closeSearch();
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       SEARCH SUBMISSION
+    ====================================================== */
+
+    if (searchForm) {
+
+        searchForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+                const q =
+                    searchInput ?
+                    searchInput.value.trim() :
+                    "";
+
+                if (q) {
+
+                    window.location.href =
+                        "{% url 'collection' %}?q=" +
+                        encodeURIComponent(q);
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       CLOSE MOBILE NAV AFTER CLICKING A LINK
+    ====================================================== */
+
+    if (mobileNav) {
+
+        mobileNav
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    closeMenu
+                );
+
+            });
+
+    }
+
+
+    /* =====================================================
+       ESCAPE KEY
+    ====================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                closeMenu();
+                closeSearch();
+
+            }
+
+        }
+    );
+
+
+    /* =====================================================
+       HEADER SCROLL STATE
+    ====================================================== */
+
+    function updateHeader() {
+
+        if (!header) {
+            return;
+        }
+
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 30
+        );
+
+    }
+
+    updateHeader();
+
+    window.addEventListener(
+        "scroll",
+        updateHeader,
+        { passive: true }
+    );
+
+
+    /* =====================================================
+       CART / WISHLIST COUNTERS
+       Reads existing localStorage values if available.
+    ====================================================== */
+
+    function updateShoppingCounters() {
+
+        const cartCount =
+            document.getElementById("cartCount");
+
+        const wishlistCount =
+            document.getElementById("wishlistCount");
+
+
+        /* Cart */
+
+        if (cartCount) {
+
+            try {
+
+                const cart =
+                    JSON.parse(
+                        localStorage.getItem("artsasa_cart")
+                    ) || [];
+
+                cartCount.textContent =
+                    Array.isArray(cart)
+                    ? cart.length
+                    : 0;
+
+            } catch (error) {
+
+                cartCount.textContent = "0";
+
+            }
+
+        }
+
+
+        /* Wishlist */
+
+        if (wishlistCount) {
+
+            try {
+
+                const wishlist =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "artsasa_wishlist"
+                        )
+                    ) || [];
+
+                wishlistCount.textContent =
+                    Array.isArray(wishlist)
+                    ? wishlist.length
+                    : 0;
+
+            } catch (error) {
+
+                wishlistCount.textContent = "0";
+
+            }
+
+        }
+
+    }
+
+    updateShoppingCounters();
+
+
+    /* =====================================================
+       SCROLL REVEAL
+    ====================================================== */
+
+    const reveals =
+        document.querySelectorAll(".reveal");
+
+
+    if ("IntersectionObserver" in window) {
+
+        const io =
+            new IntersectionObserver(
+                function (entries, observer) {
+
+                    entries.forEach(
+                        function (entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "is-visible"
+                                );
+
+                                observer.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: .14
+                }
+            );
+
+
+        reveals.forEach(
+            function (element) {
+
+                io.observe(element);
+
+            }
+        );
+
+    } else {
+
+        reveals.forEach(
+            function (element) {
+
+                element.classList.add(
+                    "is-visible"
+                );
+
+            }
+        );
+
+    }
+
+});
+
+</script>
+
+
+{% block extra_js %}{% endblock %}
+
 
 </body>
 </html>

@@ -59,8 +59,15 @@
        one per section. */
     --font-display: "Black Mantis", "Cormorant Garamond", Georgia, serif;
 
-    /* DM Sans carries every sentence a visitor actually reads. */
+    /* DM Sans carries the interface — nav, labels, buttons. */
     --font-body: "DM Sans", Arial, sans-serif;
+
+    /* Newsreader: the one place body copy is actually meant to
+       be read at length — artwork descriptions, artist bios,
+       exhibition text. A text face, not a display face, so it
+       stays comfortable in italic at reading sizes where Black
+       Mantis and Dior Edge would not. */
+    --font-reading: "Newsreader", "Cormorant Garamond", Georgia, serif;
 
     --content-width: 1320px;
     --ease: cubic-bezier(.22, .61, .36, 1);
@@ -245,6 +252,7 @@ img { display: block; max-width: 100%; }
 }
 
 .icon-btn {
+    position: relative;
     width: 34px; height: 34px;
     display: grid; place-items: center;
     border: 1px solid currentColor;
@@ -254,6 +262,97 @@ img { display: block; max-width: 100%; }
 }
 
 .icon-btn:hover { background: var(--terracotta); color: var(--sandstone); border-color: var(--terracotta); }
+
+.icon-badge {
+    position: absolute; top: -4px; right: -4px;
+    min-width: 15px; height: 15px; padding: 0 3px;
+    display: grid; place-items: center;
+    background: var(--terracotta); color: var(--sandstone);
+    font-family: var(--font-body);
+    font-size: 9px; font-weight: 700; line-height: 1;
+    border-radius: 999px;
+    border: 1px solid var(--midnight);
+    transition: border-color .4s var(--ease);
+}
+.site-header.scrolled .icon-badge { border-color: var(--paper); }
+
+/* =============================================================
+   TOAST — quiet confirmation for wishlist / cart actions
+============================================================= */
+
+.artsasa-toast {
+    position: fixed; left: 50%; bottom: 28px; z-index: 200;
+    transform: translate(-50%, 12px);
+    max-width: min(86vw, 380px);
+    padding: 13px 22px;
+    background: var(--midnight); color: var(--sandstone);
+    font-family: var(--font-body); font-size: 12px; font-weight: 600; letter-spacing: .01em;
+    text-align: center;
+    border-radius: 999px;
+    box-shadow: 0 14px 34px rgba(33, 30, 27, .28);
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease;
+}
+.artsasa-toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+/* =============================================================
+   PRODUCT ACTIONS — wishlist heart on the image, and the
+   add-to-shortlist / WhatsApp strip beneath each card. Shared
+   across the collection grid and anywhere else a work is shown.
+============================================================= */
+
+.wishlist-btn {
+    position: absolute; top: 12px; right: 12px; z-index: 2;
+    width: 34px; height: 34px;
+    display: grid; place-items: center;
+    border: 1px solid rgba(241,234,219,.55);
+    border-radius: 50%;
+    background: rgba(33,30,27,.4);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--sandstone);
+    font-size: 13px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity .3s ease, transform .3s ease, background .3s ease, border-color .3s ease;
+}
+.art-image:hover .wishlist-btn,
+.wishlist-btn.active { opacity: 1; transform: translateY(0); }
+.wishlist-btn.active { background: var(--terracotta); border-color: var(--terracotta); }
+.wishlist-btn i { transition: transform .25s ease; }
+.wishlist-btn.active i { transform: scale(1.12); }
+
+.art-actions {
+    display: flex;
+    margin-top: 14px;
+    border-top: 1px solid var(--line);
+}
+
+.action-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px;
+    border: 0;
+    background: transparent;
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .25s ease, color .25s ease;
+}
+.action-btn:first-child { border-right: 1px solid var(--line); }
+.action-btn i { font-size: 12px; }
+
+.action-btn.cart-btn:hover { background: var(--midnight); color: var(--paper); }
+.action-btn.cart-btn.added { background: #6E8B5E; color: #fff; }
+
+.action-btn.whatsapp-btn:hover { background: #3E6350; color: #fff; }
 
 .menu-toggle { display: none; padding: 6px; }
 .menu-toggle span {
@@ -491,7 +590,7 @@ img { display: block; max-width: 100%; }
 @media (max-width: 860px) {
     .header-inner { grid-template-columns: 1fr auto; gap: 14px; }
     .main-nav { display: none; }
-    .header-side .icon-btn:first-child { display: none; }
+    .search-toggle { display: none; }
     .menu-toggle { display: block; }
     .mobile-nav { display: block; }
     .footer-grid { grid-template-columns: 1fr 1fr; gap: 45px 30px; }
