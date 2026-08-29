@@ -1,7 +1,12 @@
 /* =============================================================
    ARTSASA — DESIGN SYSTEM
    Contemporary art gallery, Nairobi.
-   Shared stylesheet for all pages.
+   Shared stylesheet for all pages. Every color/font/layout
+   token lives here — pages should not redeclare these
+   selectors in their own <style> blocks. (A duplicate override
+   of .mobile-nav's z-index in base.html previously put the
+   backdrop on top of the drawer and silently ate every nav
+   click — that block has been removed rather than patched.)
 ============================================================= */
 
 @font-face {
@@ -239,9 +244,8 @@ img {
 
 /* =============================================================
    HEADER
-   IMPORTANT:
-   Fixed header.
-   Overrides the conflicting position:relative in base.html.
+   Fixed header. --header-height above drives the page-content
+   offset further down, so keep the two in sync if you resize.
 ============================================================= */
 
 .site-header {
@@ -268,10 +272,6 @@ img {
         box-shadow .35s var(--ease);
 }
 
-/*
-   Scrolled header.
-*/
-
 .site-header.scrolled {
     background: rgba(241, 234, 219, .94);
 
@@ -283,10 +283,6 @@ img {
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
 }
-
-/*
-   Header inner.
-*/
 
 .header-inner {
     min-height: var(--header-height);
@@ -420,10 +416,12 @@ img {
 }
 
 /* =============================================================
-   GENERIC ICON BUTTON
+   GENERIC ICON BUTTON (search)
 ============================================================= */
 
 .icon-btn {
+    position: relative;
+
     width: 34px;
     height: 34px;
 
@@ -433,6 +431,8 @@ img {
 
     align-items: center;
     justify-content: center;
+
+    flex: 0 0 34px;
 
     border: 0;
 
@@ -456,7 +456,7 @@ img {
 }
 
 /* =============================================================
-   CART + WISHLIST
+   CART + WISHLIST (header)
 ============================================================= */
 
 .header-actions {
@@ -465,6 +465,8 @@ img {
     align-items: center;
 
     gap: 5px;
+
+    flex: 0 0 auto;
 }
 
 .header-action {
@@ -478,9 +480,12 @@ img {
     align-items: center;
     justify-content: center;
 
+    flex: 0 0 36px;
+
     color: var(--midnight);
 
     font-size: 14px;
+    line-height: 1;
 
     transition:
         color .25s ease,
@@ -493,7 +498,8 @@ img {
     transform: translateY(-2px);
 }
 
-.header-action-count {
+.header-action-count,
+.icon-badge {
     position: absolute;
 
     top: 1px;
@@ -504,15 +510,17 @@ img {
 
     padding: 0 3px;
 
-    border-radius: 50%;
-
-    background: var(--midnight);
-    color: var(--paper);
-
     display: inline-flex;
 
     align-items: center;
     justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--terracotta);
+    color: var(--sandstone);
+
+    border: 1px solid var(--paper);
 
     font-family: var(--font-body);
 
@@ -523,7 +531,9 @@ img {
 }
 
 /* =============================================================
-   SOCIAL MEDIA
+   SOCIAL MEDIA — header & footer (desktop). Both spin a full
+   360° on hover; the mobile sidebar's social row matches this
+   further down, in the MOBILE NAV FOOTER section.
 ============================================================= */
 
 .header-social {
@@ -569,8 +579,8 @@ img {
 
 /* =============================================================
    HAMBURGER
-   IMPORTANT FIX:
-   flex-direction: column makes the three spans vertical.
+   flex-direction: column stacks the three spans vertically —
+   without it they'd lay out side by side as one flat bar.
 ============================================================= */
 
 .menu-toggle {
@@ -597,10 +607,6 @@ img {
     z-index: 6000;
 }
 
-/*
-   The three actual hamburger lines.
-*/
-
 .menu-toggle span {
     display: block !important;
 
@@ -624,17 +630,9 @@ img {
         width .3s var(--ease);
 }
 
-/*
-   Hamburger hover.
-*/
-
 .menu-toggle:hover {
     color: var(--terracotta);
 }
-
-/*
-   Animated X.
-*/
 
 .menu-toggle.active span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
@@ -650,6 +648,8 @@ img {
 
 /* =============================================================
    MOBILE NAV BACKDROP
+   z-index 4900 — must stay BELOW .mobile-nav (5100). If a page
+   ever needs to override either value, override both together.
 ============================================================= */
 
 .mobile-nav-backdrop {
@@ -844,7 +844,8 @@ img {
 }
 
 /* =============================================================
-   MOBILE NAV FOOTER
+   MOBILE NAV FOOTER — social row spins 360° on hover, matching
+   .header-social / .footer-social above.
 ============================================================= */
 
 .mobile-nav-foot {
@@ -890,15 +891,20 @@ img {
 
     font-size: 13px;
 
+    transform-style: preserve-3d;
+
     transition:
         background .3s ease,
-        border-color .3s ease;
+        border-color .3s ease,
+        transform .7s var(--ease);
 }
 
 .mobile-nav-social a:hover {
     background: var(--terracotta);
 
     border-color: var(--terracotta);
+
+    transform: rotateY(360deg);
 }
 
 /* =============================================================
@@ -1022,17 +1028,11 @@ img {
 
 /* =============================================================
    PAGE CONTENT OFFSET
-   Prevent fixed header from covering the top of pages.
 ============================================================= */
 
 body {
     padding-top: 0;
 }
-
-/*
-   Pages whose first section is not designed to sit underneath
-   the transparent header will naturally begin below it.
-*/
 
 .page-content {
     padding-top: var(--header-height);
@@ -1186,7 +1186,7 @@ body {
 }
 
 /* =============================================================
-   WISHLIST
+   WISHLIST BUTTON — sits over the artwork image
 ============================================================= */
 
 .wishlist-btn {
@@ -1195,10 +1195,12 @@ body {
     top: 12px;
     right: 12px;
 
-    z-index: 2;
+    z-index: 10;
 
     width: 34px;
     height: 34px;
+
+    padding: 0;
 
     display: grid;
     place-items: center;
@@ -1207,37 +1209,52 @@ body {
 
     border-radius: 50%;
 
-    background: rgba(33, 30, 27, .4);
-
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(33, 30, 27, .42);
 
     color: var(--sandstone);
 
     font-size: 13px;
 
+    cursor: pointer;
+
     opacity: 0;
 
     transform: translateY(-4px);
+
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 
     transition:
         opacity .3s ease,
         transform .3s ease,
         background .3s ease,
-        border-color .3s ease;
+        border-color .3s ease,
+        color .3s ease;
 }
 
-.art-image:hover .wishlist-btn,
-.wishlist-btn.active {
+.art-image:hover .wishlist-btn {
     opacity: 1;
-
     transform: translateY(0);
 }
 
 .wishlist-btn.active {
-    background: var(--terracotta);
+    opacity: 1;
 
+    transform: translateY(0);
+
+    background: var(--terracotta);
     border-color: var(--terracotta);
+
+    color: var(--sandstone);
+}
+
+.wishlist-btn:hover {
+    background: var(--terracotta);
+    border-color: var(--terracotta);
+
+    color: var(--sandstone);
+
+    transform: translateY(0) scale(1.04);
 }
 
 .wishlist-btn i {
@@ -1250,11 +1267,13 @@ body {
 }
 
 /* =============================================================
-   ART ACTIONS
+   ARTWORK ACTION STRIP — WhatsApp + Add to cart
 ============================================================= */
 
 .art-actions {
     display: flex;
+
+    width: 100%;
 
     margin-top: 14px;
 
@@ -1264,6 +1283,9 @@ body {
 .action-btn {
     flex: 1;
 
+    min-width: 0;
+    min-height: 42px;
+
     display: flex;
 
     align-items: center;
@@ -1271,7 +1293,7 @@ body {
 
     gap: 8px;
 
-    padding: 12px 8px;
+    padding: 10px 8px;
 
     border: 0;
 
@@ -1285,13 +1307,15 @@ body {
     font-weight: 600;
 
     letter-spacing: .07em;
+
     text-transform: uppercase;
 
     cursor: pointer;
 
     transition:
         background .25s ease,
-        color .25s ease;
+        color .25s ease,
+        border-color .25s ease;
 }
 
 .action-btn:first-child {
@@ -1299,24 +1323,24 @@ body {
 }
 
 .action-btn i {
+    flex-shrink: 0;
+
     font-size: 12px;
+    line-height: 1;
 }
 
 .action-btn.cart-btn:hover {
     background: var(--midnight);
-
     color: var(--paper);
 }
 
 .action-btn.cart-btn.added {
     background: #6E8B5E;
-
     color: #fff;
 }
 
 .action-btn.whatsapp-btn:hover {
     background: #3E6350;
-
     color: #fff;
 }
 
@@ -1623,7 +1647,8 @@ body {
 }
 
 /* =============================================================
-   REMOVE MATERIAL INDEX
+   REMOVE MATERIAL INDEX (superseded by header/footer cart +
+   wishlist actions)
 ============================================================= */
 
 .material-index {
@@ -1663,14 +1688,6 @@ body {
         --header-height: 78px;
     }
 
-    .site-header {
-        position: fixed !important;
-
-        top: 0;
-        left: 0;
-        right: 0;
-    }
-
     .header-inner {
         min-height: 78px;
 
@@ -1703,11 +1720,6 @@ body {
         display: none;
     }
 
-    /*
-       CRITICAL:
-       Must be flex + column.
-    */
-
     .menu-toggle {
         display: inline-flex !important;
 
@@ -1717,12 +1729,20 @@ body {
         justify-content: center !important;
     }
 
-    /*
-       Mobile drawer must exist.
-    */
-
     .mobile-nav {
         display: block;
+    }
+
+    .header-actions {
+        gap: 0;
+    }
+
+    .header-action,
+    .icon-btn {
+        width: 32px;
+        height: 32px;
+
+        flex-basis: 32px;
     }
 
     .footer-grid {
@@ -1761,16 +1781,6 @@ body {
         width: 120px;
 
         max-height: 54px;
-    }
-
-    .header-actions {
-        gap: 0;
-    }
-
-    .header-action,
-    .icon-btn {
-        width: 32px;
-        height: 32px;
     }
 
     .menu-toggle {
@@ -1824,6 +1834,30 @@ body {
         gap: 18px;
     }
 
+    .action-btn {
+        min-height: 44px;
+
+        padding: 10px 7px;
+
+        gap: 6px;
+
+        font-size: 9px;
+    }
+
+    .action-btn i {
+        font-size: 11px;
+    }
+
+    .art-info {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .art-price {
+        margin-top: 2px;
+    }
+
 }
 
 /* =============================================================
@@ -1859,6 +1893,8 @@ body {
     .icon-btn {
         width: 30px;
         height: 30px;
+
+        flex-basis: 30px;
     }
 
     .menu-toggle {
@@ -1866,6 +1902,40 @@ body {
         height: 34px;
     }
 
+    .action-btn {
+        padding-left: 5px;
+        padding-right: 5px;
+
+        font-size: 8px;
+    }
+
+    .action-btn i {
+        font-size: 10px;
+    }
+
+    .wishlist-btn {
+        top: 9px;
+        right: 9px;
+
+        width: 32px;
+        height: 32px;
+    }
+
+}
+
+/* =============================================================
+   ACCESSIBILITY
+============================================================= */
+
+.header-action:focus-visible,
+.icon-btn:focus-visible,
+.header-social a:focus-visible,
+.mobile-nav-social a:focus-visible,
+.action-btn:focus-visible,
+.wishlist-btn:focus-visible {
+    outline: 2px solid var(--terracotta);
+
+    outline-offset: 3px;
 }
 
 /* =============================================================
@@ -1887,660 +1957,16 @@ body {
     }
 
     .header-social a:hover,
-    .footer-social a:hover {
+    .footer-social a:hover,
+    .mobile-nav-social a:hover {
         transform: none;
     }
 
-}
-/* =============================================================
-ARTSASA — MISSING HEADER + ARTWORK ACTIONS
-Added to the first/fixed-header stylesheet.
-
-Restores:
-
-* Cart icon
-* Wishlist icon
-* Wishlist badge
-* Social media icons
-* Artwork Add to Cart button
-* WhatsApp button
-* Mobile action sizing
-  ============================================================= */
-
-/* =============================================================
-HEADER ACTIONS
-============================================================= */
-
-.header-actions {
-display: flex;
-align-items: center;
-gap: 5px;
-flex: 0 0 auto;
-}
-
-.header-action {
-position: relative;
-
-
-width: 36px;
-height: 36px;
-
-display: inline-flex;
-align-items: center;
-justify-content: center;
-
-flex: 0 0 36px;
-
-color: var(--midnight);
-
-font-size: 14px;
-line-height: 1;
-
-transition:
-    color .25s ease,
-    transform .25s ease;
-
-
-}
-
-.header-action:hover {
-color: var(--terracotta);
-transform: translateY(-2px);
-}
-
-/* =============================================================
-CART / WISHLIST HEADER BADGE
-============================================================= */
-
-.header-action-count,
-.icon-badge {
-position: absolute;
-
-
-top: 1px;
-right: 0;
-
-min-width: 14px;
-height: 14px;
-
-padding: 0 3px;
-
-display: inline-flex;
-align-items: center;
-justify-content: center;
-
-border-radius: 50%;
-
-background: var(--terracotta);
-color: var(--sandstone);
-
-border: 1px solid var(--paper);
-
-font-family: var(--font-body);
-font-size: 7px;
-font-weight: 700;
-
-line-height: 1;
-
-
-}
-
-/* =============================================================
-SEARCH / GENERIC ICON BUTTON
-============================================================= */
-
-.icon-btn {
-position: relative;
-
-
-width: 34px;
-height: 34px;
-
-padding: 0;
-
-display: inline-flex;
-align-items: center;
-justify-content: center;
-
-flex: 0 0 34px;
-
-border: 0;
-border-radius: 0;
-
-background: transparent;
-
-color: var(--midnight);
-
-cursor: pointer;
-
-font-size: 14px;
-
-transition:
-    color .25s ease,
-    transform .25s ease;
-
-
-}
-
-.icon-btn:hover {
-color: var(--terracotta);
-transform: translateY(-2px);
-}
-
-/* =============================================================
-HEADER SOCIAL MEDIA
-============================================================= */
-
-.header-social {
-display: flex;
-align-items: center;
-
-
-gap: 7px;
-
-margin-left: 3px;
-padding-left: 15px;
-
-border-left: 1px solid var(--line);
-
-
-}
-
-.header-social a {
-width: 28px;
-height: 28px;
-
-
-display: inline-flex;
-align-items: center;
-justify-content: center;
-
-color: var(--midnight);
-
-font-size: 12px;
-
-transform-style: preserve-3d;
-
-transition:
-    color .25s ease,
-    transform .7s var(--ease);
-
-
-}
-
-.header-social a:hover {
-color: var(--terracotta);
-
-
-transform: rotateY(360deg);
-
-
-}
-
-/* =============================================================
-ARTWORK IMAGE
-============================================================= */
-
-.art-piece {
-min-width: 0;
-}
-
-.art-image {
-position: relative;
-
-
-overflow: hidden;
-
-background: var(--rattan);
-
-
-}
-
-.art-image img {
-width: 100%;
-height: 100%;
-
-
-object-fit: cover;
-
-transition:
-    transform .9s var(--ease);
-
-
-}
-
-.art-piece:hover .art-image img {
-transform: scale(1.035);
-}
-
-/* =============================================================
-WISHLIST BUTTON
-Always available at top-right when active.
-Appears on hover when inactive.
-============================================================= */
-
-.wishlist-btn {
-position: absolute;
-
-
-top: 12px;
-right: 12px;
-
-z-index: 10;
-
-width: 34px;
-height: 34px;
-
-padding: 0;
-
-display: grid;
-place-items: center;
-
-border: 1px solid rgba(241, 234, 219, .55);
-border-radius: 50%;
-
-background: rgba(33, 30, 27, .42);
-
-color: var(--sandstone);
-
-font-size: 13px;
-
-cursor: pointer;
-
-opacity: 0;
-
-transform: translateY(-4px);
-
-backdrop-filter: blur(6px);
--webkit-backdrop-filter: blur(6px);
-
-transition:
-    opacity .3s ease,
-    transform .3s ease,
-    background .3s ease,
-    border-color .3s ease,
-    color .3s ease;
-
-
-}
-
-/* Show when artwork is hovered */
-
-.art-image:hover .wishlist-btn {
-opacity: 1;
-transform: translateY(0);
-}
-
-/* Always show active wishlist */
-
-.wishlist-btn.active {
-opacity: 1;
-
-
-transform: translateY(0);
-
-background: var(--terracotta);
-border-color: var(--terracotta);
-
-color: var(--sandstone);
-
-
-}
-
-/* Wishlist hover */
-
-.wishlist-btn:hover {
-background: var(--terracotta);
-border-color: var(--terracotta);
-
-
-color: var(--sandstone);
-
-transform: translateY(0) scale(1.04);
-
-
-}
-
-/* Wishlist icon animation */
-
-.wishlist-btn i {
-transition:
-transform .25s ease;
-}
-
-.wishlist-btn.active i {
-transform: scale(1.12);
-}
-
-/* =============================================================
-ARTWORK INFORMATION
-============================================================= */
-
-.art-info {
-padding-top: 16px;
-
-
-display: flex;
-justify-content: space-between;
-
-gap: 20px;
-
-border-top: 1px solid var(--line);
-
-margin-top: 12px;
-
-
-}
-
-.art-title {
-margin: 0;
-
-
-font-family: var(--font-display);
-
-font-size: 24px;
-font-weight: 400;
-
-line-height: 1;
-
-
-}
-
-.art-meta {
-margin: 8px 0 0;
-
-
-font-size: 10px;
-font-weight: 600;
-
-letter-spacing: .1em;
-text-transform: uppercase;
-
-color: var(--muted);
-
-
-}
-
-.art-desc {
-margin: 10px 0 0;
-
-
-max-width: 34ch;
-
-font-size: 12px;
-line-height: 1.6;
-
-color: var(--ink-soft);
-
-
-}
-
-.art-price {
-flex-shrink: 0;
-
-
-font-size: 10px;
-font-weight: 600;
-
-letter-spacing: .08em;
-text-transform: uppercase;
-
-color: var(--muted);
-
-
-}
-
-/* =============================================================
-ARTWORK ACTION STRIP
-WhatsApp + Add to Cart
-============================================================= */
-
-.art-actions {
-display: flex;
-
-
-width: 100%;
-
-margin-top: 14px;
-
-border-top: 1px solid var(--line);
-
-
-}
-
-/* Each action occupies half the row */
-
-.action-btn {
-flex: 1;
-
-
-min-width: 0;
-min-height: 42px;
-
-display: flex;
-
-align-items: center;
-justify-content: center;
-
-gap: 8px;
-
-padding: 10px 8px;
-
-border: 0;
-
-background: transparent;
-
-color: var(--ink-soft);
-
-font-family: var(--font-body);
-
-font-size: 10px;
-font-weight: 600;
-
-letter-spacing: .07em;
-
-text-transform: uppercase;
-
-cursor: pointer;
-
-transition:
-    background .25s ease,
-    color .25s ease,
-    border-color .25s ease;
-
-
-}
-
-/* Divider between buttons */
-
-.action-btn:first-child {
-border-right: 1px solid var(--line);
-}
-
-/* Icons */
-
-.action-btn i {
-flex-shrink: 0;
-
-
-font-size: 12px;
-
-
-}
-
-/* =============================================================
-ADD TO CART
-============================================================= */
-
-.action-btn.cart-btn:hover {
-background: var(--midnight);
-color: var(--paper);
-}
-
-.action-btn.cart-btn.added {
-background: #6E8B5E;
-color: #fff;
-}
-
-/* =============================================================
-WHATSAPP
-============================================================= */
-
-.action-btn.whatsapp-btn:hover {
-background: #3E6350;
-color: #fff;
-}
-
-/* =============================================================
-OPTIONAL ICON-ONLY ACTION VARIATION
-Useful if your template uses: <i class="fas fa-shopping-bag"></i>
-============================================================= */
-
-.action-btn .fa-shopping-cart,
-.action-btn .fa-shopping-bag,
-.action-btn .fa-cart-plus,
-.action-btn .fa-whatsapp {
-line-height: 1;
-}
-
-/* =============================================================
-MOBILE HEADER ACTIONS
-============================================================= */
-
-@media (max-width: 850px) {
-
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0;
-}
-
-.header-action,
-.icon-btn {
-    width: 32px;
-    height: 32px;
-
-    flex: 0 0 32px;
-}
-
-/*
-   Social handles disappear on mobile.
-   They remain visible on desktop.
-*/
-
-.header-social {
-    display: none;
-}
-
-
-}
-
-/* =============================================================
-MOBILE ART ACTIONS
-============================================================= */
-
-@media (max-width: 600px) {
-
-
-.action-btn {
-    min-height: 44px;
-
-    padding: 10px 7px;
-
-    gap: 6px;
-
-    font-size: 9px;
-}
-
-.action-btn i {
-    font-size: 11px;
-}
-
-.art-info {
-    flex-direction: column;
-
-    gap: 8px;
-}
-
-.art-price {
-    margin-top: 2px;
-}
-
-
-}
-
-/* =============================================================
-VERY SMALL PHONES
-============================================================= */
-
-@media (max-width: 380px) {
-
-
-.header-action,
-.icon-btn {
-    width: 30px;
-    height: 30px;
-
-    flex-basis: 30px;
-}
-
-.action-btn {
-    padding-left: 5px;
-    padding-right: 5px;
-
-    font-size: 8px;
-}
-
-.action-btn i {
-    font-size: 10px;
-}
-
-.wishlist-btn {
-    top: 9px;
-    right: 9px;
-
-    width: 32px;
-    height: 32px;
-}
-
-
-}
-
-/* =============================================================
-ACCESSIBILITY
-============================================================= */
-
-.header-action:focus-visible,
-.icon-btn:focus-visible,
-.header-social a:focus-visible,
-.action-btn:focus-visible,
-.wishlist-btn:focus-visible {
-outline: 2px solid var(--terracotta);
-
-
-outline-offset: 3px;
-
-
-}
-
-/* =============================================================
-REDUCED MOTION
-============================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-
-.header-social a:hover {
-    transform: none;
-}
-
-.wishlist-btn,
-.action-btn,
-.header-action,
-.icon-btn {
-    transition: none;
-}
-
+    .wishlist-btn,
+    .action-btn,
+    .header-action,
+    .icon-btn {
+        transition: none;
+    }
 
 }
