@@ -3940,7 +3940,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const response =
                         await fetch(
-                            "{% url 'add_to_cart' %}",
+    "{% url 'add_to_cart' 0 %}".replace(
+        "/0/",
+        "/" + artworkId + "/"
+    ),
                             {
                                 method: "POST",
 

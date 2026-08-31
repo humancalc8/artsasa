@@ -1,85 +1,159 @@
-
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Shopping Cart — ARTSASA{% endblock %}
+{% block title %}Your Selection — ARTSASA{% endblock %}
 
 {% block meta_description %}
-Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enquiry options.
+Your selected artworks at ARTSASA. Review your collection and continue with your acquisition enquiry.
 {% endblock %}
 
 {% block content %}
 
-<section class="cart-page">
+<section class="artsasa-selection">
 
-    <div class="cart-container">
+    <div class="selection-shell">
 
         <!-- =====================================================
-             PAGE HEADER
+             HERO
         ====================================================== -->
 
-        <header class="cart-header">
-            <span class="cart-eyebrow">YOUR SELECTION</span>
+        <header class="selection-hero">
 
-            <h1>Your Cart</h1>
+            <div class="selection-hero-main">
 
-            <p>
-                Review the artworks you've selected before proceeding.
-            </p>
+                <div class="selection-eyebrow">
+                    <span class="eyebrow-line"></span>
+                    <span>ARTSASA / PRIVATE SELECTION</span>
+                </div>
+
+                <h1>
+                    Your
+                    <em>selection.</em>
+                </h1>
+
+            </div>
+
+            <div class="selection-hero-copy">
+
+                <p>
+                    A private selection of works you've chosen from
+                    the ARTSASA collection. Review each work carefully
+                    before continuing with your acquisition enquiry.
+                </p>
+
+                <a href="{% url 'collection' %}" class="selection-return">
+                    <span>Continue exploring</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+
+            </div>
+
         </header>
 
 
-        <!-- =====================================================
-             CART CONTENT
-        ====================================================== -->
-
         {% if cart_items %}
 
-        <div class="cart-layout">
+        <!-- =====================================================
+             SELECTION META
+        ====================================================== -->
+
+        <div class="selection-meta">
+
+            <div class="meta-rule"></div>
+
+            <div class="meta-center">
+
+                <span>SELECTED WORKS</span>
+
+                <strong>
+                    {{ cart_count|stringformat:"02d" }}
+                </strong>
+
+            </div>
+
+            <div class="meta-rule"></div>
+
+        </div>
+
+
+        <!-- =====================================================
+             MAIN CONTENT
+        ====================================================== -->
+
+        <div class="selection-layout">
 
             <!-- =================================================
-                 ITEMS
+                 ARTWORKS
             ================================================== -->
 
-            <div class="cart-items">
+            <main class="selection-works">
 
                 {% for item in cart_items %}
 
-                <article class="cart-item"
-                         data-cart-item-id="{{ item.artwork.id }}">
+                <article
+                    class="selection-work"
+                    data-artwork-id="{{ item.artwork.id }}"
+                >
+
+                    <!-- INDEX -->
+
+                    <div class="work-index">
+                        <span>{{ forloop.counter|stringformat:"02d" }}</span>
+                    </div>
+
 
                     <!-- IMAGE -->
 
-                    <a href="{% url 'product_detail' item.artwork.slug %}"
-                       class="cart-item-image">
+                    <div class="work-visual">
 
-                        {% if item.artwork.image %}
-                            <img
-                                src="{{ item.artwork.image.url }}"
-                                alt="{{ item.artwork.title }}"
-                                loading="lazy"
-                            >
-                        {% else %}
-                            <div class="cart-image-placeholder">
-                                <i class="fa-regular fa-image"></i>
-                            </div>
-                        {% endif %}
+                        <a
+                            href="{% url 'product_detail' item.artwork.slug %}"
+                            class="work-image"
+                        >
 
-                    </a>
+                            {% if item.artwork.image %}
+
+                                <img
+                                    src="{{ item.artwork.image.url }}"
+                                    alt="{{ item.artwork.title }}"
+                                    loading="lazy"
+                                >
+
+                            {% else %}
+
+                                <div class="work-image-empty">
+
+                                    <i class="fa-regular fa-image"></i>
+
+                                    <span>Image unavailable</span>
+
+                                </div>
+
+                            {% endif %}
+
+                        </a>
+
+                        <span class="work-image-caption">
+                            ARTSASA / ORIGINAL WORK
+                        </span>
+
+                    </div>
 
 
-                    <!-- DETAILS -->
+                    <!-- INFORMATION -->
 
-                    <div class="cart-item-details">
+                    <div class="work-content">
 
-                        <div class="cart-item-heading">
+                        <div class="work-header">
 
-                            <div>
+                            <div class="work-title-block">
 
                                 {% if item.artwork.artist %}
-                                    <span class="cart-item-artist">
+
+                                    <span class="work-artist">
                                         {{ item.artwork.artist.name }}
                                     </span>
+
                                 {% endif %}
 
                                 <h2>
@@ -90,51 +164,130 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 
                             </div>
 
+
                             <!-- REMOVE -->
-<form method="post"
-      action="{% url 'remove_from_cart' %}"
-      class="remove-cart-form">
 
-    {% csrf_token %}
+                            <form
+                                method="post"
+                                action="{% url 'remove_from_cart' %}"
+                                class="remove-form"
+                            >
 
-    <input type="hidden"
-           name="artwork_id"
-           value="{{ item.artwork.id }}">
+                                {% csrf_token %}
 
-    <button
-        type="submit"
-        class="remove-cart-btn"
-        aria-label="Remove {{ item.artwork.title }} from cart"
-        title="Remove from cart"
-    >
-        <i class="fa-regular fa-trash-can"></i>
-    </button>
+                                <input
+                                    type="hidden"
+                                    name="artwork_id"
+                                    value="{{ item.artwork.id }}"
+                                >
 
-</form>
+                                <button
+                                    type="submit"
+                                    class="remove-button"
+                                    title="Remove artwork"
+                                    aria-label="Remove {{ item.artwork.title }}"
+                                >
+                                    <span>Remove</span>
+                                    <i class="fa-regular fa-trash-can"></i>
+                                </button>
+
+                            </form>
 
                         </div>
 
 
-                        <!-- META -->
+                        <!-- ARTIST -->
 
-                        <div class="cart-item-meta">
+                        {% if item.artwork.artist %}
+
+                        <div class="artist-feature">
+
+                            <div class="artist-avatar">
+
+                                <span>
+                                    {{ item.artwork.artist.name|slice:":1" }}
+                                </span>
+
+                            </div>
+
+                            <div>
+
+                                <span class="artist-label">
+                                    ARTIST
+                                </span>
+
+                                <strong>
+                                    {{ item.artwork.artist.name }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
+
+
+                        <!-- DETAILS -->
+
+                        <div class="work-details">
 
                             {% if item.artwork.category %}
-                                <span>
+
+                            <div class="work-detail">
+
+                                <span>Category</span>
+
+                                <strong>
                                     {{ item.artwork.category.name }}
-                                </span>
+                                </strong>
+
+                            </div>
+
                             {% endif %}
+
 
                             {% if item.artwork.medium %}
-                                <span>
+
+                            <div class="work-detail">
+
+                                <span>Medium</span>
+
+                                <strong>
                                     {{ item.artwork.medium }}
-                                </span>
+                                </strong>
+
+                            </div>
+
                             {% endif %}
 
+
                             {% if item.artwork.dimensions %}
-                                <span>
+
+                            <div class="work-detail">
+
+                                <span>Dimensions</span>
+
+                                <strong>
                                     {{ item.artwork.dimensions }}
-                                </span>
+                                </strong>
+
+                            </div>
+
+                            {% endif %}
+
+
+                            {% if item.artwork.year %}
+
+                            <div class="work-detail">
+
+                                <span>Year</span>
+
+                                <strong>
+                                    {{ item.artwork.year }}
+                                </strong>
+
+                            </div>
+
                             {% endif %}
 
                         </div>
@@ -142,19 +295,25 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 
                         <!-- PRICE -->
 
-                        <div class="cart-item-bottom">
+                        <div class="work-footer">
 
-                            {% if item.artwork.price %}
+                            <div class="work-price">
 
-                                <div class="cart-item-price">
+                                <span class="price-label">
+                                    ACQUISITION VALUE
+                                </span>
 
-                                    {% if item.artwork.currency %}
-                                        <span class="currency">
+                                {% if item.artwork.price %}
+
+                                <div class="price-value">
+
+                                    <small>
+                                        {% if item.artwork.currency %}
                                             {{ item.artwork.currency }}
-                                        </span>
-                                    {% else %}
-                                        <span class="currency">KES</span>
-                                    {% endif %}
+                                        {% else %}
+                                            KES
+                                        {% endif %}
+                                    </small>
 
                                     <strong>
                                         {{ item.artwork.price|floatformat:2 }}
@@ -162,13 +321,27 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 
                                 </div>
 
-                            {% else %}
+                                {% else %}
 
-                                <span class="price-on-request">
+                                <strong class="price-request">
                                     Price on request
-                                </span>
+                                </strong>
 
-                            {% endif %}
+                                {% endif %}
+
+                            </div>
+
+
+                            <a
+                                href="{% url 'product_detail' item.artwork.slug %}"
+                                class="work-view"
+                            >
+
+                                <span>View artwork</span>
+
+                                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+
+                            </a>
 
                         </div>
 
@@ -178,108 +351,206 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 
                 {% endfor %}
 
-            </div>
+            </main>
 
 
             <!-- =================================================
-                 ORDER SUMMARY
+                 ACQUISITION CARD
             ================================================== -->
 
-            <aside class="cart-summary">
+            <aside class="acquisition-card">
 
-                <div class="cart-summary-inner">
+                <div class="acquisition-card-inner">
 
-                    <span class="cart-summary-label">
-                        CART SUMMARY
-                    </span>
+                    <div class="acquisition-top">
 
-                    <h2>Your Selection</h2>
+                        <div>
+
+                            <span class="card-eyebrow">
+                                ARTSASA
+                            </span>
+
+                            <span class="card-label">
+                                ACQUISITION
+                            </span>
+
+                        </div>
+
+                        <div class="card-number">
+                            {{ cart_count|stringformat:"02d" }}
+                        </div>
+
+                    </div>
 
 
-                    <div class="summary-row">
+                    <div class="card-heading">
 
-                        <span>
-                            Artworks
-                        </span>
+                        <span>Your</span>
 
-                        <strong>
-                            {{ cart_count|default:0 }}
-                        </strong>
+                        <em>Selection.</em>
 
                     </div>
 
 
-                    {% if cart_total %}
+                    <div class="card-divider"></div>
 
-                    <div class="summary-row">
 
-                        <span>
-                            Subtotal
-                        </span>
+                    <!-- SUMMARY -->
 
-                        <strong>
-                            KES {{ cart_total|floatformat:2 }}
-                        </strong>
+                    <div class="card-summary">
+
+                        <div class="summary-row">
+
+                            <span>Works selected</span>
+
+                            <strong>
+                                {{ cart_count|stringformat:"02d" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>Original works</span>
+
+                            <strong>
+                                {% if unique_items %}
+                                    {{ unique_items|stringformat:"02d" }}
+                                {% else %}
+                                    00
+                                {% endif %}
+                            </strong>
+
+                        </div>
+
+
+                        {% if cart_total %}
+
+                        <div class="summary-total">
+
+                            <span>Selection value</span>
+
+                            <div>
+
+                                <small>KES</small>
+
+                                <strong>
+                                    {{ cart_total|floatformat:2 }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        {% endif %}
 
                     </div>
 
-                    {% endif %}
 
+                    <!-- CONFIRMATION -->
 
-                    <div class="summary-divider"></div>
+                    <div class="confirmation-card">
 
+                        <div class="confirmation-icon">
 
-                    {% if cart_total %}
+                            <i class="fa-regular fa-circle-check"></i>
 
-                    <div class="summary-total">
+                        </div>
 
-                        <span>
-                            Total
-                        </span>
+                        <div>
 
-                        <strong>
-                            KES {{ cart_total|floatformat:2 }}
-                        </strong>
+                            <strong>
+                                Ready when you are.
+                            </strong>
+
+                            <p>
+                                Your selection is reserved here for
+                                review. Availability is confirmed with
+                                you before any acquisition is finalized.
+                            </p>
+
+                        </div>
 
                     </div>
 
-                    {% else %}
 
-                    <p class="summary-note">
-                        Artwork purchases are confirmed individually.
-                        Shipping and delivery arrangements will be discussed
-                        with you before payment.
-                    </p>
+                    <!-- NOTE -->
 
-                    {% endif %}
+                    <div class="card-note">
 
+                        <span>A NOTE FROM ARTSASA</span>
 
-                    <!-- CHECKOUT / ENQUIRY -->
+                        <p>
+                            Every work is individually reviewed before
+                            an acquisition is confirmed. Our team will
+                            assist with availability, payment and
+                            delivery arrangements.
+                        </p>
 
-                    {% if checkout_url %}
-
-                        <a href="{{ checkout_url }}"
-                           class="cart-primary-btn">
-                            <span>Proceed</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-
-                    {% else %}
-
-                        <a href="{% url 'collection' %}"
-                           class="cart-primary-btn">
-                            <span>Continue Exploring</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-
-                    {% endif %}
+                    </div>
 
 
-                    <a href="{% url 'collection' %}"
-                       class="cart-secondary-btn">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        <span>Continue Shopping</span>
+                    <!-- ACTION -->
+
+                    <a
+                        href="{% url 'collection' %}"
+                        class="card-primary-action"
+                    >
+
+                        <span>Continue exploring</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
                     </a>
+
+
+                    <!-- SERVICE -->
+
+                    <div class="card-services">
+
+                        <div class="service-item">
+
+                            <i class="fa-regular fa-circle-check"></i>
+
+                            <span>
+                                Authentic original works
+                            </span>
+
+                        </div>
+
+
+                        <div class="service-item">
+
+                            <i class="fa-regular fa-message"></i>
+
+                            <span>
+                                Personal acquisition assistance
+                            </span>
+
+                        </div>
+
+
+                        <div class="service-item">
+
+                            <i class="fa-solid fa-location-dot"></i>
+
+                            <span>
+                                Nairobi, Kenya
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="card-footer">
+
+                        <span>ARTSASA</span>
+
+                        <span>CONTEMPORARY ART</span>
+
+                    </div>
 
                 </div>
 
@@ -289,59 +560,86 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 
 
         <!-- =====================================================
-             BOTTOM NOTE
+             CLOSING
         ====================================================== -->
 
-        <div class="cart-note">
+        <section class="selection-closing">
 
-            <i class="fa-regular fa-circle-question"></i>
-
-            <p>
-                Need help choosing an artwork?
-                <a href="{% url 'collection' %}">
-                    Explore the collection
-                </a>
-                or contact ARTSASA for assistance.
-            </p>
-
-        </div>
-
-
-        {% else %}
-
-        <!-- =====================================================
-             EMPTY CART
-        ====================================================== -->
-
-        <div class="empty-cart">
-
-            <div class="empty-cart-icon">
-                <i class="fa-solid fa-bag-shopping"></i>
+            <div class="closing-number">
+                <span>ARTSASA</span>
+                <strong>01—∞</strong>
             </div>
 
-            <span class="empty-eyebrow">
-                YOUR CART IS EMPTY
-            </span>
 
-            <h2>
-                Nothing selected yet.
-            </h2>
+            <div class="closing-statement">
 
-            <p>
-                Explore the ARTSASA collection and add an artwork
-                to your cart when something speaks to you.
-            </p>
+                <span>TAKE YOUR TIME</span>
 
-            <a href="{% url 'collection' %}"
-               class="cart-primary-btn empty-cart-btn">
+                <h2>
+                    Art is meant
+                    <em>to stay with you.</em>
+                </h2>
 
-                <span>Explore Collection</span>
+            </div>
+
+
+            <a
+                href="{% url 'collection' %}"
+                class="closing-discover"
+            >
+
+                <span>Discover more works</span>
 
                 <i class="fa-solid fa-arrow-right"></i>
 
             </a>
 
-        </div>
+        </section>
+
+
+        {% else %}
+
+        <!-- =====================================================
+             EMPTY STATE
+        ====================================================== -->
+
+        <section class="empty-selection">
+
+            <div class="empty-symbol">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+            <span class="empty-label">
+                PRIVATE SELECTION / EMPTY
+            </span>
+
+            <h2>
+                Nothing selected.
+                <em>Yet.</em>
+            </h2>
+
+            <p>
+                Explore the ARTSASA collection and save the works
+                that speak to you. Your selection will remain here
+                while you consider your next acquisition.
+            </p>
+
+            <a
+                href="{% url 'collection' %}"
+                class="empty-action"
+            >
+
+                <span>Explore the collection</span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </section>
 
         {% endif %}
 
@@ -350,399 +648,1893 @@ Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enq
 </section>
 
 
-<!-- =============================================================
-     CART STYLES
-============================================================== -->
-
 <style>
 
-.cart-page {
-    padding: 150px 5vw 100px;
-    background: #f7f4ef;
-    min-height: 80vh;
+/* =============================================================
+   ARTSASA — PREMIUM ACQUISITION / CART
+============================================================= */
+
+.artsasa-selection {
+
+    --selection-ink: #171714;
+    --selection-muted: #716e67;
+    --selection-soft: #a29e95;
+    --selection-line: rgba(23, 23, 20, .13);
+
+    --selection-paper: #f5f2ec;
+    --selection-white: #faf8f3;
+    --selection-card: #ebe6dc;
+    --selection-dark: #181815;
+
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            180deg,
+            #f7f4ee 0%,
+            var(--selection-paper) 100%
+        );
+
+    color: var(--selection-ink);
+
+    padding:
+        clamp(125px, 13vw, 190px)
+        clamp(22px, 5vw, 80px)
+        110px;
+
+    font-family: inherit;
 }
 
-.cart-container {
-    max-width: 1400px;
+
+.selection-shell {
+
+    width: min(1460px, 100%);
+
     margin: 0 auto;
 }
 
-.cart-header {
-    margin-bottom: 55px;
-    max-width: 720px;
+
+/* =============================================================
+   HERO
+============================================================= */
+
+.selection-hero {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.35fr)
+        minmax(300px, .65fr);
+
+    gap: clamp(60px, 10vw, 160px);
+
+    align-items: end;
 }
 
-.cart-eyebrow,
-.empty-eyebrow,
-.cart-summary-label {
-    display: block;
-    font-size: 11px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
+
+.selection-eyebrow {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    color: var(--selection-muted);
+
+    font-size: 9px;
+
     font-weight: 600;
-    margin-bottom: 14px;
+
+    letter-spacing: .22em;
+
+    text-transform: uppercase;
 }
 
-.cart-header h1 {
-    margin: 0;
-    font-size: clamp(42px, 6vw, 78px);
-    line-height: .95;
+
+.eyebrow-line {
+
+    width: 34px;
+
+    height: 1px;
+
+    background: var(--selection-ink);
+}
+
+
+.selection-hero h1 {
+
+    margin: 25px 0 0;
+
+    max-width: 900px;
+
+    font-size:
+        clamp(68px, 10.2vw, 156px);
+
+    line-height: .77;
+
+    letter-spacing: -.07em;
+
     font-weight: 400;
 }
 
-.cart-header p {
-    margin: 22px 0 0;
-    max-width: 580px;
-    line-height: 1.7;
-    opacity: .7;
+
+.selection-hero h1 em {
+
+    display: block;
+
+    margin-left: clamp(35px, 7vw, 115px);
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: .82em;
+
+    font-style: italic;
+
+    line-height: .98;
+
+    letter-spacing: -.065em;
 }
 
 
-.cart-layout {
+.selection-hero-copy {
+
+    max-width: 390px;
+
+    padding-bottom: 5px;
+}
+
+
+.selection-hero-copy p {
+
+    margin: 0;
+
+    color: var(--selection-muted);
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+
+.selection-return {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: 28px;
+
+    padding-bottom: 8px;
+
+    color: var(--selection-ink);
+
+    border-bottom:
+        1px solid var(--selection-ink);
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .16em;
+
+    text-transform: uppercase;
+
+    transition:
+        gap .35s ease;
+}
+
+
+.selection-return:hover {
+
+    gap: 21px;
+}
+
+
+/* =============================================================
+   META
+============================================================= */
+
+.selection-meta {
+
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 380px;
-    gap: 60px;
+
+    grid-template-columns: 1fr auto 1fr;
+
+    align-items: center;
+
+    gap: 25px;
+
+    margin-top: 105px;
+}
+
+
+.meta-rule {
+
+    height: 1px;
+
+    background: var(--selection-line);
+}
+
+
+.meta-center {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    font-size: 8px;
+
+    letter-spacing: .2em;
+
+    text-transform: uppercase;
+}
+
+
+.meta-center strong {
+
+    font-size: 10px;
+
+    font-weight: 600;
+}
+
+
+/* =============================================================
+   MAIN LAYOUT
+============================================================= */
+
+.selection-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        390px;
+
+    gap:
+        clamp(55px, 8vw, 125px);
+
+    margin-top: 52px;
+
     align-items: start;
 }
 
 
-.cart-items {
-    display: flex;
-    flex-direction: column;
-}
+/* =============================================================
+   WORK
+============================================================= */
 
+.selection-work {
 
-.cart-item {
     display: grid;
-    grid-template-columns: 220px minmax(0, 1fr);
-    gap: 30px;
-    padding: 0 0 35px;
-    margin-bottom: 35px;
-    border-bottom: 1px solid rgba(0,0,0,.12);
+
+    grid-template-columns:
+        32px
+        290px
+        minmax(0, 1fr);
+
+    gap: 27px;
+
+    padding-bottom: 58px;
+
+    margin-bottom: 58px;
+
+    border-bottom:
+        1px solid var(--selection-line);
 }
 
 
-.cart-item-image {
-    display: block;
-    aspect-ratio: 1 / 1.15;
-    overflow: hidden;
-    background: #e9e4dc;
+.work-index {
+
+    padding-top: 5px;
+
+    color: var(--selection-soft);
+
+    font-size: 8px;
+
+    letter-spacing: .16em;
 }
 
 
-.cart-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
+/* =============================================================
+   IMAGE
+============================================================= */
 
+.work-visual {
 
-.cart-image-placeholder {
-    height: 100%;
-    display: grid;
-    place-items: center;
-    font-size: 28px;
-    opacity: .3;
-}
-
-
-.cart-item-details {
-    display: flex;
-    flex-direction: column;
     min-width: 0;
 }
 
 
-.cart-item-heading {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
+.work-image {
 
-
-.cart-item-artist {
     display: block;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: .14em;
-    opacity: .6;
-    margin-bottom: 8px;
-}
 
+    width: 100%;
 
-.cart-item-heading h2 {
-    margin: 0;
-    font-size: 25px;
-    font-weight: 500;
-}
+    aspect-ratio: .79;
 
+    overflow: hidden;
 
-.cart-item-heading h2 a {
-    color: inherit;
+    background: #ded9cf;
+
     text-decoration: none;
 }
 
 
-.remove-cart-btn {
-    border: 0;
-    background: transparent;
-    cursor: pointer;
-    font-size: 17px;
-    padding: 5px;
-    opacity: .55;
-    transition: .25s ease;
+.work-image img {
+
+    display: block;
+
+    width: 100%;
+
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 1.2s
+        cubic-bezier(.2,.65,.2,1);
 }
 
 
-.remove-cart-btn:hover {
-    opacity: 1;
-    transform: scale(1.08);
+.work-image:hover img {
+
+    transform: scale(1.035);
 }
 
 
-.cart-item-meta {
+.work-image-empty {
+
+    width: 100%;
+
+    height: 100%;
+
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px 20px;
-    margin-top: 18px;
-    font-size: 13px;
-    opacity: .65;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    color: var(--selection-muted);
+
+    font-size: 9px;
+
+    text-transform: uppercase;
+
+    letter-spacing: .12em;
 }
 
 
-.cart-item-bottom {
-    margin-top: auto;
-    padding-top: 35px;
+.work-image-empty i {
+
+    font-size: 22px;
 }
 
 
-.cart-item-price {
+.work-image-caption {
+
+    display: block;
+
+    margin-top: 9px;
+
+    color: var(--selection-soft);
+
+    font-size: 7px;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+}
+
+
+/* =============================================================
+   CONTENT
+============================================================= */
+
+.work-content {
+
+    min-width: 0;
+
     display: flex;
-    align-items: baseline;
-    gap: 7px;
+
+    flex-direction: column;
 }
 
 
-.cart-item-price .currency {
-    font-size: 11px;
-    letter-spacing: .1em;
+.work-header {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+
+    gap: 25px;
 }
 
 
-.cart-item-price strong {
-    font-size: 20px;
+.work-artist {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: var(--selection-muted);
+
+    font-size: 8px;
+
     font-weight: 600;
+
+    letter-spacing: .2em;
+
+    text-transform: uppercase;
 }
 
 
-.price-on-request {
-    font-size: 14px;
+.work-title-block h2 {
+
+    margin: 0;
+
+    font-size:
+        clamp(25px, 2.45vw, 38px);
+
+    line-height: .98;
+
+    letter-spacing: -.045em;
+
+    font-weight: 400;
+}
+
+
+.work-title-block h2 a {
+
+    color: inherit;
+
+    text-decoration: none;
+}
+
+
+.work-title-block h2 a:hover {
+
+    text-decoration: underline;
+
+    text-decoration-thickness: 1px;
+
+    text-underline-offset: 7px;
+}
+
+
+/* =============================================================
+   REMOVE
+============================================================= */
+
+.remove-form {
+
+    flex-shrink: 0;
+}
+
+
+.remove-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 5px 0;
+
+    border: 0;
+
+    background: transparent;
+
+    color: var(--selection-soft);
+
+    cursor: pointer;
+
+    font-family: inherit;
+
+    font-size: 8px;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    transition: color .25s ease;
+}
+
+
+.remove-button:hover {
+
+    color: var(--selection-ink);
+}
+
+
+.remove-button i {
+
+    font-size: 11px;
+}
+
+
+/* =============================================================
+   ARTIST FEATURE
+============================================================= */
+
+.artist-feature {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-top: 31px;
+
+    padding-bottom: 25px;
+
+    border-bottom:
+        1px solid var(--selection-line);
+}
+
+
+.artist-avatar {
+
+    width: 30px;
+
+    height: 30px;
+
+    flex: 0 0 30px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid var(--selection-line);
+
+    border-radius: 50%;
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: 11px;
+
     font-style: italic;
 }
 
 
-.cart-summary {
-    position: sticky;
-    top: 120px;
+.artist-feature > div:last-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
 }
 
 
-.cart-summary-inner {
-    background: #fff;
-    padding: 38px;
+.artist-label {
+
+    color: var(--selection-soft);
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+    letter-spacing: .17em;
+
+    text-transform: uppercase;
 }
 
 
-.cart-summary h2 {
-    margin: 0 0 35px;
-    font-size: 27px;
+.artist-feature strong {
+
+    font-size: 10px;
+
     font-weight: 500;
 }
 
 
-.summary-row,
-.summary-total {
+/* =============================================================
+   DETAILS
+============================================================= */
+
+.work-details {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 21px 35px;
+
+    margin-top: 28px;
+}
+
+
+.work-detail {
+
     display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+}
+
+
+.work-detail span {
+
+    color: var(--selection-soft);
+
+    font-size: 7px;
+
+    letter-spacing: .16em;
+
+    text-transform: uppercase;
+}
+
+
+.work-detail strong {
+
+    font-size: 10px;
+
+    line-height: 1.35;
+
+    font-weight: 400;
+}
+
+
+/* =============================================================
+   PRICE
+============================================================= */
+
+.work-footer {
+
+    display: flex;
+
     justify-content: space-between;
-    gap: 20px;
+
+    align-items: flex-end;
+
+    gap: 25px;
+
+    margin-top: auto;
+
+    padding-top: 35px;
+}
+
+
+.work-price {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.price-label {
+
+    color: var(--selection-soft);
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+    letter-spacing: .17em;
+
+    text-transform: uppercase;
+}
+
+
+.price-value {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 8px;
+}
+
+
+.price-value small {
+
+    color: var(--selection-muted);
+
+    font-size: 8px;
+
+    letter-spacing: .1em;
+}
+
+
+.price-value strong {
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(15px, 1.5vw, 21px);
+
+    font-weight: 400;
+
+    letter-spacing: -.025em;
+}
+
+
+.price-request {
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: 12px;
+
+    font-style: italic;
+
+    font-weight: 400;
+}
+
+
+.work-view {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    padding-bottom: 7px;
+
+    color: var(--selection-ink);
+
+    border-bottom:
+        1px solid var(--selection-line);
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    transition:
+        border-color .25s ease,
+        gap .25s ease;
+}
+
+
+.work-view:hover {
+
+    gap: 13px;
+
+    border-color:
+        var(--selection-ink);
+}
+
+
+.work-view i {
+
+    font-size: 8px;
+}
+
+
+/* =============================================================
+   ACQUISITION CARD
+============================================================= */
+
+.acquisition-card {
+
+    align-self: start;
+}
+
+
+.acquisition-card-inner {
+
+    position: sticky;
+
+    top: 105px;
+
+    overflow: hidden;
+
+    background: var(--selection-card);
+
+    padding: 38px 34px 29px;
+
+    box-shadow:
+        0 25px 70px rgba(30, 27, 21, .07);
+}
+
+
+/* =============================================================
+   CARD TOP
+============================================================= */
+
+.acquisition-top {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-start;
+}
+
+
+.acquisition-top > div:first-child {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 5px;
+}
+
+
+.card-eyebrow {
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .28em;
+}
+
+
+.card-label {
+
+    color: var(--selection-muted);
+
+    font-size: 7px;
+
+    letter-spacing: .18em;
+
+    text-transform: uppercase;
+}
+
+
+.card-number {
+
+    width: 36px;
+
+    height: 36px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid rgba(23,23,20,.17);
+
+    border-radius: 50%;
+
+    font-size: 9px;
+}
+
+
+/* =============================================================
+   CARD HEADING
+============================================================= */
+
+.card-heading {
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin-top: 38px;
+
+    font-size: 39px;
+
+    line-height: .82;
+
+    letter-spacing: -.055em;
+
+    font-weight: 400;
+}
+
+
+.card-heading em {
+
+    margin-left: 31px;
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: .76em;
+
+    font-style: italic;
+
+    letter-spacing: -.05em;
+}
+
+
+.card-divider {
+
+    width: 100%;
+
+    height: 1px;
+
+    margin: 38px 0 25px;
+
+    background:
+        rgba(23,23,20,.16);
+}
+
+
+/* =============================================================
+   SUMMARY
+============================================================= */
+
+.card-summary {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 14px;
 }
 
 
 .summary-row {
-    margin-bottom: 16px;
-    font-size: 14px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-size: 9px;
+}
+
+
+.summary-row span {
+
+    color: var(--selection-muted);
+}
+
+
+.summary-row strong {
+
+    font-size: 10px;
+
+    font-weight: 500;
 }
 
 
 .summary-total {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: flex-end;
+
+    gap: 20px;
+
+    margin-top: 10px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid rgba(23,23,20,.12);
+}
+
+
+.summary-total > span {
+
+    color: var(--selection-muted);
+
+    font-size: 9px;
+}
+
+
+.summary-total > div {
+
+    display: flex;
+
+    align-items: baseline;
+
+    gap: 7px;
+}
+
+
+.summary-total small {
+
+    color: var(--selection-muted);
+
+    font-size: 7px;
+
+    letter-spacing: .1em;
+}
+
+
+.summary-total strong {
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
     font-size: 18px;
-}
 
-
-.summary-divider {
-    height: 1px;
-    background: rgba(0,0,0,.12);
-    margin: 25px 0;
-}
-
-
-.summary-note {
-    font-size: 13px;
-    line-height: 1.7;
-    opacity: .65;
-    margin-bottom: 25px;
-}
-
-
-.cart-primary-btn,
-.cart-secondary-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    text-decoration: none;
-    transition: .25s ease;
-}
-
-
-.cart-primary-btn {
-    background: #111;
-    color: #fff;
-    padding: 17px 20px;
-    margin-top: 30px;
-}
-
-
-.cart-primary-btn:hover {
-    transform: translateY(-2px);
-    background: #333;
-}
-
-
-.cart-secondary-btn {
-    color: inherit;
-    padding: 17px 0 0;
-    font-size: 13px;
-    opacity: .7;
-}
-
-
-.cart-secondary-btn:hover {
-    opacity: 1;
-}
-
-
-.cart-note {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-top: 40px;
-    font-size: 13px;
-    opacity: .65;
-}
-
-
-.cart-note p {
-    margin: 0;
-}
-
-
-.cart-note a {
-    color: inherit;
-}
-
-
-.empty-cart {
-    text-align: center;
-    max-width: 620px;
-    margin: 80px auto;
-}
-
-
-.empty-cart-icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 30px;
-    border: 1px solid rgba(0,0,0,.15);
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    font-size: 25px;
-}
-
-
-.empty-cart h2 {
-    font-size: 42px;
     font-weight: 400;
-    margin: 0 0 18px;
+
+    letter-spacing: -.025em;
 }
 
 
-.empty-cart p {
+/* =============================================================
+   CONFIRMATION CARD
+============================================================= */
+
+.confirmation-card {
+
+    display: grid;
+
+    grid-template-columns: 30px minmax(0, 1fr);
+
+    gap: 13px;
+
+    margin-top: 32px;
+
+    padding: 17px;
+
+    background:
+        rgba(250,248,243,.62);
+
+    border:
+        1px solid rgba(23,23,20,.08);
+}
+
+
+.confirmation-icon {
+
+    width: 29px;
+
+    height: 29px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid rgba(23,23,20,.13);
+
+    border-radius: 50%;
+
+    font-size: 12px;
+}
+
+
+.confirmation-card strong {
+
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .02em;
+}
+
+
+.confirmation-card p {
+
+    margin: 0;
+
+    color: var(--selection-muted);
+
+    font-size: 8px;
+
+    line-height: 1.75;
+}
+
+
+/* =============================================================
+   NOTE
+============================================================= */
+
+.card-note {
+
+    margin-top: 29px;
+
+    padding-top: 23px;
+
+    border-top:
+        1px solid rgba(23,23,20,.12);
+}
+
+
+.card-note > span {
+
+    display: block;
+
+    margin-bottom: 11px;
+
+    font-size: 7px;
+
+    font-weight: 700;
+
+    letter-spacing: .18em;
+}
+
+
+.card-note p {
+
+    margin: 0;
+
+    color: var(--selection-muted);
+
+    font-size: 9px;
+
     line-height: 1.8;
-    opacity: .65;
 }
 
 
-.empty-cart-btn {
-    max-width: 280px;
-    margin: 35px auto 0;
+/* =============================================================
+   PRIMARY ACTION
+============================================================= */
+
+.card-primary-action {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 28px;
+
+    padding: 16px 17px;
+
+    background: var(--selection-dark);
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
 }
 
+
+.card-primary-action:hover {
+
+    transform: translateY(-2px);
+
+    background: #292824;
+}
+
+
+.card-primary-action i {
+
+    font-size: 9px;
+}
+
+
+/* =============================================================
+   SERVICES
+============================================================= */
+
+.card-services {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-top: 25px;
+}
+
+
+.service-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--selection-muted);
+
+    font-size: 8px;
+}
+
+
+.service-item i {
+
+    width: 14px;
+
+    text-align: center;
+
+    font-size: 9px;
+}
+
+
+/* =============================================================
+   CARD FOOTER
+============================================================= */
+
+.card-footer {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 31px;
+
+    padding-top: 18px;
+
+    border-top:
+        1px solid rgba(23,23,20,.12);
+
+    color: var(--selection-soft);
+
+    font-size: 6px;
+
+    letter-spacing: .2em;
+}
+
+
+/* =============================================================
+   CLOSING
+============================================================= */
+
+.selection-closing {
+
+    display: grid;
+
+    grid-template-columns:
+        .8fr 1.7fr .8fr;
+
+    gap: 40px;
+
+    align-items: end;
+
+    margin-top: 75px;
+
+    padding-top: 45px;
+
+    border-top:
+        1px solid var(--selection-line);
+}
+
+
+.closing-number {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    color: var(--selection-soft);
+
+    font-size: 7px;
+
+    letter-spacing: .2em;
+}
+
+
+.closing-number strong {
+
+    color: var(--selection-ink);
+
+    font-size: 9px;
+
+    font-weight: 400;
+}
+
+
+.closing-statement > span {
+
+    color: var(--selection-muted);
+
+    font-size: 7px;
+
+    font-weight: 600;
+
+    letter-spacing: .2em;
+}
+
+
+.closing-statement h2 {
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin: 15px 0 0;
+
+    font-size:
+        clamp(33px, 4vw, 58px);
+
+    line-height: .84;
+
+    letter-spacing: -.06em;
+
+    font-weight: 400;
+}
+
+
+.closing-statement h2 em {
+
+    margin-left: 80px;
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: .76em;
+
+    font-style: italic;
+
+    letter-spacing: -.055em;
+}
+
+
+.closing-discover {
+
+    justify-self: end;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding-bottom: 8px;
+
+    color: var(--selection-ink);
+
+    border-bottom:
+        1px solid var(--selection-ink);
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+}
+
+
+/* =============================================================
+   EMPTY
+============================================================= */
+
+.empty-selection {
+
+    min-height: 65vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 90px 20px;
+}
+
+
+.empty-symbol {
+
+    position: relative;
+
+    width: 70px;
+
+    height: 70px;
+
+    margin-bottom: 35px;
+}
+
+
+.empty-symbol span {
+
+    position: absolute;
+
+    top: 50%;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 1px;
+
+    background: var(--selection-ink);
+}
+
+
+.empty-symbol span:nth-child(1) {
+
+    transform: rotate(45deg);
+}
+
+
+.empty-symbol span:nth-child(2) {
+
+    transform: rotate(-45deg);
+}
+
+
+.empty-symbol span:nth-child(3) {
+
+    width: 18px;
+
+    left: 26px;
+
+    transform: rotate(90deg);
+}
+
+
+.empty-label {
+
+    color: var(--selection-muted);
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .2em;
+}
+
+
+.empty-selection h2 {
+
+    margin: 20px 0 0;
+
+    max-width: 800px;
+
+    font-size:
+        clamp(48px, 7vw, 92px);
+
+    line-height: .83;
+
+    letter-spacing: -.065em;
+
+    font-weight: 400;
+}
+
+
+.empty-selection h2 em {
+
+    font-family:
+        "Libre Baskerville",
+        Georgia,
+        serif;
+
+    font-size: .8em;
+
+    font-style: italic;
+
+    letter-spacing: -.055em;
+}
+
+
+.empty-selection p {
+
+    max-width: 470px;
+
+    margin: 29px auto 0;
+
+    color: var(--selection-muted);
+
+    font-size: 12px;
+
+    line-height: 1.9;
+}
+
+
+.empty-action {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: 32px;
+
+    padding: 16px 20px;
+
+    background: var(--selection-dark);
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+}
+
+
+/* =============================================================
+   TABLET
+============================================================= */
+
+@media (max-width: 1150px) {
+
+    .selection-layout {
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            330px;
+
+        gap: 45px;
+    }
+
+
+    .selection-work {
+
+        grid-template-columns:
+            24px
+            210px
+            minmax(0, 1fr);
+
+        gap: 18px;
+    }
+
+
+    .acquisition-card-inner {
+
+        padding-left: 27px;
+
+        padding-right: 27px;
+    }
+
+}
+
+
+/* =============================================================
+   TABLET / LARGE MOBILE
+============================================================= */
 
 @media (max-width: 900px) {
 
-    .cart-page {
-        padding: 120px 6vw 70px;
-    }
+    .selection-hero {
 
-    .cart-layout {
         grid-template-columns: 1fr;
+
         gap: 40px;
     }
 
-    .cart-summary {
+
+    .selection-hero-copy {
+
+        max-width: 550px;
+    }
+
+
+    .selection-layout {
+
+        grid-template-columns: 1fr;
+
+        gap: 20px;
+    }
+
+
+    .acquisition-card {
+
+        margin-top: 10px;
+    }
+
+
+    .acquisition-card-inner {
+
         position: static;
+    }
+
+
+    .selection-closing {
+
+        grid-template-columns:
+            1fr 1.6fr;
+    }
+
+
+    .closing-discover {
+
+        grid-column: 2;
+
+        justify-self: start;
     }
 
 }
 
 
-@media (max-width: 600px) {
+/* =============================================================
+   MOBILE
+============================================================= */
 
-    .cart-page {
-        padding: 100px 5vw 60px;
+@media (max-width: 650px) {
+
+    .artsasa-selection {
+
+        padding:
+            108px
+            17px
+            65px;
     }
 
-    .cart-item {
-        grid-template-columns: 105px minmax(0, 1fr);
-        gap: 17px;
+
+    .selection-hero h1 {
+
+        font-size:
+            clamp(58px, 18vw, 91px);
     }
 
-    .cart-item-heading h2 {
-        font-size: 18px;
+
+    .selection-hero h1 em {
+
+        margin-left: 28px;
     }
 
-    .cart-item-meta {
+
+    .selection-meta {
+
+        margin-top: 65px;
+
+        gap: 13px;
+    }
+
+
+    .meta-center {
+
+        gap: 8px;
+
+        font-size: 7px;
+    }
+
+
+    .selection-layout {
+
+        margin-top: 35px;
+    }
+
+
+    .selection-work {
+
+        display: block;
+
+        position: relative;
+
+        padding-bottom: 42px;
+
+        margin-bottom: 42px;
+    }
+
+
+    .work-index {
+
+        margin-bottom: 12px;
+    }
+
+
+    .work-image {
+
+        aspect-ratio:
+            1 / 1.18;
+    }
+
+
+    .work-image-caption {
+
+        margin-top: 8px;
+    }
+
+
+    .work-content {
+
+        padding-top: 23px;
+    }
+
+
+    .work-header {
+
+        gap: 12px;
+    }
+
+
+    .work-title-block h2 {
+
+        font-size: 27px;
+    }
+
+
+    .remove-button span {
+
         display: none;
     }
 
-    .cart-item-bottom {
-        padding-top: 20px;
+
+    .remove-button i {
+
+        font-size: 14px;
     }
 
-    .cart-summary-inner {
-        padding: 28px 22px;
+
+    .artist-feature {
+
+        margin-top: 25px;
+
+        padding-bottom: 22px;
     }
 
-    .empty-cart h2 {
-        font-size: 32px;
+
+    .work-details {
+
+        gap: 18px 20px;
+
+        margin-top: 25px;
     }
 
-    .cart-note {
+
+    .work-footer {
+
         align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+
+        padding-top: 27px;
+    }
+
+
+    .work-view {
+
+        align-self: flex-start;
+    }
+
+
+    .acquisition-card-inner {
+
+        padding:
+            30px
+            23px
+            25px;
+    }
+
+
+    .card-heading {
+
+        font-size: 36px;
+    }
+
+
+    .selection-closing {
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 25px;
+
+        margin-top: 55px;
+    }
+
+
+    .closing-discover {
+
+        margin-top: 5px;
+    }
+
+
+    .closing-statement h2 em {
+
+        margin-left: 35px;
+    }
+
+
+    .empty-selection {
+
+        min-height: 60vh;
+
+        padding-left: 5px;
+
+        padding-right: 5px;
+    }
+
+}
+
+
+/* =============================================================
+   SMALL MOBILE
+============================================================= */
+
+@media (max-width: 420px) {
+
+    .artsasa-selection {
+
+        padding-left: 14px;
+
+        padding-right: 14px;
+    }
+
+
+    .selection-hero h1 {
+
+        font-size: 59px;
+    }
+
+
+    .work-details {
+
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+
+    .acquisition-card-inner {
+
+        padding-left: 20px;
+
+        padding-right: 20px;
+    }
+
+
+    .card-heading {
+
+        font-size: 33px;
+    }
+
+
+    .summary-total strong {
+
+        font-size: 16px;
     }
 
 }

@@ -423,160 +423,11 @@ def save_session_wishlist(request, wishlist):
     request.session.modified = True
 
 
-# =========================================================
-# CART COUNT
-# =========================================================
-
-def cart_count(request):
-
-    cart = get_session_cart(request)
-
-    # Remove malformed keys.
-    clean_cart = {}
-
-    for artwork_id in cart:
-
-        try:
-            int(artwork_id)
-            clean_cart[str(artwork_id)] = 1
-
-        except (
-            TypeError,
-            ValueError
-        ):
-            continue
-
-    if clean_cart != cart:
-
-        save_session_cart(
-            request,
-            clean_cart
-        )
-
-    return JsonResponse(
-        {
-            "success": True,
-            "count": len(clean_cart),
-        }
-    )
+from django.http import JsonResponse
 
 
-# =========================================================
-# ADD TO CART
-# =========================================================
+from django.http import JsonResponse
 
-@require_POST
-def add_to_cart(request):
-
-    artwork_id = request.POST.get(
-        "artwork_id"
-    )
-
-    if not artwork_id:
-
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "No artwork was selected."
-            },
-            status=400
-        )
-
-    try:
-
-        artwork_id = int(
-            artwork_id
-        )
-
-    except (
-        TypeError,
-        ValueError
-    ):
-
-        return JsonResponse(
-            {
-                "success": False,
-                "message": "Invalid artwork."
-            },
-            status=400
-        )
-
-    artwork = get_object_or_404(
-        Artwork,
-        pk=artwork_id,
-        is_published=True
-    )
-
-    # -----------------------------------------------------
-    # Only available artworks can be purchased.
-    # -----------------------------------------------------
-
-    if artwork.status != "Available":
-
-        return JsonResponse(
-            {
-                "success": False,
-                "message": (
-                    f'"{artwork.title}" is '
-                    f'currently {artwork.status.lower()}.'
-                )
-            },
-            status=400
-        )
-
-    # -----------------------------------------------------
-    # Artwork must have a price.
-    # -----------------------------------------------------
-
-    if artwork.price is None:
-
-        return JsonResponse(
-            {
-                "success": False,
-                "message": (
-                    f'"{artwork.title}" is available '
-                    f'by enquiry rather than direct purchase.'
-                )
-            },
-            status=400
-        )
-
-    cart = get_session_cart(
-        request
-    )
-
-    key = str(
-        artwork.pk
-    )
-
-    already_in_cart = key in cart
-
-    # -----------------------------------------------------
-    # Gallery artworks are treated as unique pieces.
-    # Quantity is therefore always 1.
-    # -----------------------------------------------------
-
-    cart[key] = 1
-
-    save_session_cart(
-        request,
-        cart
-    )
-
-    return JsonResponse(
-        {
-            "success": True,
-            "already_in_cart": already_in_cart,
-            "cart_count": len(cart),
-            "artwork_id": artwork.pk,
-            "artwork_title": artwork.title,
-            "message": (
-                f'"{artwork.title}" is already in your cart.'
-                if already_in_cart
-                else f'"{artwork.title}" has been added to your cart.'
-            ),
-        }
-    )
 
 
 # =========================================================
@@ -637,29 +488,176 @@ def remove_from_cart(request):
 # CART PAGE
 # =========================================================
 
-def cart(request):
 
-    session_cart = get_session_cart(
-        request
+from django.shortcuts import get_object_or_404, redirect, render
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+
+from .models import Artwork
+
+
+# =========================================================
+# ADD TO CART
+# =========================================================
+
+@require_POST
+def add_to_cart(request, artwork_id):
+    """
+    Add an artwork to the session cart.
+
+    Session structure:
+
+        {
+            "5": 1,
+            "8": 2,
+        }
+
+    The keys are artwork IDs and the values are quantities.
+    """
+
+    artwork = get_object_or_404(
+        Artwork,
+        id=artwork_id,
+        is_published=True,
     )
+
+    # -----------------------------------------------------
+    # Always use the SAME session key: "cart"
+    # -----------------------------------------------------
+
+    cart = request.session.get("cart", {})
+
+    # Session dictionary keys must be strings.
+    artwork_key = str(artwork.id)
+
+    # Existing quantity or zero.
+    current_quantity = int(
+        cart.get(artwork_key, 0)
+    )
+
+    # Add one.
+    cart[artwork_key] = current_quantity + 1
+
+    # Save session.
+    request.session["cart"] = cart
+    request.session.modified = True
+
+    # Total number of artworks/items in cart.
+    cart_count = sum(
+        int(quantity)
+        for quantity in cart.values()
+    )
+
+    # -----------------------------------------------------
+    # AJAX RESPONSE
+    # -----------------------------------------------------
+
+    if request.headers.get(
+        "X-Requested-With"
+    ) == "XMLHttpRequest":
+
+        return JsonResponse({
+            "success": True,
+            "message": f"{artwork.title} added to cart.",
+            "cart_count": cart_count,
+            "count": cart_count,
+            "artwork_id": artwork.id,
+            "quantity": cart[artwork_key],
+            "already_in_cart": current_quantity > 0,
+        })
+
+    return redirect("cart")
+
+
+# =========================================================
+# CART
+# =========================================================
+
+def cart(request):
+    """
+    Display all artworks currently stored in the session cart.
+
+    IMPORTANT:
+    This uses the exact same session key as add_to_cart()
+    and cart_count():
+
+        request.session["cart"]
+    """
+
+    # -----------------------------------------------------
+    # GET CART DIRECTLY FROM SESSION
+    # -----------------------------------------------------
+
+    session_cart = request.session.get("cart", {})
+
+    if not isinstance(session_cart, dict):
+        session_cart = {}
+
+    # -----------------------------------------------------
+    # NORMALISE SESSION KEYS / QUANTITIES
+    # -----------------------------------------------------
+
+    cleaned_cart = {}
+
+    for artwork_id, quantity in session_cart.items():
+
+        try:
+            artwork_id = str(artwork_id)
+            quantity = int(quantity)
+        except (TypeError, ValueError):
+            continue
+
+        if quantity > 0:
+            cleaned_cart[artwork_id] = quantity
+
+    # Keep session synchronised with cleaned data.
+    if cleaned_cart != session_cart:
+        request.session["cart"] = cleaned_cart
+        request.session.modified = True
+
+    session_cart = cleaned_cart
+
+    # -----------------------------------------------------
+    # NO ITEMS
+    # -----------------------------------------------------
+
+    if not session_cart:
+
+        return render(
+            request,
+            "cart.html",
+            {
+                "cart_items": [],
+                "cart_total": 0,
+                "cart_count": 0,
+            }
+        )
+
+    # -----------------------------------------------------
+    # GET ARTWORK IDS
+    # -----------------------------------------------------
 
     artwork_ids = list(
         session_cart.keys()
     )
 
+    # -----------------------------------------------------
+    # FETCH ARTWORKS
+    # -----------------------------------------------------
+
     artworks = (
         Artwork.objects
         .filter(
             pk__in=artwork_ids,
-            is_published=True
+            is_published=True,
         )
         .select_related(
             "artist",
             "category",
-            "exhibition"
+            "exhibition",
         )
         .prefetch_related(
-            "images"
+            "images",
         )
     )
 
@@ -668,11 +666,17 @@ def cart(request):
         for artwork in artworks
     }
 
+    # -----------------------------------------------------
+    # BUILD CART ITEMS
+    # -----------------------------------------------------
+
     cart_items = []
 
     cart_total = 0
 
     invalid_ids = []
+
+    total_quantity = 0
 
     for artwork_id in artwork_ids:
 
@@ -680,6 +684,7 @@ def cart(request):
             str(artwork_id)
         )
 
+        # Artwork no longer exists or isn't published.
         if not artwork:
 
             invalid_ids.append(
@@ -688,11 +693,7 @@ def cart(request):
 
             continue
 
-        # -------------------------------------------------
-        # If artwork became unavailable after being added,
-        # remove it from the active shopping cart.
-        # -------------------------------------------------
-
+        # Artwork is no longer available.
         if artwork.status != "Available":
 
             invalid_ids.append(
@@ -701,58 +702,129 @@ def cart(request):
 
             continue
 
-        if artwork.price is None:
-
-            invalid_ids.append(
-                str(artwork_id)
-            )
-
-            continue
-
-        quantity = 1
-
-        subtotal = artwork.price
-
-        cart_total += subtotal
-
-        cart_items.append(
-            {
-                "artwork": artwork,
-                "quantity": quantity,
-                "subtotal": subtotal,
-            }
+        # No price means it cannot contribute to cart total.
+        # We can still show the artwork if you want "price on
+        # request", so don't automatically remove it.
+        quantity = session_cart.get(
+            str(artwork_id),
+            1,
         )
 
-    # Clean invalid items.
+        try:
+            quantity = int(quantity)
+        except (TypeError, ValueError):
+            quantity = 1
+
+        if quantity < 1:
+            quantity = 1
+
+        # -------------------------------------------------
+        # SUBTOTAL
+        # -------------------------------------------------
+
+        if artwork.price is not None:
+
+            subtotal = artwork.price * quantity
+
+            cart_total += subtotal
+
+        else:
+
+            subtotal = None
+
+        # -------------------------------------------------
+        # TOTAL QUANTITY
+        # -------------------------------------------------
+
+        total_quantity += quantity
+
+        # -------------------------------------------------
+        # CART ITEM
+        # -------------------------------------------------
+
+        cart_items.append({
+            "artwork": artwork,
+            "quantity": quantity,
+            "subtotal": subtotal,
+        })
+
+    # -----------------------------------------------------
+    # REMOVE INVALID ITEMS FROM SESSION
+    # -----------------------------------------------------
+
     if invalid_ids:
 
         for artwork_id in invalid_ids:
 
             session_cart.pop(
-                artwork_id,
-                None
+                str(artwork_id),
+                None,
             )
 
-        save_session_cart(
-            request,
-            session_cart
-        )
+        request.session["cart"] = session_cart
+        request.session.modified = True
+
+    # -----------------------------------------------------
+    # RENDER
+    # -----------------------------------------------------
 
     return render(
         request,
         "cart.html",
         {
             "cart_items": cart_items,
+
+            # Total monetary value.
             "cart_total": cart_total,
-            "cart_count": len(cart_items),
+
+            # IMPORTANT:
+            # This is the number of items, including quantity.
+            "cart_count": total_quantity,
+
+            # Optional aliases useful elsewhere.
+            "total_quantity": total_quantity,
+            "items_count": len(cart_items),
         }
     )
 
 
 # =========================================================
-# ADD TO WISHLIST
+# CART COUNT
 # =========================================================
 
+def cart_count(request):
+    """
+    Return the total quantity in the session cart.
+
+    Uses the exact same "cart" session key as cart()
+    and add_to_cart().
+    """
+
+    cart = request.session.get(
+        "cart",
+        {},
+    )
+
+    if not isinstance(cart, dict):
+        cart = {}
+
+    count = 0
+
+    for quantity in cart.values():
+
+        try:
+            quantity = int(quantity)
+        except (TypeError, ValueError):
+            continue
+
+        if quantity > 0:
+            count += quantity
+
+    return JsonResponse({
+        "success": True,
+        "count": count,
+        "cart_count": count,
+    })
 @require_POST
 def add_to_wishlist(request):
 
@@ -970,5 +1042,60 @@ def wishlist_count(request):
         {
             "success": True,
             "count": len(clean_wishlist),
+        }
+    )
+
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+
+from .models import Artwork
+
+
+@require_POST
+def toggle_wishlist(request):
+    artwork_id = request.POST.get("artwork_id")
+
+    if not artwork_id:
+        return JsonResponse(
+            {
+                "success": False,
+                "message": "No artwork was specified."
+            },
+            status=400
+        )
+
+    artwork = get_object_or_404(
+        Artwork,
+        id=artwork_id,
+        is_published=True
+    )
+
+    wishlist = request.session.get("wishlist", [])
+
+    # Convert everything to strings so session comparisons are reliable.
+    wishlist = [str(item) for item in wishlist]
+
+    artwork_id = str(artwork.id)
+
+    if artwork_id in wishlist:
+        wishlist.remove(artwork_id)
+        added = False
+        message = f"{artwork.title} removed from your wishlist."
+    else:
+        wishlist.append(artwork_id)
+        added = True
+        message = f"{artwork.title} added to your wishlist."
+
+    request.session["wishlist"] = wishlist
+    request.session.modified = True
+
+    return JsonResponse(
+        {
+            "success": True,
+            "added": added,
+            "wishlist_count": len(wishlist),
+            "artwork_id": artwork.id,
+            "message": message,
         }
     )

@@ -23,7 +23,7 @@ from .views import (
     remove_from_wishlist,
     wishlist_count,
 )
-
+from . import views
 urlpatterns = [
 
     path("", index, name="index"),
@@ -38,12 +38,17 @@ urlpatterns = [
 
     # CART
     path("cart/", cart, name="cart"),
-    path("cart/add/", add_to_cart, name="add_to_cart"),
+   path(
+    "cart/add/<int:artwork_id>/",
+    views.add_to_cart,
+    name="add_to_cart",
+),
     path("cart/remove/", remove_from_cart, name="remove_from_cart"),
     path("cart/count/", cart_count, name="cart_count"),
 
     # WISHLIST
-    path("wishlist/", wishlist, name="wishlist"),
+    path("wishlist/", views.wishlist, name="wishlist"),
+    path("wishlist/toggle/", views.toggle_wishlist, name="toggle_wishlist"),
     path("wishlist/add/", add_to_wishlist, name="add_to_wishlist"),
     path("wishlist/remove/", remove_from_wishlist, name="remove_from_wishlist"),
     path("wishlist/count/", wishlist_count, name="wishlist_count"),
