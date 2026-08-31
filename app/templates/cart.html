@@ -1,0 +1,752 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Shopping Cart — ARTSASA{% endblock %}
+
+{% block meta_description %}
+Your ARTSASA shopping cart. Review selected artworks, quantities, prices and enquiry options.
+{% endblock %}
+
+{% block content %}
+
+<section class="cart-page">
+
+    <div class="cart-container">
+
+        <!-- =====================================================
+             PAGE HEADER
+        ====================================================== -->
+
+        <header class="cart-header">
+            <span class="cart-eyebrow">YOUR SELECTION</span>
+
+            <h1>Your Cart</h1>
+
+            <p>
+                Review the artworks you've selected before proceeding.
+            </p>
+        </header>
+
+
+        <!-- =====================================================
+             CART CONTENT
+        ====================================================== -->
+
+        {% if cart_items %}
+
+        <div class="cart-layout">
+
+            <!-- =================================================
+                 ITEMS
+            ================================================== -->
+
+            <div class="cart-items">
+
+                {% for item in cart_items %}
+
+                <article class="cart-item"
+                         data-cart-item-id="{{ item.artwork.id }}">
+
+                    <!-- IMAGE -->
+
+                    <a href="{% url 'product_detail' item.artwork.slug %}"
+                       class="cart-item-image">
+
+                        {% if item.artwork.image %}
+                            <img
+                                src="{{ item.artwork.image.url }}"
+                                alt="{{ item.artwork.title }}"
+                                loading="lazy"
+                            >
+                        {% else %}
+                            <div class="cart-image-placeholder">
+                                <i class="fa-regular fa-image"></i>
+                            </div>
+                        {% endif %}
+
+                    </a>
+
+
+                    <!-- DETAILS -->
+
+                    <div class="cart-item-details">
+
+                        <div class="cart-item-heading">
+
+                            <div>
+
+                                {% if item.artwork.artist %}
+                                    <span class="cart-item-artist">
+                                        {{ item.artwork.artist.name }}
+                                    </span>
+                                {% endif %}
+
+                                <h2>
+                                    <a href="{% url 'product_detail' item.artwork.slug %}">
+                                        {{ item.artwork.title }}
+                                    </a>
+                                </h2>
+
+                            </div>
+
+                            <!-- REMOVE -->
+<form method="post"
+      action="{% url 'remove_from_cart' %}"
+      class="remove-cart-form">
+
+    {% csrf_token %}
+
+    <input type="hidden"
+           name="artwork_id"
+           value="{{ item.artwork.id }}">
+
+    <button
+        type="submit"
+        class="remove-cart-btn"
+        aria-label="Remove {{ item.artwork.title }} from cart"
+        title="Remove from cart"
+    >
+        <i class="fa-regular fa-trash-can"></i>
+    </button>
+
+</form>
+
+                        </div>
+
+
+                        <!-- META -->
+
+                        <div class="cart-item-meta">
+
+                            {% if item.artwork.category %}
+                                <span>
+                                    {{ item.artwork.category.name }}
+                                </span>
+                            {% endif %}
+
+                            {% if item.artwork.medium %}
+                                <span>
+                                    {{ item.artwork.medium }}
+                                </span>
+                            {% endif %}
+
+                            {% if item.artwork.dimensions %}
+                                <span>
+                                    {{ item.artwork.dimensions }}
+                                </span>
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- PRICE -->
+
+                        <div class="cart-item-bottom">
+
+                            {% if item.artwork.price %}
+
+                                <div class="cart-item-price">
+
+                                    {% if item.artwork.currency %}
+                                        <span class="currency">
+                                            {{ item.artwork.currency }}
+                                        </span>
+                                    {% else %}
+                                        <span class="currency">KES</span>
+                                    {% endif %}
+
+                                    <strong>
+                                        {{ item.artwork.price|floatformat:2 }}
+                                    </strong>
+
+                                </div>
+
+                            {% else %}
+
+                                <span class="price-on-request">
+                                    Price on request
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- =================================================
+                 ORDER SUMMARY
+            ================================================== -->
+
+            <aside class="cart-summary">
+
+                <div class="cart-summary-inner">
+
+                    <span class="cart-summary-label">
+                        CART SUMMARY
+                    </span>
+
+                    <h2>Your Selection</h2>
+
+
+                    <div class="summary-row">
+
+                        <span>
+                            Artworks
+                        </span>
+
+                        <strong>
+                            {{ cart_count|default:0 }}
+                        </strong>
+
+                    </div>
+
+
+                    {% if cart_total %}
+
+                    <div class="summary-row">
+
+                        <span>
+                            Subtotal
+                        </span>
+
+                        <strong>
+                            KES {{ cart_total|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+                    {% endif %}
+
+
+                    <div class="summary-divider"></div>
+
+
+                    {% if cart_total %}
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <strong>
+                            KES {{ cart_total|floatformat:2 }}
+                        </strong>
+
+                    </div>
+
+                    {% else %}
+
+                    <p class="summary-note">
+                        Artwork purchases are confirmed individually.
+                        Shipping and delivery arrangements will be discussed
+                        with you before payment.
+                    </p>
+
+                    {% endif %}
+
+
+                    <!-- CHECKOUT / ENQUIRY -->
+
+                    {% if checkout_url %}
+
+                        <a href="{{ checkout_url }}"
+                           class="cart-primary-btn">
+                            <span>Proceed</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    {% else %}
+
+                        <a href="{% url 'collection' %}"
+                           class="cart-primary-btn">
+                            <span>Continue Exploring</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                    {% endif %}
+
+
+                    <a href="{% url 'collection' %}"
+                       class="cart-secondary-btn">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Continue Shopping</span>
+                    </a>
+
+                </div>
+
+            </aside>
+
+        </div>
+
+
+        <!-- =====================================================
+             BOTTOM NOTE
+        ====================================================== -->
+
+        <div class="cart-note">
+
+            <i class="fa-regular fa-circle-question"></i>
+
+            <p>
+                Need help choosing an artwork?
+                <a href="{% url 'collection' %}">
+                    Explore the collection
+                </a>
+                or contact ARTSASA for assistance.
+            </p>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- =====================================================
+             EMPTY CART
+        ====================================================== -->
+
+        <div class="empty-cart">
+
+            <div class="empty-cart-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+
+            <span class="empty-eyebrow">
+                YOUR CART IS EMPTY
+            </span>
+
+            <h2>
+                Nothing selected yet.
+            </h2>
+
+            <p>
+                Explore the ARTSASA collection and add an artwork
+                to your cart when something speaks to you.
+            </p>
+
+            <a href="{% url 'collection' %}"
+               class="cart-primary-btn empty-cart-btn">
+
+                <span>Explore Collection</span>
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =============================================================
+     CART STYLES
+============================================================== -->
+
+<style>
+
+.cart-page {
+    padding: 150px 5vw 100px;
+    background: #f7f4ef;
+    min-height: 80vh;
+}
+
+.cart-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.cart-header {
+    margin-bottom: 55px;
+    max-width: 720px;
+}
+
+.cart-eyebrow,
+.empty-eyebrow,
+.cart-summary-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.cart-header h1 {
+    margin: 0;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: .95;
+    font-weight: 400;
+}
+
+.cart-header p {
+    margin: 22px 0 0;
+    max-width: 580px;
+    line-height: 1.7;
+    opacity: .7;
+}
+
+
+.cart-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 60px;
+    align-items: start;
+}
+
+
+.cart-items {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.cart-item {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 30px;
+    padding: 0 0 35px;
+    margin-bottom: 35px;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+}
+
+
+.cart-item-image {
+    display: block;
+    aspect-ratio: 1 / 1.15;
+    overflow: hidden;
+    background: #e9e4dc;
+}
+
+
+.cart-item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+.cart-image-placeholder {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    font-size: 28px;
+    opacity: .3;
+}
+
+
+.cart-item-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+
+.cart-item-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+.cart-item-artist {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    opacity: .6;
+    margin-bottom: 8px;
+}
+
+
+.cart-item-heading h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 500;
+}
+
+
+.cart-item-heading h2 a {
+    color: inherit;
+    text-decoration: none;
+}
+
+
+.remove-cart-btn {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    font-size: 17px;
+    padding: 5px;
+    opacity: .55;
+    transition: .25s ease;
+}
+
+
+.remove-cart-btn:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+
+.cart-item-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 20px;
+    margin-top: 18px;
+    font-size: 13px;
+    opacity: .65;
+}
+
+
+.cart-item-bottom {
+    margin-top: auto;
+    padding-top: 35px;
+}
+
+
+.cart-item-price {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+}
+
+
+.cart-item-price .currency {
+    font-size: 11px;
+    letter-spacing: .1em;
+}
+
+
+.cart-item-price strong {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.price-on-request {
+    font-size: 14px;
+    font-style: italic;
+}
+
+
+.cart-summary {
+    position: sticky;
+    top: 120px;
+}
+
+
+.cart-summary-inner {
+    background: #fff;
+    padding: 38px;
+}
+
+
+.cart-summary h2 {
+    margin: 0 0 35px;
+    font-size: 27px;
+    font-weight: 500;
+}
+
+
+.summary-row,
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+
+.summary-row {
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+
+.summary-total {
+    font-size: 18px;
+}
+
+
+.summary-divider {
+    height: 1px;
+    background: rgba(0,0,0,.12);
+    margin: 25px 0;
+}
+
+
+.summary-note {
+    font-size: 13px;
+    line-height: 1.7;
+    opacity: .65;
+    margin-bottom: 25px;
+}
+
+
+.cart-primary-btn,
+.cart-secondary-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-decoration: none;
+    transition: .25s ease;
+}
+
+
+.cart-primary-btn {
+    background: #111;
+    color: #fff;
+    padding: 17px 20px;
+    margin-top: 30px;
+}
+
+
+.cart-primary-btn:hover {
+    transform: translateY(-2px);
+    background: #333;
+}
+
+
+.cart-secondary-btn {
+    color: inherit;
+    padding: 17px 0 0;
+    font-size: 13px;
+    opacity: .7;
+}
+
+
+.cart-secondary-btn:hover {
+    opacity: 1;
+}
+
+
+.cart-note {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    font-size: 13px;
+    opacity: .65;
+}
+
+
+.cart-note p {
+    margin: 0;
+}
+
+
+.cart-note a {
+    color: inherit;
+}
+
+
+.empty-cart {
+    text-align: center;
+    max-width: 620px;
+    margin: 80px auto;
+}
+
+
+.empty-cart-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 30px;
+    border: 1px solid rgba(0,0,0,.15);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 25px;
+}
+
+
+.empty-cart h2 {
+    font-size: 42px;
+    font-weight: 400;
+    margin: 0 0 18px;
+}
+
+
+.empty-cart p {
+    line-height: 1.8;
+    opacity: .65;
+}
+
+
+.empty-cart-btn {
+    max-width: 280px;
+    margin: 35px auto 0;
+}
+
+
+@media (max-width: 900px) {
+
+    .cart-page {
+        padding: 120px 6vw 70px;
+    }
+
+    .cart-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .cart-summary {
+        position: static;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .cart-page {
+        padding: 100px 5vw 60px;
+    }
+
+    .cart-item {
+        grid-template-columns: 105px minmax(0, 1fr);
+        gap: 17px;
+    }
+
+    .cart-item-heading h2 {
+        font-size: 18px;
+    }
+
+    .cart-item-meta {
+        display: none;
+    }
+
+    .cart-item-bottom {
+        padding-top: 20px;
+    }
+
+    .cart-summary-inner {
+        padding: 28px 22px;
+    }
+
+    .empty-cart h2 {
+        font-size: 32px;
+    }
+
+    .cart-note {
+        align-items: flex-start;
+    }
+
+}
+
+</style>
+
+{% endblock %}

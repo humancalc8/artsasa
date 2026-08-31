@@ -177,7 +177,7 @@
             <div class="header-actions">
 
                 <a
-                    href="/wishlist/"
+                    href="{% url 'wishlist' %}"
                     class="header-action"
                     aria-label="Wishlist"
                     title="Wishlist">
@@ -194,7 +194,7 @@
 
 
                 <a
-                    href="/cart/"
+                    href="{% url 'cart' %}"
                     class="header-action"
                     aria-label="Shopping cart"
                     title="Shopping cart">
@@ -431,7 +431,7 @@
 
         <!-- Mobile shopping -->
 
-        <a href="/wishlist/">
+        <a href="{% url 'wishlist' %}">
 
             <span class="nav-icon">
                 <i class="fa-regular fa-heart"></i>
@@ -448,7 +448,7 @@
         </a>
 
 
-        <a href="/cart/">
+        <a href="{% url 'cart' %}">
 
             <span class="nav-icon">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -1063,72 +1063,127 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
        CART / WISHLIST COUNTERS
-       Reads existing localStorage values if available.
+       Reads the real counts from the server-side session
+       (request.session["artsasa_cart"] / ["artsasa_wishlist"])
+       via the cart_count / wishlist_count JSON endpoints.
+       This runs on every page that extends base.html, so the
+       header badges are always in sync with the session —
+       no localStorage involved.
     ====================================================== */
 
-    function updateShoppingCounters() {
+    function setCounter(element, count) {
 
-        const cartCount =
-            document.getElementById("cartCount");
-
-        const wishlistCount =
-            document.getElementById("wishlistCount");
-
-
-        /* Cart */
-
-        if (cartCount) {
-
-            try {
-
-                const cart =
-                    JSON.parse(
-                        localStorage.getItem("artsasa_cart")
-                    ) || [];
-
-                cartCount.textContent =
-                    Array.isArray(cart)
-                    ? cart.length
-                    : 0;
-
-            } catch (error) {
-
-                cartCount.textContent = "0";
-
-            }
-
+        if (!element) {
+            return;
         }
 
+        element.textContent = count;
 
-        /* Wishlist */
+        if (count > 0) {
 
-        if (wishlistCount) {
+            element.classList.add("has-items");
+            element.removeAttribute("hidden");
 
-            try {
+        } else {
 
-                const wishlist =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "artsasa_wishlist"
-                        )
-                    ) || [];
-
-                wishlistCount.textContent =
-                    Array.isArray(wishlist)
-                    ? wishlist.length
-                    : 0;
-
-            } catch (error) {
-
-                wishlistCount.textContent = "0";
-
-            }
-
+            element.classList.remove("has-items");
         }
 
     }
 
-    updateShoppingCounters();
+
+    function refreshCartCount() {
+
+        const cartCountEl =
+            document.getElementById("cartCount");
+
+        if (!cartCountEl) {
+            return;
+        }
+
+        fetch(
+            "{% url 'cart_count' %}",
+            {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }
+        )
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            if (data.success) {
+                setCounter(cartCountEl, data.count);
+            }
+
+        })
+        .catch(function (error) {
+
+            console.warn(
+                "Unable to load cart count:",
+                error
+            );
+
+        });
+
+    }
+
+
+    function refreshWishlistCount() {
+
+        const wishlistCountEl =
+            document.getElementById("wishlistCount");
+
+        if (!wishlistCountEl) {
+            return;
+        }
+
+        fetch(
+            "{% url 'wishlist_count' %}",
+            {
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            }
+        )
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+
+            if (data.success) {
+                setCounter(wishlistCountEl, data.count);
+            }
+
+        })
+        .catch(function (error) {
+
+            console.warn(
+                "Unable to load wishlist count:",
+                error
+            );
+
+        });
+
+    }
+
+
+    refreshCartCount();
+    refreshWishlistCount();
+
+
+    // Exposed globally so pages like collection.html and
+    // product_detail.html can refresh the header badges
+    // immediately after a successful add/remove AJAX call,
+    // without a full page reload.
+    window.artsasaRefreshCounters = function () {
+
+        refreshCartCount();
+        refreshWishlistCount();
+
+    };
 
 
     /* =====================================================
