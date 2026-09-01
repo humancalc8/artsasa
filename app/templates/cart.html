@@ -475,6 +475,30 @@ Your selected artworks at ARTSASA. Review your collection and continue with your
                     </div>
 
 
+                    <!-- PRIMARY ACTION — CHECKOUT -->
+
+                    <a
+                        href="{% url 'checkout' %}"
+                        class="card-primary-action"
+                    >
+
+                        <span>Proceed to checkout</span>
+
+                        <i class="fa-solid fa-arrow-right"></i>
+
+                    </a>
+
+
+                    <!-- SECONDARY ACTION — CONTINUE EXPLORING -->
+
+                    <a
+                        href="{% url 'collection' %}"
+                        class="card-secondary-action"
+                    >
+                        Continue exploring
+                    </a>
+
+
                     <!-- NOTE -->
 
                     <div class="card-note">
@@ -489,20 +513,6 @@ Your selected artworks at ARTSASA. Review your collection and continue with your
                         </p>
 
                     </div>
-
-
-                    <!-- ACTION -->
-
-                    <a
-                        href="{% url 'collection' %}"
-                        class="card-primary-action"
-                    >
-
-                        <span>Continue exploring</span>
-
-                        <i class="fa-solid fa-arrow-right"></i>
-
-                    </a>
 
 
                     <!-- SERVICE -->
@@ -1759,6 +1769,99 @@ Your selected artworks at ARTSASA. Review your collection and continue with your
 
 
 /* =============================================================
+   PRIMARY ACTION — CHECKOUT
+============================================================= */
+
+.card-primary-action {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-top: 28px;
+
+    padding: 17px 18px;
+
+    background: var(--selection-dark);
+
+    color: #fff;
+
+    text-decoration: none;
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+
+.card-primary-action:hover {
+
+    transform: translateY(-2px);
+
+    background: #292824;
+}
+
+
+.card-primary-action i {
+
+    font-size: 9px;
+}
+
+
+/* =============================================================
+   SECONDARY ACTION — CONTINUE EXPLORING
+============================================================= */
+
+.card-secondary-action {
+
+    display: block;
+
+    margin-top: 14px;
+
+    padding: 9px 0;
+
+    color: var(--selection-muted);
+
+    text-align: center;
+
+    text-decoration: none;
+
+    font-size: 8px;
+
+    font-weight: 600;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    border: 1px solid transparent;
+
+    transition:
+        color .25s ease,
+        border-color .25s ease;
+}
+
+
+.card-secondary-action:hover {
+
+    color: var(--selection-ink);
+
+    border-bottom-color:
+        rgba(23,23,20,.35);
+}
+
+
+/* =============================================================
    NOTE
 ============================================================= */
 
@@ -1796,56 +1899,6 @@ Your selected artworks at ARTSASA. Review your collection and continue with your
     font-size: 9px;
 
     line-height: 1.8;
-}
-
-
-/* =============================================================
-   PRIMARY ACTION
-============================================================= */
-
-.card-primary-action {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    margin-top: 28px;
-
-    padding: 16px 17px;
-
-    background: var(--selection-dark);
-
-    color: #fff;
-
-    text-decoration: none;
-
-    font-size: 8px;
-
-    font-weight: 600;
-
-    letter-spacing: .13em;
-
-    text-transform: uppercase;
-
-    transition:
-        transform .3s ease,
-        background .3s ease;
-}
-
-
-.card-primary-action:hover {
-
-    transform: translateY(-2px);
-
-    background: #292824;
-}
-
-
-.card-primary-action i {
-
-    font-size: 9px;
 }
 
 

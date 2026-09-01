@@ -11,8 +11,12 @@ from .models import (
     Category,
     Exhibition,
     ArtworkEnquiry,
+    Order,
+    OrderItem,
 )
-
+from django.db import transaction
+from django.contrib import messages
+from decimal import Decimal
 
 # =========================================================
 # HOME
@@ -91,7 +95,7 @@ def collection(request):
 
     # Current session cart.
     cart_data = request.session.get(
-        "artsasa_cart",
+        "cart",
         {}
     )
 
@@ -787,7 +791,380 @@ def cart(request):
         }
     )
 
+# =========================================================
+# CHECKOUT
+# =========================================================
 
+def checkout(request):
+
+    session_cart = request.session.get(
+        "cart",
+        {}
+    )
+
+    if not isinstance(session_cart, dict):
+        session_cart = {}
+
+    # -----------------------------------------------------
+    # EMPTY CART
+    # -----------------------------------------------------
+
+    if not session_cart:
+
+        messages.warning(
+            request,
+            "Your cart is empty."
+        )
+
+        return redirect("cart")
+
+    # -----------------------------------------------------
+    # GET ARTWORKS
+    # -----------------------------------------------------
+
+    artwork_ids = list(
+        session_cart.keys()
+    )
+
+    artworks = (
+        Artwork.objects
+        .filter(
+            pk__in=artwork_ids,
+            is_published=True,
+        )
+        .select_related(
+            "artist",
+            "category",
+            "exhibition",
+        )
+        .prefetch_related(
+            "images",
+        )
+    )
+
+    artwork_map = {
+        str(artwork.pk): artwork
+        for artwork in artworks
+    }
+
+    checkout_items = []
+
+    total = Decimal("0.00")
+
+    # -----------------------------------------------------
+    # BUILD CHECKOUT
+    # -----------------------------------------------------
+
+    for artwork_id, quantity in session_cart.items():
+
+        artwork = artwork_map.get(
+            str(artwork_id)
+        )
+
+        if not artwork:
+            continue
+
+        # Artwork must still be available.
+        if artwork.status != "Available":
+            messages.error(
+                request,
+                f'"{artwork.title}" is no longer available.'
+            )
+
+            return redirect("cart")
+
+        try:
+            quantity = int(quantity)
+        except (TypeError, ValueError):
+            quantity = 1
+
+        # Unique artworks should only be ordered once.
+        if quantity < 1:
+            quantity = 1
+
+        if artwork.price is not None:
+
+            subtotal = (
+                artwork.price *
+                quantity
+            )
+
+            total += subtotal
+
+        else:
+
+            subtotal = None
+
+        checkout_items.append({
+            "artwork": artwork,
+            "quantity": quantity,
+            "subtotal": subtotal,
+        })
+
+    # -----------------------------------------------------
+    # NOTHING VALID
+    # -----------------------------------------------------
+
+    if not checkout_items:
+
+        messages.warning(
+            request,
+            "There are no available artworks in your cart."
+        )
+
+        return redirect("cart")
+
+    # =====================================================
+    # POST — CREATE ORDER
+    # =====================================================
+
+    if request.method == "POST":
+
+        name = request.POST.get(
+            "name",
+            ""
+        ).strip()
+
+        email = request.POST.get(
+            "email",
+            ""
+        ).strip()
+
+        phone = request.POST.get(
+            "phone",
+            ""
+        ).strip()
+
+        country = request.POST.get(
+            "country",
+            "Kenya"
+        ).strip()
+
+        city = request.POST.get(
+            "city",
+            ""
+        ).strip()
+
+        address = request.POST.get(
+            "address",
+            ""
+        ).strip()
+
+        message = request.POST.get(
+            "message",
+            ""
+        ).strip()
+
+        # -------------------------------------------------
+        # VALIDATION
+        # -------------------------------------------------
+
+        errors = []
+
+        if not name:
+            errors.append(
+                "Please enter your full name."
+            )
+
+        if not email:
+            errors.append(
+                "Please enter your email address."
+            )
+
+        if not phone:
+            errors.append(
+                "Please enter your phone number."
+            )
+
+        if errors:
+
+            for error in errors:
+                messages.error(
+                    request,
+                    error
+                )
+
+        else:
+
+            # ---------------------------------------------
+            # RE-CHECK AVAILABILITY INSIDE TRANSACTION
+            # ---------------------------------------------
+
+            try:
+
+                with transaction.atomic():
+
+                    locked_artworks = (
+                        Artwork.objects
+                        .select_for_update()
+                        .filter(
+                            pk__in=artwork_ids,
+                            is_published=True,
+                        )
+                    )
+
+                    locked_map = {
+                        str(artwork.pk): artwork
+                        for artwork in locked_artworks
+                    }
+
+                    final_total = Decimal("0.00")
+
+                    final_items = []
+
+                    for artwork_id, quantity in session_cart.items():
+
+                        artwork = locked_map.get(
+                            str(artwork_id)
+                        )
+
+                        if not artwork:
+
+                            raise ValueError(
+                                "One of the artworks in your cart "
+                                "is no longer available."
+                            )
+
+                        if artwork.status != "Available":
+
+                            raise ValueError(
+                                f'"{artwork.title}" is no longer available.'
+                            )
+
+                        try:
+                            quantity = int(quantity)
+                        except (
+                            TypeError,
+                            ValueError
+                        ):
+                            quantity = 1
+
+                        if quantity < 1:
+                            quantity = 1
+
+                        if artwork.price is not None:
+
+                            subtotal = (
+                                artwork.price *
+                                quantity
+                            )
+
+                            final_total += subtotal
+
+                        else:
+
+                            subtotal = None
+
+                        final_items.append({
+                            "artwork": artwork,
+                            "quantity": quantity,
+                            "subtotal": subtotal,
+                        })
+
+                    # -----------------------------------------
+                    # CREATE ORDER
+                    # -----------------------------------------
+
+                    order = Order.objects.create(
+                        name=name,
+                        email=email,
+                        phone=phone,
+                        country=country,
+                        city=city,
+                        address=address,
+                        message=message,
+                        total=(
+                            final_total
+                            if final_total > 0
+                            else None
+                        ),
+                        currency="KES",
+                        status="Pending",
+                    )
+
+                    # -----------------------------------------
+                    # CREATE ORDER ITEMS
+                    # -----------------------------------------
+
+                    for item in final_items:
+
+                        artwork = item["artwork"]
+
+                        OrderItem.objects.create(
+                            order=order,
+                            artwork=artwork,
+                            title=artwork.title,
+                            artist_name=(
+                                artwork.artist.name
+                                if artwork.artist
+                                else ""
+                            ),
+                            quantity=item["quantity"],
+                            price=artwork.price,
+                            currency=artwork.currency,
+                            subtotal=item["subtotal"],
+                        )
+
+                    # -----------------------------------------
+                    # CLEAR CART
+                    # -----------------------------------------
+
+                    request.session["cart"] = {}
+
+                    request.session.modified = True
+
+                # -----------------------------------------
+                # SUCCESS
+                # -----------------------------------------
+
+                return redirect(
+                    "order_success",
+                    order_number=order.order_number
+                )
+
+            except ValueError as exc:
+
+                messages.error(
+                    request,
+                    str(exc)
+                )
+
+                return redirect("cart")
+
+    # -----------------------------------------------------
+    # RENDER
+    # -----------------------------------------------------
+
+    return render(
+        request,
+        "checkout.html",
+        {
+            "checkout_items": checkout_items,
+            "checkout_total": total,
+        }
+    )
+
+
+# =========================================================
+# ORDER SUCCESS
+# =========================================================
+
+def order_success(request, order_number):
+
+    order = get_object_or_404(
+        Order.objects.prefetch_related(
+            "items"
+        ),
+        order_number=order_number,
+    )
+
+    return render(
+        request,
+        "order_success.html",
+        {
+            "order": order,
+        }
+    )
 # =========================================================
 # CART COUNT
 # =========================================================

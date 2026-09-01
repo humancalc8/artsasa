@@ -472,3 +472,194 @@ class ArtworkEnquiry(models.Model):
     def __str__(self):
 
         return f"{self.name} — {self.artwork.title}"
+# =========================================================
+# ORDER
+# =========================================================
+
+class Order(models.Model):
+
+    STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Confirmed", "Confirmed"),
+        ("Payment Pending", "Payment Pending"),
+        ("Paid", "Paid"),
+        ("Completed", "Completed"),
+        ("Cancelled", "Cancelled"),
+    ]
+
+    # -----------------------------------------------------
+    # ORDER IDENTIFICATION
+    # -----------------------------------------------------
+
+    order_number = models.CharField(
+        max_length=30,
+        unique=True,
+        editable=False
+    )
+
+    # -----------------------------------------------------
+    # CUSTOMER INFORMATION
+    # -----------------------------------------------------
+
+    name = models.CharField(
+        max_length=200
+    )
+
+    email = models.EmailField()
+
+    phone = models.CharField(
+        max_length=50
+    )
+
+    country = models.CharField(
+        max_length=100,
+        default="Kenya"
+    )
+
+    city = models.CharField(
+        max_length=100,
+        blank=True
+    )
+
+    address = models.TextField(
+        blank=True
+    )
+
+    message = models.TextField(
+        blank=True
+    )
+
+    # -----------------------------------------------------
+    # ORDER TOTAL
+    # -----------------------------------------------------
+
+    total = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    currency = models.CharField(
+        max_length=10,
+        default="KES"
+    )
+
+    # -----------------------------------------------------
+    # STATUS
+    # -----------------------------------------------------
+
+    status = models.CharField(
+        max_length=30,
+        choices=STATUS_CHOICES,
+        default="Pending"
+    )
+
+    # -----------------------------------------------------
+    # TIMESTAMPS
+    # -----------------------------------------------------
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def save(self, *args, **kwargs):
+
+        if not self.order_number:
+
+            last_order = (
+                Order.objects
+                .order_by("-id")
+                .first()
+            )
+
+            if last_order:
+                next_number = last_order.id + 1
+            else:
+                next_number = 1
+
+            self.order_number = (
+                f"ART-{next_number:05d}"
+            )
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+
+        return (
+            f"{self.order_number} — {self.name}"
+        )
+
+
+# =========================================================
+# ORDER ITEM
+# =========================================================
+
+class OrderItem(models.Model):
+
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name="items"
+    )
+
+    artwork = models.ForeignKey(
+        Artwork,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="order_items"
+    )
+
+    # Snapshot of artwork information at checkout
+    title = models.CharField(
+        max_length=250
+    )
+
+    artist_name = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+    quantity = models.PositiveIntegerField(
+        default=1
+    )
+
+    price = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    currency = models.CharField(
+        max_length=10,
+        default="KES"
+    )
+
+    subtotal = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        ordering = ["id"]
+
+    def __str__(self):
+
+        return (
+            f"{self.title} — {self.order.order_number}"
+        )

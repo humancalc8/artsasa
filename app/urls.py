@@ -24,6 +24,33 @@ from .views import (
     wishlist_count,
 )
 from . import views
+from .views import (
+    index,
+    about,
+    collection,
+    ArtworkDetailView,
+    artwork_enquiry,
+    artists,
+    artist_detail,
+    exhibitions,
+    exhibition_detail,
+
+    # Cart
+    cart,
+    add_to_cart,
+    remove_from_cart,
+    cart_count,
+
+    # Wishlist
+    wishlist,
+    add_to_wishlist,
+    remove_from_wishlist,
+    wishlist_count,
+
+    # Checkout
+    checkout,
+    order_success,
+)
 urlpatterns = [
 
     path("", index, name="index"),
@@ -52,4 +79,16 @@ urlpatterns = [
     path("wishlist/add/", add_to_wishlist, name="add_to_wishlist"),
     path("wishlist/remove/", remove_from_wishlist, name="remove_from_wishlist"),
     path("wishlist/count/", wishlist_count, name="wishlist_count"),
+    # CHECKOUT
+path(
+    "checkout/",
+    checkout,
+    name="checkout"
+),
+
+path(
+    "order/success/<str:order_number>/",
+    order_success,
+    name="order_success"
+),
 ]

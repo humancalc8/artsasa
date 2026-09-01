@@ -307,3 +307,134 @@ class ArtworkEnquiryAdmin(admin.ModelAdmin):
         "message",
         "created_at",
     )
+from .models import (
+    Order,
+    OrderItem,
+)
+# =========================================================
+# ORDER ITEM INLINE
+# =========================================================
+
+class OrderItemInline(admin.TabularInline):
+
+    model = OrderItem
+
+    extra = 0
+
+    readonly_fields = (
+        "artwork",
+        "title",
+        "artist_name",
+        "quantity",
+        "price",
+        "currency",
+        "subtotal",
+        "created_at",
+    )
+
+    can_delete = False
+
+
+# =========================================================
+# ORDER ADMIN
+# =========================================================
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "order_number",
+        "name",
+        "email",
+        "phone",
+        "total_display",
+        "status",
+        "created_at",
+    )
+
+    list_filter = (
+        "status",
+        "currency",
+        "created_at",
+    )
+
+    search_fields = (
+        "order_number",
+        "name",
+        "email",
+        "phone",
+    )
+
+    readonly_fields = (
+        "order_number",
+        "created_at",
+        "updated_at",
+        "total",
+        "currency",
+    )
+
+    inlines = [
+        OrderItemInline
+    ]
+
+    ordering = (
+        "-created_at",
+    )
+
+    fieldsets = (
+
+        (
+            "Order",
+            {
+                "fields": (
+                    "order_number",
+                    "status",
+                )
+            }
+        ),
+
+        (
+            "Customer",
+            {
+                "fields": (
+                    "name",
+                    "email",
+                    "phone",
+                    "country",
+                    "city",
+                    "address",
+                    "message",
+                )
+            }
+        ),
+
+        (
+            "Order Total",
+            {
+                "fields": (
+                    "total",
+                    "currency",
+                )
+            }
+        ),
+
+        (
+            "Dates",
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            }
+        ),
+
+    )
+
+    def total_display(self, obj):
+
+        if obj.total is None:
+            return "Price on request"
+
+        return f"{obj.currency} {obj.total:,.2f}"
+
+    total_display.short_description = "Total"
