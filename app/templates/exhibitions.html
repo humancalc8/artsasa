@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Exhibitions — ARTSASA{% endblock %}
+
+{% block meta_description %}
+Discover current and upcoming exhibitions at ARTSASA, featuring contemporary African artists and selected works.
+{% endblock %}
+
+{% block content %}
+
+<section class="exhibitions-page">
+
+```
+<div class="exhibitions-header">
+    <div class="exhibitions-header-inner">
+        <p class="eyebrow">ARTSASA / EXHIBITIONS</p>
+
+        <h1>Exhibitions</h1>
+
+        <p class="intro">
+            Explore current, upcoming and past exhibitions presented by ARTSASA.
+        </p>
+    </div>
+</div>
+
+
+<section class="exhibitions-list">
+
+    {% if exhibitions %}
+
+        {% for exhibition in exhibitions %}
+
+            <article class="exhibition-card">
+
+                {% if exhibition.image %}
+                    <a href="#" class="exhibition-image">
+                        <img
+                            src="{{ exhibition.image.url }}"
+                            alt="{{ exhibition.title }}"
+                            loading="lazy"
+                        >
+                    </a>
+                {% endif %}
+
+                <div class="exhibition-content">
+
+                    {% if exhibition.status %}
+                        <p class="exhibition-status">
+                            {{ exhibition.status }}
+                        </p>
+                    {% endif %}
+
+                    <h2>
+                        {{ exhibition.title }}
+                    </h2>
+
+                    {% if exhibition.description %}
+                        <p class="exhibition-description">
+                            {{ exhibition.description|truncatewords:35 }}
+                        </p>
+                    {% endif %}
+
+                    <div class="exhibition-meta">
+
+                        {% if exhibition.start_date %}
+                            <span>
+                                {{ exhibition.start_date|date:"d M Y" }}
+                            </span>
+                        {% endif %}
+
+                        {% if exhibition.end_date %}
+                            <span>
+                                —
+                                {{ exhibition.end_date|date:"d M Y" }}
+                            </span>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-exhibitions">
+
+            <p class="eyebrow">COMING SOON</p>
+
+            <h2>New exhibitions are on the way.</h2>
+
+            <p>
+                We are currently preparing our next exhibition programme.
+                Check back soon for upcoming presentations and events.
+            </p>
+
+            <a href="{% url 'collection' %}" class="exhibitions-button">
+                Explore the Collection
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</section>
+```
+
+</section>
+
+<style>
+.exhibitions-page {
+    background: #f7f4ef;
+    min-height: 70vh;
+}
+
+.exhibitions-header {
+    padding: 110px 6vw 70px;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.exhibitions-header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.eyebrow {
+    margin: 0 0 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #8d4c38;
+}
+
+.exhibitions-header h1 {
+    margin: 0;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: .95;
+    font-weight: 500;
+    letter-spacing: -.045em;
+    color: #171513;
+}
+
+.intro {
+    max-width: 620px;
+    margin: 30px 0 0;
+    font-size: 18px;
+    line-height: 1.7;
+    color: #625d57;
+}
+
+.exhibitions-list {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 70px 6vw 120px;
+}
+
+.exhibition-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
+    gap: 55px;
+    padding: 0 0 70px;
+    margin-bottom: 70px;
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+}
+
+.exhibition-image {
+    display: block;
+    overflow: hidden;
+    background: #e7e1d9;
+    aspect-ratio: 16 / 10;
+}
+
+.exhibition-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .6s ease;
+}
+
+.exhibition-image:hover img {
+    transform: scale(1.025);
+}
+
+.exhibition-content {
+    align-self: center;
+}
+
+.exhibition-status {
+    margin: 0 0 18px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+    color: #8d4c38;
+}
+
+.exhibition-content h2 {
+    margin: 0 0 22px;
+    font-size: clamp(32px, 4vw, 55px);
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -.035em;
+    color: #171513;
+}
+
+.exhibition-description {
+    margin: 0 0 28px;
+    font-size: 16px;
+    line-height: 1.75;
+    color: #625d57;
+}
+
+.exhibition-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 13px;
+    color: #45413d;
+}
+
+.empty-exhibitions {
+    max-width: 700px;
+    padding: 90px 0;
+}
+
+.empty-exhibitions h2 {
+    margin: 0 0 20px;
+    font-size: clamp(32px, 5vw, 55px);
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -.035em;
+    color: #171513;
+}
+
+.empty-exhibitions p:not(.eyebrow) {
+    max-width: 560px;
+    margin: 0 0 30px;
+    font-size: 17px;
+    line-height: 1.7;
+    color: #625d57;
+}
+
+.exhibitions-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 14px 22px;
+    background: #171513;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    transition: opacity .25s ease;
+}
+
+.exhibitions-button:hover {
+    opacity: .82;
+}
+
+@media (max-width: 800px) {
+
+    .exhibitions-header {
+        padding: 80px 6vw 55px;
+    }
+
+    .exhibitions-list {
+        padding-top: 50px;
+    }
+
+    .exhibition-card {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-bottom: 50px;
+        margin-bottom: 50px;
+    }
+
+    .exhibition-content h2 {
+        font-size: 38px;
+    }
+
+}
+</style>
+
+{% endblock %}

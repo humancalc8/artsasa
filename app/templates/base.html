@@ -126,30 +126,37 @@
              DESKTOP NAVIGATION
         ====================================================== -->
 
-        <nav class="main-nav" aria-label="Main navigation">
+       <nav class="main-nav" aria-label="Main navigation">
 
-            <a href="{% url 'index' %}#home">
-                Home
-            </a>
+    <a href="{% url 'index' %}#home">
+        Home
+    </a>
 
-            <a href="{% url 'collection' %}">
-                Collection
-            </a>
+    <a href="{% url 'collection' %}">
+        Collection
+    </a>
 
-            <a href="{% url 'about' %}">
-                About
-            </a>
+    <a href="{% url 'exhibitions' %}">
+        Exhibitions
+    </a>
 
-            <a href="{% url 'index' %}#visit">
-                Visit
-            </a>
+    <a href="{% url 'artists' %}">
+        Artists
+    </a>
 
-            <a href="{% url 'index' %}#contact">
-                Contact
-            </a>
+    <a href="{% url 'blog' %}">
+        Blog
+    </a>
 
-        </nav>
+    <a href="{% url 'about' %}">
+        About
+    </a>
 
+    <a href="{% url 'index' %}#visit">
+        Visit
+    </a>
+
+</nav>
 
         <!-- =====================================================
              HEADER ACTIONS
@@ -370,6 +377,55 @@
             <span class="nav-label">
                 Collection
             </span>
+            <a href="{% url 'exhibitions' %}">
+
+    <span class="nav-icon">
+        <i class="fa-regular fa-calendar"></i>
+    </span>
+
+    <span class="nav-label">
+        Exhibitions
+    </span>
+
+    <span class="nav-go">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+</a>
+
+
+<a href="{% url 'artists' %}">
+
+    <span class="nav-icon">
+        <i class="fa-solid fa-user-pen"></i>
+    </span>
+
+    <span class="nav-label">
+        Artists
+    </span>
+
+    <span class="nav-go">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+</a>
+
+
+<a href="{% url 'blog' %}">
+
+    <span class="nav-icon">
+        <i class="fa-regular fa-newspaper"></i>
+    </span>
+
+    <span class="nav-label">
+        Blog
+    </span>
+
+    <span class="nav-go">
+        <i class="fa-solid fa-arrow-right"></i>
+    </span>
+
+</a>
 
             <span class="nav-go">
                 <i class="fa-solid fa-arrow-right"></i>

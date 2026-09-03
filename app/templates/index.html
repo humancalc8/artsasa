@@ -146,23 +146,53 @@
 
 
 <!-- =========================================================
-     VISIT
+     VISIT / EXPERIENCE ART
 ========================================================= -->
 <section class="visit" id="visit">
     <div class="site-container visit-grid">
+
         <div class="visit-copy reveal">
-            <span class="eyebrow">Visit ARTSASA</span>
-            <h2 class="section-title">Come see the work in person.</h2>
+            <span class="eyebrow">Visit the Gallery</span>
+            <h2 class="section-title">Experience art in person.</h2>
             <p class="body-copy">The gallery welcomes collectors, artists, designers, curators and anyone interested in contemporary art.</p>
-            <div class="visit-details">
-                <div><span class="detail-label">Location</span><span>Nairobi, Kenya</span></div>
-                <div><span class="detail-label">Hours</span><span>Tuesday — Saturday</span></div>
-                <div><span class="detail-label">Visits</span><span>10:00 — 18:00</span></div>
-            </div>
+
+            <ul class="visit-list">
+                <li>
+                    <span class="visit-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 12 2.5a7 7 0 0 1 7 7C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+                    </span>
+                    <span>Kindaruma Road, Nairobi, Kenya</span>
+                </li>
+                <li>
+                    <span class="visit-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L14 13l5 2v4a2 2 0 0 1-2 2C9.5 21 3 14.5 3 6a2 2 0 0 1 2-2Z"/></svg>
+                    </span>
+                    <span>+254 700 000 000</span>
+                </li>
+                <li>
+                    <span class="visit-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="1.5"/><path d="m4 6.5 8 6 8-6"/></svg>
+                    </span>
+                    <span>hello@artsasa.co.ke</span>
+                </li>
+                <li>
+                    <span class="visit-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+                    </span>
+                    <span>Tuesday — Saturday, 10:00 — 18:00</span>
+                </li>
+            </ul>
+
+            <a href="#" class="btn-solid visit-cta">Get Directions</a>
         </div>
+
         <div class="visit-image reveal">
             <img src="{% static 'images/painting.jpg' %}" alt="ARTSASA contemporary art gallery space" loading="lazy">
+            <span class="visit-map-pin" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 12 2.5a7 7 0 0 1 7 7C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+            </span>
         </div>
+
     </div>
 </section>
 
@@ -235,16 +265,76 @@
 .statement-copy .section-title { max-width: 780px; }
 .statement-copy .body-copy { max-width: 560px; margin-top: 34px; color: rgba(241,234,219,.68); }
 
-/* VISIT */
+/* VISIT / EXPERIENCE ART */
 .visit { padding: clamp(90px, 10vw, 150px) 0; background: var(--paper); }
 .visit-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(50px, 8vw, 110px); align-items: center; }
 .visit-copy .section-title { margin: 24px 0 26px; }
-.visit-details { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line); }
-.visit-details > div { display: flex; flex-direction: column; gap: 8px; }
-.detail-label { font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--terracotta); }
-.visit-details span:last-child { font-size: 13px; }
-.visit-image { overflow: hidden; }
-.visit-image img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(.85) contrast(.97); }
+
+.visit-list {
+    list-style: none;
+    margin: 44px 0 0;
+    padding: 26px 0 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 20px;
+}
+.visit-list li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+}
+.visit-icon {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--terracotta);
+}
+.visit-icon svg { width: 16px; height: 16px; }
+
+.visit-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 15px 34px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--sandstone);
+    background: var(--terracotta-deep);
+    border: 1px solid var(--terracotta-deep);
+    border-radius: 3px;
+    transition: background .3s ease, border-color .3s ease, transform .3s ease;
+}
+.visit-cta:hover { background: var(--midnight); border-color: var(--midnight); transform: translateY(-1px); }
+
+.visit-image { position: relative; overflow: hidden; }
+.visit-image img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(.85) contrast(.97); display: block; }
+
+.visit-map-pin {
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--terracotta-deep);
+    color: var(--sandstone);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 20px rgba(33,30,27,.35);
+}
+.visit-map-pin svg { width: 20px; height: 20px; }
 
 
 /* =============================================================
@@ -265,7 +355,7 @@
     .collection-header { flex-direction: column; align-items: flex-start; }
     .art-grid { grid-template-columns: 1fr; gap: 55px; }
     .visit-grid { grid-template-columns: 1fr; gap: 45px; }
-    .visit-details { grid-template-columns: 1fr; gap: 18px; }
+    .visit-list { gap: 16px; }
 }
 </style>
 {% endblock %}

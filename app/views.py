@@ -1476,3 +1476,7 @@ def toggle_wishlist(request):
             "message": message,
         }
     )
+from django.shortcuts import render
+
+def blog(request):
+    return render(request, "blog.html")

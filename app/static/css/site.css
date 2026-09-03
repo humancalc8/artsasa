@@ -1,4 +1,3 @@
-```css
 /* =============================================================
    ARTSASA — DESIGN SYSTEM
    Contemporary art gallery, Nairobi.
@@ -8,9 +7,11 @@
 
    IMPORTANT:
    - Header is fixed.
-   - Mobile navigation sits above its backdrop.
-   - Footer and mobile sidebar use LIGHT GRAY surfaces so the
-     dark ARTSASA logo remains clearly visible.
+   - Mobile navigation sits above its backdrop, uses a LIGHT GRAY
+     surface so the dark ARTSASA logo remains clearly visible.
+   - Footer is now a DARK surface (see FOOTER section) — it uses
+     images/logo-light.png, a light/reversed version of the mark,
+     instead of images/logo.png.
 ============================================================= */
 
 
@@ -53,6 +54,10 @@
 
     --midnight: #211E1B;
 
+    /* Deep wine/maroon — exhibition banners, newsletter band */
+    --wine: #4A1620;
+    --wine-deep: #35101A;
+
 
     /* ---------------------------------------------------------
        MAIN PAGE SURFACES
@@ -66,7 +71,7 @@
 
     /* ---------------------------------------------------------
        LIGHT GRAY SURFACES
-       Used by footer + mobile sidebar so dark logo is visible.
+       Used by the mobile sidebar so the dark logo is visible.
     --------------------------------------------------------- */
 
     --footer-light: #D9D8D4;
@@ -76,6 +81,18 @@
     --light-surface-muted: #5F5D58;
 
     --light-surface-line: rgba(33, 30, 27, .16);
+
+
+    /* ---------------------------------------------------------
+       DARK SURFACES
+       Used by the footer + newsletter band, where a light or
+       reversed logo/type sits on a near-black ground.
+    --------------------------------------------------------- */
+
+    --footer-dark: #1B1714;
+    --dark-surface-ink: #F1EADB;
+    --dark-surface-muted: rgba(241, 234, 219, .58);
+    --dark-surface-line: rgba(241, 234, 219, .14);
 
 
     /* ---------------------------------------------------------
@@ -465,9 +482,9 @@ img {
 
     gap:
         clamp(
-            20px,
-            3vw,
-            42px
+            16px,
+            2.4vw,
+            34px
         );
 
     flex: 1;
@@ -735,8 +752,7 @@ img {
 }
 
 
-.header-social a:hover,
-.footer-social a:hover {
+.header-social a:hover {
     color: var(--terracotta);
 
     transform:
@@ -1016,7 +1032,7 @@ img {
 
     gap: 16px;
 
-    padding: 17px 4px;
+    padding: 15px 4px;
 
     border-bottom:
         1px solid
@@ -1026,7 +1042,7 @@ img {
 
     font-family: var(--font-body);
 
-    font-size: 15px;
+    font-size: 14px;
 
     font-weight: 600;
 
@@ -1914,8 +1930,122 @@ body {
 
 
 /* =============================================================
+   NEWSLETTER BAND
+   Sits between page content and the footer on every page.
+============================================================= */
+
+.newsletter-band {
+    padding: 64px 0;
+
+    background: var(--wine);
+
+    color: var(--sandstone);
+}
+
+.newsletter-inner {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    flex-wrap: wrap;
+}
+
+.newsletter-copy {
+    max-width: 440px;
+}
+
+.newsletter-title {
+    margin: 0;
+
+    font-family: var(--font-display);
+
+    font-weight: 400;
+
+    letter-spacing: -.02em;
+
+    font-size: clamp(30px, 3.4vw, 42px);
+}
+
+.newsletter-desc {
+    margin: 12px 0 0;
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+    color: rgba(241, 234, 219, .7);
+}
+
+.newsletter-form {
+    display: flex;
+
+    align-items: center;
+
+    gap: 0;
+
+    flex: 0 1 420px;
+
+    border-bottom: 1px solid rgba(241, 234, 219, .45);
+}
+
+.newsletter-form input {
+    flex: 1;
+
+    min-width: 0;
+
+    padding: 12px 4px;
+
+    border: 0;
+
+    outline: none;
+
+    background: transparent;
+
+    color: var(--sandstone);
+
+    font-size: 13px;
+}
+
+.newsletter-form input::placeholder {
+    color: rgba(241, 234, 219, .45);
+}
+
+.newsletter-form button {
+    flex-shrink: 0;
+
+    padding: 12px 4px;
+
+    color: var(--sandstone);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: .1em;
+
+    text-transform: uppercase;
+
+    transition: color .25s ease, opacity .25s ease;
+}
+
+.newsletter-form button:hover {
+    color: var(--rattan);
+}
+
+.newsletter-form button:disabled {
+    opacity: .6;
+
+    cursor: default;
+}
+
+
+/* =============================================================
    FOOTER
-   LIGHT GRAY — DARK LOGO REMAINS VISIBLE
+   DARK SURFACE — uses images/logo-light.png
 ============================================================= */
 
 .site-footer {
@@ -1925,10 +2055,10 @@ body {
         25px;
 
     background:
-        var(--footer-light);
+        var(--footer-dark);
 
     color:
-        var(--light-surface-ink);
+        var(--dark-surface-ink);
 }
 
 
@@ -1947,7 +2077,7 @@ body {
 
     border-bottom:
         1px solid
-        var(--light-surface-line);
+        var(--dark-surface-line);
 }
 
 
@@ -1987,12 +2117,7 @@ body {
     line-height: 1.7;
 
     color:
-        rgba(
-            33,
-            30,
-            27,
-            .68
-        );
+        var(--dark-surface-muted);
 }
 
 
@@ -2010,7 +2135,7 @@ body {
     text-transform: uppercase;
 
     color:
-        var(--light-surface-ink);
+        var(--dark-surface-ink);
 }
 
 
@@ -2026,12 +2151,7 @@ body {
 .footer-links a,
 .footer-location a {
     color:
-        rgba(
-            33,
-            30,
-            27,
-            .68
-        );
+        var(--dark-surface-muted);
 
     font-family: var(--font-body);
 
@@ -2058,12 +2178,7 @@ body {
     gap: 11px;
 
     color:
-        rgba(
-            33,
-            30,
-            27,
-            .68
-        );
+        var(--dark-surface-muted);
 
     font-family: var(--font-body);
 
@@ -2091,17 +2206,12 @@ body {
 
     border:
         1px solid
-        rgba(
-            33,
-            30,
-            27,
-            .20
-        );
+        var(--dark-surface-line);
 
     border-radius: 50%;
 
     color:
-        var(--light-surface-ink);
+        var(--dark-surface-ink);
 }
 
 
@@ -2111,6 +2221,9 @@ body {
 
     color:
         var(--terracotta);
+
+    transform:
+        rotateY(360deg);
 }
 
 
@@ -2132,12 +2245,7 @@ body {
     letter-spacing: .06em;
 
     color:
-        rgba(
-            33,
-            30,
-            27,
-            .48
-        );
+        var(--dark-surface-muted);
 }
 
 
@@ -2285,6 +2393,18 @@ body {
         gap:
             45px
             30px;
+    }
+
+    .newsletter-inner {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .newsletter-form {
+        width: 100%;
+
+        flex: 1 1 auto;
     }
 }
 
@@ -2517,7 +2637,8 @@ body {
 .mobile-nav-social a:focus-visible,
 .action-btn:focus-visible,
 .wishlist-btn:focus-visible,
-.mobile-nav-close:focus-visible {
+.mobile-nav-close:focus-visible,
+.newsletter-form button:focus-visible {
     outline:
         2px solid
         var(--terracotta);

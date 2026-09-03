@@ -34,7 +34,7 @@ from .views import (
     artist_detail,
     exhibitions,
     exhibition_detail,
-
+    blog,
     # Cart
     cart,
     add_to_cart,
@@ -60,8 +60,8 @@ urlpatterns = [
     path("artwork/<slug:slug>/enquiry/", artwork_enquiry, name="artwork_enquiry"),
     path("artists/", artists, name="artists"),
     path("artist/<slug:slug>/", artist_detail, name="artist_detail"),
-    path("exhibitions/", exhibitions, name="exhibitions"),
-    path("exhibition/<slug:slug>/", exhibition_detail, name="exhibition_detail"),
+    path("exhibitionexhibitions/", exhibitions, name="exhibitions"),
+    path("/<slug:slug>/", exhibition_detail, name="exhibition_detail"),
 
     # CART
     path("cart/", cart, name="cart"),
@@ -91,4 +91,9 @@ path(
     order_success,
     name="order_success"
 ),
+    
+    path("artists/", artists, name="artists"),
+    path("blog/", blog, name="blog"),
+
+    # exhibitions and other existing URLs...
 ]
