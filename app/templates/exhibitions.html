@@ -12,98 +12,263 @@ Discover current and upcoming exhibitions at ARTSASA, featuring contemporary Afr
 <section class="exhibitions-page">
 
 ```
-<div class="exhibitions-header">
-    <div class="exhibitions-header-inner">
-        <p class="eyebrow">ARTSASA / EXHIBITIONS</p>
+<!-- =========================================================
+     EXHIBITIONS INTRO
+========================================================== -->
 
-        <h1>Exhibitions</h1>
+<header class="exhibitions-hero">
 
-        <p class="intro">
-            Explore current, upcoming and past exhibitions presented by ARTSASA.
-        </p>
+    <div class="site-container">
+
+        <div class="exhibitions-hero-grid">
+
+            <div class="exhibitions-hero-main">
+
+                <p class="eyebrow">
+                    ARTSASA / EXHIBITIONS
+                </p>
+
+                <h1>
+                    Exhibitions
+                </h1>
+
+            </div>
+
+            <div class="exhibitions-hero-copy">
+
+                <p>
+                    Current, upcoming and past exhibitions presented
+                    by ARTSASA, bringing together contemporary African
+                    artists, ideas and practices.
+                </p>
+
+                <span class="exhibitions-hero-mark">
+                    01 — PROGRAMME
+                </span>
+
+            </div>
+
+        </div>
+
     </div>
-</div>
 
+</header>
+
+
+<!-- =========================================================
+     EXHIBITION PROGRAMME
+========================================================== -->
 
 <section class="exhibitions-list">
 
-    {% if exhibitions %}
+    <div class="site-container">
 
-        {% for exhibition in exhibitions %}
+        {% if exhibitions %}
 
-            <article class="exhibition-card">
+            {% for exhibition in exhibitions %}
 
-                {% if exhibition.image %}
-                    <a href="#" class="exhibition-image">
-                        <img
-                            src="{{ exhibition.image.url }}"
-                            alt="{{ exhibition.title }}"
-                            loading="lazy"
-                        >
-                    </a>
-                {% endif %}
+                <article
+                    class="exhibition-item {% cycle 'exhibition-item-left' 'exhibition-item-right' %}"
+                >
 
-                <div class="exhibition-content">
+                    <!-- IMAGE -->
 
-                    {% if exhibition.status %}
-                        <p class="exhibition-status">
-                            {{ exhibition.status }}
-                        </p>
-                    {% endif %}
+                    <div class="exhibition-media">
 
-                    <h2>
-                        {{ exhibition.title }}
-                    </h2>
+                        {% if exhibition.image %}
 
-                    {% if exhibition.description %}
-                        <p class="exhibition-description">
-                            {{ exhibition.description|truncatewords:35 }}
-                        </p>
-                    {% endif %}
+                            <a
+                                href="#"
+                                class="exhibition-image"
+                                aria-label="View {{ exhibition.title }}"
+                            >
 
-                    <div class="exhibition-meta">
+                                <img
+                                    src="{{ exhibition.image.url }}"
+                                    alt="{{ exhibition.title }}"
+                                    loading="lazy"
+                                >
 
-                        {% if exhibition.start_date %}
-                            <span>
-                                {{ exhibition.start_date|date:"d M Y" }}
-                            </span>
-                        {% endif %}
+                                <span class="exhibition-image-index">
+                                    {{ forloop.counter|stringformat:"02d" }}
+                                </span>
 
-                        {% if exhibition.end_date %}
-                            <span>
-                                —
-                                {{ exhibition.end_date|date:"d M Y" }}
-                            </span>
+                                <span class="exhibition-image-arrow">
+                                    ↗
+                                </span>
+
+                            </a>
+
+                        {% else %}
+
+                            <div class="exhibition-image exhibition-image-empty">
+
+                                <span>
+                                    ARTSASA
+                                </span>
+
+                            </div>
+
                         {% endif %}
 
                     </div>
 
+
+                    <!-- CONTENT -->
+
+                    <div class="exhibition-content">
+
+                        <div class="exhibition-topline">
+
+                            <span class="exhibition-number">
+                                {{ forloop.counter|stringformat:"02d" }}
+                            </span>
+
+                            {% if exhibition.status %}
+
+                                <span class="exhibition-status">
+                                    {{ exhibition.status }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <h2 class="exhibition-title">
+                            {{ exhibition.title }}
+                        </h2>
+
+
+                        {% if exhibition.description %}
+
+                            <p class="exhibition-description">
+                                {{ exhibition.description|truncatewords:45 }}
+                            </p>
+
+                        {% endif %}
+
+
+                        <div class="exhibition-bottom">
+
+                            <div class="exhibition-dates">
+
+                                <span class="exhibition-date-label">
+                                    Exhibition dates
+                                </span>
+
+                                <span class="exhibition-date">
+
+                                    {% if exhibition.start_date %}
+                                        {{ exhibition.start_date|date:"d M Y" }}
+                                    {% endif %}
+
+                                    {% if exhibition.end_date %}
+                                        <span class="date-separator">—</span>
+                                        {{ exhibition.end_date|date:"d M Y" }}
+                                    {% endif %}
+
+                                </span>
+
+                            </div>
+
+
+                            <a href="#" class="exhibition-link">
+
+                                <span>
+                                    View exhibition
+                                </span>
+
+                                <span class="exhibition-link-arrow">
+                                    ↗
+                                </span>
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div class="empty-exhibitions">
+
+                <div class="empty-exhibitions-number">
+                    01
                 </div>
 
-            </article>
+                <div class="empty-exhibitions-content">
 
-        {% endfor %}
+                    <p class="eyebrow">
+                        COMING SOON
+                    </p>
 
-    {% else %}
+                    <h2>
+                        New exhibitions<br>
+                        are on the way.
+                    </h2>
 
-        <div class="empty-exhibitions">
+                    <p class="empty-exhibitions-copy">
+                        We are currently preparing our next exhibition
+                        programme. Check back soon for upcoming
+                        presentations, artists and events.
+                    </p>
 
-            <p class="eyebrow">COMING SOON</p>
+                    <a
+                        href="{% url 'collection' %}"
+                        class="exhibitions-button"
+                    >
+                        <span>Explore the Collection</span>
+                        <span>↗</span>
+                    </a>
 
-            <h2>New exhibitions are on the way.</h2>
+                </div>
 
-            <p>
-                We are currently preparing our next exhibition programme.
-                Check back soon for upcoming presentations and events.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     PROGRAMME FOOTER
+========================================================== -->
+
+<section class="exhibitions-closing">
+
+    <div class="site-container">
+
+        <div class="exhibitions-closing-inner">
+
+            <p class="eyebrow">
+                ARTSASA / PROGRAMME
             </p>
 
-            <a href="{% url 'collection' %}" class="exhibitions-button">
-                Explore the Collection
-            </a>
+            <h2>
+                Art, artists<br>
+                <em>and ideas.</em>
+            </h2>
+
+            <p>
+                Follow the ARTSASA programme for new exhibitions,
+                artists and conversations from Nairobi and beyond.
+            </p>
 
         </div>
 
-    {% endif %}
+    </div>
 
 </section>
 ```
@@ -111,180 +276,1107 @@ Discover current and upcoming exhibitions at ARTSASA, featuring contemporary Afr
 </section>
 
 <style>
+
+/* =============================================================
+   ARTSASA — EXHIBITIONS PAGE
+   Editorial exhibition programme
+============================================================= */
+
 .exhibitions-page {
-    background: #f7f4ef;
-    min-height: 70vh;
+    background: var(--paper);
+    color: var(--ink);
 }
 
-.exhibitions-header {
-    padding: 110px 6vw 70px;
-    border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+/* =============================================================
+   HERO
+============================================================= */
+
+.exhibitions-hero {
+    padding:
+        108px
+        0
+        92px;
+
+    border-bottom:
+        1px solid
+        var(--line);
 }
 
-.exhibitions-header-inner {
-    max-width: 1100px;
-    margin: 0 auto;
+
+.exhibitions-hero-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(280px, .55fr);
+
+    gap: 80px;
+
+    align-items: end;
 }
 
-.eyebrow {
-    margin: 0 0 18px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: #8d4c38;
+
+.exhibitions-hero-main {
+    min-width: 0;
 }
 
-.exhibitions-header h1 {
+
+.exhibitions-hero-main h1 {
+    margin: 24px 0 0;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            72px,
+            11vw,
+            150px
+        );
+
+    font-weight: 400;
+
+    line-height: .82;
+
+    letter-spacing:
+        -.045em;
+
+    color: var(--ink);
+}
+
+
+.exhibitions-hero-copy {
+    max-width: 380px;
+
+    padding-bottom: 4px;
+}
+
+
+.exhibitions-hero-copy p {
     margin: 0;
-    font-size: clamp(48px, 7vw, 96px);
-    line-height: .95;
-    font-weight: 500;
-    letter-spacing: -.045em;
-    color: #171513;
+
+    font-family: var(--font-reading);
+
+    font-size:
+        clamp(
+            18px,
+            2vw,
+            23px
+        );
+
+    line-height: 1.45;
+
+    color: var(--ink-soft);
 }
 
-.intro {
-    max-width: 620px;
-    margin: 30px 0 0;
-    font-size: 18px;
-    line-height: 1.7;
-    color: #625d57;
+
+.exhibitions-hero-mark {
+    display: block;
+
+    margin-top: 32px;
+
+    padding-top: 14px;
+
+    border-top:
+        1px solid
+        var(--line);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
 }
+
+
+/* =============================================================
+   EXHIBITION LIST
+============================================================= */
 
 .exhibitions-list {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 70px 6vw 120px;
+    padding:
+        105px
+        0
+        130px;
 }
 
-.exhibition-card {
+
+.exhibition-item {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(300px, .8fr);
-    gap: 55px;
-    padding: 0 0 70px;
-    margin-bottom: 70px;
-    border-bottom: 1px solid rgba(0, 0, 0, .12);
+
+    grid-template-columns:
+        minmax(0, 1.3fr)
+        minmax(320px, .7fr);
+
+    gap:
+        clamp(
+            45px,
+            7vw,
+            110px
+        );
+
+    align-items: center;
+
+    padding-bottom: 105px;
+
+    margin-bottom: 105px;
+
+    border-bottom:
+        1px solid
+        var(--line);
 }
+
+
+.exhibition-item:last-child {
+    margin-bottom: 0;
+}
+
+
+/* Alternating editorial composition */
+
+.exhibition-item-right {
+    grid-template-columns:
+        minmax(320px, .7fr)
+        minmax(0, 1.3fr);
+}
+
+
+.exhibition-item-right .exhibition-media {
+    order: 2;
+}
+
+
+.exhibition-item-right .exhibition-content {
+    order: 1;
+}
+
+
+/* =============================================================
+   IMAGE
+============================================================= */
+
+.exhibition-media {
+    min-width: 0;
+}
+
 
 .exhibition-image {
+    position: relative;
+
     display: block;
+
+    width: 100%;
+
     overflow: hidden;
-    background: #e7e1d9;
-    aspect-ratio: 16 / 10;
+
+    background: var(--rattan);
+
+    aspect-ratio: 4 / 3;
 }
+
 
 .exhibition-image img {
     width: 100%;
     height: 100%;
+
     display: block;
+
     object-fit: cover;
-    transition: transform .6s ease;
+
+    transition:
+        transform .9s var(--ease);
 }
+
 
 .exhibition-image:hover img {
-    transform: scale(1.025);
+    transform: scale(1.035);
 }
+
+
+.exhibition-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .12
+        );
+
+    pointer-events: none;
+}
+
+
+.exhibition-image-index {
+    position: absolute;
+
+    top: 18px;
+    left: 18px;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .55
+        );
+
+    color: var(--sandstone);
+
+    background:
+        rgba(
+            33,
+            30,
+            27,
+            .28
+        );
+
+    backdrop-filter: blur(7px);
+
+    -webkit-backdrop-filter: blur(7px);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .06em;
+}
+
+
+.exhibition-image-arrow {
+    position: absolute;
+
+    right: 20px;
+    bottom: 18px;
+
+    width: 42px;
+    height: 42px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .55
+        );
+
+    border-radius: 50%;
+
+    color: var(--sandstone);
+
+    background:
+        rgba(
+            33,
+            30,
+            27,
+            .28
+        );
+
+    backdrop-filter: blur(7px);
+
+    -webkit-backdrop-filter: blur(7px);
+
+    font-size: 16px;
+
+    opacity: 0;
+
+    transform:
+        translateY(8px);
+
+    transition:
+        opacity .35s ease,
+        transform .35s var(--ease),
+        background .3s ease;
+}
+
+
+.exhibition-image:hover .exhibition-image-arrow {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+.exhibition-image-empty {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px;
+
+    color: var(--terracotta);
+
+    font-family: var(--font-mark);
+
+    font-size: 42px;
+
+    letter-spacing: .02em;
+}
+
+
+/* =============================================================
+   CONTENT
+============================================================= */
 
 .exhibition-content {
-    align-self: center;
+    min-width: 0;
+
+    max-width: 540px;
 }
+
+
+.exhibition-topline {
+    display: flex;
+
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 28px;
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        1px solid
+        var(--line);
+}
+
+
+.exhibition-number {
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    color: var(--muted);
+}
+
 
 .exhibition-status {
-    margin: 0 0 18px;
-    font-size: 11px;
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
     font-weight: 700;
-    letter-spacing: .15em;
+
+    letter-spacing: .13em;
+
     text-transform: uppercase;
-    color: #8d4c38;
+
+    color: var(--terracotta);
 }
 
-.exhibition-content h2 {
-    margin: 0 0 22px;
-    font-size: clamp(32px, 4vw, 55px);
-    line-height: 1;
-    font-weight: 500;
-    letter-spacing: -.035em;
-    color: #171513;
+
+.exhibition-status::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
 }
+
+
+/* =============================================================
+   TITLE
+============================================================= */
+
+.exhibition-title {
+    margin: 0;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            46px,
+            5.5vw,
+            78px
+        );
+
+    font-weight: 400;
+
+    line-height: .9;
+
+    letter-spacing:
+        -.035em;
+
+    color: var(--ink);
+}
+
+
+/* =============================================================
+   DESCRIPTION
+============================================================= */
 
 .exhibition-description {
-    margin: 0 0 28px;
-    font-size: 16px;
-    line-height: 1.75;
-    color: #625d57;
+    max-width: 43ch;
+
+    margin:
+        30px
+        0
+        0;
+
+    font-family: var(--font-reading);
+
+    font-size:
+        clamp(
+            16px,
+            1.4vw,
+            19px
+        );
+
+    line-height: 1.65;
+
+    color: var(--ink-soft);
 }
 
-.exhibition-meta {
+
+/* =============================================================
+   BOTTOM INFORMATION
+============================================================= */
+
+.exhibition-bottom {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    font-size: 13px;
-    color: #45413d;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    gap: 30px;
+
+    margin-top: 42px;
+
+    padding-top: 20px;
+
+    border-top:
+        1px solid
+        var(--line);
 }
+
+
+.exhibition-dates {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+
+.exhibition-date-label {
+    font-family: var(--font-body);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .13em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
+}
+
+
+.exhibition-date {
+    font-family: var(--font-body);
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    letter-spacing: .03em;
+
+    color: var(--ink);
+}
+
+
+.date-separator {
+    margin:
+        0
+        5px;
+
+    color: var(--muted);
+}
+
+
+/* =============================================================
+   VIEW LINK
+============================================================= */
+
+.exhibition-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    flex-shrink: 0;
+
+    padding-bottom: 6px;
+
+    border-bottom:
+        1px solid
+        var(--ink);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    color: var(--ink);
+
+    transition:
+        color .25s ease,
+        border-color .25s ease;
+}
+
+
+.exhibition-link-arrow {
+    font-size: 14px;
+
+    line-height: 1;
+
+    transition:
+        transform .3s var(--ease);
+}
+
+
+.exhibition-link:hover {
+    color: var(--terracotta);
+
+    border-color:
+        var(--terracotta);
+}
+
+
+.exhibition-link:hover .exhibition-link-arrow {
+    transform:
+        translate(
+            3px,
+            -3px
+        );
+}
+
+
+/* =============================================================
+   EMPTY STATE
+============================================================= */
 
 .empty-exhibitions {
-    max-width: 700px;
-    padding: 90px 0;
+    display: grid;
+
+    grid-template-columns:
+        150px
+        minmax(0, 700px);
+
+    gap: 70px;
+
+    padding:
+        50px
+        0
+        80px;
 }
+
+
+.empty-exhibitions-number {
+    padding-top: 10px;
+
+    font-family: var(--font-display);
+
+    font-size: 80px;
+
+    line-height: .8;
+
+    color: var(--terracotta);
+
+    opacity: .7;
+}
+
+
+.empty-exhibitions-content {
+    max-width: 650px;
+}
+
 
 .empty-exhibitions h2 {
-    margin: 0 0 20px;
-    font-size: clamp(32px, 5vw, 55px);
-    line-height: 1.05;
-    font-weight: 500;
-    letter-spacing: -.035em;
-    color: #171513;
+    margin:
+        25px
+        0
+        30px;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            48px,
+            6vw,
+            78px
+        );
+
+    font-weight: 400;
+
+    line-height: .91;
+
+    letter-spacing:
+        -.035em;
 }
 
-.empty-exhibitions p:not(.eyebrow) {
-    max-width: 560px;
-    margin: 0 0 30px;
-    font-size: 17px;
+
+.empty-exhibitions-copy {
+    max-width: 48ch;
+
+    margin:
+        0
+        0
+        32px;
+
+    font-family: var(--font-reading);
+
+    font-size: 18px;
+
     line-height: 1.7;
-    color: #625d57;
+
+    color: var(--ink-soft);
 }
+
+
+/* =============================================================
+   BUTTON
+============================================================= */
 
 .exhibitions-button {
     display: inline-flex;
+
     align-items: center;
-    padding: 14px 22px;
-    background: #171513;
-    color: #fff;
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .08em;
+
+    gap: 18px;
+
+    padding:
+        14px
+        20px;
+
+    border:
+        1px solid
+        var(--ink);
+
+    font-family: var(--font-body);
+
+    font-size: 10px;
+
+    font-weight: 600;
+
+    letter-spacing: .11em;
+
     text-transform: uppercase;
-    transition: opacity .25s ease;
+
+    color: var(--ink);
+
+    transition:
+        background .3s var(--ease),
+        color .3s var(--ease),
+        border-color .3s var(--ease);
 }
+
+
+.exhibitions-button span:last-child {
+    font-size: 15px;
+
+    transition:
+        transform .3s var(--ease);
+}
+
 
 .exhibitions-button:hover {
-    opacity: .82;
+    background: var(--ink);
+
+    border-color: var(--ink);
+
+    color: var(--paper);
 }
 
-@media (max-width: 800px) {
 
-    .exhibitions-header {
-        padding: 80px 6vw 55px;
+.exhibitions-button:hover span:last-child {
+    transform:
+        translate(
+            3px,
+            -3px
+        );
+}
+
+
+/* =============================================================
+   CLOSING SECTION
+============================================================= */
+
+.exhibitions-closing {
+    padding:
+        105px
+        0
+        120px;
+
+    background: var(--sandstone-deep);
+
+    border-top:
+        1px solid
+        var(--line);
+}
+
+
+.exhibitions-closing-inner {
+    max-width: 850px;
+}
+
+
+.exhibitions-closing h2 {
+    margin:
+        25px
+        0
+        25px;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            60px,
+            8vw,
+            110px
+        );
+
+    font-weight: 400;
+
+    line-height: .84;
+
+    letter-spacing:
+        -.045em;
+}
+
+
+.exhibitions-closing h2 em {
+    color: var(--terracotta);
+
+    font-style: normal;
+}
+
+
+.exhibitions-closing p:last-child {
+    max-width: 500px;
+
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 18px;
+
+    line-height: 1.65;
+
+    color: var(--ink-soft);
+}
+
+
+/* =============================================================
+   TABLET
+============================================================= */
+
+@media (max-width: 950px) {
+
+    .exhibitions-hero {
+        padding:
+            90px
+            0
+            70px;
     }
+
+
+    .exhibitions-hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+
+    .exhibitions-hero-copy {
+        max-width: 520px;
+    }
+
+
+    .exhibition-item,
+    .exhibition-item-right {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(280px, .75fr);
+
+        gap: 45px;
+    }
+
+
+    .exhibition-item-right .exhibition-media {
+        order: 2;
+    }
+
+
+    .exhibition-item-right .exhibition-content {
+        order: 1;
+    }
+
+
+    .empty-exhibitions {
+        grid-template-columns:
+            100px
+            minmax(0, 1fr);
+
+        gap: 45px;
+    }
+
+}
+
+
+/* =============================================================
+   MOBILE
+============================================================= */
+
+@media (max-width: 700px) {
+
+    .exhibitions-hero {
+        padding:
+            70px
+            0
+            55px;
+    }
+
+
+    .exhibitions-hero-main h1 {
+        margin-top: 20px;
+
+        font-size:
+            clamp(
+                62px,
+                18vw,
+                92px
+            );
+    }
+
+
+    .exhibitions-hero-copy p {
+        font-size: 18px;
+    }
+
 
     .exhibitions-list {
-        padding-top: 50px;
+        padding:
+            65px
+            0
+            80px;
     }
 
-    .exhibition-card {
-        grid-template-columns: 1fr;
-        gap: 30px;
-        padding-bottom: 50px;
+
+    .exhibition-item,
+    .exhibition-item-right {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 35px;
+
+        padding-bottom: 65px;
+
+        margin-bottom: 65px;
+    }
+
+
+    .exhibition-item-right .exhibition-media,
+    .exhibition-item-right .exhibition-content {
+        order: initial;
+    }
+
+
+    .exhibition-image {
+        aspect-ratio: 4 / 3;
+    }
+
+
+    .exhibition-image-arrow {
+        opacity: 1;
+
+        transform: none;
+    }
+
+
+    .exhibition-title {
+        font-size:
+            clamp(
+                46px,
+                13vw,
+                68px
+            );
+    }
+
+
+    .exhibition-description {
+        font-size: 17px;
+
+        margin-top: 24px;
+    }
+
+
+    .exhibition-bottom {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 25px;
+
+        margin-top: 32px;
+    }
+
+
+    .exhibition-link {
+        margin-top: 2px;
+    }
+
+
+    .empty-exhibitions {
+        display: block;
+
+        padding:
+            20px
+            0
+            40px;
+    }
+
+
+    .empty-exhibitions-number {
         margin-bottom: 50px;
+
+        font-size: 65px;
     }
 
-    .exhibition-content h2 {
-        font-size: 38px;
+
+    .empty-exhibitions h2 {
+        font-size:
+            clamp(
+                48px,
+                13vw,
+                68px
+            );
+    }
+
+
+    .exhibitions-closing {
+        padding:
+            75px
+            0
+            85px;
+    }
+
+
+    .exhibitions-closing h2 {
+        font-size:
+            clamp(
+                58px,
+                16vw,
+                82px
+            );
     }
 
 }
+
+
+/* =============================================================
+   SMALL MOBILE
+============================================================= */
+
+@media (max-width: 420px) {
+
+    .exhibition-topline {
+        margin-bottom: 22px;
+    }
+
+
+    .exhibition-title {
+        font-size: 45px;
+    }
+
+
+    .exhibition-description {
+        font-size: 16px;
+    }
+
+
+    .exhibition-date {
+        font-size: 10px;
+    }
+
+
+    .exhibitions-button {
+        width: 100%;
+
+        justify-content: space-between;
+    }
+
+}
+
+
+/* =============================================================
+   REDUCED MOTION
+============================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .exhibition-image img,
+    .exhibition-image-arrow,
+    .exhibition-link-arrow,
+    .exhibitions-button span:last-child {
+        transition: none;
+    }
+
+}
+
 </style>
 
 {% endblock %}

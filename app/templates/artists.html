@@ -12,123 +12,260 @@ Meet the artists represented and featured by ARTSASA, a contemporary art gallery
 <section class="artists-page">
 
 ```
-<!-- PAGE INTRO -->
+<!-- =========================================================
+     PAGE INTRO
+========================================================== -->
+
 <header class="artists-hero">
-    <div class="artists-hero-inner">
 
-        <p class="artists-eyebrow">
-            ARTSASA / ARTISTS
-        </p>
+    <div class="site-container">
 
-        <h1>
-            Artists
-        </h1>
+        <div class="artists-hero-grid">
 
-        <p class="artists-intro">
-            Discover the artists whose ideas, experiences and practices
-            shape the ARTSASA programme.
-        </p>
+            <div class="artists-hero-main">
+
+                <p class="eyebrow">
+                    ARTSASA / ARTISTS
+                </p>
+
+                <h1>
+                    Artists
+                </h1>
+
+            </div>
+
+            <div class="artists-hero-copy">
+
+                <p>
+                    Discover the artists whose ideas, experiences
+                    and practices shape the ARTSASA programme.
+                </p>
+
+                <span class="artists-hero-mark">
+                    CONTEMPORARY VOICES / AFRICA
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
+
 </header>
 
 
-<!-- ARTISTS -->
+<!-- =========================================================
+     ARTISTS
+========================================================== -->
+
 <section class="artists-section">
 
-    {% if artists %}
+    <div class="site-container">
 
-        <div class="artists-grid">
+        {% if artists %}
 
-            {% for artist in artists %}
+            <div class="artists-grid">
 
-                <article class="artist-card">
+                {% for artist in artists %}
 
-                    {% if artist.image %}
+                    <article
+                        class="artist-card {% cycle 'artist-card-left' 'artist-card-right' %}"
+                    >
 
-                        <a href="{% url 'artist_detail' artist.slug %}"
-                           class="artist-image">
+                        <!-- IMAGE -->
 
-                            <img
-                                src="{{ artist.image.url }}"
-                                alt="{{ artist.name }}"
-                                loading="lazy"
-                            >
+                        <div class="artist-media">
 
-                        </a>
+                            {% if artist.image %}
 
-                    {% else %}
+                                <a
+                                    href="{% url 'artist_detail' artist.slug %}"
+                                    class="artist-image"
+                                    aria-label="View {{ artist.name }}"
+                                >
 
-                        <a href="{% url 'artist_detail' artist.slug %}"
-                           class="artist-image artist-placeholder">
+                                    <img
+                                        src="{{ artist.image.url }}"
+                                        alt="{{ artist.name }}"
+                                        loading="lazy"
+                                    >
 
-                            <span>
-                                {{ artist.name|first }}
-                            </span>
+                                    <span class="artist-image-number">
+                                        {{ forloop.counter|stringformat:"02d" }}
+                                    </span>
 
-                        </a>
+                                    <span class="artist-image-arrow">
+                                        ↗
+                                    </span>
 
-                    {% endif %}
+                                </a>
 
-
-                    <div class="artist-info">
-
-                        <div class="artist-number">
-                            {% if forloop.counter < 10 %}
-                                0{{ forloop.counter }}
                             {% else %}
-                                {{ forloop.counter }}
+
+                                <a
+                                    href="{% url 'artist_detail' artist.slug %}"
+                                    class="artist-image artist-placeholder"
+                                    aria-label="View {{ artist.name }}"
+                                >
+
+                                    <span>
+                                        {{ artist.name|first }}
+                                    </span>
+
+                                    <small>
+                                        ARTSASA
+                                    </small>
+
+                                </a>
+
                             {% endif %}
+
                         </div>
 
-                        <div>
+
+                        <!-- INFORMATION -->
+
+                        <div class="artist-info">
+
+                            <div class="artist-info-top">
+
+                                <span class="artist-number">
+                                    {{ forloop.counter|stringformat:"02d" }}
+                                </span>
+
+                                <span class="artist-label">
+                                    ARTIST
+                                </span>
+
+                            </div>
+
 
                             <h2>
-                                <a href="{% url 'artist_detail' artist.slug %}">
+
+                                <a
+                                    href="{% url 'artist_detail' artist.slug %}"
+                                >
                                     {{ artist.name }}
                                 </a>
+
                             </h2>
 
+
                             {% if artist.location %}
+
                                 <p class="artist-location">
                                     {{ artist.location }}
                                 </p>
+
                             {% elif artist.city %}
+
                                 <p class="artist-location">
                                     {{ artist.city }}
                                 </p>
+
                             {% endif %}
+
+
+                            <a
+                                href="{% url 'artist_detail' artist.slug %}"
+                                class="artist-link"
+                            >
+
+                                <span>
+                                    View artist
+                                </span>
+
+                                <span class="artist-link-arrow">
+                                    ↗
+                                </span>
+
+                            </a>
 
                         </div>
 
-                    </div>
+                    </article>
 
-                </article>
+                {% endfor %}
 
-            {% endfor %}
+            </div>
+
+
+        {% else %}
+
+            <!-- =================================================
+                 EMPTY STATE
+            ================================================== -->
+
+            <div class="artists-empty">
+
+                <div class="artists-empty-number">
+                    01
+                </div>
+
+                <div class="artists-empty-content">
+
+                    <p class="eyebrow">
+                        ARTISTS / PROGRAMME
+                    </p>
+
+                    <h2>
+                        Our artist programme
+                        is taking shape.
+                    </h2>
+
+                    <p>
+                        New artists and practices will be introduced
+                        here as the ARTSASA programme develops.
+                        Check back soon.
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+
+<!-- =========================================================
+     CLOSING STATEMENT
+========================================================== -->
+
+<section class="artists-closing">
+
+    <div class="site-container">
+
+        <div class="artists-closing-grid">
+
+            <div>
+
+                <p class="eyebrow">
+                    ARTSASA / ARTISTS
+                </p>
+
+            </div>
+
+            <div class="artists-closing-content">
+
+                <h2>
+                    Distinct voices.<br>
+                    <em>Shared ground.</em>
+                </h2>
+
+                <p>
+                    ARTSASA brings together artists whose practices
+                    engage with contemporary life, memory, place,
+                    identity and the changing landscapes of Africa.
+                </p>
+
+            </div>
 
         </div>
 
-    {% else %}
-
-        <div class="artists-empty">
-
-            <p class="artists-eyebrow">
-                ARTISTS
-            </p>
-
-            <h2>
-                Our artist programme is taking shape.
-            </h2>
-
-            <p>
-                New artists and practices will be introduced here.
-                Check back soon.
-            </p>
-
-        </div>
-
-    {% endif %}
+    </div>
 
 </section>
 ```
@@ -137,244 +274,993 @@ Meet the artists represented and featured by ARTSASA, a contemporary art gallery
 
 <style>
 
-/* =========================================================
+/* =============================================================
    ARTSASA — ARTISTS PAGE
-========================================================= */
+   Editorial / Contemporary Gallery
+============================================================= */
 
 .artists-page {
-    min-height: 70vh;
-    background: #f7f4ef;
-    color: #171513;
+    background: var(--paper);
+    color: var(--ink);
 }
 
 
-/* ---------------------------------------------------------
+/* =============================================================
    HERO
---------------------------------------------------------- */
+============================================================= */
 
 .artists-hero {
-    padding: 115px 6vw 75px;
-    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    padding:
+        108px
+        0
+        92px;
+
+    border-bottom:
+        1px solid
+        var(--line);
 }
 
-.artists-hero-inner {
-    max-width: 1200px;
-    margin: 0 auto;
+
+.artists-hero-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.45fr)
+        minmax(280px, .55fr);
+
+    gap: 80px;
+
+    align-items: end;
 }
 
-.artists-eyebrow {
-    margin: 0 0 20px;
-    font-size: 11px;
-    line-height: 1;
-    font-weight: 700;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: #8d4c38;
+
+.artists-hero-main {
+    min-width: 0;
 }
 
-.artists-hero h1 {
+
+.artists-hero-main h1 {
+    margin: 24px 0 0;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            72px,
+            11vw,
+            150px
+        );
+
+    font-weight: 400;
+
+    line-height: .82;
+
+    letter-spacing:
+        -.045em;
+
+    color: var(--ink);
+}
+
+
+.artists-hero-copy {
+    max-width: 390px;
+
+    padding-bottom: 4px;
+}
+
+
+.artists-hero-copy p {
     margin: 0;
-    font-size: clamp(58px, 8vw, 112px);
-    line-height: .88;
-    font-weight: 500;
-    letter-spacing: -.055em;
+
+    font-family: var(--font-reading);
+
+    font-size:
+        clamp(
+            18px,
+            2vw,
+            23px
+        );
+
+    line-height: 1.45;
+
+    color: var(--ink-soft);
 }
 
-.artists-intro {
-    max-width: 650px;
-    margin: 35px 0 0;
-    font-size: 18px;
-    line-height: 1.7;
-    color: #625d57;
+
+.artists-hero-mark {
+    display: block;
+
+    margin-top: 32px;
+
+    padding-top: 14px;
+
+    border-top:
+        1px solid
+        var(--line);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .14em;
+
+    text-transform: uppercase;
+
+    color: var(--muted);
 }
 
 
-/* ---------------------------------------------------------
-   GRID
---------------------------------------------------------- */
+/* =============================================================
+   ARTISTS SECTION
+============================================================= */
 
 .artists-section {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 80px 6vw 130px;
+    padding:
+        105px
+        0
+        130px;
 }
+
+
+/* =============================================================
+   GRID
+============================================================= */
 
 .artists-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: 55px;
-    row-gap: 85px;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0, 1fr)
+        );
+
+    column-gap:
+        clamp(
+            45px,
+            8vw,
+            125px
+        );
+
+    row-gap:
+        115px;
 }
 
 
-/* ---------------------------------------------------------
+/* =============================================================
    ARTIST CARD
---------------------------------------------------------- */
+============================================================= */
 
 .artist-card {
     min-width: 0;
 }
 
-.artist-image {
-    display: block;
-    position: relative;
-    overflow: hidden;
+
+.artist-card-right {
+    padding-top: 120px;
+}
+
+
+/* =============================================================
+   IMAGE
+============================================================= */
+
+.artist-media {
     width: 100%;
+}
+
+
+.artist-image {
+    position: relative;
+
+    display: block;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: var(--rattan);
+
     aspect-ratio: 4 / 5;
-    background: #e7e1d9;
+
     text-decoration: none;
 }
+
 
 .artist-image img {
     display: block;
+
     width: 100%;
     height: 100%;
+
     object-fit: cover;
+
     transition:
-        transform .7s cubic-bezier(.2, .7, .2, 1),
-        filter .7s ease;
+        transform .9s var(--ease);
 }
+
 
 .artist-card:hover .artist-image img {
-    transform: scale(1.035);
+    transform:
+        scale(1.035);
 }
 
 
-/* ---------------------------------------------------------
+.artist-image::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .14
+        );
+
+    pointer-events: none;
+}
+
+
+/* =============================================================
+   IMAGE NUMBER
+============================================================= */
+
+.artist-image-number {
+    position: absolute;
+
+    top: 18px;
+    left: 18px;
+
+    width: 36px;
+    height: 36px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .55
+        );
+
+    color: var(--sandstone);
+
+    background:
+        rgba(
+            33,
+            30,
+            27,
+            .25
+        );
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 600;
+
+    letter-spacing: .06em;
+}
+
+
+/* =============================================================
+   IMAGE ARROW
+============================================================= */
+
+.artist-image-arrow {
+    position: absolute;
+
+    right: 20px;
+    bottom: 18px;
+
+    width: 44px;
+    height: 44px;
+
+    display: grid;
+
+    place-items: center;
+
+    border:
+        1px solid
+        rgba(
+            241,
+            234,
+            219,
+            .55
+        );
+
+    border-radius: 50%;
+
+    color: var(--sandstone);
+
+    background:
+        rgba(
+            33,
+            30,
+            27,
+            .25
+        );
+
+    backdrop-filter:
+        blur(7px);
+
+    -webkit-backdrop-filter:
+        blur(7px);
+
+    font-size: 16px;
+
+    opacity: 0;
+
+    transform:
+        translateY(8px);
+
+    transition:
+        opacity .35s ease,
+        transform .35s var(--ease);
+}
+
+
+.artist-card:hover .artist-image-arrow {
+    opacity: 1;
+
+    transform:
+        translateY(0);
+}
+
+
+/* =============================================================
    PLACEHOLDER
---------------------------------------------------------- */
+============================================================= */
 
 .artist-placeholder {
     display: flex;
+
     align-items: center;
     justify-content: center;
-    color: #8d4c38;
+
+    flex-direction: column;
+
+    gap: 22px;
+
+    background: var(--sandstone-deep);
+
+    color: var(--terracotta);
 }
 
-.artist-placeholder span {
-    font-family: Georgia, serif;
-    font-size: clamp(70px, 10vw, 140px);
+
+.artist-placeholder > span {
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            100px,
+            13vw,
+            180px
+        );
+
     font-weight: 400;
-    line-height: 1;
-}
 
+    line-height: .8;
 
-/* ---------------------------------------------------------
-   ARTIST INFO
---------------------------------------------------------- */
-
-.artist-info {
-    display: grid;
-    grid-template-columns: 45px 1fr;
-    gap: 20px;
-    padding-top: 20px;
-}
-
-.artist-number {
-    padding-top: 5px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .08em;
-    color: #9a938b;
-}
-
-.artist-info h2 {
-    margin: 0;
-    font-size: clamp(25px, 3vw, 38px);
-    line-height: 1.05;
-    font-weight: 500;
-    letter-spacing: -.035em;
-}
-
-.artist-info h2 a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.artist-info h2 a:hover {
-    color: #8d4c38;
-}
-
-.artist-location {
-    margin: 10px 0 0;
-    font-size: 13px;
-    line-height: 1.5;
-    color: #706a64;
-}
-
-
-/* ---------------------------------------------------------
-   EMPTY STATE
---------------------------------------------------------- */
-
-.artists-empty {
-    max-width: 700px;
-    padding: 80px 0;
-}
-
-.artists-empty h2 {
-    margin: 0 0 20px;
-    font-size: clamp(36px, 5vw, 58px);
-    line-height: 1;
-    font-weight: 500;
     letter-spacing: -.04em;
 }
 
-.artists-empty p:not(.artists-eyebrow) {
-    max-width: 560px;
-    margin: 0;
-    font-size: 17px;
-    line-height: 1.7;
-    color: #625d57;
+
+.artist-placeholder small {
+    font-family: var(--font-body);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .18em;
+
+    color: var(--muted);
 }
 
 
-/* ---------------------------------------------------------
-   TABLET / MOBILE
---------------------------------------------------------- */
+/* =============================================================
+   ARTIST INFORMATION
+============================================================= */
 
-@media (max-width: 800px) {
+.artist-info {
+    padding-top: 20px;
+}
+
+
+.artist-info-top {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding-bottom: 15px;
+
+    margin-bottom: 22px;
+
+    border-bottom:
+        1px solid
+        var(--line);
+}
+
+
+.artist-number {
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .1em;
+
+    color: var(--muted);
+}
+
+
+.artist-label {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    font-family: var(--font-body);
+
+    font-size: 8px;
+
+    font-weight: 700;
+
+    letter-spacing: .14em;
+
+    color: var(--terracotta);
+}
+
+
+.artist-label::before {
+    content: "";
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: currentColor;
+}
+
+
+/* =============================================================
+   ARTIST NAME
+============================================================= */
+
+.artist-info h2 {
+    margin: 0;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            42px,
+            4.5vw,
+            66px
+        );
+
+    font-weight: 400;
+
+    line-height: .92;
+
+    letter-spacing:
+        -.035em;
+}
+
+
+.artist-info h2 a {
+    color: inherit;
+
+    text-decoration: none;
+
+    transition:
+        color .25s ease;
+}
+
+
+.artist-info h2 a:hover {
+    color:
+        var(--terracotta);
+}
+
+
+/* =============================================================
+   LOCATION
+============================================================= */
+
+.artist-location {
+    margin:
+        18px
+        0
+        0;
+
+    font-family: var(--font-body);
+
+    font-size: 11px;
+
+    font-weight: 500;
+
+    letter-spacing: .04em;
+
+    color: var(--muted);
+}
+
+
+/* =============================================================
+   VIEW ARTIST
+============================================================= */
+
+.artist-link {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 13px;
+
+    margin-top: 30px;
+
+    padding-bottom: 6px;
+
+    border-bottom:
+        1px solid
+        var(--ink);
+
+    font-family: var(--font-body);
+
+    font-size: 9px;
+
+    font-weight: 700;
+
+    letter-spacing: .12em;
+
+    text-transform: uppercase;
+
+    color: var(--ink);
+
+    text-decoration: none;
+
+    transition:
+        color .25s ease,
+        border-color .25s ease;
+}
+
+
+.artist-link-arrow {
+    font-size: 14px;
+
+    line-height: 1;
+
+    transition:
+        transform .3s var(--ease);
+}
+
+
+.artist-link:hover {
+    color:
+        var(--terracotta);
+
+    border-color:
+        var(--terracotta);
+}
+
+
+.artist-link:hover .artist-link-arrow {
+    transform:
+        translate(
+            3px,
+            -3px
+        );
+}
+
+
+/* =============================================================
+   EMPTY STATE
+============================================================= */
+
+.artists-empty {
+    display: grid;
+
+    grid-template-columns:
+        150px
+        minmax(0, 700px);
+
+    gap: 70px;
+
+    padding:
+        40px
+        0
+        80px;
+}
+
+
+.artists-empty-number {
+    padding-top: 10px;
+
+    font-family: var(--font-display);
+
+    font-size: 80px;
+
+    line-height: .8;
+
+    color: var(--terracotta);
+
+    opacity: .7;
+}
+
+
+.artists-empty-content {
+    max-width: 680px;
+}
+
+
+.artists-empty h2 {
+    margin:
+        25px
+        0
+        28px;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            50px,
+            6vw,
+            78px
+        );
+
+    font-weight: 400;
+
+    line-height: .9;
+
+    letter-spacing:
+        -.04em;
+}
+
+
+.artists-empty-content > p:last-child {
+    max-width: 48ch;
+
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 18px;
+
+    line-height: 1.7;
+
+    color: var(--ink-soft);
+}
+
+
+/* =============================================================
+   CLOSING SECTION
+============================================================= */
+
+.artists-closing {
+    padding:
+        105px
+        0
+        120px;
+
+    background:
+        var(--sandstone-deep);
+
+    border-top:
+        1px solid
+        var(--line);
+}
+
+
+.artists-closing-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(180px, .35fr)
+        minmax(0, 1fr);
+
+    gap: 80px;
+}
+
+
+.artists-closing-content {
+    max-width: 850px;
+}
+
+
+.artists-closing h2 {
+    margin:
+        0
+        0
+        28px;
+
+    font-family: var(--font-display);
+
+    font-size:
+        clamp(
+            60px,
+            8vw,
+            110px
+        );
+
+    font-weight: 400;
+
+    line-height: .84;
+
+    letter-spacing:
+        -.045em;
+}
+
+
+.artists-closing h2 em {
+    color:
+        var(--terracotta);
+
+    font-style: normal;
+}
+
+
+.artists-closing-content > p {
+    max-width: 530px;
+
+    margin: 0;
+
+    font-family: var(--font-reading);
+
+    font-size: 18px;
+
+    line-height: 1.65;
+
+    color: var(--ink-soft);
+}
+
+
+/* =============================================================
+   TABLET
+============================================================= */
+
+@media (max-width: 950px) {
 
     .artists-hero {
-        padding: 80px 6vw 55px;
+        padding:
+            90px
+            0
+            70px;
     }
 
-    .artists-section {
-        padding: 55px 6vw 90px;
+
+    .artists-hero-grid {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
     }
+
+
+    .artists-hero-copy {
+        max-width: 520px;
+    }
+
+
+    .artists-grid {
+        column-gap: 40px;
+
+        row-gap: 80px;
+    }
+
+
+    .artist-card-right {
+        padding-top: 80px;
+    }
+
+
+    .artists-empty {
+        grid-template-columns:
+            100px
+            minmax(0, 1fr);
+
+        gap: 45px;
+    }
+
+
+    .artists-closing-grid {
+        grid-template-columns: 1fr;
+
+        gap: 35px;
+    }
+
+}
+
+
+/* =============================================================
+   MOBILE
+============================================================= */
+
+@media (max-width: 700px) {
+
+    .artists-hero {
+        padding:
+            70px
+            0
+            55px;
+    }
+
+
+    .artists-hero-main h1 {
+        margin-top: 20px;
+
+        font-size:
+            clamp(
+                62px,
+                18vw,
+                92px
+            );
+    }
+
+
+    .artists-hero-copy p {
+        font-size: 18px;
+    }
+
+
+    .artists-section {
+        padding:
+            65px
+            0
+            85px;
+    }
+
 
     .artists-grid {
         grid-template-columns: 1fr;
-        row-gap: 60px;
+
+        row-gap: 75px;
     }
+
+
+    .artist-card-right {
+        padding-top: 0;
+    }
+
 
     .artist-image {
         aspect-ratio: 4 / 5;
     }
 
+
+    .artist-image-arrow {
+        opacity: 1;
+
+        transform: none;
+    }
+
+
     .artist-info h2 {
-        font-size: 32px;
+        font-size:
+            clamp(
+                46px,
+                13vw,
+                66px
+            );
+    }
+
+
+    .artist-location {
+        font-size: 11px;
+    }
+
+
+    .artist-link {
+        margin-top: 26px;
+    }
+
+
+    .artists-empty {
+        display: block;
+
+        padding:
+            20px
+            0
+            40px;
+    }
+
+
+    .artists-empty-number {
+        margin-bottom: 50px;
+
+        font-size: 65px;
+    }
+
+
+    .artists-empty h2 {
+        font-size:
+            clamp(
+                48px,
+                13vw,
+                70px
+            );
+    }
+
+
+    .artists-closing {
+        padding:
+            75px
+            0
+            90px;
+    }
+
+
+    .artists-closing h2 {
+        font-size:
+            clamp(
+                58px,
+                16vw,
+                84px
+            );
     }
 
 }
 
-@media (max-width: 480px) {
 
-    .artists-hero h1 {
-        font-size: 58px;
+/* =============================================================
+   SMALL MOBILE
+============================================================= */
+
+@media (max-width: 420px) {
+
+    .artist-info-top {
+        margin-bottom: 19px;
     }
 
-    .artists-intro {
-        font-size: 16px;
-    }
-
-    .artist-info {
-        grid-template-columns: 35px 1fr;
-        gap: 14px;
-    }
 
     .artist-info h2 {
-        font-size: 28px;
+        font-size: 45px;
+    }
+
+
+    .artists-hero-main h1 {
+        font-size: 62px;
+    }
+
+
+    .artists-hero-copy p {
+        font-size: 17px;
+    }
+
+}
+
+
+/* =============================================================
+   REDUCED MOTION
+============================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .artist-image img,
+    .artist-image-arrow,
+    .artist-link-arrow {
+        transition: none;
     }
 
 }

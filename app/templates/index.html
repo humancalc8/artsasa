@@ -26,7 +26,10 @@
                 An independent gallery presenting artists working across
                 painting, photography, sculpture, woodwork and mixed media.
             </p>
-            <a href="#collection" class="btn-outline hero-cta">View the collection</a>
+            <div class="hero-actions">
+                <a href="#collection" class="btn-solid hero-cta-solid">Explore the collection</a>
+                <a href="#visit" class="btn-outline hero-cta">Plan a visit</a>
+            </div>
         </div>
     </div>
 
@@ -35,6 +38,11 @@
         <button type="button" class="hero-dot" aria-label="Show artwork 2" data-slide="1"></button>
         <button type="button" class="hero-dot" aria-label="Show artwork 3" data-slide="2"></button>
         <button type="button" class="hero-dot" aria-label="Show artwork 4" data-slide="3"></button>
+    </div>
+
+    <div class="hero-scroll" aria-hidden="true">
+        <span class="hero-scroll-line"></span>
+        <span class="hero-scroll-label">Scroll</span>
     </div>
 
 </section>
@@ -58,7 +66,7 @@
 
 
 <!-- =========================================================
-     COLLECTION PREVIEW
+     COLLECTION PREVIEW — "Selected work."
 ========================================================= -->
 <section class="collection" id="collection">
     <div class="site-container">
@@ -146,15 +154,72 @@
 
 
 <!-- =========================================================
-     VISIT / EXPERIENCE ART
+     JOURNAL — Insights from our journal
+========================================================= -->
+<section class="journal" id="journal">
+    <div class="site-container">
+
+        <div class="journal-header reveal">
+            <div class="journal-header-copy">
+                <span class="eyebrow">Art &amp; Culture</span>
+                <h2 class="section-title">Insights from our journal.</h2>
+            </div>
+            <a href="{% url 'index' %}" class="text-link">View all articles <span class="arrow">↗</span></a>
+        </div>
+
+        <div class="journal-grid">
+
+            <article class="journal-card reveal">
+                <a href="#" class="journal-image">
+                    <img src="{% static 'images/j1.jpg' %}" alt="Visitor viewing a curated contemporary art collection at ARTSASA" loading="lazy">
+                </a>
+                <div class="journal-info">
+                    <span class="journal-date">May 28, 2026</span>
+                    <h3 class="journal-title">Building a Contemporary Art Collection</h3>
+                    <a href="#" class="text-link journal-link">Read more <span class="arrow">↗</span></a>
+                </div>
+            </article>
+
+            <article class="journal-card reveal">
+                <a href="#" class="journal-image">
+                    <img src="{% static 'images/j2.jpg' %}" alt="Close-up of a vivid abstract painting by a featured ARTSASA artist" loading="lazy">
+                </a>
+                <div class="journal-info">
+                    <span class="journal-date">May 12, 2026</span>
+                    <h3 class="journal-title">Meet the Artist: Amina Wanjiku</h3>
+                    <a href="#" class="text-link journal-link">Read more <span class="arrow">↗</span></a>
+                </div>
+            </article>
+
+            <article class="journal-card reveal">
+                <a href="#" class="journal-image">
+                    <img src="{% static 'images/j3.jpg' %}" alt="Wide interior view of the ARTSASA gallery showcasing recent exhibition highlights" loading="lazy">
+                </a>
+                <div class="journal-info">
+                    <span class="journal-date">April 30, 2026</span>
+                    <h3 class="journal-title">Highlights from Our Latest Exhibition</h3>
+                    <a href="#" class="text-link journal-link">Read more <span class="arrow">↗</span></a>
+                </div>
+            </article>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- =========================================================
+     VISIT / EXPERIENCE ART — full-bleed 3-panel strip:
+     LEFT: opening hours + contact card
+     MIDDLE: gallery photograph
+     RIGHT: map + directions
 ========================================================= -->
 <section class="visit" id="visit">
-    <div class="site-container visit-grid">
+    <div class="visit-grid">
 
+        <!-- LEFT PANEL — hours + contact card -->
         <div class="visit-copy reveal">
             <span class="eyebrow">Visit the Gallery</span>
             <h2 class="section-title">Experience art in person.</h2>
-            <p class="body-copy">The gallery welcomes collectors, artists, designers, curators and anyone interested in contemporary art.</p>
 
             <ul class="visit-list">
                 <li>
@@ -175,27 +240,64 @@
                     </span>
                     <span>hello@artsasa.co.ke</span>
                 </li>
-                <li>
+                <li class="visit-hours">
                     <span class="visit-icon" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
                     </span>
-                    <span>Tuesday — Saturday, 10:00 — 18:00</span>
+                    <span>Tue — Sat, 10:00 — 18:00</span>
                 </li>
             </ul>
-
-            <a href="#" class="btn-solid visit-cta">Get Directions</a>
         </div>
 
+        <!-- MIDDLE PANEL — gallery photograph -->
         <div class="visit-image reveal">
             <img src="{% static 'images/painting.jpg' %}" alt="ARTSASA contemporary art gallery space" loading="lazy">
+        </div>
+
+        <!-- RIGHT PANEL — map + directions -->
+        <div class="visit-map reveal">
+            <svg class="visit-map-lines" viewBox="0 0 400 480" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M-20 60 C 80 40, 120 120, 220 100 S 380 40, 430 90" />
+                <path d="M-20 190 C 100 170, 140 250, 260 220 S 400 260, 430 210" />
+                <path d="M-20 330 C 90 300, 160 380, 250 340 S 380 300, 430 350" />
+                <path d="M40 -20 C 60 100, 20 220, 70 340 S 40 460, 60 500" />
+                <path d="M230 -20 C 210 90, 260 200, 210 320 S 250 440, 230 500" />
+            </svg>
             <span class="visit-map-pin" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21s-7-6.1-7-11.5A7 7 0 0 1 12 2.5a7 7 0 0 1 7 7C19 14.9 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
             </span>
+            <a href="#" class="btn-solid visit-cta">Get Directions</a>
         </div>
 
     </div>
 </section>
 
+
+<!-- =========================================================
+     NEWSLETTER — "Stay Inspired" · full-bleed editorial band
+     Sits directly beneath the Visit / Get Directions section.
+     Palette is pulled straight from the shared design system
+     (site.css: --wine / --wine-deep / --rattan / --terracotta)
+     so it reads as part of ARTSASA rather than a one-off block.
+========================================================= -->
+
+        
+
+        <form class="newsletter-form" action="#" method="post" novalidate data-newsletter-form>
+            {% comment %} {% csrf_token %} — enable once wired to a subscription view {% endcomment %}
+            <div class="newsletter-field">
+                <label for="newsletter-email" class="visually-hidden">Email address</label>
+                <input type="email" id="newsletter-email" name="email" class="newsletter-input" placeholder="Your email address" autocomplete="email" required>
+                <button type="submit" class="newsletter-submit">
+                    <span class="newsletter-submit-text">Subscribe</span>
+                    <span class="newsletter-submit-arrow" aria-hidden="true">→</span>
+                </button>
+            </div>
+            <p class="newsletter-note" data-newsletter-note>By subscribing you agree to receive occasional emails from ARTSASA. Unsubscribe anytime.</p>
+        </form>
+
+    </div>
+</section>
 
 {% endblock %}
 
@@ -219,14 +321,14 @@
 .hero-banner { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
 .hero-slide { position: absolute; inset: 0; opacity: 0; visibility: hidden; transition: opacity 1.4s var(--ease), visibility 0s linear 1.4s; }
 .hero-slide.active { opacity: 1; visibility: visible; transition: opacity 1.4s var(--ease); }
-.hero-slide img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) contrast(.96) brightness(.62); }
+.hero-slide img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.7) contrast(.96) brightness(.62); transform: scale(1.03); }
 
 .hero-overlay {
     position: absolute; inset: 0; z-index: 1; pointer-events: none;
-    background: linear-gradient(180deg, rgba(33,30,27,.55) 0%, rgba(33,30,27,.28) 40%, rgba(33,30,27,.78) 100%);
+    background: linear-gradient(180deg, rgba(33,30,27,.6) 0%, rgba(33,30,27,.3) 42%, rgba(33,30,27,.82) 100%);
 }
 
-.hero-layout { position: relative; z-index: 3; min-height: 88vh; min-height: 88svh; display: flex; align-items: flex-end; padding: 150px 0 120px; }
+.hero-layout { position: relative; z-index: 3; min-height: 88vh; min-height: 88svh; display: flex; align-items: flex-end; padding: 150px 0 130px; }
 
 .hero-copy { max-width: 640px; }
 .hero-kicker { color: var(--rattan); margin-bottom: 26px; }
@@ -236,12 +338,29 @@
 
 .hero-description { max-width: 420px; margin: 30px 0 40px; font-size: 14px; line-height: 1.75; color: rgba(241,234,219,.82); }
 
+.hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+
+.hero-cta-solid {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 16px 32px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--midnight); background: var(--sandstone); border: 1px solid var(--sandstone); border-radius: 3px;
+    box-shadow: 0 14px 30px rgba(0,0,0,.25);
+    transition: background .3s ease, color .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+.hero-cta-solid:hover { background: var(--terracotta-deep); border-color: var(--terracotta-deep); color: var(--sandstone); transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0,0,0,.32); }
+
 .hero-cta { border-color: rgba(241,234,219,.5); color: var(--sandstone); }
 .hero-cta:hover { background: var(--sandstone); color: var(--midnight); }
 
 .hero-dots { position: absolute; z-index: 4; right: 40px; bottom: 40px; display: flex; gap: 9px; }
 .hero-dot { width: 7px; height: 7px; border: 1px solid rgba(241,234,219,.7); border-radius: 50%; transition: width .35s ease, background .35s ease; }
 .hero-dot.active { width: 26px; border-radius: 20px; background: var(--terracotta); border-color: var(--terracotta); }
+
+.hero-scroll { position: absolute; z-index: 4; left: 40px; bottom: 44px; display: flex; align-items: center; gap: 12px; color: rgba(241,234,219,.6); }
+.hero-scroll-line { width: 1px; height: 34px; background: rgba(241,234,219,.4); position: relative; overflow: hidden; }
+.hero-scroll-line::after { content: ""; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: var(--terracotta); animation: heroScroll 2.2s ease-in-out infinite; }
+.hero-scroll-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; writing-mode: vertical-rl; }
+@keyframes heroScroll { 0% { top: -100%; } 60%, 100% { top: 100%; } }
 
 /* INTRO */
 .intro { padding: clamp(90px, 10vw, 150px) 0; background: var(--rattan); color: var(--midnight); }
@@ -251,13 +370,31 @@
 .intro-meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; margin-top: 55px; padding-top: 22px; border-top: 1px solid rgba(33,30,27,.2); }
 .intro-meta p { max-width: 380px; margin: 0; font-size: 13px; line-height: 1.8; color: var(--ink-soft); }
 
-/* COLLECTION */
+/* COLLECTION — "Selected work." */
 .collection { padding: clamp(90px, 10vw, 150px) 0; background: var(--paper); }
 .collection-header { display: flex; justify-content: space-between; align-items: end; gap: 40px; margin-bottom: 65px; }
 .collection-header-copy { max-width: 620px; }
 .collection-header-copy .section-title { margin: 22px 0 18px; }
 .art-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; }
-.art-image { aspect-ratio: .85; }
+
+.art-piece { display: block; }
+.art-image { position: relative; aspect-ratio: .85; overflow: hidden; background: var(--rattan); border-radius: 2px; }
+.art-image img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.94) contrast(.98); transition: transform .8s var(--ease), filter .8s var(--ease); }
+.art-piece:hover .art-image img { transform: scale(1.06); filter: saturate(1) contrast(1); }
+
+.art-overlay {
+    position: absolute; top: 14px; left: 14px; z-index: 2;
+    padding: 6px 12px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--sandstone); background: rgba(33,30,27,.55); backdrop-filter: blur(6px); border-radius: 3px;
+    opacity: 0; transform: translateY(-6px);
+    transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.art-piece:hover .art-overlay { opacity: 1; transform: translateY(0); }
+
+.art-info { padding-top: 20px; }
+.art-title { margin: 0 0 6px; font-family: var(--font-display); font-weight: 400; letter-spacing: -.005em; font-size: 18px; color: var(--midnight); }
+.art-meta { margin: 0 0 10px; font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--terracotta-deep); }
+.art-desc { margin: 0; font-size: 13px; line-height: 1.65; color: var(--ink-soft); }
 
 /* STATEMENT */
 .statement { padding: clamp(90px, 10vw, 150px) 0; background: var(--midnight); color: var(--sandstone); }
@@ -265,46 +402,207 @@
 .statement-copy .section-title { max-width: 780px; }
 .statement-copy .body-copy { max-width: 560px; margin-top: 34px; color: rgba(241,234,219,.68); }
 
-/* VISIT / EXPERIENCE ART */
-.visit { padding: clamp(90px, 10vw, 150px) 0; background: var(--paper); }
-.visit-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(50px, 8vw, 110px); align-items: center; }
-.visit-copy .section-title { margin: 24px 0 26px; }
+/* =============================================================
+   JOURNAL — Insights from our journal
+============================================================= */
+.journal { padding: clamp(90px, 10vw, 150px) 0; background: var(--paper); }
+
+.journal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+.journal-header-copy .section-title { margin: 22px 0 0; }
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+
+.journal-card { display: block; transition: transform .4s var(--ease); }
+
+.journal-image {
+    display: block;
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--rattan);
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px rgba(33,30,27,.06);
+}
+.journal-image::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(33,30,27,0) 55%, rgba(33,30,27,.28) 100%);
+    opacity: 0;
+    transition: opacity .5s var(--ease);
+}
+.journal-card:hover .journal-image::after { opacity: 1; }
+.journal-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(.88) contrast(.98);
+    transition: transform .7s var(--ease);
+    display: block;
+}
+.journal-card:hover .journal-image img { transform: scale(1.045); }
+
+.journal-info { padding-top: 22px; }
+
+.journal-date {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--terracotta-deep);
+    margin-bottom: 10px;
+}
+
+.journal-title {
+    margin: 0 0 16px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -.01em;
+    line-height: 1.28;
+    font-size: 20px;
+    color: var(--midnight);
+    max-width: 340px;
+}
+
+.journal-link { font-size: 12px; }
+
+
+/* =============================================================
+   VISIT / EXPERIENCE ART — full-bleed 3-panel strip
+   LEFT (hours/contact) · MIDDLE (photo) · RIGHT (map)
+============================================================= */
+.visit {
+    --visit-copy-bg: #f3ece0;
+    --visit-map-bg: #ece4d6;
+    background: var(--paper);
+}
+
+.visit-grid {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    min-height: 460px;
+    box-shadow: inset 0 0 0 1px rgba(33,30,27,.05);
+}
+
+/* LEFT — hours + contact card */
+.visit-copy {
+    background: var(--visit-copy-bg);
+    color: var(--midnight);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(50px, 6vw, 90px) clamp(30px, 5vw, 72px);
+}
+.visit-copy .section-title { margin: 20px 0 0; max-width: 320px; }
 
 .visit-list {
     list-style: none;
-    margin: 44px 0 0;
-    padding: 26px 0 0;
-    border-top: 1px solid var(--line);
+    margin: 40px 0 0;
+    padding: 24px 0 0;
+    border-top: 1px solid rgba(33,30,27,.16);
     display: grid;
-    gap: 20px;
+    gap: 18px;
 }
 .visit-list li {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     font-size: 13px;
     color: var(--ink-soft);
 }
+.visit-list li.visit-hours {
+    margin-top: 4px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(33,30,27,.18);
+    font-weight: 600;
+    color: var(--midnight);
+}
 .visit-icon {
     flex: none;
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    color: var(--terracotta);
+    background: rgba(33,30,27,.05);
+    border: 1px solid rgba(33,30,27,.14);
+    color: var(--terracotta-deep);
+    transition: background .3s ease, border-color .3s ease, transform .3s ease;
 }
-.visit-icon svg { width: 16px; height: 16px; }
+.visit-list li:hover .visit-icon { background: var(--terracotta-deep); border-color: var(--terracotta-deep); color: var(--sandstone); transform: translateY(-1px); }
+.visit-icon svg { width: 15px; height: 15px; }
+
+/* MIDDLE — gallery photograph */
+.visit-image { position: relative; overflow: hidden; }
+.visit-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(.85) contrast(.97);
+    display: block;
+    transition: transform .9s var(--ease);
+}
+.visit-image:hover img { transform: scale(1.04); }
+
+/* RIGHT — map + directions */
+.visit-map {
+    position: relative;
+    overflow: hidden;
+    background: var(--visit-map-bg);
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    padding: 32px;
+}
+.visit-map-lines {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--midnight);
+    opacity: .16;
+}
+.visit-map-lines path { fill: none; stroke: currentColor; stroke-width: 1.4; }
+
+.visit-map-pin {
+    position: absolute;
+    top: 34%;
+    right: 22%;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    background: var(--terracotta-deep);
+    color: var(--sandstone);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 18px rgba(33,30,27,.3);
+    animation: pinFloat 3s ease-in-out infinite;
+}
+.visit-map-pin svg { width: 18px; height: 18px; transform: rotate(45deg); }
+@keyframes pinFloat { 0%, 100% { transform: rotate(-45deg) translateY(0); } 50% { transform: rotate(-45deg) translateY(-6px); } }
 
 .visit-cta {
+    position: relative;
+    z-index: 2;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-top: 40px;
-    padding: 15px 34px;
+    padding: 15px 30px;
     font-size: 11px;
     font-weight: 700;
     letter-spacing: .12em;
@@ -313,28 +611,152 @@
     background: var(--terracotta-deep);
     border: 1px solid var(--terracotta-deep);
     border-radius: 3px;
+    box-shadow: 0 10px 24px rgba(33,30,27,.22);
     transition: background .3s ease, border-color .3s ease, transform .3s ease;
 }
 .visit-cta:hover { background: var(--midnight); border-color: var(--midnight); transform: translateY(-1px); }
 
-.visit-image { position: relative; overflow: hidden; }
-.visit-image img { width: 100%; aspect-ratio: 4/5; object-fit: cover; filter: saturate(.85) contrast(.97); display: block; }
 
-.visit-map-pin {
-    position: absolute;
-    top: 22px;
-    right: 22px;
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background: var(--terracotta-deep);
+/* =============================================================
+   NEWSLETTER — "Stay Inspired" full-bleed editorial band
+   Themed entirely off site.css tokens (no locally redefined
+   colors) so it stays in lockstep with the rest of the gallery:
+     --wine / --wine-deep   → band background (brand's own
+                              exhibition-banner colour, already
+                              declared once in site.css)
+     --rattan               → eyebrow + hairline accents
+     --terracotta           → hover accents, focus states
+     --sandstone            → text on the dark band
+============================================================= */
+.newsletter {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, var(--wine) 0%, var(--wine-deep) 100%);
     color: var(--sandstone);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 8px 20px rgba(33,30,27,.35);
 }
-.visit-map-pin svg { width: 20px; height: 20px; }
+
+/* soft radial glow, same device used behind the hero/statement bands */
+.newsletter-texture {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: .5;
+    background-image:
+        radial-gradient(560px 320px at 8% 20%, rgba(241,234,219,.06), transparent 60%),
+        radial-gradient(480px 280px at 92% 80%, rgba(241,234,219,.05), transparent 60%);
+}
+
+/* a single quiet motif borrowed from the gallery's own mark —
+   ties the band back to the brand instead of reading as a
+   generic "email capture" block */
+.newsletter-frame {
+    position: absolute;
+    right: clamp(-40px, 4vw, 40px);
+    bottom: clamp(-60px, -4vw, -20px);
+    z-index: 0;
+    width: clamp(180px, 22vw, 320px);
+    height: clamp(180px, 22vw, 320px);
+    color: var(--rattan);
+    opacity: .16;
+    pointer-events: none;
+}
+.newsletter-mark { width: 100%; height: 100%; }
+
+.newsletter-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 60px;
+    padding: clamp(56px, 7vw, 84px) 0;
+}
+
+.newsletter-eyebrow { color: var(--rattan); }
+.newsletter-eyebrow::before { background: var(--rattan); }
+
+.newsletter-title {
+    margin: 20px 0 14px;
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -.015em;
+    line-height: 1.05;
+    font-size: clamp(30px, 3.4vw, 44px);
+}
+
+.newsletter-desc {
+    margin: 0;
+    max-width: 420px;
+    font-size: 13px;
+    line-height: 1.75;
+    color: rgba(241,234,219,.72);
+}
+
+.newsletter-form { width: 100%; max-width: 440px; justify-self: end; }
+
+.newsletter-field {
+    display: flex;
+    align-items: stretch;
+    background: rgba(241,234,219,.06);
+    border: 1px solid rgba(241,234,219,.28);
+    border-radius: 4px;
+    padding: 5px;
+    transition: border-color .3s ease, background .3s ease;
+}
+.newsletter-field:focus-within { border-color: var(--terracotta); background: rgba(241,234,219,.1); }
+
+.newsletter-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 13px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--sandstone);
+    letter-spacing: .01em;
+}
+.newsletter-input::placeholder { color: rgba(241,234,219,.5); }
+
+.newsletter-submit {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--wine-deep);
+    background: var(--sandstone);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background .3s ease, color .3s ease, transform .3s ease, gap .3s ease;
+}
+.newsletter-submit-arrow { transition: transform .3s ease; }
+.newsletter-submit:hover { background: var(--terracotta); color: var(--sandstone); }
+.newsletter-submit:hover .newsletter-submit-arrow { transform: translateX(3px); }
+.newsletter-submit:active { transform: scale(.97); }
+.newsletter-submit:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
+
+.newsletter-note {
+    margin: 14px 2px 0;
+    font-size: 11px;
+    line-height: 1.6;
+    color: rgba(241,234,219,.45);
+}
+.newsletter-note.is-success { color: var(--rattan); }
+
+.visually-hidden {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
 
 
 /* =============================================================
@@ -344,18 +766,96 @@
 @media (max-width: 1000px) {
     .art-grid { grid-template-columns: repeat(2, 1fr); }
     .intro-grid, .statement-inner { grid-template-columns: .4fr 1.6fr; }
+    .journal-grid { grid-template-columns: repeat(2, 1fr); }
+    .journal-card:last-child { grid-column: 1 / -1; }
+    .journal-card:last-child .journal-image { aspect-ratio: 16 / 8; }
+    .visit-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; }
+    .visit-copy { grid-column: 1 / -1; }
+    .visit-image { min-height: 320px; }
+    .visit-map { min-height: 320px; }
+
+    .newsletter-inner { grid-template-columns: 1fr; gap: 34px; text-align: left; }
+    .newsletter-form { justify-self: stretch; max-width: none; }
+    .newsletter-frame { width: 220px; height: 220px; }
 }
 
 @media (max-width: 700px) {
     .hero-layout { padding: 130px 0 90px; align-items: center; text-align: left; }
     .hero-title { font-size: clamp(52px, 15vw, 80px); }
+    .hero-actions { width: 100%; }
+    .hero-cta-solid, .hero-cta { flex: 1 1 auto; text-align: center; }
     .hero-dots { left: 50%; right: auto; transform: translateX(-50%); }
+    .hero-scroll { display: none; }
     .intro-grid, .statement-inner { grid-template-columns: 1fr; gap: 30px; }
     .intro-grid > div:first-child, .statement-inner > div:first-child { margin-bottom: 10px; }
     .collection-header { flex-direction: column; align-items: flex-start; }
-    .art-grid { grid-template-columns: 1fr; gap: 55px; }
-    .visit-grid { grid-template-columns: 1fr; gap: 45px; }
-    .visit-list { gap: 16px; }
+
+    /* --- "Selected work." — 2 photos per row on mobile --- */
+    .art-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 22px 14px;
+    }
+    .art-image { aspect-ratio: .82; border-radius: 1px; }
+    .art-overlay { display: none; } /* hover-only badge; no value on touch */
+    .art-info { padding-top: 12px; }
+    .art-title { font-size: 14px; margin-bottom: 4px; }
+    .art-meta { font-size: 8.5px; letter-spacing: .09em; margin-bottom: 0; }
+    .art-desc { display: none; } /* keep the mobile grid tight, like a proper index */
+
+    .journal-header { flex-direction: column; align-items: flex-start; gap: 18px; }
+
+    /* --- Journal — 2 photos per row on mobile (was 3) --- */
+    .journal-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px 12px;
+    }
+
+    .journal-card:last-child {
+        grid-column: auto; /* undo the full-width span inherited from the 1000px breakpoint */
+    }
+
+    .journal-image,
+    .journal-card:last-child .journal-image {
+        aspect-ratio: 4 / 3;
+        border-radius: 1px;
+    }
+
+    .journal-info {
+        padding-top: 12px;
+    }
+
+    .journal-link {
+        display: none; /* still tight at 2-up; the image + title carry the entry */
+    }
+
+    .journal-date {
+        font-size: 8.5px;
+        letter-spacing: .1em;
+        margin-bottom: 6px;
+    }
+
+    .journal-title {
+        max-width: none;
+        margin: 0;
+        font-size: 13px;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* --- Visit strip — stacks LEFT (hours) → MIDDLE (photo) → RIGHT (map) --- */
+    .visit-grid { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+    .visit-copy { grid-column: auto; }
+    .visit-image { min-height: 280px; }
+    .visit-map { min-height: 260px; padding: 24px; }
+    .visit-map-pin { top: 26%; right: 18%; }
+
+    .newsletter-field { flex-direction: column; gap: 8px; background: none; border: none; padding: 0; }
+    .newsletter-input { border: 1px solid rgba(241,234,219,.28); border-radius: 3px; background: rgba(241,234,219,.06); }
+    .newsletter-submit { justify-content: center; border-radius: 3px; }
+    .newsletter-frame { display: none; } /* keep the tight mobile band uncluttered */
 }
 </style>
 {% endblock %}
@@ -365,32 +865,62 @@
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
+    /* ---------- Hero slideshow ---------- */
     const slides = document.querySelectorAll(".hero-slide");
     const dots = document.querySelectorAll(".hero-dot");
-    if (!slides.length) return;
 
-    let current = 0, timer = null;
-    const DURATION = 6500;
+    if (slides.length) {
+        let current = 0, timer = null;
+        const DURATION = 6500;
 
-    function show(i) {
-        slides.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
-        dots.forEach(function (d, idx) { d.classList.toggle("active", idx === i); });
-        current = i;
-    }
-    function next() { show((current + 1) % slides.length); }
-    function start() { stop(); timer = setInterval(next, DURATION); }
-    function stop() { if (timer) clearInterval(timer); }
+        function show(i) {
+            slides.forEach(function (s, idx) { s.classList.toggle("active", idx === i); });
+            dots.forEach(function (d, idx) { d.classList.toggle("active", idx === i); });
+            current = i;
+        }
+        function next() { show((current + 1) % slides.length); }
+        function start() { stop(); timer = setInterval(next, DURATION); }
+        function stop() { if (timer) clearInterval(timer); }
 
-    start();
-    dots.forEach(function (dot) {
-        dot.addEventListener("click", function () {
-            show(parseInt(dot.dataset.slide, 10));
-            start();
+        start();
+        dots.forEach(function (dot) {
+            dot.addEventListener("click", function () {
+                show(parseInt(dot.dataset.slide, 10));
+                start();
+            });
         });
-    });
-    document.addEventListener("visibilitychange", function () {
-        document.hidden ? stop() : start();
-    });
+        document.addEventListener("visibilitychange", function () {
+            document.hidden ? stop() : start();
+        });
+    }
+
+    /* ---------- Newsletter form ---------- */
+    const newsletterForm = document.querySelector("[data-newsletter-form]");
+    if (newsletterForm) {
+        newsletterForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+            const input = newsletterForm.querySelector(".newsletter-input");
+            const note = newsletterForm.querySelector("[data-newsletter-note]");
+            const submit = newsletterForm.querySelector(".newsletter-submit");
+            if (!input || !input.checkValidity()) {
+                input && input.reportValidity();
+                return;
+            }
+
+            submit.disabled = true;
+            const originalText = submit.querySelector(".newsletter-submit-text").textContent;
+            submit.querySelector(".newsletter-submit-text").textContent = "Subscribed";
+            if (note) {
+                note.textContent = "Thank you — welcome to the ARTSASA list.";
+                note.classList.add("is-success");
+            }
+            input.value = "";
+            setTimeout(function () {
+                submit.disabled = false;
+                submit.querySelector(".newsletter-submit-text").textContent = originalText;
+            }, 4000);
+        });
+    }
 
 });
 </script>
