@@ -2,7 +2,9 @@ from django.db import models
 from django.urls import reverse
 from django.utils.text import slugify
 
-
+from django.contrib.auth.models import User
+from django.utils import timezone
+from django.contrib.auth.hashers import make_password, check_password
 # =========================================================
 # CATEGORY
 # =========================================================
@@ -663,3 +665,83 @@ class OrderItem(models.Model):
         return (
             f"{self.title} — {self.order.order_number}"
         )
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
+from django.db import models
+from django.utils import timezone
+
+
+class EmailVerification(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="email_verification",
+    )
+
+    otp_hash = models.CharField(
+        max_length=128,
+        blank=True,
+        default="",
+    )
+
+    expires_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    last_sent_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    verified_at = models.DateTimeField(
+        null=True,
+        blank=True,
+    )
+
+    attempts = models.PositiveIntegerField(
+        default=0,
+    )
+
+    def set_otp(self, otp, expires_at):
+        self.otp_hash = make_password(otp)
+        self.expires_at = expires_at
+        self.last_sent_at = timezone.now()
+        self.attempts = 0
+
+        self.save(
+            update_fields=[
+                "otp_hash",
+                "expires_at",
+                "last_sent_at",
+                "attempts",
+            ]
+        )
+
+    def check_otp(self, otp):
+        if not self.otp_hash:
+            return False
+
+        return check_password(
+            otp,
+            self.otp_hash,
+        )
+
+    @property
+    def is_verified(self):
+        return self.verified_at is not None
+
+    @property
+    def is_expired(self):
+        if not self.expires_at:
+            return True
+
+        return timezone.now() > self.expires_at
+
+    def __str__(self):
+        status = "Verified" if self.is_verified else "Unverified"
+        return f"{self.user.email} - {status}"

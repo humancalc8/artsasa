@@ -438,3 +438,60 @@ class OrderAdmin(admin.ModelAdmin):
         return f"{obj.currency} {obj.total:,.2f}"
 
     total_display.short_description = "Total"
+
+from django.contrib import admin
+from .models import EmailVerification
+
+
+@admin.register(EmailVerification)
+class EmailVerificationAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "user",
+        "email",
+        "verification_status",
+        "expires_at",
+        "attempts",
+        "verified_at",
+        "created_at",
+    )
+
+    list_filter = (
+        "verified_at",
+        "created_at",
+    )
+
+    search_fields = (
+        "user__username",
+        "user__email",
+        "user__first_name",
+        "user__last_name",
+    )
+
+    readonly_fields = (
+        "otp_hash",
+        "created_at",
+        "last_sent_at",
+        "verified_at",
+    )
+
+    ordering = (
+        "-created_at",
+    )
+
+    def email(self, obj):
+        return obj.user.email
+
+    email.short_description = "Email"
+
+    def verification_status(self, obj):
+
+        if obj.is_verified:
+            return "Verified"
+
+        if obj.is_expired:
+            return "Expired"
+
+        return "Pending"
+
+    verification_status.short_description = "Status"

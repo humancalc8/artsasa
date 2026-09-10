@@ -1,0 +1,166 @@
+html
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Create Account — ARTSASA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-container">
+
+        <div class="auth-intro">
+            <span class="auth-kicker">ARTSASA</span>
+
+            <h1>Create your account</h1>
+
+            <p>
+                Create an ARTSASA account to save artworks,
+                manage your wishlist and continue your art journey.
+            </p>
+        </div>
+
+        <div class="auth-card">
+
+            <h2>Register</h2>
+
+            <p class="auth-subtitle">
+                Enter your details below.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="auth-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <form method="post" class="auth-form">
+
+                {% csrf_token %}
+
+                <div class="auth-row">
+
+                    <div class="form-group">
+
+                        <label for="{{ form.first_name.id_for_label }}">
+                            First name
+                        </label>
+
+                        {{ form.first_name }}
+
+                        {% for error in form.first_name.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="{{ form.last_name.id_for_label }}">
+                            Last name
+                        </label>
+
+                        {{ form.last_name }}
+
+                        {% for error in form.last_name.errors %}
+                            <small class="field-error">
+                                {{ error }}
+                            </small>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email address
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.password1.id_for_label }}">
+                        Password
+                    </label>
+
+                    {{ form.password1 }}
+
+                    {% for error in form.password1.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                    <small class="password-hint">
+                        Use at least 8 characters.
+                    </small>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.password2.id_for_label }}">
+                        Confirm password
+                    </label>
+
+                    {{ form.password2 }}
+
+                    {% for error in form.password2.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <button type="submit" class="auth-submit">
+                    Create account
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+
+                <span>Already have an account?</span>
+
+                <a href="{% url 'login' %}">
+                    Sign in
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

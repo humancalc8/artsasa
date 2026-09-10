@@ -19,7 +19,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Permanent+Marker&display=swap"
       rel="stylesheet">
 
 <!-- =========================================================
@@ -41,36 +41,39 @@
 
 
 <!-- =============================================================
-     PAGE LOADER  —  slanting pen writing "Artsasa"
+     PAGE LOADER  —  brush painting "ARTSASA" graffiti-style.
+     Starts with "is-active" already applied so it is the very
+     first thing painted to the screen, before the homepage
+     content appears. JS holds it for a fixed 2 seconds.
 ============================================================= -->
-<div class="page-loader" id="pageLoader" aria-hidden="true">
+<div class="page-loader is-active" id="pageLoader" aria-hidden="true">
 
     <div class="loader-stage">
 
-        <!-- ink-drawn signature -->
-        <svg class="loader-svg" viewBox="0 0 520 190" role="img"
-             aria-label="Artsasa">
+        <div class="loader-canvas">
 
-            <!-- the handwritten word -->
-            <text class="loader-word" x="30" y="120">Artsasa</text>
+            <!-- the graffiti brush tag -->
+            <span class="loader-tag">ARTSASA</span>
 
-            <!-- the ink underline stroke -->
-            <path class="loader-stroke"
-                  d="M34 148 C 150 176, 330 176, 470 138"
-                  fill="none" />
-        </svg>
+            <!-- the brush gliding across, "painting" the word -->
+            <span class="loader-brush-icon" aria-hidden="true">
+                <i class="fa-solid fa-paintbrush"></i>
+            </span>
 
-        <!-- the slanting pen that travels across the word -->
-        <span class="loader-pen" aria-hidden="true">
-            <i class="fa-solid fa-pen-nib"></i>
-        </span>
+            <!-- wet-paint drips falling from the lettering -->
+            <span class="drip drip-1"></span>
+            <span class="drip drip-2"></span>
+            <span class="drip drip-3"></span>
+            <span class="drip drip-4"></span>
 
-        <!-- palette dots: paint, sculpture, canvas -->
-        <div class="loader-palette" aria-hidden="true">
-            <span class="dot dot-1"></span>
-            <span class="dot dot-2"></span>
-            <span class="dot dot-3"></span>
-            <span class="dot dot-4"></span>
+        </div>
+
+        <!-- spray-paint texture dots -->
+        <div class="loader-spray" aria-hidden="true">
+            <span class="spray-dot sd-1"></span>
+            <span class="spray-dot sd-2"></span>
+            <span class="spray-dot sd-3"></span>
+            <span class="spray-dot sd-4"></span>
         </div>
 
         <p class="loader-caption">Contemporary Art · Nairobi</p>
@@ -328,8 +331,8 @@
                     <button type="submit" class="mp-btn mp-btn-ghost">Sign Out</button>
                 </form>
             {% else %}
-                <a href="{% url 'index' %}" class="mp-btn">Sign In</a>
-                <a href="{% url 'index' %}" class="mp-btn mp-btn-ghost">Register</a>
+                <a href="{% url 'index' %}" class="mp-btn">login</a>
+                <a href="{% url 'register' %}" class="mp-btn mp-btn-ghost">Register</a>
             {% endif %}
         </div>
 
@@ -428,7 +431,7 @@
 <!-- =============================================================
      PAGE CONTENT
 ============================================================= -->
-<main class="page-content">
+<main class="page-content" id="pageContent">
     {% block content %}{% endblock %}
 </main>
 
@@ -436,7 +439,7 @@
 <!-- =============================================================
      NEWSLETTER BAND
 ============================================================= -->
-<section class="newsletter-band">
+<section class="newsletter-band" id="newsletterBand">
 
     <div class="site-container newsletter-inner">
 
@@ -467,7 +470,7 @@
      the dark footer background.
 ============================================================= -->
 
-<footer class="site-footer">
+<footer class="site-footer" id="siteFooter">
 
     <div class="site-container">
 
@@ -850,7 +853,30 @@
 
 
     /* ---------------------------------------------------------
+       PAGE LOADER — brush intro (2 seconds) + route transitions
+    --------------------------------------------------------- */
+    var loader = $("#pageLoader");
+
+    function showLoader() {
+        if (!loader) return;
+        loader.classList.add("is-active");
+    }
+
+    function hideLoader() {
+        if (!loader) return;
+        loader.classList.remove("is-active");
+    }
+
+    // The loader markup already carries "is-active" so it is the very
+    // first thing painted — before the homepage/page content is seen.
+    // Hold it on screen for a fixed 2 seconds, then reveal the page.
+    window.setTimeout(hideLoader, 2000);
+
+
+    /* ---------------------------------------------------------
        MOBILE NAV
+       Opening the menu blurs the rest of the page (content,
+       newsletter band, footer); closing it restores normal view.
     --------------------------------------------------------- */
     var nav      = $("#mobileNav");
     var backdrop = $("#mobileNavBackdrop");
@@ -1018,20 +1044,8 @@
 
 
     /* ---------------------------------------------------------
-       PAGE LOADER ON NAVIGATION
+       PAGE LOADER ON NAVIGATION (internal links)
     --------------------------------------------------------- */
-    var loader = $("#pageLoader");
-
-    function showLoader() {
-        if (!loader) return;
-        loader.classList.add("is-active");
-    }
-
-    function hideLoader() {
-        if (!loader) return;
-        loader.classList.remove("is-active");
-    }
-
     document.addEventListener("click", function (e) {
         var a = e.target.closest ? e.target.closest("a") : null;
         if (!a) return;
@@ -1056,7 +1070,9 @@
         if (e.target && e.target.classList.contains("search-form")) showLoader();
     });
 
-    window.addEventListener("pageshow", hideLoader);
+    window.addEventListener("pageshow", function () {
+        hideLoader();
+    });
     window.addEventListener("beforeunload", showLoader);
 
 

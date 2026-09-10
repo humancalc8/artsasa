@@ -1,0 +1,116 @@
+html
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Sign In — ARTSASA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-container auth-container-small">
+
+        <div class="auth-intro">
+
+            <span class="auth-kicker">
+                WELCOME BACK
+            </span>
+
+            <h1>Sign in to ARTSASA</h1>
+
+            <p>
+                Access your account, wishlist and artwork enquiries.
+            </p>
+
+        </div>
+
+        <div class="auth-card">
+
+            <h2>Sign in</h2>
+
+            <p class="auth-subtitle">
+                Enter your email and password.
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            {% if form.non_field_errors %}
+                <div class="auth-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <form method="post" class="auth-form">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email address
+                    </label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="{{ form.password.id_for_label }}">
+                        Password
+                    </label>
+
+                    {{ form.password }}
+
+                    {% for error in form.password.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Sign in
+                </button>
+
+            </form>
+
+            <div class="auth-footer">
+
+                <span>Don't have an account?</span>
+
+                <a href="{% url 'register' %}">
+                    Create one
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

@@ -1,0 +1,110 @@
+html
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Verify Email — ARTSASA{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+
+    <div class="auth-container auth-container-small">
+
+        <div class="auth-card">
+
+            <div class="otp-icon">
+                <i class="fa-regular fa-envelope"></i>
+            </div>
+
+            <span class="auth-kicker">
+                EMAIL VERIFICATION
+            </span>
+
+            <h1>Verify your email</h1>
+
+            <p class="auth-subtitle">
+
+                We sent a 6-digit verification code to
+
+                <strong>{{ user.email }}</strong>.
+
+            </p>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="auth-message {{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <form method="post" class="auth-form">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label for="{{ form.otp.id_for_label }}">
+                        Verification code
+                    </label>
+
+                    {{ form.otp }}
+
+                    {% for error in form.otp.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="auth-submit"
+                >
+                    Verify email
+                </button>
+
+            </form>
+
+            <div class="otp-expiry">
+
+                <i class="fa-regular fa-clock"></i>
+
+                Your code is valid for 10 minutes.
+
+            </div>
+
+            <div class="auth-footer">
+
+                <span>Didn't receive the code?</span>
+
+                <form
+                    method="post"
+                    action="{% url 'resend_otp' %}"
+                    class="resend-form"
+                >
+
+                    {% csrf_token %}
+
+                    <button type="submit">
+                        Resend code
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+

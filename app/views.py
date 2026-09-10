@@ -1480,3 +1480,395 @@ from django.shortcuts import render
 
 def blog(request):
     return render(request, "blog.html")
+
+
+from datetime import timedelta
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.views.decorators.http import require_POST
+
+from .forms import RegisterForm, OTPVerificationForm, LoginForm
+from .models import EmailVerification
+from .utils import send_verification_otp
+# ============================================================
+# ACCOUNT REGISTRATION
+# ============================================================
+
+def register_view(request):
+
+    if request.user.is_authenticated:
+        return redirect("index")
+
+    if request.method == "POST":
+
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+
+            first_name = form.cleaned_data["first_name"]
+            last_name = form.cleaned_data["last_name"]
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password1"]
+
+            # Create inactive user until email is verified
+            user = User.objects.create_user(
+                username=email,
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name,
+            )
+
+            user.is_active = False
+            user.save(update_fields=["is_active"])
+
+            verification = EmailVerification.objects.create(
+            user=user,
+)
+
+            send_verification_otp(
+                user,
+                verification,
+)
+
+            # Remember user while verifying
+            request.session["pending_verification_user_id"] = user.id
+
+            messages.success(
+                request,
+                "Your account has been created. "
+                "We sent a verification code to your email."
+            )
+
+            return redirect("verify_otp")
+
+    else:
+        form = RegisterForm()
+
+    return render(
+        request,
+        "accounts/register.html",
+        {
+            "form": form,
+        }
+    )
+
+
+# ============================================================
+# VERIFY OTP
+# ============================================================
+
+def verify_otp_view(request):
+
+    user_id = request.session.get(
+        "pending_verification_user_id"
+    )
+
+    if not user_id:
+        messages.error(
+            request,
+            "Your verification session has expired. Please register again."
+        )
+        return redirect("register")
+
+    try:
+        user = User.objects.get(
+            id=user_id
+        )
+
+        verification = EmailVerification.objects.get(
+            user=user
+        )
+
+    except (
+        User.DoesNotExist,
+        EmailVerification.DoesNotExist
+    ):
+        messages.error(
+            request,
+            "Verification information could not be found."
+        )
+        return redirect("register")
+
+    if verification.is_verified:
+        request.session.pop(
+            "pending_verification_user_id",
+            None
+        )
+
+        return redirect("login")
+
+    if request.method == "POST":
+
+        form = OTPVerificationForm(request.POST)
+
+        if form.is_valid():
+
+            otp = form.cleaned_data["otp"]
+
+            # Maximum 5 attempts
+            if verification.attempts >= 5:
+
+                messages.error(
+                    request,
+                    "Too many incorrect attempts. Please request a new code."
+                )
+
+                return redirect("verify_otp")
+
+            if verification.is_expired:
+
+                messages.error(
+                    request,
+                    "This verification code has expired. "
+                    "Please request a new code."
+                )
+
+                return redirect("verify_otp")
+
+            if not verification.check_otp(otp):
+
+                verification.attempts += 1
+
+                verification.save(
+                    update_fields=["attempts"]
+                )
+
+                remaining = max(
+                    0,
+                    5 - verification.attempts
+                )
+
+                messages.error(
+                    request,
+                    f"Incorrect verification code. "
+                    f"{remaining} attempts remaining."
+                )
+
+                return redirect("verify_otp")
+
+            # ==================================================
+            # SUCCESSFUL VERIFICATION
+            # ==================================================
+
+            user.is_active = True
+
+            user.save(
+                update_fields=["is_active"]
+            )
+
+            verification.verified_at = timezone.now()
+
+            verification.save(
+                update_fields=["verified_at"]
+            )
+
+            request.session.pop(
+                "pending_verification_user_id",
+                None
+            )
+
+            # Automatically log user in
+            login(
+                request,
+                user
+            )
+
+            messages.success(
+                request,
+                "Your email has been verified. Welcome to ARTSASA!"
+            )
+
+            return redirect("index")
+
+    else:
+        form = OTPVerificationForm()
+
+    return render(
+        request,
+        "accounts/verify_otp.html",
+        {
+            "form": form,
+            "user": user,
+            "verification": verification,
+        }
+    )
+
+
+# ============================================================
+# RESEND OTP
+# ============================================================
+
+def resend_otp_view(request):
+
+    user_id = request.session.get(
+        "pending_verification_user_id"
+    )
+
+    if not user_id:
+        messages.error(
+            request,
+            "Your verification session has expired."
+        )
+        return redirect("register")
+
+    try:
+        user = User.objects.get(
+            id=user_id
+        )
+
+        verification = EmailVerification.objects.get(
+            user=user
+        )
+
+    except (
+        User.DoesNotExist,
+        EmailVerification.DoesNotExist
+    ):
+        messages.error(
+            request,
+            "Verification information could not be found."
+        )
+        return redirect("register")
+
+    # Prevent rapid OTP spam
+    if verification.last_sent_at:
+
+        seconds_since_last_send = (
+            timezone.now() - verification.last_sent_at
+        ).total_seconds()
+
+        if seconds_since_last_send < 60:
+
+            remaining = int(
+                60 - seconds_since_last_send
+            )
+
+            messages.warning(
+                request,
+                f"Please wait {remaining} seconds before requesting another code."
+            )
+
+            return redirect("verify_otp")
+
+    send_verification_otp(
+        user,
+        verification
+    )
+
+    messages.success(
+        request,
+        "A new verification code has been sent to your email."
+    )
+
+    return redirect("verify_otp")
+
+
+# ============================================================
+# LOGIN
+# ============================================================
+
+def login_view(request):
+
+    if request.user.is_authenticated:
+        return redirect("index")
+
+    if request.method == "POST":
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+
+            email = form.cleaned_data["email"].strip().lower()
+            password = form.cleaned_data["password"]
+
+            try:
+                user = User.objects.get(
+                    email__iexact=email
+                )
+            except User.DoesNotExist:
+                user = None
+
+            # Account exists but email hasn't been verified
+            if user and not user.is_active:
+
+                verification = getattr(
+                    user,
+                    "email_verification",
+                    None
+                )
+
+                if verification and not verification.is_verified:
+
+                    request.session[
+                        "pending_verification_user_id"
+                    ] = user.id
+
+                    messages.warning(
+                        request,
+                        "Please verify your email before logging in."
+                    )
+
+                    return redirect("verify_otp")
+
+            authenticated_user = authenticate(
+                request,
+                username=email,
+                password=password
+            )
+
+            if authenticated_user is not None:
+
+                login(
+                    request,
+                    authenticated_user
+                )
+
+                messages.success(
+                    request,
+                    f"Welcome back, {authenticated_user.first_name}!"
+                )
+
+                next_url = request.GET.get("next")
+
+                if next_url:
+                    return redirect(next_url)
+
+                return redirect("index")
+
+            messages.error(
+                request,
+                "Invalid email or password."
+            )
+
+    else:
+        form = LoginForm()
+
+    return render(
+        request,
+        "accounts/login.html",
+        {
+            "form": form,
+        }
+    )
+
+
+# ============================================================
+# LOGOUT
+# ============================================================
+
+@require_POST
+def logout_view(request):
+
+    logout(request)
+
+    messages.success(
+        request,
+        "You have been signed out."
+    )
+
+    return redirect("index")
