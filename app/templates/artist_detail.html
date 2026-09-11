@@ -1,689 +1,844 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ artist.name }} — ARTSASA{% endblock %}
+{% block title %}
+{{ artist.name }} — ARTSASA
+{% endblock %}
 
 {% block meta_description %}
-Discover the work and artistic practice of {{ artist.name }} at ARTSASA, a contemporary art gallery in Nairobi.
+{% if artist.bio %}
+{{ artist.bio|truncatechars:155 }}
+{% else %}
+Discover the work of {{ artist.name }} at ARTSASA, a contemporary art gallery in Nairobi.
+{% endif %}
 {% endblock %}
 
-{% block extra_css %}
-
-<style>
-/* =========================================================
-   ARTSASA — ARTIST DETAIL
-   Quiet editorial presentation with a gallery-quality feel.
-========================================================= */
-
-.artist-page {
-    background: #f1eadb;
-    color: #211e1b;
-}
-
-/* ---------------------------------------------------------
-   HERO
---------------------------------------------------------- */
-
-.artist-hero {
-    min-height: 72vh;
-    padding: 150px 0 90px;
-    display: flex;
-    align-items: flex-end;
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(33, 30, 27, .14);
-}
-
-.artist-hero::before {
-    content: "";
-    position: absolute;
-    width: 520px;
-    height: 520px;
-    right: -180px;
-    top: 80px;
-    border-radius: 50%;
-    background: rgba(161, 92, 59, .08);
-    pointer-events: none;
-}
-
-.artist-hero-inner {
-    width: min(1400px, calc(100% - 48px));
-    margin: 0 auto;
-    position: relative;
-    z-index: 1;
-}
-
-.artist-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 28px;
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: #7c4429;
-}
-
-.artist-kicker::before {
-    content: "";
-    width: 42px;
-    height: 1px;
-    background: #7c4429;
-}
-
-.artist-name {
-    margin: 0;
-    max-width: 1000px;
-    font-family: "Cormorant Garamond", serif;
-    font-size: clamp(68px, 10vw, 150px);
-    font-weight: 400;
-    line-height: .82;
-    letter-spacing: -.045em;
-}
-
-.artist-location {
-    margin: 34px 0 0;
-    font-family: "DM Sans", sans-serif;
-    font-size: 13px;
-    letter-spacing: .04em;
-    color: rgba(33, 30, 27, .66);
-}
-
-/* ---------------------------------------------------------
-   INTRO
---------------------------------------------------------- */
-
-.artist-introduction {
-    padding: 110px 0;
-    background: #f1eadb;
-}
-
-.artist-introduction-inner {
-    width: min(1200px, calc(100% - 48px));
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 80px;
-}
-
-.artist-intro-label {
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: #7c4429;
-}
-
-.artist-intro-copy {
-    max-width: 850px;
-}
-
-.artist-intro-copy p {
-    margin: 0;
-    font-family: "Newsreader", serif;
-    font-size: clamp(28px, 3.2vw, 48px);
-    font-weight: 400;
-    line-height: 1.16;
-    letter-spacing: -.025em;
-}
-
-/* ---------------------------------------------------------
-   WORKS HEADER
---------------------------------------------------------- */
-
-.artist-works {
-    padding: 100px 0 130px;
-    background: #211e1b;
-    color: #f1eadb;
-}
-
-.artist-works-inner {
-    width: min(1400px, calc(100% - 48px));
-    margin: 0 auto;
-}
-
-.artist-works-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 64px;
-}
-
-.artist-works-kicker {
-    margin: 0 0 16px;
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: .2em;
-    text-transform: uppercase;
-    color: #c9bb9f;
-}
-
-.artist-works-title {
-    margin: 0;
-    font-family: "Cormorant Garamond", serif;
-    font-size: clamp(48px, 6vw, 92px);
-    font-weight: 400;
-    line-height: .9;
-    letter-spacing: -.04em;
-}
-
-.artist-works-count {
-    font-family: "DM Sans", sans-serif;
-    font-size: 12px;
-    color: rgba(241, 234, 219, .55);
-    white-space: nowrap;
-}
-
-/* ---------------------------------------------------------
-   ARTWORK GRID
---------------------------------------------------------- */
-
-.artist-art-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 80px 34px;
-}
-
-.artist-art-card {
-    min-width: 0;
-}
-
-.artist-art-image {
-    position: relative;
-    overflow: hidden;
-    background: #302b27;
-    aspect-ratio: 4 / 5;
-}
-
-.artist-art-card:nth-child(3n) .artist-art-image {
-    aspect-ratio: 1 / 1;
-}
-
-.artist-art-image a {
-    display: block;
-    width: 100%;
-    height: 100%;
-}
-
-.artist-art-image img {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    transition: transform .8s cubic-bezier(.2,.7,.2,1);
-}
-
-.artist-art-card:hover .artist-art-image img {
-    transform: scale(1.035);
-}
-
-.artist-art-overlay {
-    position: absolute;
-    inset: auto 0 0;
-    padding: 28px;
-    display: flex;
-    justify-content: flex-end;
-    pointer-events: none;
-}
-
-.artist-art-number {
-    width: 42px;
-    height: 42px;
-    display: grid;
-    place-items: center;
-    border: 1px solid rgba(241, 234, 219, .4);
-    border-radius: 50%;
-    background: rgba(33, 30, 27, .68);
-    backdrop-filter: blur(8px);
-    font-family: "DM Sans", sans-serif;
-    font-size: 10px;
-    color: #f1eadb;
-}
-
-.artist-art-info {
-    padding-top: 20px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 24px;
-}
-
-.artist-art-title {
-    margin: 0;
-    font-family: "Newsreader", serif;
-    font-size: 27px;
-    font-weight: 400;
-    line-height: 1.05;
-}
-
-.artist-art-title a {
-    color: inherit;
-    text-decoration: none;
-}
-
-.artist-art-meta {
-    margin-top: 8px;
-    font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    line-height: 1.5;
-    color: rgba(241, 234, 219, .54);
-}
-
-.artist-art-price {
-    flex: 0 0 auto;
-    font-family: "DM Sans", sans-serif;
-    font-size: 12px;
-    color: #c9bb9f;
-    text-align: right;
-}
-
-/* ---------------------------------------------------------
-   EMPTY STATE
---------------------------------------------------------- */
-
-.artist-empty {
-    padding: 80px 40px;
-    border: 1px solid rgba(241, 234, 219, .14);
-    text-align: center;
-}
-
-.artist-empty p {
-    margin: 0;
-    font-family: "Newsreader", serif;
-    font-size: 28px;
-    color: rgba(241, 234, 219, .72);
-}
-
-/* ---------------------------------------------------------
-   BACK TO ARTISTS
---------------------------------------------------------- */
-
-.artist-back {
-    padding: 80px 0;
-    background: #f1eadb;
-}
-
-.artist-back-inner {
-    width: min(1400px, calc(100% - 48px));
-    margin: 0 auto;
-}
-
-.artist-back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 14px;
-    color: #211e1b;
-    text-decoration: none;
-    font-family: "DM Sans", sans-serif;
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-    transition: gap .3s ease, color .3s ease;
-}
-
-.artist-back-link:hover {
-    gap: 20px;
-    color: #7c4429;
-}
-
-.artist-back-link i {
-    font-size: 12px;
-}
-
-/* ---------------------------------------------------------
-   RESPONSIVE
---------------------------------------------------------- */
-
-@media (max-width: 900px) {
-
-    .artist-hero {
-        min-height: 60vh;
-        padding: 130px 0 70px;
-    }
-
-    .artist-introduction-inner {
-        grid-template-columns: 1fr;
-        gap: 28px;
-    }
-
-    .artist-introduction {
-        padding: 80px 0;
-    }
-
-    .artist-art-grid {
-        gap: 60px 22px;
-    }
-
-    .artist-works {
-        padding: 80px 0 100px;
-    }
-}
-
-@media (max-width: 640px) {
-
-    .artist-hero-inner,
-    .artist-introduction-inner,
-    .artist-works-inner,
-    .artist-back-inner {
-        width: min(100% - 32px, 1400px);
-    }
-
-    .artist-hero {
-        min-height: 55vh;
-        padding: 120px 0 60px;
-    }
-
-    .artist-name {
-        font-size: clamp(58px, 18vw, 96px);
-        line-height: .86;
-    }
-
-    .artist-location {
-        margin-top: 24px;
-    }
-
-    .artist-introduction {
-        padding: 70px 0;
-    }
-
-    .artist-intro-copy p {
-        font-size: 30px;
-    }
-
-    .artist-works {
-        padding: 70px 0 85px;
-    }
-
-    .artist-works-header {
-        display: block;
-        margin-bottom: 42px;
-    }
-
-    .artist-works-count {
-        display: block;
-        margin-top: 20px;
-    }
-
-    .artist-art-grid {
-        grid-template-columns: 1fr;
-        gap: 54px;
-    }
-
-    .artist-art-image,
-    .artist-art-card:nth-child(3n) .artist-art-image {
-        aspect-ratio: 4 / 5;
-    }
-
-    .artist-art-info {
-        display: block;
-    }
-
-    .artist-art-price {
-        margin-top: 12px;
-        text-align: left;
-    }
-
-    .artist-back {
-        padding: 60px 0;
-    }
-}
-</style>
-
-{% endblock %}
 
 {% block content %}
 
-<div class="artist-page">
+<main class="artist-detail-page">
+
+    <!-- =====================================================
+         ARTIST INTRO
+    ====================================================== -->
+
+    <section class="artist-detail-intro">
+
+        <div class="site-container">
+
+            <div class="artist-detail-breadcrumb">
+
+                <a href="{% url 'artists' %}">
+                    Artists
+                </a>
+
+                <span>/</span>
+
+                <span>{{ artist.name }}</span>
+
+            </div>
 
 
-<!-- =====================================================
-     ARTIST HERO
-====================================================== -->
+            <div class="artist-detail-header">
 
-<section class="artist-hero">
+                <!-- =========================================
+                     ARTIST IMAGE
+                ========================================== -->
 
-    <div class="artist-hero-inner">
+                <div class="artist-detail-image">
 
-        <div class="artist-kicker">
-            Artist
+                    {% if artist.image %}
+
+                        <img
+                            src="{{ artist.image.url }}"
+                            alt="{{ artist.name }}"
+                            loading="eager"
+                        >
+
+                    {% else %}
+
+                        <div class="artist-detail-image-placeholder">
+                            <i class="fa-regular fa-image"></i>
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- =========================================
+                     ARTIST INFORMATION
+                ========================================== -->
+
+                <div class="artist-detail-information">
+
+                    <p class="artist-detail-eyebrow">
+                        Artist
+                    </p>
+
+                    <h1>
+                        {{ artist.name }}
+                    </h1>
+
+
+                    {% if artist.bio %}
+
+                        <div class="artist-detail-bio">
+
+                            {{ artist.bio|linebreaks }}
+
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if artist.location or artist.website or artist.instagram %}
+
+                        <dl class="artist-detail-facts">
+
+                            {% if artist.location %}
+
+                                <div class="artist-detail-facts__row">
+
+                                    <dt>Based</dt>
+
+                                    <dd>{{ artist.location }}</dd>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if artist.website %}
+
+                                <div class="artist-detail-facts__row">
+
+                                    <dt>Website</dt>
+
+                                    <dd>
+
+                                        <a
+                                            href="{{ artist.website }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="artist-detail-facts__link"
+                                        >
+                                            {{ artist.website|cut:"https://"|cut:"http://"|cut:"www." }}
+                                        </a>
+
+                                    </dd>
+
+                                </div>
+
+                            {% endif %}
+
+
+                            {% if artist.instagram %}
+
+                                <div class="artist-detail-facts__row">
+
+                                    <dt>Instagram</dt>
+
+                                    <dd>
+
+                                        <a
+                                            href="https://instagram.com/{{ artist.instagram|cut:'@' }}"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="artist-detail-facts__link"
+                                        >
+                                            @{{ artist.instagram|cut:"@" }}
+                                        </a>
+
+                                    </dd>
+
+                                </div>
+
+                            {% endif %}
+
+                        </dl>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
         </div>
 
-        <h1 class="artist-name">
-            {{ artist.name }}
-        </h1>
-
-        {% if artist.location %}
-            <p class="artist-location">
-                {{ artist.location }}
-            </p>
-        {% endif %}
-
-    </div>
-
-</section>
+    </section>
 
 
-<!-- =====================================================
-     ARTIST INTRODUCTION
-====================================================== -->
+    <!-- =====================================================
+         ARTIST WORKS
+    ====================================================== -->
 
-<section class="artist-introduction">
+    <section class="artist-detail-works">
 
-    <div class="artist-introduction-inner">
+        <div class="site-container">
 
-        <div>
-            <span class="artist-intro-label">
-                The Practice
-            </span>
-        </div>
+            <div class="artist-detail-works-heading">
 
-        <div class="artist-intro-copy">
+                <div>
 
-            {% if artist.bio %}
+                    <p class="section-eyebrow">
+                        The collection
+                    </p>
 
-                <p>
-                    {{ artist.bio|linebreaksbr }}
-                </p>
+                    <h2>
+                        Works by {{ artist.name }}
+                    </h2>
+
+                </div>
+
+                <div class="artist-detail-count">
+
+                    {{ artworks|length }}
+
+                    {% if artworks|length == 1 %}
+                        work
+                    {% else %}
+                        works
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            {% if artworks %}
+
+                <div class="artist-works-grid">
+
+                    {% for artwork in artworks %}
+
+                        <article class="artist-work-card">
+
+                            <a
+                                href="{{ artwork.get_absolute_url }}"
+                                class="artist-work-card__image"
+                            >
+
+                                {% if artwork.image %}
+
+                                    <img
+                                        src="{{ artwork.image.url }}"
+                                        alt="{{ artwork.title }}"
+                                        loading="lazy"
+                                    >
+
+                                {% else %}
+
+                                    <div class="artist-work-card__placeholder">
+
+                                        <i class="fa-regular fa-image"></i>
+
+                                    </div>
+
+                                {% endif %}
+
+                            </a>
+
+
+                            <div class="artist-work-card__content">
+
+                                <div>
+
+                                    <p class="artist-work-card__title">
+                                        {{ artwork.title }}
+                                    </p>
+
+                                    {% if artwork.year %}
+
+                                        <p class="artist-work-card__year">
+                                            {{ artwork.year }}
+                                        </p>
+
+                                    {% endif %}
+
+                                </div>
+
+
+                                {% if artwork.status %}
+
+                                    <span class="artist-work-card__status
+                                        {% if artwork.status == 'Available' %}
+                                            is-available
+                                        {% elif artwork.status == 'Sold' %}
+                                            is-sold
+                                        {% endif %}
+                                    ">
+                                        {{ artwork.status }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if artwork.medium %}
+
+                                <p class="artist-work-card__medium">
+                                    {{ artwork.medium }}
+                                </p>
+
+                            {% endif %}
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
 
             {% else %}
 
-                <p>
-                    {{ artist.name }} is an artist whose work contributes
-                    to the evolving contemporary art landscape represented
-                    by ARTSASA.
-                </p>
+                <div class="artist-no-works">
+
+                    <i class="fa-regular fa-image"></i>
+
+                    <h3>
+                        No published works yet
+                    </h3>
+
+                    <p>
+                        There are currently no published artworks
+                        associated with {{ artist.name }}.
+                    </p>
+
+                </div>
 
             {% endif %}
 
         </div>
 
-    </div>
+    </section>
 
-</section>
 
+    <!-- =====================================================
+         BACK TO ARTISTS
+    ====================================================== -->
 
-<!-- =====================================================
-     ARTWORKS
-====================================================== -->
+    <section class="artist-detail-footer">
 
-<section class="artist-works">
+        <div class="site-container">
 
-    <div class="artist-works-inner">
+            <a
+                href="{% url 'artists' %}"
+                class="artist-back-link"
+            >
 
-        <header class="artist-works-header">
+                <i class="fa-solid fa-arrow-left"></i>
 
-            <div>
-                <p class="artist-works-kicker">
-                    Selected Works
-                </p>
+                Back to artists
 
-                <h2 class="artist-works-title">
-                    The work.
-                </h2>
-            </div>
+            </a>
 
-            <span class="artist-works-count">
-                {{ artworks|length }} work{{ artworks|length|pluralize }}
-            </span>
+        </div>
 
-        </header>
+    </section>
 
+</main>
+<style>/* =========================================================
+   ARTIST DETAIL PAGE
+========================================================= */
 
-        {% if artworks %}
+.artist-detail-page {
+    background: var(--sandstone, #F1EADB);
+}
 
-            <div class="artist-art-grid">
 
-                {% for artwork in artworks %}
+/* =========================================================
+   INTRO
+========================================================= */
 
-                    <article class="artist-art-card">
+.artist-detail-intro {
+    padding: 150px 0 100px;
+}
 
-                        <div class="artist-art-image">
+.artist-detail-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 55px;
 
-                            <a href="{% url 'product_detail' artwork.slug %}"
-                               aria-label="View {{ artwork.title }}">
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
 
-                                {% with artwork.images.all|first as image %}
+.artist-detail-breadcrumb a {
+    color: inherit;
+    text-decoration: none;
+}
 
-                                    {% if image and image.image %}
+.artist-detail-breadcrumb span:last-child {
+    opacity: 0.5;
+}
 
-                                        <img
-                                            src="{{ image.image.url }}"
-                                            alt="{{ artwork.title }}"
-                                            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                                        >
 
-                                    {% elif artwork.image %}
+.artist-detail-header {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.85fr) minmax(400px, 1.15fr);
+    gap: 90px;
+    align-items: start;
+}
 
-                                        <img
-                                            src="{{ artwork.image.url }}"
-                                            alt="{{ artwork.title }}"
-                                            loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                                        >
 
-                                    {% else %}
+/* =========================================================
+   ARTIST IMAGE
+========================================================= */
 
-                                        <div style="
-                                            width:100%;
-                                            height:100%;
-                                            display:grid;
-                                            place-items:center;
-                                            font-family:'DM Sans',sans-serif;
-                                            font-size:11px;
-                                            letter-spacing:.12em;
-                                            text-transform:uppercase;
-                                            color:rgba(241,234,219,.4);
-                                        ">
-                                            ARTSASA
-                                        </div>
+.artist-detail-image {
+    width: 100%;
+    overflow: hidden;
+    background: #ddd8cd;
+    position: relative;
+}
 
-                                    {% endif %}
+.artist-detail-image::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(33, 30, 27, 0.08);
+    pointer-events: none;
+}
 
-                                {% endwith %}
+.artist-detail-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+}
 
-                            </a>
+.artist-detail-image-placeholder {
+    aspect-ratio: 4 / 5;
 
-                            <div class="artist-art-overlay">
-                                <span class="artist-art-number">
-                                    {{ forloop.counter|stringformat:"02d" }}
-                                </span>
-                            </div>
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-                        </div>
+    font-size: 30px;
+    opacity: 0.35;
+}
 
 
-                        <div class="artist-art-info">
+/* =========================================================
+   ARTIST INFORMATION
+========================================================= */
 
-                            <div>
+.artist-detail-information {
+    padding-top: 15px;
+    max-width: 700px;
+}
 
-                                <h3 class="artist-art-title">
-                                    <a href="{% url 'product_detail' artwork.slug %}">
-                                        {{ artwork.title }}
-                                    </a>
-                                </h3>
+.artist-detail-eyebrow,
+.section-eyebrow {
+    margin: 0 0 18px;
 
-                                <p class="artist-art-meta">
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 
-                                    {% if artwork.medium %}
-                                        {{ artwork.medium }}
-                                    {% endif %}
+    color: #7C4429;
+}
 
-                                    {% if artwork.year %}
-                                        {% if artwork.medium %} · {% endif %}
-                                        {{ artwork.year }}
-                                    {% endif %}
+.artist-detail-information h1 {
+    margin: 0;
 
-                                    {% if artwork.category %}
-                                        {% if artwork.medium or artwork.year %} · {% endif %}
-                                        {{ artwork.category.name }}
-                                    {% endif %}
+    font-family: "Newsreader", serif;
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+}
 
-                                </p>
 
-                            </div>
+/* ---------------------------------------------------------
+   BIO — quiet editorial setting with a drop cap
+--------------------------------------------------------- */
 
+.artist-detail-bio {
+    margin-top: 38px;
 
-                            {% if artwork.price %}
+    max-width: 560px;
 
-                                <div class="artist-art-price">
-                                    KES {{ artwork.price|floatformat:0 }}
-                                </div>
+    font-size: 17px;
+    line-height: 1.85;
+    color: #4b4741;
+}
 
-                            {% endif %}
+.artist-detail-bio p {
+    margin: 0 0 20px;
+}
 
-                        </div>
+.artist-detail-bio p:last-child {
+    margin-bottom: 0;
+}
 
-                    </article>
+.artist-detail-bio p:first-of-type::first-letter {
+    float: left;
 
-                {% endfor %}
+    margin: 4px 10px 0 0;
 
-            </div>
+    font-family: "Newsreader", serif;
+    font-size: 66px;
+    font-weight: 400;
+    line-height: 0.8;
 
-        {% else %}
+    color: #7C4429;
+}
 
-            <div class="artist-empty">
 
-                <p>
-                    Works by {{ artist.name }} will appear here.
-                </p>
+/* ---------------------------------------------------------
+   FACTS — quiet spec-sheet list (location / website / ig)
+--------------------------------------------------------- */
 
-            </div>
+.artist-detail-facts {
+    margin: 46px 0 0;
+    max-width: 460px;
 
-        {% endif %}
+    border-top: 1px solid rgba(33, 30, 27, 0.14);
+}
 
-    </div>
+.artist-detail-facts__row {
+    display: grid;
+    grid-template-columns: 108px 1fr;
+    gap: 20px;
+    align-items: baseline;
 
-</section>
+    padding: 15px 0;
 
+    border-bottom: 1px solid rgba(33, 30, 27, 0.14);
+}
 
-<!-- =====================================================
-     BACK TO ARTISTS
-====================================================== -->
+.artist-detail-facts__row dt {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #7C4429;
+}
 
-<section class="artist-back">
+.artist-detail-facts__row dd {
+    margin: 0;
 
-    <div class="artist-back-inner">
+    font-size: 14.5px;
+    letter-spacing: 0.01em;
+    color: #3a3733;
+}
 
-        <a href="{% url 'artists' %}" class="artist-back-link">
+.artist-detail-facts__link {
+    position: relative;
 
-            <i class="fa-solid fa-arrow-left"></i>
+    color: inherit;
+    text-decoration: none;
 
-            <span>
-                Back to all artists
-            </span>
+    background-image: linear-gradient(#3a3733, #3a3733);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 1px;
 
-        </a>
+    transition: color 0.3s ease;
+}
 
-    </div>
+.artist-detail-facts__link:hover {
+    color: #7C4429;
+    background-image: linear-gradient(#7C4429, #7C4429);
+}
 
-</section>
 
+/* =========================================================
+   WORKS SECTION
+========================================================= */
 
-</div>
+.artist-detail-works {
+    padding: 100px 0 120px;
 
+    background: #ebe5d8;
+}
+
+
+.artist-detail-works-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    margin-bottom: 55px;
+}
+
+.artist-detail-works-heading h2 {
+    margin: 0;
+
+    font-family: "Newsreader", serif;
+    font-size: clamp(38px, 5vw, 65px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.025em;
+}
+
+.artist-detail-count {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
+}
+
+
+/* =========================================================
+   WORKS GRID
+========================================================= */
+
+.artist-works-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 50px 28px;
+}
+
+
+.artist-work-card {
+    min-width: 0;
+}
+
+
+.artist-work-card__image {
+    display: block;
+
+    overflow: hidden;
+
+    background: #d8d1c3;
+
+    aspect-ratio: 4 / 5;
+}
+
+
+.artist-work-card__image img {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transition:
+        transform 0.7s cubic-bezier(.2,.7,.2,1);
+}
+
+
+.artist-work-card:hover
+.artist-work-card__image img {
+    transform: scale(1.035);
+}
+
+
+.artist-work-card__placeholder {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 28px;
+    opacity: 0.35;
+}
+
+
+/* =========================================================
+   WORK INFORMATION
+========================================================= */
+
+.artist-work-card__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+
+    padding-top: 18px;
+}
+
+.artist-work-card__title {
+    margin: 0;
+
+    font-family: "Newsreader", serif;
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.artist-work-card__year {
+    margin: 7px 0 0;
+
+    font-size: 12px;
+    opacity: 0.55;
+}
+
+
+.artist-work-card__medium {
+    margin: 10px 0 0;
+
+    font-size: 12px;
+    line-height: 1.5;
+    opacity: 0.6;
+}
+
+
+.artist-work-card__status {
+    flex-shrink: 0;
+
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+
+    padding: 6px 9px;
+
+    border: 1px solid rgba(33, 30, 27, 0.2);
+}
+
+.artist-work-card__status.is-available {
+    border-color: #7C4429;
+    color: #7C4429;
+}
+
+.artist-work-card__status.is-sold {
+    opacity: 0.5;
+}
+
+
+/* =========================================================
+   NO WORKS
+========================================================= */
+
+.artist-no-works {
+    max-width: 550px;
+
+    padding: 80px 20px;
+
+    text-align: center;
+}
+
+.artist-no-works i {
+    font-size: 28px;
+    opacity: 0.3;
+}
+
+.artist-no-works h3 {
+    margin: 25px 0 10px;
+
+    font-family: "Newsreader", serif;
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.artist-no-works p {
+    margin: 0;
+
+    font-size: 14px;
+    line-height: 1.7;
+    opacity: 0.65;
+}
+
+
+/* =========================================================
+   BACK LINK
+========================================================= */
+
+.artist-detail-footer {
+    padding: 45px 0;
+}
+
+.artist-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+
+    color: inherit;
+    text-decoration: none;
+
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.artist-back-link:hover {
+    color: #7C4429;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .artist-detail-intro {
+        padding: 120px 0 75px;
+    }
+
+    .artist-detail-header {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+
+    .artist-detail-information {
+        padding-top: 0;
+    }
+
+    .artist-detail-information h1 {
+        font-size: clamp(48px, 15vw, 72px);
+    }
+
+    .artist-detail-works {
+        padding: 75px 0 90px;
+    }
+
+    .artist-works-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 40px 18px;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .artist-detail-breadcrumb {
+        margin-bottom: 35px;
+    }
+
+    .artist-detail-bio {
+        font-size: 15.5px;
+    }
+
+    .artist-detail-bio p:first-of-type::first-letter {
+        font-size: 52px;
+        margin: 3px 8px 0 0;
+    }
+
+    .artist-detail-facts__row {
+        grid-template-columns: 88px 1fr;
+        gap: 14px;
+    }
+
+    .artist-detail-works-heading {
+        align-items: flex-start;
+        gap: 20px;
+    }
+
+    .artist-detail-works-heading h2 {
+        font-size: 40px;
+    }
+
+    .artist-works-grid {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .artist-work-card__title {
+        font-size: 22px;
+    }
+}</style>
 {% endblock %}
