@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -41,10 +42,7 @@
 
 
 <!-- =============================================================
-     PAGE LOADER  —  brush painting "ARTSASA" graffiti-style.
-     Starts with "is-active" already applied so it is the very
-     first thing painted to the screen, before the homepage
-     content appears. JS holds it for a fixed 2 seconds.
+     PAGE LOADER
 ============================================================= -->
 <div class="page-loader is-active" id="pageLoader" aria-hidden="true">
 
@@ -52,15 +50,12 @@
 
         <div class="loader-canvas">
 
-            <!-- the graffiti brush tag -->
             <span class="loader-tag">ARTSASA</span>
 
-            <!-- the brush gliding across, "painting" the word -->
             <span class="loader-brush-icon" aria-hidden="true">
                 <i class="fa-solid fa-paintbrush"></i>
             </span>
 
-            <!-- wet-paint drips falling from the lettering -->
             <span class="drip drip-1"></span>
             <span class="drip drip-2"></span>
             <span class="drip drip-3"></span>
@@ -68,7 +63,6 @@
 
         </div>
 
-        <!-- spray-paint texture dots -->
         <div class="loader-spray" aria-hidden="true">
             <span class="spray-dot sd-1"></span>
             <span class="spray-dot sd-2"></span>
@@ -86,24 +80,42 @@
 <!-- =============================================================
      SEARCH PANEL
 ============================================================= -->
-<div class="search-panel" id="searchPanel" role="dialog" aria-modal="true"
+<div class="search-panel"
+     id="searchPanel"
+     role="dialog"
+     aria-modal="true"
      aria-label="Search ARTSASA">
 
-    <button class="search-close" id="searchClose" aria-label="Close search">
+    <button class="search-close"
+            id="searchClose"
+            aria-label="Close search">
+
         <i class="fa-solid fa-xmark"></i>
+
     </button>
 
     <div class="search-inner">
 
         <p class="search-kicker">Search ARTSASA</p>
 
-        <form class="search-form" action="{% url 'index' %}" method="get">
-            <input type="search" name="q" id="searchInput"
+        <form class="search-form"
+              action="{% url 'index' %}"
+              method="get">
+
+            <input type="search"
+                   name="q"
+                   id="searchInput"
                    placeholder="Artists, artworks, exhibitions…"
                    autocomplete="off">
-            <button type="submit" class="search-submit" aria-label="Search">
+
+            <button type="submit"
+                    class="search-submit"
+                    aria-label="Search">
+
                 <i class="fa-solid fa-arrow-right"></i>
+
             </button>
+
         </form>
 
     </div>
@@ -119,123 +131,218 @@
     <div class="site-container header-inner">
 
         <!-- LOGO -->
-        <a href="{% url 'index'%}" class="brand" aria-label="ARTSASA home">
-            <img src="{% static 'images/logo.png' %}" alt="ARTSASA">
+        <a href="{% url 'index' %}"
+           class="brand"
+           aria-label="ARTSASA home">
+
+            <img src="{% static 'images/logo.png' %}"
+                 alt="ARTSASA">
+
         </a>
+
 
         <!-- DESKTOP NAV -->
         <nav class="main-nav" aria-label="Primary">
-            <a href="{% url 'index'%}">Home</a>
+
+            <a href="{% url 'index' %}">Home</a>
+
             <a href="{% url 'collection' %}">Collection</a>
+
             <a href="{% url 'exhibitions' %}">Exhibitions</a>
+
             <a href="{% url 'artists' %}">Artists</a>
+
             <a href="{% url 'blog' %}">Blog</a>
+
             <a href="{% url 'about' %}">About</a>
+
             <a href="{% url 'index' %}">Visit</a>
+
         </nav>
+
 
         <!-- HEADER RIGHT -->
         <div class="header-side">
 
             <!-- SEARCH -->
-            <button class="icon-btn" id="searchOpen" aria-label="Open search">
+            <button class="icon-btn"
+                    id="searchOpen"
+                    aria-label="Open search">
+
                 <i class="fa-solid fa-magnifying-glass"></i>
+
             </button>
+
 
             <!-- WISHLIST + CART -->
             <div class="header-actions">
 
-                <a href="{% url 'wishlist' %}" class="header-action"
+                <!-- WISHLIST -->
+                <a href="{% url 'wishlist' %}"
+                   class="header-action"
                    aria-label="Wishlist">
+
                     <i class="fa-regular fa-heart"></i>
-                    <span class="header-action-count" id="wishlistCount"
+
+                    <span class="header-action-count"
+                          id="wishlistCount"
                           data-count-badge>0</span>
+
                 </a>
 
-                <a href="{% url 'cart' %}" class="header-action header-cart"
+
+                <!-- CART -->
+                <a href="{% url 'cart' %}"
+                   class="header-action header-cart"
                    aria-label="Cart">
+
                     <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="header-action-count" id="cartCount"
+
+                    <span class="header-action-count"
+                          id="cartCount"
                           data-count-badge>0</span>
+
                 </a>
 
             </div>
 
 
-            <!-- =========================================
-                 PROFILE  —  DESKTOP
-            ========================================== -->
-            <div class="profile-menu" id="profileMenu">
+            <!-- =================================================
+                 PROFILE — DESKTOP
+            ================================================== -->
+            <div class="profile-menu"
+                 id="profileMenu">
 
-                <button class="profile-trigger" id="profileTrigger"
-                        aria-haspopup="true" aria-expanded="false"
+                <button class="profile-trigger"
+                        id="profileTrigger"
+                        aria-haspopup="true"
+                        aria-expanded="false"
                         aria-label="Account menu">
 
                     {% if user.is_authenticated %}
+
                         <span class="profile-avatar">
                             {{ user.get_username|slice:":1"|upper }}
                         </span>
+
                     {% else %}
+
                         <span class="profile-avatar profile-avatar-guest">
                             <i class="fa-regular fa-user"></i>
                         </span>
+
                     {% endif %}
 
                     <i class="fa-solid fa-chevron-down profile-caret"></i>
 
                 </button>
 
-                <div class="profile-dropdown" id="profileDropdown" role="menu">
+
+                <div class="profile-dropdown"
+                     id="profileDropdown"
+                     role="menu">
 
                     <div class="profile-head">
+
                         {% if user.is_authenticated %}
-                            <p class="profile-name">{{ user.get_full_name|default:user.get_username }}</p>
-                            <p class="profile-mail">{{ user.email }}</p>
+
+                            <p class="profile-name">
+                                {{ user.get_full_name|default:user.get_username }}
+                            </p>
+
+                            <p class="profile-mail">
+                                {{ user.email }}
+                            </p>
+
                         {% else %}
-                            <p class="profile-name">Welcome to ARTSASA</p>
-                            <p class="profile-mail">Sign in to collect and save works.</p>
+
+                            <p class="profile-name">
+                                Welcome to ARTSASA
+                            </p>
+
+                            <p class="profile-mail">
+                                Sign in to collect and save works.
+                            </p>
+
                         {% endif %}
+
                     </div>
+
 
                     {% if user.is_authenticated %}
 
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-regular fa-id-badge"></i> My Profile
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
+                            <i class="fa-regular fa-id-badge"></i>
+                            My Profile
+
                         </a>
 
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-box-open"></i> Orders
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
+                            <i class="fa-solid fa-box-open"></i>
+                            Orders
+
                         </a>
 
-                        <a href="{% url 'wishlist' %}" role="menuitem">
-                            <i class="fa-regular fa-heart"></i> Wishlist
+                        <a href="{% url 'wishlist' %}"
+                           role="menuitem">
+
+                            <i class="fa-regular fa-heart"></i>
+                            Wishlist
+
                         </a>
 
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-sliders"></i> Settings
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
+                            <i class="fa-solid fa-sliders"></i>
+                            Settings
+
                         </a>
 
-                        <form action="{% url 'index' %}" method="post"
+                        <form action="{% url 'index' %}"
+                              method="post"
                               class="profile-logout">
+
                             {% csrf_token %}
+
                             <button type="submit">
+
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
                                 Sign Out
+
                             </button>
+
                         </form>
 
                     {% else %}
 
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
+                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                            Sign In
+
                         </a>
 
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-regular fa-pen-to-square"></i> Create Account
+                        <a href="{% url 'register' %}"
+                           role="menuitem">
+
+                            <i class="fa-regular fa-pen-to-square"></i>
+                            Create Account
+
                         </a>
 
-                        <a href="{% url 'wishlist' %}" role="menuitem">
-                            <i class="fa-regular fa-heart"></i> Wishlist
+                        <a href="{% url 'wishlist' %}"
+                           role="menuitem">
+
+                            <i class="fa-regular fa-heart"></i>
+                            Wishlist
+
                         </a>
 
                     {% endif %}
@@ -247,21 +354,45 @@
 
             <!-- SOCIAL -->
             <div class="header-social">
-                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
-                <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+                <a href="#" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="#" aria-label="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+
+                <a href="#" aria-label="X">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+                <a href="#" aria-label="Pinterest">
+                    <i class="fa-brands fa-pinterest-p"></i>
+                </a>
+
+                <a href="#" aria-label="WhatsApp">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+
             </div>
 
-            <span class="header-note">Nairobi · Kenya</span>
+
+            <span class="header-note">
+                Nairobi · Kenya
+            </span>
+
 
             <!-- HAMBURGER -->
-            <button class="menu-toggle" id="menuToggle" aria-label="Open menu"
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open menu"
                     aria-expanded="false">
+
                 <span></span>
                 <span></span>
                 <span></span>
+
             </button>
 
         </div>
@@ -274,153 +405,357 @@
 <!-- =============================================================
      MOBILE NAV BACKDROP
 ============================================================= -->
-<div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+<div class="mobile-nav-backdrop"
+     id="mobileNavBackdrop">
+</div>
 
 
 <!-- =============================================================
      MOBILE NAV
 ============================================================= -->
-<aside class="mobile-nav" id="mobileNav" aria-label="Mobile menu">
+<aside class="mobile-nav"
+       id="mobileNav"
+       aria-label="Mobile menu">
+
 
     <div class="mobile-nav-head">
 
         <span class="mobile-nav-mark">
-            <img src="{% static 'images/logo.png' %}" alt="ARTSASA">
+
+            <img src="{% static 'images/logo.png' %}"
+                 alt="ARTSASA">
+
         </span>
 
-        <button class="mobile-nav-close" id="mobileNavClose"
+
+        <button class="mobile-nav-close"
+                id="mobileNavClose"
                 aria-label="Close menu">
+
             <i class="fa-solid fa-xmark"></i>
+
         </button>
 
     </div>
 
 
-    <!-- =========================================
-         PROFILE  —  MOBILE
-    ========================================== -->
+    <!-- =========================================================
+         PROFILE — MOBILE
+    ========================================================== -->
     <div class="mobile-profile">
 
         <div class="mobile-profile-id">
 
             {% if user.is_authenticated %}
+
                 <span class="profile-avatar">
                     {{ user.get_username|slice:":1"|upper }}
                 </span>
+
                 <span class="mobile-profile-text">
-                    <strong>{{ user.get_full_name|default:user.get_username }}</strong>
-                    <small>{{ user.email }}</small>
+
+                    <strong>
+                        {{ user.get_full_name|default:user.get_username }}
+                    </strong>
+
+                    <small>
+                        {{ user.email }}
+                    </small>
+
                 </span>
+
             {% else %}
+
                 <span class="profile-avatar profile-avatar-guest">
+
                     <i class="fa-regular fa-user"></i>
+
                 </span>
+
                 <span class="mobile-profile-text">
+
                     <strong>Guest</strong>
-                    <small>Sign in to your collection</small>
+
+                    <small>
+                        Sign in to your collection
+                    </small>
+
                 </span>
+
             {% endif %}
 
         </div>
 
+
         <div class="mobile-profile-actions">
+
             {% if user.is_authenticated %}
-                <a href="{% url 'index' %}" class="mp-btn">My Profile</a>
-                <form action="{% url 'index' %}" method="post" class="mp-form">
+
+                <a href="{% url 'index' %}"
+                   class="mp-btn">
+
+                    My Profile
+
+                </a>
+
+                <form action="{% url 'index' %}"
+                      method="post"
+                      class="mp-form">
+
                     {% csrf_token %}
-                    <button type="submit" class="mp-btn mp-btn-ghost">Sign Out</button>
+
+                    <button type="submit"
+                            class="mp-btn mp-btn-ghost">
+
+                        Sign Out
+
+                    </button>
+
                 </form>
+
             {% else %}
-                <a href="{% url 'index' %}" class="mp-btn">login</a>
-                <a href="{% url 'register' %}" class="mp-btn mp-btn-ghost">Register</a>
+
+                <a href="{% url 'index' %}"
+                   class="mp-btn">
+
+                    Login
+
+                </a>
+
+                <a href="{% url 'register' %}"
+                   class="mp-btn mp-btn-ghost">
+
+                    Register
+
+                </a>
+
             {% endif %}
+
         </div>
 
     </div>
 
 
-    <nav class="mobile-nav-links" aria-label="Mobile primary">
+    <!-- MOBILE LINKS -->
+    <nav class="mobile-nav-links"
+         aria-label="Mobile primary">
 
-        <a href="{% url 'index'%}">
-            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
-            <span class="nav-label">Home</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+        <a href="{% url 'index' %}">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-house"></i>
+            </span>
+
+            <span class="nav-label">
+                Home
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'collection' %}">
-            <span class="nav-icon"><i class="fa-solid fa-palette"></i></span>
-            <span class="nav-label">Collection</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-palette"></i>
+            </span>
+
+            <span class="nav-label">
+                Collection
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'exhibitions' %}">
-            <span class="nav-icon"><i class="fa-solid fa-image"></i></span>
-            <span class="nav-label">Exhibitions</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-image"></i>
+            </span>
+
+            <span class="nav-label">
+                Exhibitions
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'artists' %}">
-            <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
-            <span class="nav-label">Artists</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-users"></i>
+            </span>
+
+            <span class="nav-label">
+                Artists
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'blog' %}">
-            <span class="nav-icon"><i class="fa-solid fa-feather"></i></span>
-            <span class="nav-label">Blog</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-feather"></i>
+            </span>
+
+            <span class="nav-label">
+                Blog
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'about' %}">
-            <span class="nav-icon"><i class="fa-solid fa-circle-info"></i></span>
-            <span class="nav-label">About</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-circle-info"></i>
+            </span>
+
+            <span class="nav-label">
+                About
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'index' %}">
-            <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span>
-            <span class="nav-label">Visit</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-location-dot"></i>
+            </span>
+
+            <span class="nav-label">
+                Visit
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
+
 
         <a href="{% url 'index' %}">
-            <span class="nav-icon"><i class="fa-regular fa-envelope"></i></span>
-            <span class="nav-label">Contact</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-icon">
+                <i class="fa-regular fa-envelope"></i>
+            </span>
+
+            <span class="nav-label">
+                Contact
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
 
-        <!-- WISHLIST + CART with superscript counters -->
+
+        <!-- WISHLIST -->
         <a href="{% url 'wishlist' %}">
+
             <span class="nav-icon nav-icon-count">
+
                 <i class="fa-regular fa-heart"></i>
-                <sup class="nav-sup" id="wishlistCountMobile" data-count-badge>0</sup>
+
+                <sup class="nav-sup"
+                     id="wishlistCountMobile"
+                     data-count-badge>0</sup>
+
             </span>
-            <span class="nav-label">Wishlist</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-label">
+                Wishlist
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
 
+
+        <!-- CART -->
         <a href="{% url 'cart' %}">
+
             <span class="nav-icon nav-icon-count">
+
                 <i class="fa-solid fa-bag-shopping"></i>
-                <sup class="nav-sup" id="cartCountMobile" data-count-badge>0</sup>
+
+                <sup class="nav-sup"
+                     id="cartCountMobile"
+                     data-count-badge>0</sup>
+
             </span>
-            <span class="nav-label">Cart</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
+
+            <span class="nav-label">
+                Cart
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
         </a>
 
     </nav>
 
 
+    <!-- MOBILE FOOT -->
     <div class="mobile-nav-foot">
 
-        <p class="mobile-nav-foot-label">Follow ARTSASA</p>
+        <p class="mobile-nav-foot-label">
+            Follow ARTSASA
+        </p>
 
         <div class="mobile-nav-social">
-            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
-            <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
-            <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+
+            <a href="#" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+
+            <a href="#" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+
+            <a href="#" aria-label="X">
+                <i class="fa-brands fa-x-twitter"></i>
+            </a>
+
+            <a href="#" aria-label="Pinterest">
+                <i class="fa-brands fa-pinterest-p"></i>
+            </a>
+
+            <a href="#" aria-label="WhatsApp">
+                <i class="fa-brands fa-whatsapp"></i>
+            </a>
+
         </div>
 
     </div>
@@ -431,32 +766,51 @@
 <!-- =============================================================
      PAGE CONTENT
 ============================================================= -->
-<main class="page-content" id="pageContent">
+<main class="page-content"
+      id="pageContent">
+
     {% block content %}{% endblock %}
+
 </main>
 
 
 <!-- =============================================================
      NEWSLETTER BAND
 ============================================================= -->
-<section class="newsletter-band" id="newsletterBand">
+<section class="newsletter-band"
+         id="newsletterBand">
 
     <div class="site-container newsletter-inner">
 
         <div class="newsletter-copy">
-            <h2 class="newsletter-title">Stay close to the work</h2>
+
+            <h2 class="newsletter-title">
+                Stay close to the work
+            </h2>
+
             <p class="newsletter-desc">
                 Openings, new acquisitions and studio notes —
                 sent occasionally, never noisily.
             </p>
+
         </div>
 
-        <form class="newsletter-form" action="{% url 'index' %}"
+
+        <form class="newsletter-form"
+              action="{% url 'index' %}"
               method="post">
+
             {% csrf_token %}
-            <input type="email" name="email" placeholder="Your email address"
+
+            <input type="email"
+                   name="email"
+                   placeholder="Your email address"
                    required>
-            <button type="submit">Subscribe</button>
+
+            <button type="submit">
+                Subscribe
+            </button>
+
         </form>
 
     </div>
@@ -465,12 +819,10 @@
 
 
 <!-- =============================================================
-     FOOTER — DARK SURFACE
-     Uses logo-light.png so the mark stays legible against
-     the dark footer background.
+     FOOTER
 ============================================================= -->
-
-<footer class="site-footer" id="siteFooter">
+<footer class="site-footer"
+        id="siteFooter">
 
     <div class="site-container">
 
@@ -482,20 +834,31 @@
             <!-- BRAND -->
             <div class="footer-column footer-brand-column">
 
-                <a href="{% url 'index' %}" class="footer-brand">
-                    <img src="{% static 'images/logo-light.png' %}"
+                <a href="{% url 'index' %}"
+                   class="footer-brand">
+
+                    <img src="{% static 'images/logo2.png' %}"
                          alt="ARTSASA Contemporary Art Gallery">
+
                 </a>
 
+
                 <p class="footer-description">
+
                     A contemporary art space in Nairobi connecting
                     collectors with original works and emerging
                     artistic voices.
+
                 </p>
 
-                <a href="{% url 'collection' %}" class="footer-discover-link">
+
+                <a href="{% url 'collection' %}"
+                   class="footer-discover-link">
+
                     Explore the collection
+
                     <i class="fa-solid fa-arrow-right"></i>
+
                 </a>
 
             </div>
@@ -546,7 +909,9 @@
                     How to Buy
                 </p>
 
+
                 <div class="footer-buy">
+
 
                     <div class="footer-buy-step">
 
@@ -555,6 +920,7 @@
                         </span>
 
                         <div>
+
                             <strong>
                                 Discover a work
                             </strong>
@@ -563,6 +929,7 @@
                                 Browse the collection and find a
                                 piece that speaks to you.
                             </p>
+
                         </div>
 
                     </div>
@@ -575,6 +942,7 @@
                         </span>
 
                         <div>
+
                             <strong>
                                 Make an enquiry
                             </strong>
@@ -583,6 +951,7 @@
                                 Add the artwork to your selection
                                 and send us an enquiry.
                             </p>
+
                         </div>
 
                     </div>
@@ -595,6 +964,7 @@
                         </span>
 
                         <div>
+
                             <strong>
                                 We assist you
                             </strong>
@@ -603,6 +973,7 @@
                                 Our team confirms availability,
                                 pricing and acquisition details.
                             </p>
+
                         </div>
 
                     </div>
@@ -615,6 +986,7 @@
                         </span>
 
                         <div>
+
                             <strong>
                                 Collect your work
                             </strong>
@@ -623,6 +995,7 @@
                                 We arrange collection or delivery
                                 according to your preference.
                             </p>
+
                         </div>
 
                     </div>
@@ -639,7 +1012,9 @@
                     Visit the Gallery
                 </p>
 
+
                 <div class="footer-hours">
+
 
                     <div class="footer-location-block">
 
@@ -660,19 +1035,43 @@
                             Open Hours
                         </span>
 
-                        <div class="hours-row">
-                            <span>Tuesday — Friday</span>
-                            <strong>10:00 — 18:00</strong>
-                        </div>
 
                         <div class="hours-row">
-                            <span>Saturday</span>
-                            <strong>10:00 — 17:00</strong>
+
+                            <span>
+                                Tuesday — Friday
+                            </span>
+
+                            <strong>
+                                10:00 — 18:00
+                            </strong>
+
                         </div>
+
+
+                        <div class="hours-row">
+
+                            <span>
+                                Saturday
+                            </span>
+
+                            <strong>
+                                10:00 — 17:00
+                            </strong>
+
+                        </div>
+
 
                         <div class="hours-row hours-closed">
-                            <span>Sunday — Monday</span>
-                            <strong>Closed</strong>
+
+                            <span>
+                                Sunday — Monday
+                            </span>
+
+                            <strong>
+                                Closed
+                            </strong>
+
                         </div>
 
                     </div>
@@ -714,38 +1113,37 @@
                 </p>
 
                 <p class="footer-connect-copy">
+
                     Follow exhibitions, new works and stories
                     from the artists we work with.
+
                 </p>
+
 
                 <div class="footer-social">
 
-                    <a href="#"
-                       aria-label="Instagram">
+                    <a href="#" aria-label="Instagram">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
 
-                    <a href="#"
-                       aria-label="Facebook">
+                    <a href="#" aria-label="Facebook">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
 
-                    <a href="#"
-                       aria-label="X">
+                    <a href="#" aria-label="X">
                         <i class="fa-brands fa-x-twitter"></i>
                     </a>
 
-                    <a href="#"
-                       aria-label="Pinterest">
+                    <a href="#" aria-label="Pinterest">
                         <i class="fa-brands fa-pinterest-p"></i>
                     </a>
 
-                    <a href="#"
-                       aria-label="WhatsApp">
+                    <a href="#" aria-label="WhatsApp">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
 
                 </div>
+
 
                 <a href="{% url 'index' %}"
                    class="footer-contact-cta">
@@ -765,8 +1163,12 @@
         <div class="footer-bottom">
 
             <div class="footer-copyright">
-                © {% now "Y" %} ARTSASA. All rights reserved.
+
+                © {% now "Y" %} ARTSASA.
+                All rights reserved.
+
             </div>
+
 
             <div class="footer-bottom-right">
 
@@ -791,30 +1193,59 @@
 </footer>
 
 
-
-
 <!-- =============================================================
      COOKIE CONSENT
 ============================================================= -->
-<div class="cookie-banner" id="cookieBanner" role="dialog"
-     aria-live="polite" aria-label="Cookie notice">
+<div class="cookie-banner"
+     id="cookieBanner"
+     role="dialog"
+     aria-live="polite"
+     aria-label="Cookie notice">
 
     <div class="cookie-inner">
 
-        <span class="cookie-mark"><i class="fa-solid fa-cookie-bite"></i></span>
+        <span class="cookie-mark">
+            <i class="fa-solid fa-cookie-bite"></i>
+        </span>
+
 
         <div class="cookie-copy">
-            <p class="cookie-title">We use cookies</p>
-            <p class="cookie-text">
-                ARTSASA uses cookies to remember your cart, your saved works
-                and to understand how the gallery is browsed.
-                <a href="{% url 'index' %}">Privacy policy</a>
+
+            <p class="cookie-title">
+                We use cookies
             </p>
+
+            <p class="cookie-text">
+
+                ARTSASA uses cookies to remember your cart,
+                your saved works and to understand how the
+                gallery is browsed.
+
+                <a href="{% url 'index' %}">
+                    Privacy policy
+                </a>
+
+            </p>
+
         </div>
 
+
         <div class="cookie-actions">
-            <button class="cookie-btn cookie-decline" id="cookieDecline">Decline</button>
-            <button class="cookie-btn cookie-accept" id="cookieAccept">Accept</button>
+
+            <button class="cookie-btn cookie-decline"
+                    id="cookieDecline">
+
+                Decline
+
+            </button>
+
+            <button class="cookie-btn cookie-accept"
+                    id="cookieAccept">
+
+                Accept
+
+            </button>
+
         </div>
 
     </div>
@@ -822,8 +1253,12 @@
 </div>
 
 
-<!-- TOAST -->
-<div class="artsasa-toast" id="artsasaToast"></div>
+<!-- =============================================================
+     TOAST
+============================================================= -->
+<div class="artsasa-toast"
+     id="artsasaToast">
+</div>
 
 
 <!-- =============================================================
@@ -834,272 +1269,1191 @@
 
     "use strict";
 
-    var $  = function (s) { return document.querySelector(s); };
-    var $$ = function (s) { return Array.prototype.slice.call(document.querySelectorAll(s)); };
 
+    /* =========================================================
+       HELPERS
+    ========================================================== */
 
-    /* ---------------------------------------------------------
-       HEADER SCROLL STATE
-    --------------------------------------------------------- */
-    var header = $("#siteHeader");
-
-    var onScroll = function () {
-        if (!header) return;
-        header.classList.toggle("scrolled", window.scrollY > 8);
+    var $ = function (selector) {
+        return document.querySelector(selector);
     };
 
-    window.addEventListener("scroll", onScroll, { passive: true });
+    var $$ = function (selector) {
+        return Array.prototype.slice.call(
+            document.querySelectorAll(selector)
+        );
+    };
+
+
+    /* =========================================================
+       HEADER SCROLL STATE
+    ========================================================== */
+
+    var header = $("#siteHeader");
+
+    function onScroll() {
+
+        if (!header) {
+            return;
+        }
+
+        header.classList.toggle(
+            "scrolled",
+            window.scrollY > 8
+        );
+    }
+
+    window.addEventListener(
+        "scroll",
+        onScroll,
+        { passive: true }
+    );
+
     onScroll();
 
 
-    /* ---------------------------------------------------------
-       PAGE LOADER — brush intro (2 seconds) + route transitions
-    --------------------------------------------------------- */
+    /* =========================================================
+       PAGE LOADER
+    ========================================================== */
+
     var loader = $("#pageLoader");
 
     function showLoader() {
-        if (!loader) return;
+
+        if (!loader) {
+            return;
+        }
+
         loader.classList.add("is-active");
     }
 
+
     function hideLoader() {
-        if (!loader) return;
+
+        if (!loader) {
+            return;
+        }
+
         loader.classList.remove("is-active");
     }
 
-    // The loader markup already carries "is-active" so it is the very
-    // first thing painted — before the homepage/page content is seen.
-    // Hold it on screen for a fixed 2 seconds, then reveal the page.
-    window.setTimeout(hideLoader, 2000);
 
-
-    /* ---------------------------------------------------------
-       MOBILE NAV
-       Opening the menu blurs the rest of the page (content,
-       newsletter band, footer); closing it restores normal view.
-    --------------------------------------------------------- */
-    var nav      = $("#mobileNav");
-    var backdrop = $("#mobileNavBackdrop");
-    var toggle   = $("#menuToggle");
-
-    function openNav() {
-        if (!nav) return;
-        nav.classList.add("open");
-        backdrop.classList.add("open");
-        toggle.classList.add("active");
-        toggle.setAttribute("aria-expanded", "true");
-        document.body.classList.add("menu-open");
-    }
-
-    function closeNav() {
-        if (!nav) return;
-        nav.classList.remove("open");
-        backdrop.classList.remove("open");
-        toggle.classList.remove("active");
-        toggle.setAttribute("aria-expanded", "false");
-        document.body.classList.remove("menu-open");
-    }
-
-    if (toggle) {
-        toggle.addEventListener("click", function () {
-            nav.classList.contains("open") ? closeNav() : openNav();
-        });
-    }
-
-    if (backdrop) backdrop.addEventListener("click", closeNav);
-
-    var navClose = $("#mobileNavClose");
-    if (navClose) navClose.addEventListener("click", closeNav);
-
-
-    /* ---------------------------------------------------------
-       SEARCH PANEL
-    --------------------------------------------------------- */
-    var panel = $("#searchPanel");
-
-    function openSearch() {
-        if (!panel) return;
-        panel.classList.add("open");
-        document.body.classList.add("search-open");
-        setTimeout(function () {
-            var i = $("#searchInput");
-            if (i) i.focus();
-        }, 120);
-    }
-
-    function closeSearch() {
-        if (!panel) return;
-        panel.classList.remove("open");
-        document.body.classList.remove("search-open");
-    }
-
-    var so = $("#searchOpen");
-    var sc = $("#searchClose");
-    if (so) so.addEventListener("click", openSearch);
-    if (sc) sc.addEventListener("click", closeSearch);
-
-    document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-            closeSearch();
-            closeNav();
-            closeProfile();
-        }
-    });
-
-
-    /* ---------------------------------------------------------
-       PROFILE DROPDOWN (DESKTOP)
-    --------------------------------------------------------- */
-    var pMenu    = $("#profileMenu");
-    var pTrigger = $("#profileTrigger");
-
-    function closeProfile() {
-        if (!pMenu) return;
-        pMenu.classList.remove("open");
-        pTrigger.setAttribute("aria-expanded", "false");
-    }
-
-    if (pTrigger) {
-        pTrigger.addEventListener("click", function (e) {
-            e.stopPropagation();
-            var open = pMenu.classList.toggle("open");
-            pTrigger.setAttribute("aria-expanded", open ? "true" : "false");
-        });
-    }
-
-    document.addEventListener("click", function (e) {
-        if (pMenu && !pMenu.contains(e.target)) closeProfile();
-    });
-
-
-    /* ---------------------------------------------------------
-       CART / WISHLIST COUNTS
-       Server value wins; otherwise localStorage is used.
-    --------------------------------------------------------- */
-    function readCount(key, serverValue) {
-        if (typeof serverValue === "number" && !isNaN(serverValue)) return serverValue;
-        var v = parseInt(localStorage.getItem(key) || "0", 10);
-        return isNaN(v) ? 0 : v;
-    }
-
-    window.ARTSASA = window.ARTSASA || {};
-
-    window.ARTSASA.renderCounts = function (cart, wish) {
-        var c = readCount("artsasa_cart_count", cart);
-        var w = readCount("artsasa_wishlist_count", wish);
-
-        [["#cartCount", c], ["#cartCountMobile", c],
-         ["#wishlistCount", w], ["#wishlistCountMobile", w]]
-        .forEach(function (pair) {
-            var el = $(pair[0]);
-            if (!el) return;
-            el.textContent = pair[1] > 99 ? "99+" : pair[1];
-            el.classList.toggle("is-empty", pair[1] === 0);
-            el.classList.toggle("has-items", pair[1] > 0);
-        });
-    };
-
-    window.ARTSASA.renderCounts(
-        {% if cart_count %}{{ cart_count }}{% else %}undefined{% endif %},
-        {% if wishlist_count %}{{ wishlist_count }}{% else %}undefined{% endif %}
+    window.setTimeout(
+        hideLoader,
+        2000
     );
 
 
-    /* ---------------------------------------------------------
+    /* =========================================================
+       MOBILE NAV
+    ========================================================== */
+
+    var nav = $("#mobileNav");
+    var backdrop = $("#mobileNavBackdrop");
+    var toggle = $("#menuToggle");
+
+
+    function openNav() {
+
+        if (!nav) {
+            return;
+        }
+
+        nav.classList.add("open");
+
+        if (backdrop) {
+            backdrop.classList.add("open");
+        }
+
+        if (toggle) {
+
+            toggle.classList.add("active");
+
+            toggle.setAttribute(
+                "aria-expanded",
+                "true"
+            );
+        }
+
+        document.body.classList.add(
+            "menu-open"
+        );
+    }
+
+
+    function closeNav() {
+
+        if (!nav) {
+            return;
+        }
+
+        nav.classList.remove("open");
+
+        if (backdrop) {
+            backdrop.classList.remove("open");
+        }
+
+        if (toggle) {
+
+            toggle.classList.remove("active");
+
+            toggle.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+        }
+
+        document.body.classList.remove(
+            "menu-open"
+        );
+    }
+
+
+    if (toggle) {
+
+        toggle.addEventListener(
+            "click",
+            function () {
+
+                if (
+                    nav &&
+                    nav.classList.contains("open")
+                ) {
+
+                    closeNav();
+
+                } else {
+
+                    openNav();
+
+                }
+
+            }
+        );
+    }
+
+
+    if (backdrop) {
+
+        backdrop.addEventListener(
+            "click",
+            closeNav
+        );
+
+    }
+
+
+    var navClose = $("#mobileNavClose");
+
+    if (navClose) {
+
+        navClose.addEventListener(
+            "click",
+            closeNav
+        );
+
+    }
+
+
+    /* =========================================================
+       SEARCH PANEL
+    ========================================================== */
+
+    var panel = $("#searchPanel");
+
+
+    function openSearch() {
+
+        if (!panel) {
+            return;
+        }
+
+        panel.classList.add("open");
+
+        document.body.classList.add(
+            "search-open"
+        );
+
+
+        setTimeout(
+            function () {
+
+                var input = $("#searchInput");
+
+                if (input) {
+                    input.focus();
+                }
+
+            },
+            120
+        );
+    }
+
+
+    function closeSearch() {
+
+        if (!panel) {
+            return;
+        }
+
+        panel.classList.remove("open");
+
+        document.body.classList.remove(
+            "search-open"
+        );
+    }
+
+
+    var searchOpen = $("#searchOpen");
+    var searchClose = $("#searchClose");
+
+
+    if (searchOpen) {
+
+        searchOpen.addEventListener(
+            "click",
+            openSearch
+        );
+
+    }
+
+
+    if (searchClose) {
+
+        searchClose.addEventListener(
+            "click",
+            closeSearch
+        );
+
+    }
+
+
+    /* =========================================================
+       PROFILE DROPDOWN
+    ========================================================== */
+
+    var profileMenu = $("#profileMenu");
+    var profileTrigger = $("#profileTrigger");
+
+
+    function closeProfile() {
+
+        if (!profileMenu) {
+            return;
+        }
+
+        profileMenu.classList.remove(
+            "open"
+        );
+
+        if (profileTrigger) {
+
+            profileTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+    }
+
+
+    if (profileTrigger) {
+
+        profileTrigger.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                var isOpen =
+                    profileMenu.classList.toggle(
+                        "open"
+                    );
+
+                profileTrigger.setAttribute(
+                    "aria-expanded",
+                    isOpen ? "true" : "false"
+                );
+
+            }
+        );
+
+    }
+
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            if (
+                profileMenu &&
+                !profileMenu.contains(event.target)
+            ) {
+
+                closeProfile();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       ESCAPE KEY
+    ========================================================== */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key === "Escape") {
+
+                closeSearch();
+                closeNav();
+                closeProfile();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       ARTSASA CART / WISHLIST COUNTERS
+    ========================================================== */
+
+    window.ARTSASA =
+        window.ARTSASA || {};
+
+
+    function normalizeCount(value) {
+
+        var count = Number(value);
+
+        if (
+            !Number.isFinite(count) ||
+            count < 0
+        ) {
+
+            return 0;
+
+        }
+
+        return Math.floor(count);
+    }
+
+
+    function readStoredCount(key) {
+
+        try {
+
+            var stored =
+                parseInt(
+                    localStorage.getItem(key) || "0",
+                    10
+                );
+
+            if (
+                isNaN(stored) ||
+                stored < 0
+            ) {
+
+                return 0;
+
+            }
+
+            return stored;
+
+        } catch (error) {
+
+            return 0;
+
+        }
+    }
+
+
+    /* =========================================================
+       RENDER COUNTERS
+    ========================================================== */
+
+    window.ARTSASA.renderCounts =
+        function (cart, wish) {
+
+            var cartCount;
+
+            var wishlistCount;
+
+
+            /*
+             * If a server value is supplied, use it.
+             * Otherwise preserve the locally known value.
+             */
+
+            if (
+                cart !== undefined &&
+                cart !== null
+            ) {
+
+                cartCount =
+                    normalizeCount(cart);
+
+            } else {
+
+                cartCount =
+                    readStoredCount(
+                        "artsasa_cart_count"
+                    );
+
+            }
+
+
+            if (
+                wish !== undefined &&
+                wish !== null
+            ) {
+
+                wishlistCount =
+                    normalizeCount(wish);
+
+            } else {
+
+                wishlistCount =
+                    readStoredCount(
+                        "artsasa_wishlist_count"
+                    );
+
+            }
+
+
+            /* Desktop cart */
+            var cartDesktop =
+                $("#cartCount");
+
+
+            /* Mobile cart */
+            var cartMobile =
+                $("#cartCountMobile");
+
+
+            /* Desktop wishlist */
+            var wishlistDesktop =
+                $("#wishlistCount");
+
+
+            /* Mobile wishlist */
+            var wishlistMobile =
+                $("#wishlistCountMobile");
+
+
+            [
+                [cartDesktop, cartCount],
+                [cartMobile, cartCount],
+                [wishlistDesktop, wishlistCount],
+                [wishlistMobile, wishlistCount]
+            ].forEach(
+                function (item) {
+
+                    var element =
+                        item[0];
+
+                    var count =
+                        item[1];
+
+
+                    if (!element) {
+                        return;
+                    }
+
+
+                    element.textContent =
+                        count > 99
+                            ? "99+"
+                            : String(count);
+
+
+                    element.classList.toggle(
+                        "is-empty",
+                        count === 0
+                    );
+
+
+                    element.classList.toggle(
+                        "has-items",
+                        count > 0
+                    );
+
+                }
+            );
+
+
+            /* Keep localStorage synchronized */
+
+            try {
+
+                localStorage.setItem(
+                    "artsasa_cart_count",
+                    String(cartCount)
+                );
+
+                localStorage.setItem(
+                    "artsasa_wishlist_count",
+                    String(wishlistCount)
+                );
+
+            } catch (error) {
+
+                /* localStorage may be unavailable */
+
+            }
+
+        };
+
+
+    /* =========================================================
+       REFRESH COUNTERS FROM DJANGO
+       
+       IMPORTANT:
+       We use the dedicated counter endpoints instead
+       of requesting the entire cart page.
+    ========================================================== */
+
+    window.artsasaRefreshCounters =
+        async function () {
+
+            try {
+
+                var requests = [];
+
+
+                /* ---------------------------------------------
+                   CART COUNT
+                --------------------------------------------- */
+
+                requests.push(
+
+                    fetch(
+                        "{% url 'cart_count' %}",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "X-Requested-With":
+                                    "XMLHttpRequest",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            credentials:
+                                "same-origin",
+
+                            cache:
+                                "no-store"
+                        }
+                    )
+
+                );
+
+
+                /* ---------------------------------------------
+                   WISHLIST COUNT
+                --------------------------------------------- */
+
+                requests.push(
+
+                    fetch(
+                        "{% url 'wishlist_count' %}",
+                        {
+                            method: "GET",
+
+                            headers: {
+                                "X-Requested-With":
+                                    "XMLHttpRequest",
+
+                                "Accept":
+                                    "application/json"
+                            },
+
+                            credentials:
+                                "same-origin",
+
+                            cache:
+                                "no-store"
+                        }
+                    )
+
+                );
+
+
+                var results =
+                    await Promise.all(
+                        requests
+                    );
+
+
+                var cartResponse =
+                    results[0];
+
+                var wishlistResponse =
+                    results[1];
+
+
+                var cartCount;
+                var wishlistCount;
+
+
+                /* ---------------------------------------------
+                   READ CART RESPONSE
+                --------------------------------------------- */
+
+                if (
+                    cartResponse.ok
+                ) {
+
+                    var cartContentType =
+                        cartResponse.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        cartContentType.includes(
+                            "application/json"
+                        )
+                    ) {
+
+                        var cartData =
+                            await cartResponse.json();
+
+
+                        cartCount =
+                            cartData.cart_count ??
+                            cartData.cartCount ??
+                            cartData.count ??
+                            0;
+
+                    }
+
+                }
+
+
+                /* ---------------------------------------------
+                   READ WISHLIST RESPONSE
+                --------------------------------------------- */
+
+                if (
+                    wishlistResponse.ok
+                ) {
+
+                    var wishlistContentType =
+                        wishlistResponse.headers.get(
+                            "content-type"
+                        ) || "";
+
+
+                    if (
+                        wishlistContentType.includes(
+                            "application/json"
+                        )
+                    ) {
+
+                        var wishlistData =
+                            await wishlistResponse.json();
+
+
+                        wishlistCount =
+                            wishlistData.wishlist_count ??
+                            wishlistData.wishlistCount ??
+                            wishlistData.count ??
+                            0;
+
+                    }
+
+                }
+
+
+                /*
+                 * Only update values that were successfully
+                 * returned by Django.
+                 *
+                 * This prevents one failed endpoint from
+                 * incorrectly resetting another counter to 0.
+                 */
+
+                if (
+                    cartCount !== undefined &&
+                    wishlistCount !== undefined
+                ) {
+
+                    window.ARTSASA.renderCounts(
+                        cartCount,
+                        wishlistCount
+                    );
+
+                } else if (
+                    cartCount !== undefined
+                ) {
+
+                    window.ARTSASA.renderCounts(
+                        cartCount,
+                        undefined
+                    );
+
+                } else if (
+                    wishlistCount !== undefined
+                ) {
+
+                    window.ARTSASA.renderCounts(
+                        undefined,
+                        wishlistCount
+                    );
+
+                }
+
+
+            } catch (error) {
+
+                console.warn(
+                    "ARTSASA: Unable to refresh cart/wishlist counters.",
+                    error
+                );
+
+            }
+
+        };
+
+
+    /* =========================================================
+       INITIAL SERVER COUNTS
+    ========================================================== */
+
+    window.ARTSASA.renderCounts(
+
+        {% if cart_count %}
+            {{ cart_count }}
+        {% else %}
+            0
+        {% endif %},
+
+        {% if wishlist_count %}
+            {{ wishlist_count }}
+        {% else %}
+            0
+        {% endif %}
+
+    );
+
+
+    /* =========================================================
+       INITIAL SYNCHRONIZATION
+       
+       This verifies the session counters against Django
+       after the page has loaded.
+    ========================================================== */
+
+    window.setTimeout(
+        function () {
+
+            if (
+                window.artsasaRefreshCounters
+            ) {
+
+                window.artsasaRefreshCounters();
+
+            }
+
+        },
+        150
+    );
+
+
+    /* =========================================================
        TOAST
-    --------------------------------------------------------- */
-    var toastEl = $("#artsasaToast");
+    ========================================================== */
+
+    var toastEl =
+        $("#artsasaToast");
+
     var toastTimer;
 
-    window.ARTSASA.toast = function (msg) {
-        if (!toastEl) return;
-        toastEl.textContent = msg;
-        toastEl.classList.add("show");
-        clearTimeout(toastTimer);
-        toastTimer = setTimeout(function () {
-            toastEl.classList.remove("show");
-        }, 2400);
-    };
+
+    window.ARTSASA.toast =
+        function (message) {
+
+            if (!toastEl) {
+                return;
+            }
 
 
-    /* ---------------------------------------------------------
+            toastEl.textContent =
+                message;
+
+
+            toastEl.classList.add(
+                "show"
+            );
+
+
+            clearTimeout(
+                toastTimer
+            );
+
+
+            toastTimer =
+                setTimeout(
+                    function () {
+
+                        toastEl.classList.remove(
+                            "show"
+                        );
+
+                    },
+                    2400
+                );
+
+        };
+
+
+    /* =========================================================
        COOKIE CONSENT
-    --------------------------------------------------------- */
-    var banner = $("#cookieBanner");
-    var KEY    = "artsasa_cookie_choice";
+    ========================================================== */
 
-    if (banner && !localStorage.getItem(KEY)) {
-        setTimeout(function () { banner.classList.add("show"); }, 900);
+    var banner =
+        $("#cookieBanner");
+
+    var COOKIE_KEY =
+        "artsasa_cookie_choice";
+
+
+    try {
+
+        if (
+            banner &&
+            !localStorage.getItem(
+                COOKIE_KEY
+            )
+        ) {
+
+            setTimeout(
+                function () {
+
+                    banner.classList.add(
+                        "show"
+                    );
+
+                },
+                900
+            );
+
+        }
+
+    } catch (error) {
+
+        if (banner) {
+
+            setTimeout(
+                function () {
+
+                    banner.classList.add(
+                        "show"
+                    );
+
+                },
+                900
+            );
+
+        }
+
     }
 
-    function decide(choice) {
-        localStorage.setItem(KEY, choice);
-        banner.classList.remove("show");
+
+    function decideCookie(
+        choice
+    ) {
+
+        try {
+
+            localStorage.setItem(
+                COOKIE_KEY,
+                choice
+            );
+
+        } catch (error) {
+
+            /* Continue even if storage is unavailable */
+
+        }
+
+
+        if (banner) {
+
+            banner.classList.remove(
+                "show"
+            );
+
+        }
+
     }
 
-    var ca = $("#cookieAccept");
-    var cd = $("#cookieDecline");
-    if (ca) ca.addEventListener("click", function () { decide("accepted"); });
-    if (cd) cd.addEventListener("click", function () { decide("declined"); });
+
+    var cookieAccept =
+        $("#cookieAccept");
+
+    var cookieDecline =
+        $("#cookieDecline");
 
 
-    /* ---------------------------------------------------------
-       PAGE LOADER ON NAVIGATION (internal links)
-    --------------------------------------------------------- */
-    document.addEventListener("click", function (e) {
-        var a = e.target.closest ? e.target.closest("a") : null;
-        if (!a) return;
+    if (cookieAccept) {
 
-        var href = a.getAttribute("href");
-        if (!href) return;
+        cookieAccept.addEventListener(
+            "click",
+            function () {
 
-        if (a.target === "_blank" ||
-            a.hasAttribute("download") ||
-            href.charAt(0) === "#" ||
-            href.indexOf("mailto:") === 0 ||
-            href.indexOf("tel:") === 0 ||
-            href.indexOf("javascript:") === 0) return;
+                decideCookie(
+                    "accepted"
+                );
 
-        if (a.hostname && a.hostname !== window.location.hostname) return;
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+            }
+        );
 
-        showLoader();
-    });
-
-    document.addEventListener("submit", function (e) {
-        if (e.target && e.target.classList.contains("search-form")) showLoader();
-    });
-
-    window.addEventListener("pageshow", function () {
-        hideLoader();
-    });
-    window.addEventListener("beforeunload", showLoader);
+    }
 
 
-    /* ---------------------------------------------------------
+    if (cookieDecline) {
+
+        cookieDecline.addEventListener(
+            "click",
+            function () {
+
+                decideCookie(
+                    "declined"
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       PAGE LOADER ON NAVIGATION
+    ========================================================== */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            var link =
+                event.target.closest
+                    ? event.target.closest("a")
+                    : null;
+
+
+            if (!link) {
+                return;
+            }
+
+
+            var href =
+                link.getAttribute("href");
+
+
+            if (!href) {
+                return;
+            }
+
+
+            if (
+                link.target === "_blank" ||
+                link.hasAttribute("download") ||
+                href.charAt(0) === "#" ||
+                href.indexOf("mailto:") === 0 ||
+                href.indexOf("tel:") === 0 ||
+                href.indexOf("javascript:") === 0
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                link.hostname &&
+                link.hostname !==
+                    window.location.hostname
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.button !== 0
+            ) {
+
+                return;
+
+            }
+
+
+            /*
+             * Do NOT show the full page loader for
+             * interactive cart/wishlist controls.
+             */
+
+            if (
+                link.closest(
+                    ".header-actions"
+                ) ||
+                link.closest(
+                    ".mobile-nav-links"
+                )
+            ) {
+
+                /*
+                 * Navigation links in these areas should
+                 * still work normally. We only avoid forcing
+                 * the loader for the counters/actions.
+                 */
+
+            }
+
+
+            showLoader();
+
+        }
+    );
+
+
+    /* =========================================================
+       SEARCH SUBMIT
+    ========================================================== */
+
+    document.addEventListener(
+        "submit",
+        function (event) {
+
+            if (
+                event.target &&
+                event.target.classList.contains(
+                    "search-form"
+                )
+            ) {
+
+                showLoader();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       PAGE SHOW / UNLOAD
+    ========================================================== */
+
+    window.addEventListener(
+        "pageshow",
+        function () {
+
+            hideLoader();
+
+        }
+    );
+
+
+    window.addEventListener(
+        "beforeunload",
+        function () {
+
+            showLoader();
+
+        }
+    );
+
+
+    /* =========================================================
        REVEAL ON SCROLL
-    --------------------------------------------------------- */
-    var reveals = $$(".reveal");
+    ========================================================== */
 
-    if ("IntersectionObserver" in window && reveals.length) {
-        var io = new IntersectionObserver(function (entries) {
-            entries.forEach(function (en) {
-                if (en.isIntersecting) {
-                    en.target.classList.add("is-visible");
-                    io.unobserve(en.target);
+    var reveals =
+        $$(".reveal");
+
+
+    if (
+        "IntersectionObserver" in window &&
+        reveals.length
+    ) {
+
+        var observer =
+            new IntersectionObserver(
+                function (
+                    entries
+                ) {
+
+                    entries.forEach(
+                        function (entry) {
+
+                            if (
+                                entry.isIntersecting
+                            ) {
+
+                                entry.target.classList.add(
+                                    "is-visible"
+                                );
+
+
+                                observer.unobserve(
+                                    entry.target
+                                );
+
+                            }
+
+                        }
+                    );
+
+                },
+                {
+                    threshold: 0.12
                 }
-            });
-        }, { threshold: .12 });
+            );
 
-        reveals.forEach(function (el) { io.observe(el); });
+
+        reveals.forEach(
+            function (element) {
+
+                observer.observe(
+                    element
+                );
+
+            }
+        );
+
     } else {
-        reveals.forEach(function (el) { el.classList.add("is-visible"); });
+
+        reveals.forEach(
+            function (element) {
+
+                element.classList.add(
+                    "is-visible"
+                );
+
+            }
+        );
+
     }
+
 
 })();
 </script>
+
 
 {% block extra_js %}{% endblock %}
 
 </body>
 </html>
+
