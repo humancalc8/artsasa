@@ -133,5 +133,15 @@ path(
     ),
 
 
-    # exhibitions and other existing URLs...
+    path(
+    "privacy/",
+    views.privacy,
+    name="privacy"
+),
+
+path(
+    "terms/",
+    views.terms,
+    name="terms"
+),
 ]

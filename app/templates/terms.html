@@ -1,0 +1,890 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Terms & Conditions — ARTSASA
+{% endblock %}
+
+{% block meta_description %}
+Read the ARTSASA Terms and Conditions governing use of our contemporary art gallery website, artwork enquiries, purchases and related services.
+{% endblock %}
+
+{% block extra_css %}
+
+<style>
+
+/* =========================================================
+   ARTSASA — LEGAL PAGE
+========================================================= */
+
+.legal-page {
+    background: #F1EADB;
+    color: #211E1B;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.legal-hero {
+    padding:
+        170px
+        24px
+        90px;
+}
+
+.legal-hero-inner {
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.legal-kicker {
+    margin: 0 0 18px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    color: #A15C3B;
+}
+
+.legal-title {
+    max-width: 900px;
+
+    margin: 0;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size:
+        clamp(58px, 8vw, 110px);
+
+    font-weight: 400;
+
+    line-height: 0.9;
+
+    letter-spacing: -3px;
+}
+
+.legal-intro {
+    max-width: 660px;
+
+    margin:
+        35px
+        0
+        0;
+
+    font-family:
+        "Newsreader",
+        serif;
+
+    font-size: 22px;
+    line-height: 1.55;
+
+    color:
+        rgba(33, 30, 27, 0.68);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.legal-content {
+    padding:
+        0
+        24px
+        120px;
+}
+
+.legal-grid {
+    max-width: 1180px;
+    margin: 0 auto;
+
+    display: grid;
+
+    grid-template-columns:
+        250px
+        minmax(0, 720px);
+
+    gap: 90px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   INDEX
+========================================================= */
+
+.legal-index {
+    position: sticky;
+    top: 120px;
+
+    border-top:
+        1px solid
+        rgba(33, 30, 27, 0.18);
+
+    padding-top: 20px;
+}
+
+.legal-index-label {
+    margin: 0 0 18px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+    text-transform: uppercase;
+
+    color:
+        rgba(33, 30, 27, 0.45);
+}
+
+.legal-index a {
+    display: block;
+
+    padding: 7px 0;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 13px;
+
+    color:
+        rgba(33, 30, 27, 0.68);
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        padding-left 0.2s ease;
+}
+
+.legal-index a:hover {
+    color: #A15C3B;
+    padding-left: 5px;
+}
+
+
+/* =========================================================
+   ARTICLE
+========================================================= */
+
+.legal-article {
+    min-width: 0;
+}
+
+.legal-updated {
+    margin:
+        0
+        0
+        45px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 11px;
+
+    color:
+        rgba(33, 30, 27, 0.48);
+
+    letter-spacing: 0.5px;
+}
+
+.legal-section {
+    padding:
+        0
+        0
+        55px;
+
+    margin:
+        0
+        0
+        55px;
+
+    border-bottom:
+        1px solid
+        rgba(33, 30, 27, 0.12);
+}
+
+.legal-section:last-child {
+    border-bottom: none;
+}
+
+.legal-section h2 {
+    margin:
+        0
+        0
+        18px;
+
+    font-family:
+        "Cormorant Garamond",
+        serif;
+
+    font-size: 38px;
+    font-weight: 500;
+
+    line-height: 1.05;
+}
+
+.legal-section h3 {
+    margin:
+        28px
+        0
+        10px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.legal-section p {
+    margin:
+        0
+        0
+        17px;
+
+    font-family:
+        "Newsreader",
+        serif;
+
+    font-size: 18px;
+
+    line-height: 1.72;
+
+    color:
+        rgba(33, 30, 27, 0.76);
+}
+
+.legal-section ul {
+    margin:
+        15px
+        0
+        20px;
+
+    padding-left: 22px;
+}
+
+.legal-section li {
+    margin-bottom: 10px;
+
+    font-family:
+        "Newsreader",
+        serif;
+
+    font-size: 18px;
+
+    line-height: 1.65;
+
+    color:
+        rgba(33, 30, 27, 0.76);
+}
+
+.legal-section a {
+    color: #7C4429;
+
+    text-decoration: underline;
+
+    text-decoration-thickness: 1px;
+
+    text-underline-offset: 3px;
+}
+
+.legal-contact {
+    margin-top: 25px;
+
+    padding: 25px;
+
+    border:
+        1px solid
+        rgba(33, 30, 27, 0.14);
+
+    background:
+        rgba(255, 255, 255, 0.28);
+}
+
+.legal-contact strong {
+    display: block;
+
+    margin-bottom: 7px;
+
+    font-family:
+        "DM Sans",
+        sans-serif;
+
+    font-size: 12px;
+
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.legal-contact p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .legal-hero {
+        padding:
+            135px
+            20px
+            65px;
+    }
+
+    .legal-title {
+        font-size:
+            clamp(52px, 15vw, 82px);
+
+        letter-spacing: -2px;
+    }
+
+    .legal-intro {
+        font-size: 19px;
+    }
+
+    .legal-content {
+        padding:
+            0
+            20px
+            80px;
+    }
+
+    .legal-grid {
+        display: block;
+    }
+
+    .legal-index {
+        position: static;
+
+        margin-bottom: 55px;
+
+        padding-bottom: 20px;
+
+        border-bottom:
+            1px solid
+            rgba(33, 30, 27, 0.14);
+    }
+
+    .legal-index a {
+        display: inline-block;
+        margin-right: 18px;
+    }
+
+    .legal-section h2 {
+        font-size: 33px;
+    }
+
+    .legal-section p,
+    .legal-section li {
+        font-size: 17px;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="legal-page">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="legal-hero">
+
+        <div class="legal-hero-inner">
+
+            <p class="legal-kicker">
+                ARTSASA · Legal
+            </p>
+
+            <h1 class="legal-title">
+                Terms & Conditions
+            </h1>
+
+            <p class="legal-intro">
+                These terms explain the rules for using ARTSASA,
+                browsing our collection, submitting enquiries and
+                engaging with our gallery services.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         CONTENT
+    ====================================================== -->
+
+    <section class="legal-content">
+
+        <div class="legal-grid">
+
+
+            <!-- INDEX -->
+
+            <aside class="legal-index">
+
+                <p class="legal-index-label">
+                    On this page
+                </p>
+
+                <a href="#acceptance">
+                    Acceptance
+                </a>
+
+                <a href="#website">
+                    Website use
+                </a>
+
+                <a href="#artworks">
+                    Artworks
+                </a>
+
+                <a href="#prices">
+                    Prices & availability
+                </a>
+
+                <a href="#enquiries">
+                    Enquiries
+                </a>
+
+                <a href="#accounts">
+                    Accounts
+                </a>
+
+                <a href="#intellectual">
+                    Intellectual property
+                </a>
+
+                <a href="#content">
+                    Website content
+                </a>
+
+                <a href="#liability">
+                    Liability
+                </a>
+
+                <a href="#changes">
+                    Changes
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </aside>
+
+
+            <article class="legal-article">
+
+
+                <p class="legal-updated">
+                    Last updated: 12 September 2026
+                </p>
+
+
+                <!-- ACCEPTANCE -->
+
+                <section
+                    class="legal-section"
+                    id="acceptance"
+                >
+
+                    <h2>
+                        01. Acceptance of these terms
+                    </h2>
+
+                    <p>
+                        By accessing or using the ARTSASA website,
+                        you agree to comply with these Terms &
+                        Conditions.
+                    </p>
+
+                    <p>
+                        If you do not agree with these terms, please
+                        do not use the website.
+                    </p>
+
+                    <p>
+                        These terms apply together with any additional
+                        terms that may apply to specific services,
+                        purchases, exhibitions or transactions.
+                    </p>
+
+                </section>
+
+
+                <!-- WEBSITE -->
+
+                <section
+                    class="legal-section"
+                    id="website"
+                >
+
+                    <h2>
+                        02. Use of the website
+                    </h2>
+
+                    <p>
+                        You may use ARTSASA for lawful purposes and
+                        in accordance with these terms.
+                    </p>
+
+                    <p>
+                        You must not use the website in a way that
+                        could damage, disable, overburden or interfere
+                        with the operation or security of the website.
+                    </p>
+
+                    <p>
+                        You must not attempt to gain unauthorised
+                        access to accounts, systems, data or areas
+                        of the website that are not intended for you.
+                    </p>
+
+                </section>
+
+
+                <!-- ARTWORKS -->
+
+                <section
+                    class="legal-section"
+                    id="artworks"
+                >
+
+                    <h2>
+                        03. Artworks and gallery listings
+                    </h2>
+
+                    <p>
+                        ARTSASA presents artworks for viewing,
+                        discovery, enquiry and, where applicable,
+                        acquisition.
+                    </p>
+
+                    <p>
+                        Images and descriptions are provided to
+                        represent artworks as accurately as reasonably
+                        possible. Because artworks are physical,
+                        colours and appearance may vary between
+                        screens and the original work.
+                    </p>
+
+                    <p>
+                        Artwork availability may change without notice.
+                        An artwork appearing on the website does not
+                        necessarily guarantee that it remains available
+                        for acquisition.
+                    </p>
+
+                </section>
+
+
+                <!-- PRICES -->
+
+                <section
+                    class="legal-section"
+                    id="prices"
+                >
+
+                    <h2>
+                        04. Prices and availability
+                    </h2>
+
+                    <p>
+                        Where prices are displayed on the website,
+                        they are provided for information and may be
+                        subject to change.
+                    </p>
+
+                    <p>
+                        Additional costs may apply depending on the
+                        artwork, location, delivery arrangements,
+                        installation, taxes or other acquisition
+                        requirements.
+                    </p>
+
+                    <p>
+                        A displayed price or an enquiry does not by
+                        itself constitute a completed sale unless
+                        ARTSASA has confirmed the transaction.
+                    </p>
+
+                </section>
+
+
+                <!-- ENQUIRIES -->
+
+                <section
+                    class="legal-section"
+                    id="enquiries"
+                >
+
+                    <h2>
+                        05. Artwork enquiries
+                    </h2>
+
+                    <p>
+                        When you submit an artwork enquiry, you agree
+                        to provide information that is accurate and
+                        sufficient for us to respond to your request.
+                    </p>
+
+                    <p>
+                        An enquiry allows ARTSASA to discuss availability,
+                        pricing, acquisition arrangements and related
+                        details with you. It does not automatically
+                        create a binding purchase contract.
+                    </p>
+
+                    <p>
+                        Final acquisition arrangements may require
+                        additional confirmation between you and ARTSASA.
+                    </p>
+
+                </section>
+
+
+                <!-- ACCOUNTS -->
+
+                <section
+                    class="legal-section"
+                    id="accounts"
+                >
+
+                    <h2>
+                        06. Accounts
+                    </h2>
+
+                    <p>
+                        Some ARTSASA features may require an account.
+                        You are responsible for keeping your account
+                        information reasonably accurate and for taking
+                        reasonable steps to protect your login details.
+                    </p>
+
+                    <p>
+                        You should notify ARTSASA if you believe your
+                        account has been accessed without your
+                        permission.
+                    </p>
+
+                    <p>
+                        We may restrict or suspend access where we
+                        reasonably believe an account is being used
+                        fraudulently, unlawfully or in a manner that
+                        threatens the security of the website.
+                    </p>
+
+                </section>
+
+
+                <!-- INTELLECTUAL PROPERTY -->
+
+                <section
+                    class="legal-section"
+                    id="intellectual"
+                >
+
+                    <h2>
+                        07. Intellectual property
+                    </h2>
+
+                    <p>
+                        Unless otherwise stated, the ARTSASA website,
+                        including its branding, design, text, graphics,
+                        layout and original website materials, is
+                        protected by applicable intellectual property
+                        laws.
+                    </p>
+
+                    <p>
+                        Artwork images and artist materials may belong
+                        to ARTSASA, artists, collectors or other rights
+                        holders. Viewing material on the website does
+                        not transfer ownership or grant you a licence
+                        to reproduce or commercially exploit it.
+                    </p>
+
+                    <p>
+                        You may not reproduce, redistribute, sell or
+                        commercially exploit protected website or
+                        artwork material without appropriate permission
+                        from the relevant rights holder.
+                    </p>
+
+                </section>
+
+
+                <!-- CONTENT -->
+
+                <section
+                    class="legal-section"
+                    id="content"
+                >
+
+                    <h2>
+                        08. Website content
+                    </h2>
+
+                    <p>
+                        We work to keep information on ARTSASA accurate
+                        and current, but we do not guarantee that every
+                        description, image, price, availability status
+                        or other piece of information will always be
+                        complete, current or error-free.
+                    </p>
+
+                    <p>
+                        We may update, remove or change website content,
+                        artwork listings, services or features at any
+                        time.
+                    </p>
+
+                </section>
+
+
+                <!-- LIABILITY -->
+
+                <section
+                    class="legal-section"
+                    id="liability"
+                >
+
+                    <h2>
+                        09. Liability
+                    </h2>
+
+                    <p>
+                        To the extent permitted by applicable law,
+                        ARTSASA will not be responsible for losses
+                        resulting from circumstances outside our
+                        reasonable control, including interruptions
+                        to internet services, hosting infrastructure,
+                        third-party services or other technical failures.
+                    </p>
+
+                    <p>
+                        Nothing in these terms is intended to exclude
+                        or limit any liability that cannot lawfully be
+                        excluded or limited under applicable law.
+                    </p>
+
+                </section>
+
+
+                <!-- CHANGES -->
+
+                <section
+                    class="legal-section"
+                    id="changes"
+                >
+
+                    <h2>
+                        10. Changes to these terms
+                    </h2>
+
+                    <p>
+                        ARTSASA may update these Terms & Conditions
+                        when necessary to reflect changes to our
+                        services, website or legal obligations.
+                    </p>
+
+                    <p>
+                        The latest version will always be published
+                        on this page with the relevant "Last updated"
+                        date.
+                    </p>
+
+                    <p>
+                        Your continued use of the website after changes
+                        are published constitutes acceptance of the
+                        updated terms, to the extent permitted by law.
+                    </p>
+
+                </section>
+
+
+                <!-- CONTACT -->
+
+                <section
+                    class="legal-section"
+                    id="contact"
+                >
+
+                    <h2>
+                        11. Contact ARTSASA
+                    </h2>
+
+                    <p>
+                        If you have questions about these Terms &
+                        Conditions or an ARTSASA service, contact us.
+                    </p>
+
+                    <div class="legal-contact">
+
+                        <strong>
+                            ARTSASA
+                        </strong>
+
+                        <p>
+                            Nairobi, Kenya
+                        </p>
+
+                        <p>
+                            <a href="mailto:hello@artsasa.com">
+                                hello@artsasa.com
+                            </a>
+                        </p>
+
+                        <p>
+                            <a href="tel:+254700000000">
+                                +254 700 000 000
+                            </a>
+                        </p>
+
+                    </div>
+
+                </section>
+
+
+            </article>
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}

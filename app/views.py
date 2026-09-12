@@ -1872,3 +1872,24 @@ def logout_view(request):
     )
 
     return redirect("index")
+
+# =========================================================
+# PRIVACY POLICY
+# =========================================================
+
+def privacy(request):
+    return render(
+        request,
+        "privacy.html"
+    )
+
+
+# =========================================================
+# TERMS & CONDITIONS
+# =========================================================
+
+def terms(request):
+    return render(
+        request,
+        "terms.html"
+    )
