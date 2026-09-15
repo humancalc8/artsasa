@@ -1472,19 +1472,6 @@ ARTSASA — Collection
 }
 
 
-.art-cart-button.is-added,
-.art-cart-button.is-added:hover {
-    background:
-        var(--ink-soft);
-
-    border-color:
-        var(--ink-soft);
-
-    cursor:
-        default;
-}
-
-
 .cart-icon-wrap {
     display: inline-flex;
 
@@ -1511,33 +1498,6 @@ ARTSASA — Collection
     stroke-linecap: round;
 
     stroke-linejoin: round;
-}
-
-
-.art-cart-button.is-adding
-.cart-icon-wrap {
-
-    animation:
-        cartBounce
-        .5s
-        var(--ease);
-}
-
-
-@keyframes cartBounce {
-
-    0% {
-        transform: scale(1);
-    }
-
-    40% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-
 }
 
 
@@ -3477,18 +3437,19 @@ ARTSASA — Collection
                                         type="button"
                                         class="art-cart-button{% if artwork.id|stringformat:'s' in cart_ids %} is-added{% endif %}"
                                         data-cart-id="{{ artwork.id }}"
-                                        data-cart-url="{% url 'add_to_cart' artwork.id %}"
                                         data-cart-slug="{{ artwork.slug }}"
                                         data-cart-title="{{ artwork.title|escapejs }}"
-                                        data-busy="{% if artwork.id|stringformat:'s' in cart_ids %}true{% else %}false{% endif %}"
-                                        aria-label="{% if artwork.id|stringformat:'s' in cart_ids %}{{ artwork.title }} is already in your cart{% else %}Add {{ artwork.title }} to cart{% endif %}"
+                                        aria-label="Add {{ artwork.title }} to cart"
                                     >
+
                                         <span class="cart-icon-wrap">
+
                                             <svg
                                                 class="cart-icon"
                                                 viewBox="0 0 24 24"
                                                 aria-hidden="true"
                                             >
+
                                                 <path
                                                     d="M3 4h2l2.2 10.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 1.9-1.4L21 7H6"
                                                 />
@@ -3504,7 +3465,9 @@ ARTSASA — Collection
                                                     cy="20"
                                                     r="1.2"
                                                 />
+
                                             </svg>
+
                                         </span>
 
                                         <span class="cart-label">
@@ -3514,6 +3477,7 @@ ARTSASA — Collection
                                                 Add to cart
                                             {% endif %}
                                         </span>
+
                                     </button>
 
                                 {% else %}
@@ -4054,34 +4018,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       CSRF
-    ========================================================= */
-
-    function getCookie(name) {
-        let cookieValue = null;
-
-        if (document.cookie && document.cookie !== "") {
-            const cookies = document.cookie.split(";");
-
-            for (let cookie of cookies) {
-                cookie = cookie.trim();
-
-                if (cookie.startsWith(name + "=")) {
-                    cookieValue = decodeURIComponent(
-                        cookie.substring(name.length + 1)
-                    );
-                    break;
-                }
-            }
-        }
-
-        return cookieValue;
-    }
-
-    const csrfToken = getCookie("csrftoken");
-
-
-    /* =========================================================
        UPDATE COUNT
     ========================================================= */
 
@@ -4565,172 +4501,259 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       ADD TO CART
-       POSTs to the per-artwork add_to_cart URL (the artwork id
-       is already baked into data-cart-url), updates the button
-       state, and refreshes the header badge via the global
+       ADD TO CART / WISHLIST
+       Both actions POST to the server, update the session,
+       and then refresh the header badges via the global
        window.artsasaRefreshCounters() helper defined in
-       base.html — no local counting logic lives here, so nothing
-       can fall out of sync with the server-side session.
+       base.html — no local counting logic lives here anymore,
+       so there is nothing that can fall out of sync with the
+       server-side session.
     ========================================================= */
 
-    const cartButtons = document.querySelectorAll(
-        ".art-cart-button[data-cart-id]"
-    );
+    /* =========================================================
+       CSRF
+    ========================================================= */
+
+    function getCookie(name) {
+
+        let cookieValue = null;
+
+        if (document.cookie && document.cookie !== "") {
+
+            const cookies = document.cookie.split(";");
+
+            for (let cookie of cookies) {
+
+                cookie = cookie.trim();
+
+                if (
+                    cookie.substring(
+                        0,
+                        name.length + 1
+                    ) === name + "="
+                ) {
+
+                    cookieValue = decodeURIComponent(
+                        cookie.substring(
+                            name.length + 1
+                        )
+                    );
+
+                    break;
+                }
+            }
+        }
+
+        return cookieValue;
+    }
+
+
+    const csrfToken = getCookie("csrftoken");
+
+
+    /* =========================================================
+       ADD TO CART
+    ========================================================= */
+
+    const cartButtons =
+        document.querySelectorAll(
+            ".art-cart-button[data-cart-id]"
+        );
+
 
     cartButtons.forEach(function (button) {
 
-        button.addEventListener("click", async function (event) {
+        button.addEventListener(
+            "click",
+            async function (event) {
 
-            event.preventDefault();
-            event.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
 
-            if (button.dataset.busy === "true") {
-                return;
-            }
+                if (
+                    button.dataset.busy === "true"
+                ) {
+                    return;
+                }
 
-            const artworkId = button.dataset.cartId;
-            const cartUrl = button.dataset.cartUrl;
+                const artworkId =
+                    button.dataset.cartId;
 
-            if (!artworkId || !cartUrl) {
-                console.error(
-                    "ARTSASA: Missing artwork ID or cart URL.",
-                    { artworkId, cartUrl }
-                );
-                return;
-            }
+                if (!artworkId) {
+                    return;
+                }
 
-            const label = button.querySelector(".cart-label");
-
-            const originalLabel = label
-                ? label.textContent
-                : "Add to cart";
-
-            button.dataset.busy = "true";
-            button.classList.add("is-adding");
-
-            if (label) {
-                label.textContent = "Adding…";
-            }
-
-            try {
-
-                const response = await fetch(
-                    cartUrl,
-                    {
-                        method: "POST",
-
-                        headers: {
-                            "X-CSRFToken": csrfToken,
-                            "X-Requested-With": "XMLHttpRequest"
-                        },
-
-                        credentials: "same-origin"
-                    }
-                );
-
-                /*
-                 * Don't blindly call response.json().
-                 * If Django returns an HTML error page,
-                 * response.json() itself will throw a confusing
-                 * error, so check the content type first.
-                 */
-
-                const contentType =
-                    response.headers.get("content-type") || "";
-
-                let data = null;
-
-                if (contentType.includes("application/json")) {
-                    data = await response.json();
-                } else {
-                    const text = await response.text();
-
-                    console.error(
-                        "ARTSASA cart returned non-JSON:",
-                        text
+                const label =
+                    button.querySelector(
+                        ".cart-label"
                     );
 
-                    throw new Error(
-                        `Cart request failed (${response.status}).`
-                    );
-                }
+                const originalLabel =
+                    label
+                        ? label.textContent
+                        : "Add to cart";
 
-                if (!response.ok || !data.success) {
-                    throw new Error(
-                        data.message ||
-                        "Unable to add artwork to cart."
-                    );
-                }
-
-                /*
-                 * Update header counters.
-                 */
-
-                if (window.artsasaRefreshCounters) {
-                    await window.artsasaRefreshCounters();
-                }
-
-                /*
-                 * Update button to its settled "in cart" state.
-                 */
-
-                button.classList.remove("is-adding");
-                button.classList.add("is-added");
-
-                if (label) {
-                    label.textContent = "In cart";
-                }
-
-                button.setAttribute(
-                    "aria-label",
-                    "Artwork already in cart"
-                );
-
-                button.setAttribute(
-                    "title",
-                    "Artwork already in cart"
-                );
-
-                /*
-                 * Keep it disabled so the same artwork
-                 * isn't repeatedly added.
-                 */
 
                 button.dataset.busy = "true";
 
-            } catch (error) {
-
-                console.error(
-                    "ARTSASA cart error:",
-                    error
+                button.classList.add(
+                    "is-adding"
                 );
 
-                button.classList.remove("is-adding");
-
-                button.dataset.busy = "false";
 
                 if (label) {
-                    label.textContent = originalLabel;
+
+                    label.textContent =
+                        "Adding…";
                 }
 
-                alert(
-                    error.message ||
-                    "Something went wrong while adding the artwork to your cart."
-                );
-            }
 
-        });
+                try {
+
+                    const formData =
+                        new FormData();
+
+                    formData.append(
+                        "artwork_id",
+                        artworkId
+                    );
+
+
+                    const response =
+                        await fetch(
+    "{% url 'add_to_cart' 0 %}".replace(
+        "/0/",
+        "/" + artworkId + "/"
+    ),
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "X-CSRFToken":
+                                        csrfToken,
+
+                                    "X-Requested-With":
+                                        "XMLHttpRequest"
+                                },
+
+                                body: formData
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (!response.ok ||
+                        !data.success) {
+
+                        throw new Error(
+                            data.message ||
+                            "Unable to add artwork to cart."
+                        );
+                    }
+
+
+                    /* -----------------------------------------
+                       Refresh header badges from the session
+                    ----------------------------------------- */
+
+                    if (window.artsasaRefreshCounters) {
+                        window.artsasaRefreshCounters();
+                    }
+
+
+                    /* -----------------------------------------
+                       Button state
+                    ----------------------------------------- */
+
+                    button.classList.remove(
+                        "is-adding"
+                    );
+
+                    button.classList.add(
+                        "is-added"
+                    );
+
+
+                    if (label) {
+
+                        label.textContent =
+                            data.already_in_cart
+                                ? "In cart"
+                                : "Added to cart";
+                    }
+
+
+                    /* -----------------------------------------
+                       Keep button from adding duplicate item
+                    ----------------------------------------- */
+
+                    button.setAttribute(
+                        "aria-label",
+                        "Artwork already in cart"
+                    );
+
+
+                    window.setTimeout(
+                        function () {
+
+                            button.classList.remove(
+                                "is-added"
+                            );
+
+                            button.dataset.busy =
+                                "false";
+
+                            if (label) {
+
+                                label.textContent =
+                                    "In cart";
+                            }
+
+                        },
+                        1800
+                    );
+
+
+                } catch (error) {
+
+                    console.error(
+                        "ARTSASA cart error:",
+                        error
+                    );
+
+
+                    button.classList.remove(
+                        "is-adding"
+                    );
+
+                    button.dataset.busy =
+                        "false";
+
+
+                    if (label) {
+
+                        label.textContent =
+                            originalLabel;
+                    }
+
+
+                    alert(
+                        error.message ||
+                        "Something went wrong while adding the artwork to your cart."
+                    );
+                }
+
+            }
+        );
 
     });
 
 
     /* =========================================================
        WISHLIST
-       Toggles between add_to_wishlist / remove_from_wishlist,
-       sends artwork_id in the POST body (these two endpoints
-       don't take the id from the URL), and refreshes the header
-       badge the same way the cart handler does.
     ========================================================= */
 
     const wishlistButtons =
@@ -4806,32 +4829,13 @@ document.addEventListener("DOMContentLoaded", function () {
                                         "XMLHttpRequest"
                                 },
 
-                                body: formData,
-
-                                credentials: "same-origin"
+                                body: formData
                             }
                         );
 
 
-                    const contentType =
-                        response.headers.get("content-type") || "";
-
-                    let data = null;
-
-                    if (contentType.includes("application/json")) {
-                        data = await response.json();
-                    } else {
-                        const text = await response.text();
-
-                        console.error(
-                            "ARTSASA wishlist returned non-JSON:",
-                            text
-                        );
-
-                        throw new Error(
-                            `Wishlist request failed (${response.status}).`
-                        );
-                    }
+                    const data =
+                        await response.json();
 
 
                     if (!response.ok ||
@@ -4887,7 +4891,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ----------------------------------------- */
 
                     if (window.artsasaRefreshCounters) {
-                        await window.artsasaRefreshCounters();
+                        window.artsasaRefreshCounters();
                     }
 
 

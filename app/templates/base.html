@@ -1,3 +1,4 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -11,111 +12,772 @@
 <meta name="description"
       content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
 
-<meta name="theme-color" content="#211E1B">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,0..72,400;1,0..72,500&family=Permanent+Marker&display=swap"
-      rel="stylesheet">
-
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-
-<link rel="stylesheet"
-      href="{% static 'css/site.css' %}">
+<meta name="theme-color" content="#1A1714">
 
 
 <!-- =========================================================
-     ARTSASA — PAGE LOADER
-     Winged spray-can / painted word reveal
+     FONTS
+========================================================= -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap"
+      rel="stylesheet">
+
+
+<!-- =========================================================
+     ICONS
+========================================================= -->
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<!-- =========================================================
+     MAIN STYLESHEET
+========================================================= -->
+<link rel="stylesheet" href="{% static 'css/site.css' %}">
+
+
+<!-- =========================================================
+     PAGE LOADER
 ========================================================= -->
 <style>
-/* =============================================================
-   ARTSASA — PAGE LOADER (image-only, no text)
-   The winged spray-can artwork sits centered on screen and
-   shakes like it has just been picked up and rattled, with a
-   soft paint-mist pulsing from its nozzle. Runs for exactly
-   3 seconds (see LOADER_DURATION in the script below), then
-   fades out on its own.
-============================================================= */
 
-.page-loader{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:var(--sandstone,#F1EADB);opacity:0;visibility:hidden;pointer-events:none;overflow:hidden;transition:opacity .5s ease,visibility .5s ease}
-.page-loader.is-active{opacity:1;visibility:visible;pointer-events:auto}
-
-.loader-can-rig{position:relative;width:min(360px,62vw);animation:loaderCanShake .42s ease-in-out infinite;transform-origin:50% 60%}
-.loader-can-rig img{display:block;width:100%;height:auto;user-select:none;-webkit-user-drag:none;filter:drop-shadow(0 18px 22px rgba(33,30,27,.16))}
-
-@keyframes loaderCanShake{
-    0%   {transform:rotate(0deg)   translate(0,0);}
-    15%  {transform:rotate(-6deg)  translate(-4px,2px);}
-    35%  {transform:rotate(5deg)   translate(4px,-2px);}
-    55%  {transform:rotate(-7deg)  translate(-3px,1px);}
-    75%  {transform:rotate(4deg)   translate(3px,2px);}
-    100% {transform:rotate(0deg)   translate(0,0);}
+:root{
+    --artsasa-loader-bg:#F1EADB;
+    --artsasa-loader-ink:#211E1B;
+    --artsasa-loader-muted:#83807A;
+    --artsasa-loader-accent:#A15C3B;
+    --artsasa-loader-line:rgba(33,30,27,.18);
+    --artsasa-loader-soft:rgba(33,30,27,.07);
 }
 
-/* extra puffs of mist pulsing near the can's nozzle, layered
-   on top of the spray already painted into the artwork itself */
-.loader-mist-dot{position:absolute;left:var(--mx);top:var(--my);width:var(--msize);height:var(--msize);border-radius:50%;background:var(--terracotta,#A15C3B);opacity:0;animation:loaderMist var(--mdur) ease-out var(--mdelay) infinite}
 
-@keyframes loaderMist{
-    0%   {opacity:0;transform:translate(0,0) scale(.4);}
-    18%  {opacity:.75;}
-    100% {opacity:0;transform:translate(var(--mdx),var(--mdy)) scale(1.4);}
+.page-loader{
+    position:fixed;
+    inset:0;
+    z-index:99999;
+    display:grid;
+    place-items:center;
+    padding:28px;
+    background:var(--artsasa-loader-bg);
+    color:var(--artsasa-loader-ink);
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:
+        opacity .55s cubic-bezier(.22,1,.36,1),
+        visibility .55s cubic-bezier(.22,1,.36,1);
 }
+
+
+.page-loader.is-active{
+    opacity:1;
+    visibility:visible;
+    pointer-events:auto;
+}
+
+
+.page-loader::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    opacity:.34;
+
+    background-image:
+        radial-gradient(
+            rgba(33,30,27,.13) .45px,
+            transparent .55px
+        );
+
+    background-size:4px 4px;
+    mix-blend-mode:multiply;
+}
+
+
+.page-loader::after{
+    content:"";
+    position:absolute;
+    left:7vw;
+    right:7vw;
+    bottom:7vh;
+    height:1px;
+    background:var(--artsasa-loader-line);
+    transform-origin:left center;
+    transform:scaleX(0);
+    transition:
+        transform 1.1s cubic-bezier(.22,1,.36,1) .15s;
+}
+
+
+.page-loader.is-active::after{
+    transform:scaleX(1);
+}
+
+
+.loader-stage{
+    position:relative;
+    width:min(760px,92vw);
+    min-height:min(540px,78vh);
+    display:grid;
+    place-items:center;
+}
+
+
+.loader-frame{
+    position:relative;
+    width:min(620px,86vw);
+    aspect-ratio:1.18 / 1;
+    border:1px solid var(--artsasa-loader-line);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:visible;
+}
+
+
+.loader-frame::before,
+.loader-frame::after{
+    content:"";
+    position:absolute;
+    width:18px;
+    height:18px;
+    border-color:var(--artsasa-loader-ink);
+    border-style:solid;
+    opacity:.55;
+}
+
+
+.loader-frame::before{
+    top:-8px;
+    left:-8px;
+    border-width:1px 0 0 1px;
+}
+
+
+.loader-frame::after{
+    right:-8px;
+    bottom:-8px;
+    border-width:0 1px 1px 0;
+}
+
+
+.loader-registration{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border:1px solid var(--artsasa-loader-muted);
+    border-radius:50%;
+    opacity:.65;
+}
+
+
+.loader-registration::before,
+.loader-registration::after{
+    content:"";
+    position:absolute;
+    background:var(--artsasa-loader-muted);
+}
+
+
+.loader-registration::before{
+    width:22px;
+    height:1px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+
+.loader-registration::after{
+    width:1px;
+    height:22px;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+}
+
+
+.loader-registration.r1{
+    top:-4px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+
+.loader-registration.r2{
+    bottom:-4px;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+
+.loader-meta{
+    position:absolute;
+    top:18px;
+    left:20px;
+    right:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    font-family:var(--font-body,"DM Sans",sans-serif);
+    font-size:9px;
+    line-height:1;
+    font-weight:600;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--artsasa-loader-muted);
+}
+
+
+.loader-meta strong{
+    color:var(--artsasa-loader-ink);
+    font-weight:700;
+}
+
+
+.loader-art{
+    position:relative;
+    width:76%;
+    text-align:center;
+    transform:translateY(-3%);
+}
+
+
+.loader-word{
+    position:relative;
+    margin:0;
+
+    font-family:
+        var(--font-display,
+        "Cormorant Garamond",
+        serif);
+
+    font-size:clamp(64px,11vw,116px);
+    line-height:.76;
+    font-weight:400;
+    font-style:italic;
+    letter-spacing:-.055em;
+    color:var(--artsasa-loader-ink);
+    white-space:nowrap;
+
+    opacity:0;
+    transform:translateY(18px);
+    clip-path:inset(0 100% 0 0);
+}
+
+
+.page-loader.is-active .loader-word{
+    animation:
+        artsasaLoaderWord
+        1.05s
+        cubic-bezier(.77,0,.18,1)
+        .15s
+        forwards;
+}
+
+
+.loader-word::after{
+    content:"";
+    position:absolute;
+    left:4%;
+    right:3%;
+    bottom:-18px;
+    height:3px;
+    background:var(--artsasa-loader-accent);
+    transform-origin:left center;
+    transform:scaleX(0);
+}
+
+
+.page-loader.is-active .loader-word::after{
+    animation:
+        artsasaLoaderRule
+        .65s
+        cubic-bezier(.22,1,.36,1)
+        .88s
+        forwards;
+}
+
+
+.loader-motto{
+    margin:42px 0 0;
+
+    font-family:
+        var(--font-editorial,
+        "Newsreader",
+        serif);
+
+    font-size:clamp(21px,3vw,30px);
+    line-height:1;
+    font-style:italic;
+    font-weight:400;
+    letter-spacing:-.01em;
+
+    color:var(--artsasa-loader-muted);
+
+    opacity:0;
+    transform:translateY(12px);
+}
+
+
+.page-loader.is-active .loader-motto{
+    animation:
+        artsasaLoaderMotto
+        .7s
+        cubic-bezier(.22,1,.36,1)
+        .9s
+        forwards;
+}
+
+
+.loader-motto::first-letter{
+    color:var(--artsasa-loader-accent);
+}
+
+
+.loader-location{
+    margin:27px 0 0;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:9px;
+    font-weight:600;
+    letter-spacing:.26em;
+    text-transform:uppercase;
+
+    color:var(--artsasa-loader-muted);
+
+    opacity:0;
+    transform:translateY(8px);
+}
+
+
+.page-loader.is-active .loader-location{
+    animation:
+        artsasaLoaderLocation
+        .55s
+        ease
+        1.28s
+        forwards;
+}
+
+
+.loader-side-note{
+    position:absolute;
+    right:-48px;
+    top:50%;
+
+    transform:
+        translateY(-50%)
+        rotate(90deg);
+
+    transform-origin:center;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:8px;
+    font-weight:600;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+
+    color:var(--artsasa-loader-muted);
+    opacity:.8;
+}
+
+
+.loader-bottom{
+    position:absolute;
+    left:20px;
+    right:20px;
+    bottom:18px;
+
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+
+.loader-progress{
+    position:relative;
+    flex:1;
+    height:2px;
+
+    background:var(--artsasa-loader-soft);
+    overflow:hidden;
+}
+
+
+.loader-progress span{
+    display:block;
+    width:0;
+    height:100%;
+
+    background:var(--artsasa-loader-accent);
+
+    transform-origin:left center;
+}
+
+
+.page-loader.is-active .loader-progress span{
+    animation:
+        artsasaLoaderProgress
+        1.7s
+        cubic-bezier(.22,1,.36,1)
+        forwards;
+}
+
+
+.loader-percent{
+    min-width:31px;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:8px;
+    font-weight:700;
+    letter-spacing:.12em;
+    text-align:right;
+
+    color:var(--artsasa-loader-muted);
+}
+
+
+.loader-studio-mark{
+    position:absolute;
+    left:-34px;
+    bottom:4px;
+
+    width:12px;
+    height:12px;
+
+    border-left:1px solid var(--artsasa-loader-accent);
+    border-bottom:1px solid var(--artsasa-loader-accent);
+
+    opacity:.75;
+}
+
+
+@keyframes artsasaLoaderWord{
+
+    0%{
+        opacity:0;
+        transform:translateY(18px);
+        clip-path:inset(0 100% 0 0);
+    }
+
+    18%{
+        opacity:1;
+    }
+
+    100%{
+        opacity:1;
+        transform:translateY(0);
+        clip-path:inset(0 0 0 0);
+    }
+}
+
+
+@keyframes artsasaLoaderRule{
+
+    from{
+        transform:scaleX(0);
+    }
+
+    to{
+        transform:scaleX(1);
+    }
+}
+
+
+@keyframes artsasaLoaderMotto{
+
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+@keyframes artsasaLoaderLocation{
+
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+
+    to{
+        opacity:.9;
+        transform:translateY(0);
+    }
+}
+
+
+@keyframes artsasaLoaderProgress{
+
+    0%{
+        width:0;
+    }
+
+    15%{
+        width:17%;
+    }
+
+    48%{
+        width:56%;
+    }
+
+    78%{
+        width:82%;
+    }
+
+    100%{
+        width:100%;
+    }
+}
+
+
+@media(max-width:700px){
+
+    .page-loader{
+        padding:18px;
+    }
+
+    .loader-stage{
+        min-height:470px;
+    }
+
+    .loader-frame{
+        width:min(570px,88vw);
+    }
+
+    .loader-art{
+        width:82%;
+    }
+
+    .loader-side-note{
+        right:-38px;
+        font-size:7px;
+    }
+}
+
+
+@media(max-width:480px){
+
+    .loader-stage{
+        min-height:420px;
+    }
+
+    .loader-frame{
+        width:86vw;
+        aspect-ratio:.88 / 1;
+    }
+
+    .loader-meta{
+        top:15px;
+        left:15px;
+        right:15px;
+        font-size:7px;
+        letter-spacing:.17em;
+    }
+
+    .loader-art{
+        width:88%;
+    }
+
+    .loader-word{
+        font-size:clamp(50px,16vw,76px);
+    }
+
+    .loader-motto{
+        margin-top:35px;
+        font-size:22px;
+    }
+
+    .loader-location{
+        margin-top:23px;
+        font-size:8px;
+        letter-spacing:.18em;
+    }
+
+    .loader-side-note{
+        display:none;
+    }
+
+    .loader-bottom{
+        left:15px;
+        right:15px;
+        bottom:15px;
+    }
+
+    .page-loader::after{
+        left:6vw;
+        right:6vw;
+        bottom:5vh;
+    }
+}
+
 
 @media(prefers-reduced-motion:reduce){
-    .loader-can-rig{animation:none;}
-    .loader-mist-dot{display:none;}
+
+    .page-loader::after,
+    .loader-word,
+    .loader-word::after,
+    .loader-motto,
+    .loader-location,
+    .loader-progress span{
+        animation:none !important;
+        transition:none !important;
+    }
+
+    .page-loader.is-active::after{
+        transform:scaleX(1);
+    }
+
+    .loader-word{
+        opacity:1;
+        transform:none;
+        clip-path:none;
+    }
+
+    .loader-word::after{
+        transform:scaleX(1);
+    }
+
+    .loader-motto,
+    .loader-location{
+        opacity:1;
+        transform:none;
+    }
+
+    .loader-progress span{
+        width:100%;
+    }
 }
+
 </style>
+
 
 {% block extra_css %}{% endblock %}
 
 </head>
 
+
 <body>
 
 
-<!-- =========================================================
-     PAGE LOADER — ARTSASA SPRAY REVEAL
-========================================================= -->
-<div class="page-loader is-active" id="pageLoader" aria-hidden="true">
+<!-- =============================================================
+     PAGE LOADER
+============================================================= -->
 
-    <div class="loader-can-rig" id="loaderCanRig">
+<div class="page-loader is-active"
+     id="pageLoader"
+     aria-hidden="true">
 
-        <img
-            src="{% static 'images/artsasa-spray-can.png' %}"
-            alt=""
-            draggable="false"
-        >
+    <div class="loader-stage">
 
-        <!-- mist dots are injected here by JS, positioned near the nozzle -->
+        <div class="loader-frame"
+             aria-hidden="true">
+
+            <span class="loader-registration r1"></span>
+            <span class="loader-registration r2"></span>
+
+            <div class="loader-meta">
+
+                <span>
+                    <strong>ARTSASA</strong>
+                </span>
+
+                <span>
+                    Studio / 001
+                </span>
+
+            </div>
+
+
+            <div class="loader-art">
+
+                <h1 class="loader-word">
+                    ARTSASA
+                </h1>
+
+                <p class="loader-motto">
+                    Imagine. Create.
+                </p>
+
+                <p class="loader-location">
+                    Contemporary Art · Nairobi
+                </p>
+
+            </div>
+
+
+            <span class="loader-side-note">
+                Original works · Nairobi · Kenya
+            </span>
+
+
+            <div class="loader-bottom">
+
+                <div class="loader-progress"
+                     aria-hidden="true">
+
+                    <span></span>
+
+                </div>
+
+                <span class="loader-percent">
+                    100%
+                </span>
+
+            </div>
+
+
+            <span class="loader-studio-mark"
+                  aria-hidden="true">
+            </span>
+
+        </div>
 
     </div>
 
 </div>
 
-<!-- =========================================================
+
+<!-- =============================================================
      SEARCH PANEL
-========================================================== -->
+============================================================= -->
 
-<div
-    class="search-panel"
-    id="searchPanel"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Search ARTSASA"
->
+<div class="search-panel"
+     id="searchPanel"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Search ARTSASA">
 
-    <button
-        class="search-close"
-        id="searchClose"
-        aria-label="Close search"
-    >
+    <button class="search-close"
+            id="searchClose"
+            aria-label="Close search">
+
         <i class="fa-solid fa-xmark"></i>
+
     </button>
+
 
     <div class="search-inner">
 
@@ -123,26 +785,24 @@
             Search ARTSASA
         </p>
 
-        <form
-            class="search-form"
-            action="{% url 'index' %}"
-            method="get"
-        >
 
-            <input
-                type="search"
-                name="q"
-                id="searchInput"
-                placeholder="Artists, artworks, exhibitions…"
-                autocomplete="off"
-            >
+        <form class="search-form"
+              action="{% url 'index' %}"
+              method="get">
 
-            <button
-                type="submit"
-                class="search-submit"
-                aria-label="Search"
-            >
+            <input type="search"
+                   name="q"
+                   id="searchInput"
+                   placeholder="Artists, artworks, exhibitions…"
+                   autocomplete="off">
+
+
+            <button type="submit"
+                    class="search-submit"
+                    aria-label="Search">
+
                 <i class="fa-solid fa-arrow-right"></i>
+
             </button>
 
         </form>
@@ -152,36 +812,32 @@
 </div>
 
 
-<!-- =========================================================
+<!-- =============================================================
      HEADER
-========================================================== -->
+============================================================= -->
 
-<header
-    class="site-header"
-    id="siteHeader"
->
+<header class="site-header"
+        id="siteHeader">
 
     <div class="site-container header-inner">
 
 
-        <a
-            href="{% url 'index' %}"
-            class="brand"
-            aria-label="ARTSASA home"
-        >
+        <!-- LOGO -->
 
-            <img
-                src="{% static 'images/logo.png' %}"
-                alt="ARTSASA"
-            >
+        <a href="{% url 'index' %}"
+           class="brand"
+           aria-label="ARTSASA home">
+
+            <img src="{% static 'images/logo.png' %}"
+                 alt="ARTSASA">
 
         </a>
 
 
-        <nav
-            class="main-nav"
-            aria-label="Primary"
-        >
+        <!-- DESKTOP NAV -->
+
+        <nav class="main-nav"
+             aria-label="Primary">
 
             <a href="{% url 'index' %}">
                 Home
@@ -189,6 +845,10 @@
 
             <a href="{% url 'collection' %}">
                 Collection
+            </a>
+
+            <a href="{% url 'exhibitions' %}">
+                Exhibitions
             </a>
 
             <a href="{% url 'artists' %}">
@@ -210,54 +870,57 @@
         </nav>
 
 
+        <!-- HEADER RIGHT -->
+
         <div class="header-side">
 
 
-            <button
-                class="icon-btn"
-                id="searchOpen"
-                aria-label="Open search"
-            >
+            <!-- SEARCH -->
+
+            <button class="icon-btn"
+                    id="searchOpen"
+                    aria-label="Open search">
 
                 <i class="fa-solid fa-magnifying-glass"></i>
 
             </button>
 
 
+            <!-- =================================================
+                 HEADER CART / WISHLIST
+            ================================================== -->
+
             <div class="header-actions">
 
-                <a
-                    href="{% url 'wishlist' %}"
-                    class="header-action"
-                    aria-label="Wishlist"
-                >
+
+                <!-- WISHLIST -->
+
+                <a href="{% url 'wishlist' %}"
+                   class="header-action"
+                   aria-label="Wishlist">
 
                     <i class="fa-regular fa-heart"></i>
 
-                    <span
-                        class="header-action-count"
-                        id="wishlistCount"
-                        data-count-badge
-                    >
+                    <span class="header-action-count"
+                          id="wishlistCount"
+                          data-count-badge>
                         0
                     </span>
 
                 </a>
 
 
-                <a
-                    href="{% url 'cart' %}"
-                    class="header-action header-cart"
-                    aria-label="Cart"
-                >
+                <!-- CART -->
+
+                <a href="{% url 'cart' %}"
+                   class="header-action header-cart"
+                   aria-label="Cart">
 
                     <i class="fa-solid fa-bag-shopping"></i>
 
-                    <span
-                        class="header-action-count"
-                        id="cartCount"
-                        data-count-badge
-                    >
+                    <span class="header-action-count"
+                          id="cartCount"
+                          data-count-badge>
                         0
                     </span>
 
@@ -266,20 +929,18 @@
             </div>
 
 
-            <!-- PROFILE -->
+            <!-- =================================================
+                 PROFILE
+            ================================================== -->
 
-            <div
-                class="profile-menu"
-                id="profileMenu"
-            >
+            <div class="profile-menu"
+                 id="profileMenu">
 
-                <button
-                    class="profile-trigger"
-                    id="profileTrigger"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    aria-label="Account menu"
-                >
+                <button class="profile-trigger"
+                        id="profileTrigger"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        aria-label="Account menu">
 
                     {% if user.is_authenticated %}
 
@@ -300,11 +961,9 @@
                 </button>
 
 
-                <div
-                    class="profile-dropdown"
-                    id="profileDropdown"
-                    role="menu"
-                >
+                <div class="profile-dropdown"
+                     id="profileDropdown"
+                     role="menu">
 
                     <div class="profile-head">
 
@@ -335,49 +994,52 @@
 
                     {% if user.is_authenticated %}
 
-                        <a
-                            href="{% url 'index' %}"
-                            role="menuitem"
-                        >
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
                             <i class="fa-regular fa-id-badge"></i>
                             My Profile
+
                         </a>
 
-                        <a
-                            href="{% url 'index' %}"
-                            role="menuitem"
-                        >
+
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
                             <i class="fa-solid fa-box-open"></i>
                             Orders
+
                         </a>
 
-                        <a
-                            href="{% url 'wishlist' %}"
-                            role="menuitem"
-                        >
+
+                        <a href="{% url 'wishlist' %}"
+                           role="menuitem">
+
                             <i class="fa-regular fa-heart"></i>
                             Wishlist
+
                         </a>
 
-                        <a
-                            href="{% url 'index' %}"
-                            role="menuitem"
-                        >
+
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
                             <i class="fa-solid fa-sliders"></i>
                             Settings
+
                         </a>
 
-                        <form
-                            action="{% url 'index' %}"
-                            method="post"
-                            class="profile-logout"
-                        >
+
+                        <form action="{% url 'index' %}"
+                              method="post"
+                              class="profile-logout">
 
                             {% csrf_token %}
 
                             <button type="submit">
 
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
+
                                 Sign Out
 
                             </button>
@@ -386,28 +1048,30 @@
 
                     {% else %}
 
-                        <a
-                            href="{% url 'login' %}"
-                            role="menuitem"
-                        >
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
                             <i class="fa-solid fa-arrow-right-to-bracket"></i>
                             Sign In
+
                         </a>
 
-                        <a
-                            href="{% url 'register' %}"
-                            role="menuitem"
-                        >
+
+                        <a href="{% url 'index' %}"
+                           role="menuitem">
+
                             <i class="fa-regular fa-pen-to-square"></i>
                             Create Account
+
                         </a>
 
-                        <a
-                            href="{% url 'wishlist' %}"
-                            role="menuitem"
-                        >
+
+                        <a href="{% url 'wishlist' %}"
+                           role="menuitem">
+
                             <i class="fa-regular fa-heart"></i>
                             Wishlist
+
                         </a>
 
                     {% endif %}
@@ -449,12 +1113,12 @@
             </span>
 
 
-            <button
-                class="menu-toggle"
-                id="menuToggle"
-                aria-label="Open menu"
-                aria-expanded="false"
-            >
+            <!-- HAMBURGER -->
+
+            <button class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Open menu"
+                    aria-expanded="false">
 
                 <span></span>
                 <span></span>
@@ -469,42 +1133,37 @@
 </header>
 
 
-<!-- =========================================================
+<!-- =============================================================
      MOBILE NAV BACKDROP
-========================================================== -->
+============================================================= -->
 
-<div
-    class="mobile-nav-backdrop"
-    id="mobileNavBackdrop"
-></div>
+<div class="mobile-nav-backdrop"
+     id="mobileNavBackdrop">
+</div>
 
 
-<!-- =========================================================
+<!-- =============================================================
      MOBILE NAV
-========================================================== -->
+============================================================= -->
 
-<aside
-    class="mobile-nav"
-    id="mobileNav"
-    aria-label="Mobile menu"
->
+<aside class="mobile-nav"
+       id="mobileNav"
+       aria-label="Mobile menu">
+
 
     <div class="mobile-nav-head">
 
         <span class="mobile-nav-mark">
 
-            <img
-                src="{% static 'images/logo.png' %}"
-                alt="ARTSASA"
-            >
+            <img src="{% static 'images/logo.png' %}"
+                 alt="ARTSASA">
 
         </span>
 
-        <button
-            class="mobile-nav-close"
-            id="mobileNavClose"
-            aria-label="Close menu"
-        >
+
+        <button class="mobile-nav-close"
+                id="mobileNavClose"
+                aria-label="Close menu">
 
             <i class="fa-solid fa-xmark"></i>
 
@@ -512,6 +1171,8 @@
 
     </div>
 
+
+    <!-- MOBILE PROFILE -->
 
     <div class="mobile-profile">
 
@@ -522,6 +1183,7 @@
                 <span class="profile-avatar">
                     {{ user.get_username|slice:":1"|upper }}
                 </span>
+
 
                 <span class="mobile-profile-text">
 
@@ -538,8 +1200,11 @@
             {% else %}
 
                 <span class="profile-avatar profile-avatar-guest">
+
                     <i class="fa-regular fa-user"></i>
+
                 </span>
+
 
                 <span class="mobile-profile-text">
 
@@ -562,44 +1227,44 @@
 
             {% if user.is_authenticated %}
 
-                <a
-                    href="{% url 'index' %}"
-                    class="mp-btn"
-                >
+                <a href="{% url 'index' %}"
+                   class="mp-btn">
+
                     My Profile
+
                 </a>
 
-                <form
-                    action="{% url 'index' %}"
-                    method="post"
-                    class="mp-form"
-                >
+
+                <form action="{% url 'index' %}"
+                      method="post"
+                      class="mp-form">
 
                     {% csrf_token %}
 
-                    <button
-                        type="submit"
-                        class="mp-btn mp-btn-ghost"
-                    >
+                    <button type="submit"
+                            class="mp-btn mp-btn-ghost">
+
                         Sign Out
+
                     </button>
 
                 </form>
 
             {% else %}
 
-                <a
-                    href="{% url 'index' %}"
-                    class="mp-btn"
-                >
-                    Login
+                <a href="{% url 'index' %}"
+                   class="mp-btn">
+
+                    Sign In
+
                 </a>
 
-                <a
-                    href="{% url 'register' %}"
-                    class="mp-btn mp-btn-ghost"
-                >
+
+                <a href="{% url 'index' %}"
+                   class="mp-btn mp-btn-ghost">
+
                     Register
+
                 </a>
 
             {% endif %}
@@ -609,10 +1274,11 @@
     </div>
 
 
-    <nav
-        class="mobile-nav-links"
-        aria-label="Mobile primary"
-    >
+    <!-- MOBILE LINKS -->
+
+    <nav class="mobile-nav-links"
+         aria-label="Mobile primary">
+
 
         <a href="{% url 'index' %}">
 
@@ -639,6 +1305,23 @@
 
             <span class="nav-label">
                 Collection
+            </span>
+
+            <span class="nav-go">
+                <i class="fa-solid fa-arrow-right"></i>
+            </span>
+
+        </a>
+
+
+        <a href="{% url 'exhibitions' %}">
+
+            <span class="nav-icon">
+                <i class="fa-solid fa-image"></i>
+            </span>
+
+            <span class="nav-label">
+                Exhibitions
             </span>
 
             <span class="nav-go">
@@ -733,17 +1416,20 @@
         </a>
 
 
-        <a href="{% url 'wishlist' %}">
+        <!-- =====================================================
+             MOBILE WISHLIST COUNTER
+        ====================================================== -->
+
+        <a href="{% url 'wishlist' %}"
+           class="mobile-wishlist-link">
 
             <span class="nav-icon nav-icon-count">
 
                 <i class="fa-regular fa-heart"></i>
 
-                <sup
-                    class="nav-sup"
-                    id="wishlistCountMobile"
-                    data-count-badge
-                >
+                <sup class="nav-sup"
+                     id="wishlistCountMobile"
+                     data-count-badge>
                     0
                 </sup>
 
@@ -760,17 +1446,20 @@
         </a>
 
 
-        <a href="{% url 'cart' %}">
+        <!-- =====================================================
+             MOBILE CART COUNTER
+        ====================================================== -->
+
+        <a href="{% url 'cart' %}"
+           class="mobile-cart-link">
 
             <span class="nav-icon nav-icon-count">
 
                 <i class="fa-solid fa-bag-shopping"></i>
 
-                <sup
-                    class="nav-sup"
-                    id="cartCountMobile"
-                    data-count-badge
-                >
+                <sup class="nav-sup"
+                     id="cartCountMobile"
+                     data-count-badge>
                     0
                 </sup>
 
@@ -794,6 +1483,7 @@
         <p class="mobile-nav-foot-label">
             Follow ARTSASA
         </p>
+
 
         <div class="mobile-nav-social">
 
@@ -824,28 +1514,22 @@
 </aside>
 
 
-<!-- =========================================================
+<!-- =============================================================
      PAGE CONTENT
-========================================================== -->
+============================================================= -->
 
-<main
-    class="page-content"
-    id="pageContent"
->
+<main class="page-content">
 
     {% block content %}{% endblock %}
 
 </main>
 
 
-<!-- =========================================================
+<!-- =============================================================
      NEWSLETTER
-========================================================== -->
+============================================================= -->
 
-<section
-    class="newsletter-band"
-    id="newsletterBand"
->
+<section class="newsletter-band">
 
     <div class="site-container newsletter-inner">
 
@@ -863,20 +1547,16 @@
         </div>
 
 
-        <form
-            class="newsletter-form"
-            action="{% url 'index' %}"
-            method="post"
-        >
+        <form class="newsletter-form"
+              action="{% url 'index' %}"
+              method="post">
 
             {% csrf_token %}
 
-            <input
-                type="email"
-                name="email"
-                placeholder="Your email address"
-                required
-            >
+            <input type="email"
+                   name="email"
+                   placeholder="Your email address"
+                   required>
 
             <button type="submit">
                 Subscribe
@@ -889,14 +1569,11 @@
 </section>
 
 
-<!-- =========================================================
+<!-- =============================================================
      FOOTER
-========================================================== -->
+============================================================= -->
 
-<footer
-    class="site-footer"
-    id="siteFooter"
->
+<footer class="site-footer">
 
     <div class="site-container">
 
@@ -905,15 +1582,11 @@
 
             <div class="footer-column footer-brand-column">
 
-                <a
-                    href="{% url 'index' %}"
-                    class="footer-brand"
-                >
+                <a href="{% url 'index' %}"
+                   class="footer-brand">
 
-                    <img
-                        src="{% static 'images/logo2.png' %}"
-                        alt="ARTSASA Contemporary Art Gallery"
-                    >
+                    <img src="{% static 'images/logo-light.png' %}"
+                         alt="ARTSASA Contemporary Art Gallery">
 
                 </a>
 
@@ -927,10 +1600,8 @@
                 </p>
 
 
-                <a
-                    href="{% url 'collection' %}"
-                    class="footer-discover-link"
-                >
+                <a href="{% url 'collection' %}"
+                   class="footer-discover-link">
 
                     Explore the collection
 
@@ -947,6 +1618,7 @@
                     Explore
                 </p>
 
+
                 <nav class="footer-links">
 
                     <a href="{% url 'index' %}">
@@ -955,6 +1627,10 @@
 
                     <a href="{% url 'collection' %}">
                         Collection
+                    </a>
+
+                    <a href="{% url 'exhibitions' %}">
+                        Exhibitions
                     </a>
 
                     <a href="{% url 'artists' %}">
@@ -980,6 +1656,7 @@
                     How to Buy
                 </p>
 
+
                 <div class="footer-buy">
 
                     <div class="footer-buy-step">
@@ -995,7 +1672,8 @@
                             </strong>
 
                             <p>
-                                Browse the collection and find a piece that speaks to you.
+                                Browse the collection and find a
+                                piece that speaks to you.
                             </p>
 
                         </div>
@@ -1016,7 +1694,8 @@
                             </strong>
 
                             <p>
-                                Add the artwork to your selection and send us an enquiry.
+                                Add the artwork to your selection
+                                and send us an enquiry.
                             </p>
 
                         </div>
@@ -1037,7 +1716,8 @@
                             </strong>
 
                             <p>
-                                Our team confirms availability, pricing and acquisition details.
+                                Our team confirms availability,
+                                pricing and acquisition details.
                             </p>
 
                         </div>
@@ -1058,7 +1738,8 @@
                             </strong>
 
                             <p>
-                                We arrange collection or delivery according to your preference.
+                                We arrange collection or delivery
+                                according to your preference.
                             </p>
 
                         </div>
@@ -1075,6 +1756,7 @@
                 <p class="footer-heading">
                     Visit the Gallery
                 </p>
+
 
                 <div class="footer-hours">
 
@@ -1139,10 +1821,8 @@
                     </div>
 
 
-                    <a
-                        href="tel:+254700000000"
-                        class="footer-contact-link"
-                    >
+                    <a href="tel:+254700000000"
+                       class="footer-contact-link">
 
                         <i class="fa-solid fa-phone"></i>
 
@@ -1153,10 +1833,8 @@
                     </a>
 
 
-                    <a
-                        href="mailto:hello@artsasa.com"
-                        class="footer-contact-link"
-                    >
+                    <a href="mailto:hello@artsasa.com"
+                       class="footer-contact-link">
 
                         <i class="fa-regular fa-envelope"></i>
 
@@ -1176,6 +1854,7 @@
                 <p class="footer-heading">
                     Connect
                 </p>
+
 
                 <p class="footer-connect-copy">
 
@@ -1210,10 +1889,8 @@
                 </div>
 
 
-                <a
-                    href="{% url 'index' %}"
-                    class="footer-contact-cta"
-                >
+                <a href="{% url 'index' %}"
+                   class="footer-contact-cta">
 
                     Contact ARTSASA
 
@@ -1238,16 +1915,16 @@
 
             <div class="footer-bottom-right">
 
-                <a href="{% url 'privacy' %}">
+                <a href="{% url 'index' %}">
                     Privacy
                 </a>
 
-                <a href="{% url 'terms' %}">
+                <a href="{% url 'index' %}">
                     Terms
                 </a>
 
                 <span class="footer-made">
-                    Imagine · Create
+                    Contemporary Art · Nairobi
                 </span>
 
             </div>
@@ -1259,17 +1936,15 @@
 </footer>
 
 
-<!-- =========================================================
+<!-- =============================================================
      COOKIE CONSENT
-========================================================== -->
+============================================================= -->
 
-<div
-    class="cookie-banner"
-    id="cookieBanner"
-    role="dialog"
-    aria-live="polite"
-    aria-label="Cookie notice"
->
+<div class="cookie-banner"
+     id="cookieBanner"
+     role="dialog"
+     aria-live="polite"
+     aria-label="Cookie notice">
 
     <div class="cookie-inner">
 
@@ -1290,7 +1965,7 @@
                 your saved works and to understand how the
                 gallery is browsed.
 
-                <a href="{% url 'privacy'%}">
+                <a href="{% url 'index' %}">
                     Privacy policy
                 </a>
 
@@ -1301,18 +1976,19 @@
 
         <div class="cookie-actions">
 
-            <button
-                class="cookie-btn cookie-decline"
-                id="cookieDecline"
-            >
+            <button class="cookie-btn cookie-decline"
+                    id="cookieDecline">
+
                 Decline
+
             </button>
 
-            <button
-                class="cookie-btn cookie-accept"
-                id="cookieAccept"
-            >
+
+            <button class="cookie-btn cookie-accept"
+                    id="cookieAccept">
+
                 Accept
+
             </button>
 
         </div>
@@ -1322,19 +1998,18 @@
 </div>
 
 
-<!-- =========================================================
+<!-- =============================================================
      TOAST
-========================================================== -->
+============================================================= -->
 
-<div
-    class="artsasa-toast"
-    id="artsasaToast"
-></div>
+<div class="artsasa-toast"
+     id="artsasaToast">
+</div>
 
 
-<!-- =========================================================
+<!-- =============================================================
      JAVASCRIPT
-========================================================== -->
+============================================================= -->
 
 <script>
 
@@ -1343,32 +2018,38 @@
     "use strict";
 
 
-    /* =====================================================
+    /* =========================================================
        HELPERS
-    ====================================================== */
+    ========================================================== */
 
     var $ = function (selector) {
+
         return document.querySelector(selector);
+
     };
 
 
     var $$ = function (selector) {
+
         return Array.prototype.slice.call(
             document.querySelectorAll(selector)
         );
+
     };
 
 
-    /* =====================================================
+    /* =========================================================
        HEADER SCROLL
-    ====================================================== */
+    ========================================================== */
 
     var header = $("#siteHeader");
 
 
     function onScroll() {
 
-        if (!header) return;
+        if (!header) {
+            return;
+        }
 
         header.classList.toggle(
             "scrolled",
@@ -1381,155 +2062,40 @@
     window.addEventListener(
         "scroll",
         onScroll,
-        {
-            passive: true
-        }
+        { passive: true }
     );
 
 
     onScroll();
 
 
-    /* =====================================================
-       PAGE LOADER
-       CSS owns the visual sequence; JavaScript owns lifecycle.
-    ====================================================== */
+    /* =========================================================
+       MOBILE NAV
+    ========================================================== */
 
-    var loader = $("#pageLoader");
-    var loaderRig = $("#loaderCanRig");
-    var LOADER_DURATION = 3000;
-    var loaderTimer = null;
-
-    /* -----------------------------------------------------
-       Build the paint-mist particles once, positioned near
-       the can's nozzle (top-right area of the artwork), so
-       there is a pulsing puff on top of the spray already
-       painted into the image itself.
-    ----------------------------------------------------- */
-
-    function buildLoaderMist() {
-
-        if (!loaderRig || loaderRig.dataset.mistBuilt === "true") {
-            return;
-        }
-
-        var MIST_COUNT = 14;
-        var nozzleX = 62; // % across the rig, roughly at the can's nozzle
-        var nozzleY = 30; // % down the rig
-
-        for (var i = 0; i < MIST_COUNT; i++) {
-
-            var dot = document.createElement("span");
-            dot.className = "loader-mist-dot";
-
-            var angle = (-25 - Math.random() * 55) * (Math.PI / 180);
-            var distance = 40 + Math.random() * 90;
-
-            var dx = Math.cos(angle) * distance;
-            var dy = Math.sin(angle) * distance;
-
-            var size = 3 + Math.random() * 6;
-            var duration = (0.7 + Math.random() * 0.6).toFixed(2) + "s";
-            var delay = (Math.random() * 1.4).toFixed(2) + "s";
-
-            dot.style.setProperty("--mx", nozzleX + "%");
-            dot.style.setProperty("--my", nozzleY + "%");
-            dot.style.setProperty("--mdx", dx.toFixed(1) + "px");
-            dot.style.setProperty("--mdy", dy.toFixed(1) + "px");
-            dot.style.setProperty("--msize", size.toFixed(1) + "px");
-            dot.style.setProperty("--mdur", duration);
-            dot.style.setProperty("--mdelay", delay);
-
-            loaderRig.appendChild(dot);
-        }
-
-        loaderRig.dataset.mistBuilt = "true";
-    }
-
-    function hideLoader() {
-        if (!loader) return;
-        loader.classList.remove("is-active");
-        if (loaderTimer) {
-            window.clearTimeout(loaderTimer);
-            loaderTimer = null;
-        }
-    }
-
-    function restartLoaderAnimation() {
-        if (!loader) return;
-        loader.classList.remove("is-active");
-        void loader.offsetWidth;
-        loader.classList.add("is-active");
-    }
-
-    function showLoader(duration) {
-        if (!loader) return;
-        var durationToUse = duration || LOADER_DURATION;
-        if (loaderTimer) {
-            window.clearTimeout(loaderTimer);
-            loaderTimer = null;
-        }
-        buildLoaderMist();
-        restartLoaderAnimation();
-        loaderTimer = window.setTimeout(hideLoader, durationToUse);
-    }
-
-    showLoader(LOADER_DURATION);
-
-    window.addEventListener("pageshow", function (event) {
-        if (event.persisted) {
-            showLoader(LOADER_DURATION);
-        }
-    });
-
-    window.addEventListener("beforeunload", function () {
-        if (!loader) return;
-        if (loaderTimer) {
-            window.clearTimeout(loaderTimer);
-            loaderTimer = null;
-        }
-        loader.classList.add("is-active");
-    });
-
-    /* =====================================================
-       MOBILE NAVIGATION
-    ====================================================== */
-
-    var nav =
-        $("#mobileNav");
-
-    var backdrop =
-        $("#mobileNavBackdrop");
-
-    var toggle =
-        $("#menuToggle");
+    var nav = $("#mobileNav");
+    var backdrop = $("#mobileNavBackdrop");
+    var toggle = $("#menuToggle");
 
 
     function openNav() {
 
-        if (!nav) return;
+        if (!nav) {
+            return;
+        }
 
 
-        nav.classList.add(
-            "open"
-        );
+        nav.classList.add("open");
 
 
         if (backdrop) {
-
-            backdrop.classList.add(
-                "open"
-            );
-
+            backdrop.classList.add("open");
         }
 
 
         if (toggle) {
 
-            toggle.classList.add(
-                "active"
-            );
-
+            toggle.classList.add("active");
 
             toggle.setAttribute(
                 "aria-expanded",
@@ -1548,29 +2114,22 @@
 
     function closeNav() {
 
-        if (!nav) return;
+        if (!nav) {
+            return;
+        }
 
 
-        nav.classList.remove(
-            "open"
-        );
+        nav.classList.remove("open");
 
 
         if (backdrop) {
-
-            backdrop.classList.remove(
-                "open"
-            );
-
+            backdrop.classList.remove("open");
         }
 
 
         if (toggle) {
 
-            toggle.classList.remove(
-                "active"
-            );
-
+            toggle.classList.remove("active");
 
             toggle.setAttribute(
                 "aria-expanded",
@@ -1595,9 +2154,7 @@
 
                 if (
                     nav &&
-                    nav.classList.contains(
-                        "open"
-                    )
+                    nav.classList.contains("open")
                 ) {
 
                     closeNav();
@@ -1638,9 +2195,9 @@
     }
 
 
-    /* =====================================================
+    /* =========================================================
        SEARCH
-    ====================================================== */
+    ========================================================== */
 
     var panel =
         $("#searchPanel");
@@ -1648,12 +2205,12 @@
 
     function openSearch() {
 
-        if (!panel) return;
+        if (!panel) {
+            return;
+        }
 
 
-        panel.classList.add(
-            "open"
-        );
+        panel.classList.add("open");
 
 
         document.body.classList.add(
@@ -1669,9 +2226,7 @@
 
 
                 if (input) {
-
                     input.focus();
-
                 }
 
             },
@@ -1683,12 +2238,12 @@
 
     function closeSearch() {
 
-        if (!panel) return;
+        if (!panel) {
+            return;
+        }
 
 
-        panel.classList.remove(
-            "open"
-        );
+        panel.classList.remove("open");
 
 
         document.body.classList.remove(
@@ -1700,6 +2255,7 @@
 
     var searchOpen =
         $("#searchOpen");
+
 
     var searchClose =
         $("#searchClose");
@@ -1725,12 +2281,13 @@
     }
 
 
-    /* =====================================================
+    /* =========================================================
        PROFILE
-    ====================================================== */
+    ========================================================== */
 
     var profileMenu =
         $("#profileMenu");
+
 
     var profileTrigger =
         $("#profileTrigger");
@@ -1738,7 +2295,12 @@
 
     function closeProfile() {
 
-        if (!profileMenu) return;
+        if (
+            !profileMenu ||
+            !profileTrigger
+        ) {
+            return;
+        }
 
 
         profileMenu.classList.remove(
@@ -1746,14 +2308,10 @@
         );
 
 
-        if (profileTrigger) {
-
-            profileTrigger.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
+        profileTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
     }
 
@@ -1809,14 +2367,10 @@
         "keydown",
         function (event) {
 
-            if (
-                event.key === "Escape"
-            ) {
+            if (event.key === "Escape") {
 
                 closeSearch();
-
                 closeNav();
-
                 closeProfile();
 
             }
@@ -1825,26 +2379,29 @@
     );
 
 
-    /* =====================================================
-       GLOBAL ARTSASA OBJECT
-    ====================================================== */
+    /* =========================================================
+       ARTSASA GLOBAL OBJECT
+    ========================================================== */
 
     window.ARTSASA =
         window.ARTSASA || {};
 
 
-    /* =====================================================
-       COUNTER HELPERS
-    ====================================================== */
+    /* =========================================================
+       COUNT NORMALIZER
+    ========================================================== */
 
     function normalizeCount(value) {
 
         var count =
-            Number(value);
+            parseInt(
+                value,
+                10
+            );
 
 
         if (
-            !Number.isFinite(count) ||
+            isNaN(count) ||
             count < 0
         ) {
 
@@ -1853,394 +2410,1085 @@
         }
 
 
-        return Math.floor(count);
+        return count;
 
     }
 
 
-    function readStoredCount(key) {
+    /* =========================================================
+       UPDATE CART BADGES
+    ========================================================== */
 
-        try {
+    function updateCartBadge(count) {
 
-            var stored =
-                parseInt(
-                    localStorage.getItem(
-                        key
-                    ) || "0",
-                    10
+        count =
+            normalizeCount(count);
+
+
+        var desktop =
+            $("#cartCount");
+
+
+        var mobile =
+            $("#cartCountMobile");
+
+
+        [desktop, mobile].forEach(
+            function (element) {
+
+                if (!element) {
+                    return;
+                }
+
+
+                element.textContent =
+                    count > 99
+                        ? "99+"
+                        : String(count);
+
+
+                element.classList.toggle(
+                    "is-empty",
+                    count === 0
                 );
 
 
-            if (
-                isNaN(stored) ||
-                stored < 0
-            ) {
-
-                return 0;
+                element.classList.toggle(
+                    "has-items",
+                    count > 0
+                );
 
             }
+        );
+
+    }
 
 
-            return stored;
+    /* =========================================================
+       UPDATE WISHLIST BADGES
+       THIS IS THE IMPORTANT PART
+    ========================================================== */
 
-        } catch (error) {
+    function updateWishlistBadge(count) {
 
-            return 0;
+        count =
+            normalizeCount(count);
+
+
+        var desktop =
+            $("#wishlistCount");
+
+
+        var mobile =
+            $("#wishlistCountMobile");
+
+
+        /*
+         * Update desktop badge.
+         */
+
+        if (desktop) {
+
+            desktop.textContent =
+                count > 99
+                    ? "99+"
+                    : String(count);
+
+
+            desktop.classList.toggle(
+                "is-empty",
+                count === 0
+            );
+
+
+            desktop.classList.toggle(
+                "has-items",
+                count > 0
+            );
+
+        }
+
+
+        /*
+         * Update mobile SUPERSCRIPT.
+         */
+
+        if (mobile) {
+
+            mobile.textContent =
+                count > 99
+                    ? "99+"
+                    : String(count);
+
+
+            mobile.classList.toggle(
+                "is-empty",
+                count === 0
+            );
+
+
+            mobile.classList.toggle(
+                "has-items",
+                count > 0
+            );
 
         }
 
     }
 
 
-    /* =====================================================
-       RENDER COUNTS
-    ====================================================== */
+    /* =========================================================
+       UPDATE BOTH
+    ========================================================== */
 
     window.ARTSASA.renderCounts =
-        function (cart, wish) {
+        function (
+            cartCount,
+            wishlistCount
+        ) {
 
-
-            var cartCount;
-
-            var wishlistCount;
-
-
-            if (
-                cart !== undefined &&
-                cart !== null
-            ) {
-
-                cartCount =
-                    normalizeCount(
-                        cart
-                    );
-
-            } else {
-
-                cartCount =
-                    readStoredCount(
-                        "artsasa_cart_count"
-                    );
-
-            }
-
-
-            if (
-                wish !== undefined &&
-                wish !== null
-            ) {
-
-                wishlistCount =
-                    normalizeCount(
-                        wish
-                    );
-
-            } else {
-
-                wishlistCount =
-                    readStoredCount(
-                        "artsasa_wishlist_count"
-                    );
-
-            }
-
-
-            var cartDesktop =
-                $("#cartCount");
-
-            var cartMobile =
-                $("#cartCountMobile");
-
-            var wishlistDesktop =
-                $("#wishlistCount");
-
-            var wishlistMobile =
-                $("#wishlistCountMobile");
-
-
-            [
-                [cartDesktop, cartCount],
-                [cartMobile, cartCount],
-                [wishlistDesktop, wishlistCount],
-                [wishlistMobile, wishlistCount]
-            ].forEach(
-                function (item) {
-
-                    var element =
-                        item[0];
-
-                    var count =
-                        item[1];
-
-
-                    if (!element) return;
-
-
-                    element.textContent =
-                        count > 99
-                            ? "99+"
-                            : String(count);
-
-
-                    element.classList.toggle(
-                        "is-empty",
-                        count === 0
-                    );
-
-
-                    element.classList.toggle(
-                        "has-items",
-                        count > 0
-                    );
-
-                }
+            updateCartBadge(
+                cartCount
             );
 
+
+            updateWishlistBadge(
+                wishlistCount
+            );
+
+
+            /*
+             * localStorage is only a cache.
+             * It is NOT used as the source of truth.
+             */
 
             try {
 
                 localStorage.setItem(
                     "artsasa_cart_count",
-                    String(cartCount)
+                    String(
+                        normalizeCount(
+                            cartCount
+                        )
+                    )
                 );
 
 
                 localStorage.setItem(
                     "artsasa_wishlist_count",
-                    String(wishlistCount)
-                );
-
-            } catch (error) {}
-
-        };
-
-
-    /* =====================================================
-       REFRESH COUNTERS
-    ====================================================== */
-
-    window.artsasaRefreshCounters =
-        async function () {
-
-            try {
-
-                var requests = [];
-
-
-                requests.push(
-
-                    fetch(
-                        "{% url 'cart_count' %}",
-                        {
-                            method: "GET",
-
-                            headers: {
-                                "X-Requested-With":
-                                    "XMLHttpRequest",
-
-                                "Accept":
-                                    "application/json"
-                            },
-
-                            credentials:
-                                "same-origin",
-
-                            cache:
-                                "no-store"
-                        }
-                    )
-
-                );
-
-
-                requests.push(
-
-                    fetch(
-                        "{% url 'wishlist_count' %}",
-                        {
-                            method: "GET",
-
-                            headers: {
-                                "X-Requested-With":
-                                    "XMLHttpRequest",
-
-                                "Accept":
-                                    "application/json"
-                            },
-
-                            credentials:
-                                "same-origin",
-
-                            cache:
-                                "no-store"
-                        }
-                    )
-
-                );
-
-
-                var results =
-                    await Promise.all(
-                        requests
-                    );
-
-
-                var cartResponse =
-                    results[0];
-
-                var wishlistResponse =
-                    results[1];
-
-
-                var cartCount;
-
-                var wishlistCount;
-
-
-                if (cartResponse.ok) {
-
-                    var cartContentType =
-                        cartResponse.headers.get(
-                            "content-type"
-                        ) || "";
-
-
-                    if (
-                        cartContentType.includes(
-                            "application/json"
+                    String(
+                        normalizeCount(
+                            wishlistCount
                         )
-                    ) {
-
-                        var cartData =
-                            await cartResponse.json();
-
-
-                        cartCount =
-                            cartData.cart_count ??
-                            cartData.cartCount ??
-                            cartData.count ??
-                            0;
-
-                    }
-
-                }
-
-
-                if (wishlistResponse.ok) {
-
-                    var wishlistContentType =
-                        wishlistResponse.headers.get(
-                            "content-type"
-                        ) || "";
-
-
-                    if (
-                        wishlistContentType.includes(
-                            "application/json"
-                        )
-                    ) {
-
-                        var wishlistData =
-                            await wishlistResponse.json();
-
-
-                        wishlistCount =
-                            wishlistData.wishlist_count ??
-                            wishlistData.wishlistCount ??
-                            wishlistData.count ??
-                            0;
-
-                    }
-
-                }
-
-
-                if (
-                    cartCount !== undefined &&
-                    wishlistCount !== undefined
-                ) {
-
-                    window.ARTSASA.renderCounts(
-                        cartCount,
-                        wishlistCount
-                    );
-
-                } else if (
-                    cartCount !== undefined
-                ) {
-
-                    window.ARTSASA.renderCounts(
-                        cartCount,
-                        undefined
-                    );
-
-                } else if (
-                    wishlistCount !== undefined
-                ) {
-
-                    window.ARTSASA.renderCounts(
-                        undefined,
-                        wishlistCount
-                    );
-
-                }
+                    )
+                );
 
             } catch (error) {
 
-                console.warn(
-                    "ARTSASA: Unable to refresh cart/wishlist counters.",
-                    error
-                );
+                /*
+                 * Ignore localStorage errors.
+                 */
 
             }
 
         };
 
 
-    /* =====================================================
-       INITIAL COUNTS
-    ====================================================== */
+    /* =========================================================
+       EXTRACT COUNT FROM DJANGO RESPONSE
+    ========================================================== */
+
+    function extractCount(data) {
+
+        if (
+            typeof data === "number"
+        ) {
+
+            return normalizeCount(
+                data
+            );
+
+        }
+
+
+        if (
+            typeof data === "string"
+        ) {
+
+            var number =
+                parseInt(
+                    data.trim(),
+                    10
+                );
+
+
+            if (!isNaN(number)) {
+
+                return normalizeCount(
+                    number
+                );
+
+            }
+
+        }
+
+
+        if (
+            data &&
+            typeof data === "object"
+        ) {
+
+            /*
+             * Normal response:
+             * {"count": 1}
+             */
+
+            if (
+                data.count !== undefined
+            ) {
+
+                return normalizeCount(
+                    data.count
+                );
+
+            }
+
+
+            /*
+             * Cart response.
+             */
+
+            if (
+                data.cart_count !== undefined
+            ) {
+
+                return normalizeCount(
+                    data.cart_count
+                );
+
+            }
+
+
+            /*
+             * Wishlist response.
+             */
+
+            if (
+                data.wishlist_count !== undefined
+            ) {
+
+                return normalizeCount(
+                    data.wishlist_count
+                );
+
+            }
+
+
+            /*
+             * Generic total.
+             */
+
+            if (
+                data.total !== undefined
+            ) {
+
+                return normalizeCount(
+                    data.total
+                );
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =========================================================
+       FETCH WISHLIST COUNT DIRECTLY
+       ========================================================== */
+
+    function fetchWishlistCount() {
+
+        var url =
+            "{% url 'wishlist_count' %}";
+
+
+        return fetch(
+            url +
+            (
+                url.indexOf("?") === -1
+                    ? "?"
+                    : "&"
+            ) +
+            "_=" +
+            Date.now(),
+            {
+                method:"GET",
+
+                credentials:"same-origin",
+
+                cache:"no-store",
+
+                headers:{
+                    "X-Requested-With":
+                        "XMLHttpRequest",
+
+                    "Accept":
+                        "application/json"
+                }
+            }
+        )
+        .then(
+            function (response) {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Wishlist count returned HTTP " +
+                        response.status
+                    );
+
+                }
+
+
+                return response.text();
+
+            }
+        )
+        .then(
+            function (text) {
+
+                var data;
+
+
+                try {
+
+                    data =
+                        JSON.parse(text);
+
+                } catch (error) {
+
+                    data =
+                        text;
+
+                }
+
+
+                return extractCount(
+                    data
+                );
+
+            }
+        )
+        .then(
+            function (count) {
+
+                if (count !== null) {
+
+                    /*
+                     * THIS DIRECTLY UPDATES THE
+                     * WISHLIST SUPERSCRIPT.
+                     */
+
+                    updateWishlistBadge(
+                        count
+                    );
+
+                }
+
+
+                return count;
+
+            }
+        )
+        .catch(
+            function (error) {
+
+                console.warn(
+                    "ARTSASA wishlist counter:",
+                    error
+                );
+
+
+                return null;
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       FETCH CART COUNT DIRECTLY
+    ========================================================== */
+
+    function fetchCartCount() {
+
+        var url =
+            "{% url 'cart_count' %}";
+
+
+        return fetch(
+            url +
+            (
+                url.indexOf("?") === -1
+                    ? "?"
+                    : "&"
+            ) +
+            "_=" +
+            Date.now(),
+            {
+                method:"GET",
+
+                credentials:"same-origin",
+
+                cache:"no-store",
+
+                headers:{
+                    "X-Requested-With":
+                        "XMLHttpRequest",
+
+                    "Accept":
+                        "application/json"
+                }
+            }
+        )
+        .then(
+            function (response) {
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Cart count returned HTTP " +
+                        response.status
+                    );
+
+                }
+
+
+                return response.text();
+
+            }
+        )
+        .then(
+            function (text) {
+
+                var data;
+
+
+                try {
+
+                    data =
+                        JSON.parse(text);
+
+                } catch (error) {
+
+                    data =
+                        text;
+
+                }
+
+
+                return extractCount(
+                    data
+                );
+
+            }
+        )
+        .then(
+            function (count) {
+
+                if (count !== null) {
+
+                    updateCartBadge(
+                        count
+                    );
+
+                }
+
+
+                return count;
+
+            }
+        )
+        .catch(
+            function (error) {
+
+                console.warn(
+                    "ARTSASA cart counter:",
+                    error
+                );
+
+
+                return null;
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       REFRESH WISHLIST ONLY
+       ========================================================== */
+
+    window.ARTSASA.refreshWishlist =
+        function () {
+
+            return fetchWishlistCount();
+
+        };
+
+
+    /* =========================================================
+       REFRESH CART ONLY
+       ========================================================== */
+
+    window.ARTSASA.refreshCart =
+        function () {
+
+            return fetchCartCount();
+
+        };
+
+
+    /* =========================================================
+       REFRESH EVERYTHING
+    ========================================================== */
+
+    window.ARTSASA.refreshCounts =
+        function () {
+
+            return Promise.all([
+
+                fetchCartCount(),
+
+                fetchWishlistCount()
+
+            ]);
+
+        };
+
+
+    /* =========================================================
+       INITIAL DJANGO COUNTS
+    ========================================================== */
+
+    var initialCart =
+        Number(
+            "{{ cart_count|default:0 }}"
+        );
+
+
+    var initialWishlist =
+        Number(
+            "{{ wishlist_count|default:0 }}"
+        );
+
+
+    if (
+        isNaN(initialCart)
+    ) {
+
+        initialCart = 0;
+
+    }
+
+
+    if (
+        isNaN(initialWishlist)
+    ) {
+
+        initialWishlist = 0;
+
+    }
+
 
     window.ARTSASA.renderCounts(
-
-        {% if cart_count %}
-            {{ cart_count }}
-        {% else %}
-            0
-        {% endif %},
-
-
-        {% if wishlist_count %}
-            {{ wishlist_count }}
-        {% else %}
-            0
-        {% endif %}
-
+        initialCart,
+        initialWishlist
     );
 
 
-    window.setTimeout(
-        function () {
+    /*
+     * Immediately synchronize with the actual session.
+     */
 
-            if (
-                window.artsasaRefreshCounters
-            ) {
+    window.ARTSASA.refreshCounts();
 
-                window.artsasaRefreshCounters();
+
+    /* =========================================================
+       IMPORTANT:
+       WISHLIST SYNCHRONIZATION AFTER CLICK
+    ========================================================== */
+
+    function synchronizeWishlistSeveralTimes() {
+
+        /*
+         * The wishlist request may finish a little after
+         * the click event.
+         *
+         * Therefore we check several times.
+         */
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshWishlist();
+
+            },
+            150
+        );
+
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshWishlist();
+
+            },
+            400
+        );
+
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshWishlist();
+
+            },
+            800
+        );
+
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshWishlist();
+
+            },
+            1400
+        );
+
+    }
+
+
+    /* =========================================================
+       IMPORTANT:
+       CART SYNCHRONIZATION AFTER CLICK
+    ========================================================== */
+
+    function synchronizeCartSeveralTimes() {
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshCart();
+
+            },
+            150
+        );
+
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshCart();
+
+            },
+            400
+        );
+
+
+        window.setTimeout(
+            function () {
+
+                window.ARTSASA.refreshCart();
+
+            },
+            800
+        );
+
+    }
+
+
+    /* =========================================================
+       CLICK DETECTION
+    ========================================================== */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            var element =
+                event.target;
+
+
+            if (!element) {
+                return;
+            }
+
+
+            var wishlistButton =
+                element.closest
+                    ? element.closest(
+                        "[data-wishlist-id]," +
+                        ".wishlist-button," +
+                        ".art-wishlist-button," +
+                        "[data-action='wishlist']," +
+                        "[data-wishlist]"
+                    )
+                    : null;
+
+
+            var cartButton =
+                element.closest
+                    ? element.closest(
+                        "[data-cart-id]," +
+                        ".cart-button," +
+                        ".art-cart-button," +
+                        "[data-action='cart']"
+                    )
+                    : null;
+
+
+            if (wishlistButton) {
+
+                /*
+                 * Do not prevent the existing handler.
+                 */
+
+                synchronizeWishlistSeveralTimes();
+
+                return;
+
+            }
+
+
+            if (cartButton) {
+
+                synchronizeCartSeveralTimes();
 
             }
 
         },
-        150
+        true
     );
 
 
-    /* =====================================================
+    /* =========================================================
+       CUSTOM WISHLIST EVENT
+       ========================================================== */
+
+    /*
+     * Your wishlist JavaScript can also do:
+     *
+     * document.dispatchEvent(
+     *     new CustomEvent("artsasa:wishlist-updated")
+     * );
+     *
+     * The base template will then immediately refresh the
+     * superscript.
+     */
+
+    document.addEventListener(
+        "artsasa:wishlist-updated",
+        function () {
+
+            synchronizeWishlistSeveralTimes();
+
+        }
+    );
+
+
+    /* =========================================================
+       CUSTOM CART EVENT
+       ========================================================== */
+
+    document.addEventListener(
+        "artsasa:cart-updated",
+        function () {
+
+            synchronizeCartSeveralTimes();
+
+        }
+    );
+
+
+    /* =========================================================
+       FETCH MONITOR
+    ========================================================== */
+
+    if (
+        window.fetch &&
+        !window.__ARTSASA_FETCH_PATCHED__
+    ) {
+
+        window.__ARTSASA_FETCH_PATCHED__ =
+            true;
+
+
+        var originalFetch =
+            window.fetch;
+
+
+        window.fetch =
+            function () {
+
+                var args =
+                    arguments;
+
+
+                return originalFetch.apply(
+                    this,
+                    args
+                )
+                .then(
+                    function (response) {
+
+                        try {
+
+                            var requestUrl =
+                                "";
+
+
+                            if (
+                                args[0] instanceof Request
+                            ) {
+
+                                requestUrl =
+                                    args[0].url;
+
+                            } else {
+
+                                requestUrl =
+                                    String(
+                                        args[0] || ""
+                                    );
+
+                            }
+
+
+                            var isWishlistRequest =
+                                requestUrl.indexOf(
+                                    "/wishlist/"
+                                ) !== -1;
+
+
+                            var isCartRequest =
+                                requestUrl.indexOf(
+                                    "/cart/"
+                                ) !== -1;
+
+
+                            var isWishlistCount =
+                                requestUrl.indexOf(
+                                    "/wishlist/count/"
+                                ) !== -1;
+
+
+                            var isCartCount =
+                                requestUrl.indexOf(
+                                    "/cart/count/"
+                                ) !== -1;
+
+
+                            if (
+                                isWishlistRequest &&
+                                !isWishlistCount
+                            ) {
+
+                                synchronizeWishlistSeveralTimes();
+
+                            }
+
+
+                            if (
+                                isCartRequest &&
+                                !isCartCount
+                            ) {
+
+                                synchronizeCartSeveralTimes();
+
+                            }
+
+                        } catch (error) {
+
+                            console.warn(
+                                "ARTSASA fetch monitor:",
+                                error
+                            );
+
+                        }
+
+
+                        return response;
+
+                    }
+                );
+
+            };
+
+    }
+
+
+    /* =========================================================
+       XMLHttpRequest MONITOR
+    ========================================================== */
+
+    if (
+        window.XMLHttpRequest &&
+        !window.__ARTSASA_XHR_PATCHED__
+    ) {
+
+        window.__ARTSASA_XHR_PATCHED__ =
+            true;
+
+
+        var originalOpen =
+            XMLHttpRequest.prototype.open;
+
+
+        var originalSend =
+            XMLHttpRequest.prototype.send;
+
+
+        XMLHttpRequest.prototype.open =
+            function (
+                method,
+                url
+            ) {
+
+                this.__artsasaUrl =
+                    String(
+                        url || ""
+                    );
+
+
+                return originalOpen.apply(
+                    this,
+                    arguments
+                );
+
+            };
+
+
+        XMLHttpRequest.prototype.send =
+            function () {
+
+                var xhr =
+                    this;
+
+
+                xhr.addEventListener(
+                    "load",
+                    function () {
+
+                        var url =
+                            xhr.__artsasaUrl ||
+                            "";
+
+
+                        var wishlistRequest =
+                            url.indexOf(
+                                "/wishlist/"
+                            ) !== -1;
+
+
+                        var cartRequest =
+                            url.indexOf(
+                                "/cart/"
+                            ) !== -1;
+
+
+                        var wishlistCount =
+                            url.indexOf(
+                                "/wishlist/count/"
+                            ) !== -1;
+
+
+                        var cartCount =
+                            url.indexOf(
+                                "/cart/count/"
+                            ) !== -1;
+
+
+                        if (
+                            wishlistRequest &&
+                            !wishlistCount
+                        ) {
+
+                            synchronizeWishlistSeveralTimes();
+
+                        }
+
+
+                        if (
+                            cartRequest &&
+                            !cartCount
+                        ) {
+
+                            synchronizeCartSeveralTimes();
+
+                        }
+
+                    }
+                );
+
+
+                return originalSend.apply(
+                    this,
+                    arguments
+                );
+
+            };
+
+    }
+
+
+    /* =========================================================
+       STORAGE SYNCHRONIZATION
+    ========================================================== */
+
+    window.addEventListener(
+        "storage",
+        function (event) {
+
+            if (
+                event.key ===
+                "artsasa_wishlist_count"
+            ) {
+
+                window.ARTSASA
+                    .refreshWishlist();
+
+            }
+
+
+            if (
+                event.key ===
+                "artsasa_cart_count"
+            ) {
+
+                window.ARTSASA
+                    .refreshCart();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
        TOAST
-    ====================================================== */
+    ========================================================== */
 
     var toastEl =
         $("#artsasaToast");
+
 
     var toastTimer;
 
@@ -2248,7 +3496,9 @@
     window.ARTSASA.toast =
         function (message) {
 
-            if (!toastEl) return;
+            if (!toastEl) {
+                return;
+            }
 
 
             toastEl.textContent =
@@ -2280,12 +3530,13 @@
         };
 
 
-    /* =====================================================
+    /* =========================================================
        COOKIE CONSENT
-    ====================================================== */
+    ========================================================== */
 
     var banner =
         $("#cookieBanner");
+
 
     var COOKIE_KEY =
         "artsasa_cookie_choice";
@@ -2308,29 +3559,12 @@
                     );
 
                 },
-                900
+                1800
             );
 
         }
 
-    } catch (error) {
-
-        if (banner) {
-
-            setTimeout(
-                function () {
-
-                    banner.classList.add(
-                        "show"
-                    );
-
-                },
-                900
-            );
-
-        }
-
-    }
+    } catch (error) {}
 
 
     function decideCookie(choice) {
@@ -2358,6 +3592,7 @@
 
     var cookieAccept =
         $("#cookieAccept");
+
 
     var cookieDecline =
         $("#cookieDecline");
@@ -2395,28 +3630,151 @@
     }
 
 
-    /* =====================================================
-       INTERNAL NAVIGATION
-    ====================================================== */
+    /* =========================================================
+       PAGE LOADER
+    ========================================================== */
+
+    var loader =
+        $("#pageLoader");
+
+
+    var LOADER_MIN =
+        1500;
+
+
+    var loaderStart =
+        Date.now();
+
+
+    var hideTimer;
+
+
+    function showLoader() {
+
+        if (!loader) {
+            return;
+        }
+
+
+        loaderStart =
+            Date.now();
+
+
+        clearTimeout(
+            hideTimer
+        );
+
+
+        loader.classList.remove(
+            "is-active"
+        );
+
+
+        void loader.offsetWidth;
+
+
+        loader.classList.add(
+            "is-active"
+        );
+
+
+        loader.setAttribute(
+            "aria-hidden",
+            "false"
+        );
+
+    }
+
+
+    function hideLoader() {
+
+        if (!loader) {
+            return;
+        }
+
+
+        var elapsed =
+            Date.now() -
+            loaderStart;
+
+
+        var wait =
+            Math.max(
+                0,
+                LOADER_MIN -
+                elapsed
+            );
+
+
+        clearTimeout(
+            hideTimer
+        );
+
+
+        hideTimer =
+            setTimeout(
+                function () {
+
+                    loader.classList.remove(
+                        "is-active"
+                    );
+
+
+                    loader.setAttribute(
+                        "aria-hidden",
+                        "true"
+                    );
+
+                },
+                wait
+            );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "complete"
+    ) {
+
+        hideLoader();
+
+    } else {
+
+        window.addEventListener(
+            "load",
+            hideLoader,
+            { once:true }
+        );
+
+    }
+
+
+    window.addEventListener(
+        "pageshow",
+        function () {
+
+            hideLoader();
+
+            /*
+             * Refresh counters when browser restores
+             * a page from BFCache.
+             */
+
+            window.ARTSASA
+                .refreshCounts();
+
+        }
+    );
+
+
+    /* =========================================================
+       INTERNAL NAVIGATION LOADER
+    ========================================================== */
 
     document.addEventListener(
         "click",
         function (event) {
-
-
-            if (
-                event.defaultPrevented ||
-                event.button !== 0 ||
-                event.metaKey ||
-                event.ctrlKey ||
-                event.shiftKey ||
-                event.altKey
-            ) {
-
-                return;
-
-            }
-
 
             var link =
                 event.target.closest
@@ -2424,7 +3782,9 @@
                     : null;
 
 
-            if (!link) return;
+            if (!link) {
+                return;
+            }
 
 
             var href =
@@ -2433,33 +3793,18 @@
                 );
 
 
-            if (!href) return;
+            if (!href) {
+                return;
+            }
 
 
             if (
-                link.hasAttribute(
-                    "data-no-loader"
-                ) ||
-
                 link.target === "_blank" ||
-
-                link.hasAttribute(
-                    "download"
-                ) ||
-
+                link.hasAttribute("download") ||
                 href.charAt(0) === "#" ||
-
-                href.indexOf(
-                    "mailto:"
-                ) === 0 ||
-
-                href.indexOf(
-                    "tel:"
-                ) === 0 ||
-
-                href.indexOf(
-                    "javascript:"
-                ) === 0
+                href.indexOf("mailto:") === 0 ||
+                href.indexOf("tel:") === 0 ||
+                href.indexOf("javascript:") === 0
             ) {
 
                 return;
@@ -2478,27 +3823,11 @@
             }
 
 
-            var destination;
-
-
-            try {
-
-                destination =
-                    new URL(
-                        href,
-                        window.location.href
-                    );
-
-            } catch (error) {
-
-                return;
-
-            }
-
-
             if (
-                destination.href ===
-                window.location.href
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.button !== 0
             ) {
 
                 return;
@@ -2506,40 +3835,38 @@
             }
 
 
-            if (
-                destination.pathname ===
-                    window.location.pathname &&
+            /*
+             * Never show the navigation loader for
+             * wishlist/cart controls.
+             */
 
-                destination.search ===
-                    window.location.search &&
+            var actionButton =
+                link.closest
+                    ? link.closest(
+                        "[data-cart-id]," +
+                        "[data-wishlist-id]," +
+                        ".cart-button," +
+                        ".wishlist-button," +
+                        ".art-cart-button," +
+                        ".art-wishlist-button"
+                    )
+                    : null;
 
-                destination.hash !==
-                    window.location.hash
-            ) {
 
+            if (actionButton) {
                 return;
-
             }
 
 
-            showLoader(
-                LOADER_DURATION
-            );
-
-
-            closeNav();
-
-            closeSearch();
-
-            closeProfile();
+            showLoader();
 
         }
     );
 
 
-    /* =====================================================
+    /* =========================================================
        SEARCH SUBMIT
-    ====================================================== */
+    ========================================================== */
 
     document.addEventListener(
         "submit",
@@ -2552,8 +3879,26 @@
                 )
             ) {
 
-                showLoader(
-                    LOADER_DURATION
+                showLoader();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       BEFORE UNLOAD
+    ========================================================== */
+
+    window.addEventListener(
+        "beforeunload",
+        function () {
+
+            if (loader) {
+
+                loader.classList.add(
+                    "is-active"
                 );
 
             }
@@ -2562,9 +3907,9 @@
     );
 
 
-    /* =====================================================
+    /* =========================================================
        REVEAL ON SCROLL
-    ====================================================== */
+    ========================================================== */
 
     var reveals =
         $$(".reveal");
@@ -2577,7 +3922,6 @@
 
         var observer =
             new IntersectionObserver(
-
                 function (entries) {
 
                     entries.forEach(
@@ -2602,11 +3946,9 @@
                     );
 
                 },
-
                 {
-                    threshold: 0.12
+                    threshold:.12
                 }
-
             );
 
 
@@ -2619,7 +3961,6 @@
 
             }
         );
-
 
     } else {
 
@@ -2639,5 +3980,9 @@
 
 </script>
 
+
+{% block extra_js %}{% endblock %}
+
 </body>
 </html>
+
