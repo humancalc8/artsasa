@@ -1,4 +1,3 @@
-
 {% extends "base.html" %}
 {% load static %}
 
@@ -147,8 +146,6 @@
 
             <aside class="artwork-information reveal">
 
-                <!-- STATUS -->
-
                 <div class="artwork-status-row">
 
                     <span class="eyebrow">
@@ -180,14 +177,10 @@
                 </div>
 
 
-                <!-- TITLE -->
-
                 <h1 class="artwork-title">
                     {{ artwork.title }}
                 </h1>
 
-
-                <!-- ARTIST -->
 
                 {% if artwork.artist %}
 
@@ -203,8 +196,6 @@
 
                 <div class="artwork-rule"></div>
 
-
-                <!-- SHORT DESCRIPTION -->
 
                 {% if artwork.short_description %}
 
@@ -439,8 +430,6 @@
                         </div>
 
 
-                        <!-- ACTION STATUS -->
-
                         <div
                             class="action-status"
                             id="artworkActionStatus"
@@ -467,15 +456,11 @@
                 </div>
 
 
-                <!-- ACQUISITION NOTE -->
-
                 <p class="acquisition-note">
                     For information regarding availability, condition,
                     provenance, delivery or viewing, please contact ARTSASA.
                 </p>
 
-
-                <!-- ENQUIRY -->
 
                 {% if artwork.status|lower != "sold" %}
 
@@ -1064,7 +1049,6 @@
 
 </div>
 
-
 {% endblock %}
 
 
@@ -1072,19 +1056,10 @@
 
 <style>
 
-/* =========================================================
-   ARTWORK PAGE
-========================================================= */
-
 .artwork-page {
     background: var(--paper);
     color: var(--midnight);
 }
-
-
-/* =========================================================
-   BREADCRUMB
-========================================================= */
 
 .artwork-intro {
     padding: 38px 0 25px;
@@ -1095,13 +1070,10 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
-
     margin: 0;
-
     font-size: 10px;
     letter-spacing: .12em;
     text-transform: uppercase;
-
     color: var(--muted);
 }
 
@@ -1115,31 +1087,18 @@
     color: var(--terracotta);
 }
 
-
-/* =========================================================
-   MAIN
-========================================================= */
-
 .artwork-main {
     padding: 20px 0 120px;
 }
 
 .artwork-main-grid {
     display: grid;
-
     grid-template-columns:
         minmax(0, 1.25fr)
         minmax(350px, .75fr);
-
     gap: clamp(55px, 8vw, 120px);
-
     align-items: start;
 }
-
-
-/* =========================================================
-   IMAGE
-========================================================= */
 
 .artwork-gallery {
     min-width: 0;
@@ -1147,28 +1106,20 @@
 
 .artwork-main-image {
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     min-height: 600px;
-
     background: var(--sandstone-deep);
-
     overflow: hidden;
 }
 
 .artwork-main-image img {
     display: block;
-
     width: 100%;
     height: auto;
-
     max-height: 82vh;
-
     object-fit: contain;
-
     transition: transform .8s var(--ease);
 }
 
@@ -1176,28 +1127,19 @@
     transform: scale(1.015);
 }
 
-
 .image-expand {
     position: absolute;
-
     right: 18px;
     bottom: 18px;
-
     width: 42px;
     height: 42px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border: 1px solid rgba(33,30,27,.25);
-
     background: rgba(241,234,219,.9);
-
     color: var(--midnight);
-
     cursor: pointer;
-
     transition:
         background .25s ease,
         color .25s ease,
@@ -1210,39 +1152,23 @@
     transform: translateY(-2px);
 }
 
-
-/* =========================================================
-   THUMBNAILS
-========================================================= */
-
 .artwork-thumbnails {
     display: flex;
-
     gap: 10px;
-
     margin-top: 14px;
-
     overflow-x: auto;
-
     scrollbar-width: thin;
 }
 
 .artwork-thumb {
     flex: 0 0 76px;
-
     width: 76px;
     height: 76px;
-
     padding: 0;
-
     border: 1px solid transparent;
-
     background: transparent;
-
     cursor: pointer;
-
     overflow: hidden;
-
     transition: border-color .25s ease;
 }
 
@@ -1257,16 +1183,9 @@
 .artwork-thumb img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
 }
-
-
-/* =========================================================
-   INFORMATION
-========================================================= */
 
 .artwork-information {
     position: sticky;
@@ -1277,7 +1196,6 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 20px;
 }
 
@@ -1289,24 +1207,18 @@
     display: inline-flex;
     align-items: center;
     gap: 7px;
-
     font-size: 9px;
     font-weight: 700;
-
     letter-spacing: .13em;
     text-transform: uppercase;
-
     color: #6E8B5E;
 }
 
 .availability::before {
     content: "";
-
     width: 6px;
     height: 6px;
-
     border-radius: 50%;
-
     background: #6E8B5E;
 }
 
@@ -1326,35 +1238,22 @@
     background: var(--rattan);
 }
 
-
 .artwork-title {
     margin: 28px 0 12px;
-
     font-family: var(--font-display);
-
     font-weight: 400;
-
     font-size: clamp(44px, 5vw, 72px);
-
     line-height: .96;
-
     letter-spacing: -.025em;
 }
 
-
 .artwork-artist {
     display: inline-block;
-
     color: var(--midnight);
-
     font-family: var(--font-display);
-
     font-size: 20px;
-
     text-decoration: none;
-
     border-bottom: 1px solid transparent;
-
     transition: border-color .25s ease;
 }
 
@@ -1362,39 +1261,23 @@
     border-color: var(--midnight);
 }
 
-
 .artwork-rule {
     width: 100%;
     height: 1px;
-
     margin: 30px 0;
-
     background: var(--line);
 }
 
-
 .artwork-lede {
     max-width: 500px;
-
     margin: 0 0 35px;
-
     font-family: var(--font-reading);
-
     font-style: italic;
-
     font-optical-sizing: auto;
-
     font-size: 19px;
-
     line-height: 1.6;
-
     color: var(--ink-soft);
 }
-
-
-/* =========================================================
-   DETAILS
-========================================================= */
 
 .artwork-details {
     border-top: 1px solid var(--line);
@@ -1402,39 +1285,22 @@
 
 .artwork-detail {
     display: grid;
-
     grid-template-columns: 130px 1fr;
-
     gap: 20px;
-
     padding: 14px 0;
-
     border-bottom: 1px solid var(--line);
-
     font-family: var(--font-body);
-
     font-size: 13px;
-
     line-height: 1.5;
 }
 
 .detail-label {
-    font-family: var(--font-body);
-
     font-size: 9px;
     font-weight: 700;
-
     letter-spacing: .13em;
-
     text-transform: uppercase;
-
     color: var(--terracotta);
 }
-
-
-/* =========================================================
-   ACQUISITION
-========================================================= */
 
 .artwork-acquisition {
     margin-top: 38px;
@@ -1443,76 +1309,46 @@
 .artwork-price {
     display: flex;
     flex-direction: column;
-
     gap: 8px;
-
     margin-bottom: 22px;
 }
 
 .price-label {
-    font-family: var(--font-body);
-
     font-size: 9px;
     font-weight: 700;
-
     letter-spacing: .13em;
-
     text-transform: uppercase;
-
     color: var(--muted);
 }
 
 .artwork-price strong {
     font-family: var(--font-display);
-
     font-size: 27px;
-
     font-weight: 400;
 }
 
-
-/* =========================================================
-   ACTION BUTTONS
-========================================================= */
-
 .artwork-actions {
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 10px;
-
     margin-top: 4px;
 }
 
-
 .artwork-action-button {
     min-height: 52px;
-
     display: flex;
     align-items: center;
-
     gap: 12px;
-
     padding: 13px 15px;
-
     border: 1px solid var(--midnight);
-
     background: transparent;
-
     color: var(--midnight);
-
     font-family: var(--font-body);
-
     font-size: 10px;
     font-weight: 700;
-
     letter-spacing: .09em;
-
     text-transform: uppercase;
-
     cursor: pointer;
-
     transition:
         background .25s ease,
         color .25s ease,
@@ -1535,35 +1371,25 @@
     opacity: .65;
 }
 
-
 .artwork-action-button .action-icon {
     width: 20px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     font-size: 15px;
-
     flex-shrink: 0;
 }
 
 .artwork-action-button .action-text {
     flex: 1;
-
     text-align: left;
-
     white-space: nowrap;
 }
 
 .artwork-action-button .action-arrow {
     font-size: 15px;
-
     flex-shrink: 0;
 }
-
-
-/* CART */
 
 .cart-button {
     background: var(--midnight);
@@ -1574,9 +1400,6 @@
     background: transparent;
     color: var(--midnight);
 }
-
-
-/* BUY */
 
 .buy-button {
     background: var(--terracotta);
@@ -1589,9 +1412,6 @@
     color: var(--terracotta);
     border-color: var(--terracotta);
 }
-
-
-/* WISHLIST */
 
 .wishlist-button {
     grid-column: 1 / -1;
@@ -1617,22 +1437,11 @@
     transform: scale(1.08);
 }
 
-
-/* =========================================================
-   ACTION STATUS
-========================================================= */
-
 .action-status {
     min-height: 20px;
-
     margin-top: 12px;
-
-    font-family: var(--font-body);
-
     font-size: 10px;
-
     line-height: 1.5;
-
     color: var(--muted);
 }
 
@@ -1644,40 +1453,22 @@
     color: #9B3C32;
 }
 
-
-/* =========================================================
-   ENQUIRY TRIGGER
-========================================================= */
-
 .enquiry-trigger {
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     margin-top: 18px;
-
     padding: 15px 0;
-
     border: 0;
     border-top: 1px solid var(--line);
-
     background: transparent;
-
     color: var(--midnight);
-
-    font-family: var(--font-body);
-
     font-size: 10px;
     font-weight: 700;
-
     letter-spacing: .12em;
-
     text-transform: uppercase;
-
     cursor: pointer;
-
     transition: color .25s ease;
 }
 
@@ -1685,22 +1476,14 @@
     color: var(--terracotta);
 }
 
-
 .sold-message {
     display: flex;
     align-items: center;
     gap: 10px;
-
     padding: 17px;
-
     border: 1px solid var(--line);
-
-    font-family: var(--font-body);
-
     font-size: 11px;
-
     letter-spacing: .08em;
-
     text-transform: uppercase;
 }
 
@@ -1708,58 +1491,34 @@
     color: var(--muted);
 }
 
-
 .acquisition-note {
     margin: 18px 0 0;
-
-    font-family: var(--font-body);
-
     font-size: 11px;
-
     line-height: 1.7;
-
     color: var(--muted);
 }
 
-
-/* =========================================================
-   FLOATING CONTACT
-========================================================= */
-
 .floating-contact {
     position: fixed;
-
     right: 22px;
     bottom: 24px;
-
     z-index: 9000;
-
     display: flex;
-
     flex-direction: column;
-
     align-items: center;
-
     gap: 15px;
 }
 
 .floating-contact-link {
     width: 48px;
     height: 48px;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-
     text-decoration: none;
-
     font-size: 21px;
-
     box-shadow: 0 7px 20px rgba(0,0,0,.18);
-
     transition:
         transform .25s ease,
         box-shadow .25s ease;
@@ -1767,7 +1526,6 @@
 
 .floating-contact-link:hover {
     transform: translateY(-4px) scale(1.05);
-
     box-shadow: 0 11px 26px rgba(0,0,0,.24);
 }
 
@@ -1781,22 +1539,14 @@
     color: var(--paper);
 }
 
-
-/* =========================================================
-   WORK STORY
-========================================================= */
-
 .work-story {
     padding: clamp(90px, 10vw, 150px) 0;
-
     background: var(--rattan);
 }
 
 .work-story-grid {
     display: grid;
-
     grid-template-columns: .7fr 1.6fr;
-
     gap: 60px;
 }
 
@@ -1806,29 +1556,19 @@
 
 .story-content h2 {
     margin: 0 0 30px;
-
     font-family: var(--font-display);
-
     font-weight: 400;
-
     font-size: clamp(40px, 5vw, 70px);
-
     line-height: 1;
 }
 
 .story-text {
     max-width: 650px;
-
     font-family: var(--font-reading);
-
     font-style: italic;
-
     font-optical-sizing: auto;
-
     font-size: 17px;
-
     line-height: 1.8;
-
     color: var(--ink-soft);
 }
 
@@ -1836,14 +1576,8 @@
     margin: 0 0 22px;
 }
 
-
-/* =========================================================
-   ARTIST
-========================================================= */
-
 .artist-section {
     padding: clamp(90px, 10vw, 150px) 0;
-
     background: var(--paper);
 }
 
@@ -1853,30 +1587,22 @@
 
 .artist-feature {
     display: grid;
-
     grid-template-columns: .7fr 1.3fr;
-
     gap: clamp(40px, 7vw, 100px);
-
     align-items: center;
 }
 
 .artist-feature-image {
     aspect-ratio: 1 / 1.1;
-
     overflow: hidden;
-
     background: var(--sandstone-deep);
 }
 
 .artist-feature-image img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
     filter: saturate(.85);
 }
 
@@ -1886,52 +1612,32 @@
 
 .artist-feature-copy h2 {
     margin: 0 0 25px;
-
     font-family: var(--font-display);
-
     font-size: clamp(42px, 5vw, 70px);
-
     font-weight: 400;
-
     line-height: 1;
 }
 
 .artist-feature-copy p {
     max-width: 550px;
-
     margin: 0 0 30px;
-
     font-family: var(--font-reading);
-
     font-style: italic;
-
     font-optical-sizing: auto;
-
     font-size: 17px;
-
     line-height: 1.75;
-
     color: var(--ink-soft);
 }
 
-
-/* =========================================================
-   EXHIBITION
-========================================================= */
-
 .exhibition-context {
     padding: clamp(90px, 10vw, 150px) 0;
-
     background: var(--midnight);
-
     color: var(--sandstone);
 }
 
 .exhibition-context-grid {
     display: grid;
-
     grid-template-columns: .7fr 1.6fr;
-
     gap: 60px;
 }
 
@@ -1941,45 +1647,28 @@
 
 .exhibition-context-copy h2 {
     margin: 0 0 12px;
-
     font-family: var(--font-display);
-
     font-size: clamp(44px, 5vw, 72px);
-
     font-weight: 400;
-
     line-height: .98;
 }
 
 .exhibition-date {
     margin: 0 0 28px;
-
-    font-family: var(--font-body);
-
-    color: var(--rattan);
-
     font-size: 11px;
-
     letter-spacing: .12em;
-
     text-transform: uppercase;
+    color: var(--rattan);
 }
 
 .exhibition-copy {
     max-width: 600px;
-
     margin-bottom: 30px;
-
     font-family: var(--font-reading);
-
     font-style: italic;
-
     font-optical-sizing: auto;
-
     font-size: 16px;
-
     line-height: 1.75;
-
     color: rgba(241,234,219,.72);
 }
 
@@ -1987,26 +1676,16 @@
     color: var(--sandstone);
 }
 
-
-/* =========================================================
-   RELATED
-========================================================= */
-
 .related-works {
     padding: clamp(90px, 10vw, 150px) 0;
-
     background: var(--paper);
 }
 
 .related-header {
     display: flex;
-
     justify-content: space-between;
-
     align-items: end;
-
     gap: 40px;
-
     margin-bottom: 55px;
 }
 
@@ -2016,30 +1695,22 @@
 
 .related-grid {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 28px;
 }
 
 .related-image {
     display: block;
-
     aspect-ratio: .85;
-
     overflow: hidden;
-
     background: var(--sandstone-deep);
 }
 
 .related-image img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
     transition: transform .7s var(--ease);
 }
 
@@ -2049,87 +1720,52 @@
 
 .related-info {
     display: flex;
-
     justify-content: space-between;
-
     gap: 20px;
-
     padding-top: 16px;
 }
 
 .related-info h3 {
     margin: 0 0 6px;
-
     font-family: var(--font-display);
-
     font-size: 22px;
-
     font-weight: 400;
 }
 
 .related-info p {
     margin: 0 0 6px;
-
-    font-family: var(--font-body);
-
     font-size: 10px;
-
     font-weight: 600;
-
     letter-spacing: .1em;
-
     text-transform: uppercase;
-
     color: var(--terracotta);
 }
 
 .related-info span {
-    font-family: var(--font-body);
-
     font-size: 10px;
-
     font-weight: 500;
-
     letter-spacing: .07em;
-
     text-transform: uppercase;
-
     color: var(--muted);
 }
 
 .related-arrow {
     color: var(--midnight);
-
     text-decoration: none;
-
     font-size: 18px;
 }
 
-
-/* =========================================================
-   FULLSCREEN VIEWER
-========================================================= */
-
 .artwork-viewer {
     position: fixed;
-
     inset: 0;
-
     z-index: 9999;
-
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     padding: 50px;
-
     background: rgba(33,30,27,.96);
-
     opacity: 0;
-
     visibility: hidden;
-
     transition:
         opacity .3s ease,
         visibility .3s ease;
@@ -2137,54 +1773,34 @@
 
 .artwork-viewer.open {
     opacity: 1;
-
     visibility: visible;
 }
 
 .artwork-viewer img {
     max-width: 95vw;
-
     max-height: 90vh;
-
     object-fit: contain;
 }
 
 .viewer-close {
     position: absolute;
-
     top: 20px;
     right: 25px;
-
     width: 45px;
     height: 45px;
-
     border: 1px solid rgba(241,234,219,.4);
-
     background: transparent;
-
     color: var(--sandstone);
-
     font-size: 28px;
-
     cursor: pointer;
 }
 
-
-/* =========================================================
-   ENQUIRY MODAL
-========================================================= */
-
 .enquiry-modal {
     position: fixed;
-
     inset: 0;
-
     z-index: 10000;
-
     visibility: hidden;
-
     opacity: 0;
-
     transition:
         opacity .3s ease,
         visibility .3s ease;
@@ -2192,36 +1808,25 @@
 
 .enquiry-modal.open {
     visibility: visible;
-
     opacity: 1;
 }
 
 .enquiry-backdrop {
     position: absolute;
-
     inset: 0;
-
     background: rgba(33,30,27,.65);
 }
 
 .enquiry-panel {
     position: absolute;
-
     top: 0;
     right: 0;
-
     width: min(520px, 100%);
-
     height: 100%;
-
     overflow-y: auto;
-
     padding: 70px 45px;
-
     background: var(--paper);
-
     transform: translateX(100%);
-
     transition: transform .45s var(--ease);
 }
 
@@ -2231,98 +1836,59 @@
 
 .enquiry-close {
     position: absolute;
-
     top: 22px;
     right: 25px;
-
     border: 0;
-
     background: transparent;
-
     font-size: 30px;
-
     color: var(--midnight);
-
     cursor: pointer;
 }
 
 .enquiry-panel h2 {
     margin: 24px 0 12px;
-
     font-family: var(--font-display);
-
     font-size: clamp(42px, 6vw, 65px);
-
     font-weight: 400;
-
     line-height: .98;
 }
 
 .enquiry-intro {
     margin: 0 0 40px;
-
-    font-family: var(--font-body);
-
     font-size: 13px;
-
     color: var(--muted);
 }
 
-
-/* =========================================================
-   FORM
-========================================================= */
-
 .enquiry-form {
     display: flex;
-
     flex-direction: column;
-
     gap: 23px;
 }
 
 .form-field {
     display: flex;
-
     flex-direction: column;
-
     gap: 9px;
 }
 
 .form-field label {
-    font-family: var(--font-body);
-
     font-size: 9px;
-
     font-weight: 700;
-
     letter-spacing: .13em;
-
     text-transform: uppercase;
-
     color: var(--terracotta);
 }
 
 .form-field input,
 .form-field textarea {
     width: 100%;
-
     padding: 13px 0;
-
     border: 0;
-
     border-bottom: 1px solid rgba(33,30,27,.25);
-
     background: transparent;
-
     color: var(--midnight);
-
-    font-family: var(--font-body);
-
     font-size: 14px;
-
     outline: none;
-
     border-radius: 0;
 }
 
@@ -2337,33 +1903,18 @@
 
 .form-submit {
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     margin-top: 10px;
-
     padding: 17px 20px;
-
     border: 1px solid var(--midnight);
-
     background: var(--midnight);
-
     color: var(--paper);
-
-    font-family: var(--font-body);
-
     font-size: 10px;
-
     font-weight: 700;
-
     letter-spacing: .13em;
-
     text-transform: uppercase;
-
     cursor: pointer;
-
     transition:
         background .25s ease,
         color .25s ease;
@@ -2371,32 +1922,19 @@
 
 .form-submit:hover {
     background: transparent;
-
     color: var(--midnight);
 }
 
 .form-note {
     margin: 0;
-
-    font-family: var(--font-body);
-
     font-size: 10px;
-
     line-height: 1.7;
-
     color: var(--muted);
 }
 
-
-/* =========================================================
-   REVEAL
-========================================================= */
-
 .reveal {
     opacity: 0;
-
     transform: translateY(18px);
-
     transition:
         opacity .7s ease,
         transform .7s ease;
@@ -2404,14 +1942,12 @@
 
 .reveal.visible {
     opacity: 1;
-
     transform: translateY(0);
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+body.modal-open {
+    overflow: hidden;
+}
 
 @media (max-width: 1000px) {
 
@@ -2421,7 +1957,6 @@
 
     .artwork-information {
         position: static;
-
         max-width: 720px;
     }
 
@@ -2438,7 +1973,6 @@
     }
 
 }
-
 
 @media (max-width: 700px) {
 
@@ -2470,7 +2004,6 @@
         grid-template-columns: 110px 1fr;
     }
 
-
     .artwork-actions {
         grid-template-columns: 1fr;
     }
@@ -2483,18 +2016,14 @@
         grid-column: auto;
     }
 
-
     .work-story-grid,
     .exhibition-context-grid {
         grid-template-columns: 1fr;
-
         gap: 30px;
     }
 
-
     .artist-feature {
         grid-template-columns: 1fr;
-
         gap: 35px;
     }
 
@@ -2502,47 +2031,37 @@
         max-width: 500px;
     }
 
-
     .related-header {
         flex-direction: column;
-
         align-items: flex-start;
     }
 
     .related-grid {
         grid-template-columns: repeat(2, 1fr);
-
         gap: 30px;
     }
-
 
     .enquiry-panel {
         padding: 65px 25px 40px;
     }
 
-
     .artwork-viewer {
         padding: 20px;
     }
 
-
     .floating-contact {
         right: 16px;
-
         bottom: 18px;
-
         gap: 11px;
     }
 
     .floating-contact-link {
         width: 44px;
         height: 44px;
-
         font-size: 19px;
     }
 
 }
-
 
 @media (prefers-reduced-motion: reduce) {
 
@@ -2557,15 +2076,6 @@
         transition: none;
     }
 
-}
-
-
-/* =========================================================
-   BODY LOCK
-========================================================= */
-
-body.modal-open {
-    overflow: hidden;
 }
 
 </style>
@@ -2584,7 +2094,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================================
        ELEMENTS
-    ========================================================= */
+    ========================================================== */
 
     const mainImage =
         document.getElementById("mainArtworkImage");
@@ -2604,7 +2114,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeViewer =
         document.getElementById("closeArtworkViewer");
 
-
     const cartButton =
         document.getElementById("addArtworkToCart");
 
@@ -2622,7 +2131,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const actionStatus =
         document.getElementById("artworkActionStatus");
-
 
     const enquiryModal =
         document.getElementById("enquiryModal");
@@ -2645,6 +2153,31 @@ document.addEventListener("DOMContentLoaded", function () {
                     ? wishlistButton.dataset.artworkId
                     : ""
             );
+
+
+    /* =========================================================
+       URLS
+       IMPORTANT:
+       Use Django's real URL names directly.
+    ========================================================== */
+
+    const CART_ADD_URL =
+        "{% url 'add_to_cart' artwork.id %}";
+
+    const CART_URL =
+        "{% url 'cart' %}";
+
+    const WISHLIST_ADD_URL =
+        "{% url 'add_to_wishlist' %}";
+
+    const WISHLIST_REMOVE_URL =
+        "{% url 'remove_from_wishlist' %}";
+
+    const WISHLIST_COUNT_URL =
+        "{% url 'wishlist_count' %}";
+
+    const CART_COUNT_URL =
+        "{% url 'cart_count' %}";
 
 
     /* =========================================================
@@ -2684,6 +2217,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
                     break;
+
                 }
 
             }
@@ -2691,11 +2225,488 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         return cookieValue;
+
     }
 
 
     const csrfToken =
-        getCookie("csrftoken");
+        getCookie("csrftoken") ||
+        "{{ csrf_token }}";
+
+
+    /* =========================================================
+       SAFE JSON RESPONSE
+    ========================================================== */
+
+    async function readResponse(response) {
+
+        const text =
+            await response.text();
+
+        let data = {};
+
+        if (text) {
+
+            try {
+
+                data =
+                    JSON.parse(text);
+
+            } catch (error) {
+
+                data = {
+                    success: response.ok,
+                    message: text
+                };
+
+            }
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                data.error ||
+                "The server could not complete the request."
+            );
+
+        }
+
+        return data;
+
+    }
+
+
+    /* =========================================================
+       STATUS MESSAGE
+    ========================================================== */
+
+    function showStatus(message, type) {
+
+        if (!actionStatus) {
+            return;
+        }
+
+        actionStatus.textContent =
+            message || "";
+
+        actionStatus.className =
+            "action-status";
+
+        if (type) {
+
+            actionStatus.classList.add(
+                type
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       BUTTON LOADING
+    ========================================================== */
+
+    function setButtonLoading(
+        button,
+        loadingText
+    ) {
+
+        if (!button) {
+            return;
+        }
+
+        button.disabled = true;
+
+        const text =
+            button.querySelector(
+                ".action-text"
+            );
+
+        if (text) {
+
+            if (
+                !button.dataset.originalText
+            ) {
+
+                button.dataset.originalText =
+                    text.textContent.trim();
+
+            }
+
+            text.textContent =
+                loadingText;
+
+        }
+
+    }
+
+
+    function restoreButton(button) {
+
+        if (!button) {
+            return;
+        }
+
+        button.disabled = false;
+
+        const text =
+            button.querySelector(
+                ".action-text"
+            );
+
+        if (
+            text &&
+            button.dataset.originalText
+        ) {
+
+            text.textContent =
+                button.dataset.originalText;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       COUNT EXTRACTION
+       Supports several backend response formats.
+    ========================================================== */
+
+    function extractCount(data, keys) {
+
+        if (
+            typeof data === "number" &&
+            Number.isFinite(data)
+        ) {
+
+            return data;
+
+        }
+
+
+        if (
+            typeof data === "string" &&
+            /^\d+$/.test(data.trim())
+        ) {
+
+            return parseInt(
+                data.trim(),
+                10
+            );
+
+        }
+
+
+        if (
+            !data ||
+            typeof data !== "object"
+        ) {
+
+            return null;
+
+        }
+
+
+        for (
+            const key of keys
+        ) {
+
+            if (
+                data[key] !== undefined &&
+                data[key] !== null &&
+                !Number.isNaN(
+                    Number(data[key])
+                )
+            ) {
+
+                return Math.max(
+                    0,
+                    parseInt(
+                        data[key],
+                        10
+                    )
+                );
+
+            }
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =========================================================
+       RENDER A COUNT DIRECTLY
+       This guarantees all four badges update.
+    ========================================================== */
+
+    function renderBadge(
+        desktopId,
+        mobileId,
+        count
+    ) {
+
+        count =
+            Math.max(
+                0,
+                parseInt(count || 0, 10)
+            );
+
+
+        const display =
+            count > 99
+                ? "99+"
+                : String(count);
+
+
+        [
+            desktopId,
+            mobileId
+        ].forEach(function (id) {
+
+            const element =
+                document.getElementById(id);
+
+            if (!element) {
+                return;
+            }
+
+            element.textContent =
+                display;
+
+            element.classList.toggle(
+                "is-empty",
+                count === 0
+            );
+
+            element.classList.toggle(
+                "has-items",
+                count > 0
+            );
+
+        });
+
+    }
+
+
+    /* =========================================================
+       LOCAL STORAGE
+    ========================================================== */
+
+    function saveLocalCount(
+        key,
+        count
+    ) {
+
+        try {
+
+            localStorage.setItem(
+                key,
+                String(count)
+            );
+
+        } catch (error) {
+
+            console.warn(
+                "ARTSASA localStorage unavailable:",
+                error
+            );
+
+        }
+
+    }
+
+
+    /* =========================================================
+       REFRESH CART COUNT
+       SERVER IS AUTHORITATIVE.
+    ========================================================== */
+
+    async function refreshCartCount() {
+
+        try {
+
+            const response =
+                await fetch(
+                    CART_COUNT_URL,
+                    {
+                        method: "GET",
+                        credentials: "same-origin",
+                        cache: "no-store",
+                        headers: {
+                            "Accept":
+                                "application/json",
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+                        }
+                    }
+                );
+
+
+            const data =
+                await readResponse(
+                    response
+                );
+
+
+            const count =
+                extractCount(
+                    data,
+                    [
+                        "count",
+                        "cart_count",
+                        "total",
+                        "items_count"
+                    ]
+                );
+
+
+            if (
+                count !== null
+            ) {
+
+                renderBadge(
+                    "cartCount",
+                    "cartCountMobile",
+                    count
+                );
+
+                saveLocalCount(
+                    "artsasa_cart_count",
+                    count
+                );
+
+                return count;
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to refresh cart count:",
+                error
+            );
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =========================================================
+       REFRESH WISHLIST COUNT
+       THIS IS THE IMPORTANT FIX.
+    ========================================================== */
+
+    async function refreshWishlistCount() {
+
+        try {
+
+            const response =
+                await fetch(
+                    WISHLIST_COUNT_URL,
+                    {
+                        method: "GET",
+                        credentials: "same-origin",
+                        cache: "no-store",
+                        headers: {
+                            "Accept":
+                                "application/json",
+                            "X-Requested-With":
+                                "XMLHttpRequest"
+                        }
+                    }
+                );
+
+
+            const data =
+                await readResponse(
+                    response
+                );
+
+
+            const count =
+                extractCount(
+                    data,
+                    [
+                        "count",
+                        "wishlist_count",
+                        "total",
+                        "items_count"
+                    ]
+                );
+
+
+            if (
+                count !== null
+            ) {
+
+                renderBadge(
+                    "wishlistCount",
+                    "wishlistCountMobile",
+                    count
+                );
+
+                saveLocalCount(
+                    "artsasa_wishlist_count",
+                    count
+                );
+
+                return count;
+
+            }
+
+        } catch (error) {
+
+            console.warn(
+                "Unable to refresh wishlist count:",
+                error
+            );
+
+        }
+
+
+        return null;
+
+    }
+
+
+    /* =========================================================
+       REFRESH BOTH
+    ========================================================== */
+
+    async function refreshAllCounts() {
+
+        await Promise.allSettled([
+            refreshCartCount(),
+            refreshWishlistCount()
+        ]);
+
+    }
+
+
+    /* =========================================================
+       EXPOSE COUNT FUNCTIONS TO BASE.HTML
+    ========================================================== */
+
+    window.ARTSASA =
+        window.ARTSASA || {};
+
+    window.ARTSASA.refreshCounts =
+        refreshAllCounts;
+
+    window.ARTSASA.refreshWishlistCount =
+        refreshWishlistCount;
+
+    window.ARTSASA.refreshCartCount =
+        refreshCartCount;
 
 
     /* =========================================================
@@ -2715,11 +2726,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     !image ||
                     !mainImage
                 ) {
+
                     return;
+
                 }
+
 
                 mainImage.src =
                     image;
+
 
                 thumbnails.forEach(
                     function (item) {
@@ -2730,6 +2745,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     }
                 );
+
 
                 thumb.classList.add(
                     "active"
@@ -2752,8 +2768,11 @@ document.addEventListener("DOMContentLoaded", function () {
             !viewer ||
             !viewerImage
         ) {
+
             return;
+
         }
+
 
         viewerImage.src =
             mainImage.src;
@@ -2840,305 +2859,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =========================================================
-       STATUS MESSAGE
-    ========================================================== */
-
-    function showStatus(
-        message,
-        type
-    ) {
-
-        if (!actionStatus) {
-            return;
-        }
-
-        actionStatus.textContent =
-            message;
-
-        actionStatus.className =
-            "action-status";
-
-        if (type) {
-
-            actionStatus.classList.add(
-                type
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       BUTTON LOADING STATE
-    ========================================================== */
-
-    function setButtonLoading(
-        button,
-        loadingText
-    ) {
-
-        if (!button) {
-            return;
-        }
-
-        button.disabled =
-            true;
-
-        button.dataset.originalText =
-            button.querySelector(
-                ".action-text"
-            )
-                ? button.querySelector(
-                    ".action-text"
-                ).textContent
-                : "";
-
-        const text =
-            button.querySelector(
-                ".action-text"
-            );
-
-        if (text) {
-
-            text.textContent =
-                loadingText;
-
-        }
-
-    }
-
-
-    function restoreButton(
-        button
-    ) {
-
-        if (!button) {
-            return;
-        }
-
-        button.disabled =
-            false;
-
-        const text =
-            button.querySelector(
-                ".action-text"
-            );
-
-        if (
-            text &&
-            button.dataset.originalText
-        ) {
-
-            text.textContent =
-                button.dataset.originalText;
-
-        }
-
-    }
-
-
-    /* =========================================================
-       HEADER CART COUNT
-       Uses the helper already defined by base.html.
-    ========================================================== */
-
-    function updateCartBadge(
-        returnedCount,
-        increment
-    ) {
-
-        let currentCount = 0;
-
-        const desktopBadge =
-            document.getElementById(
-                "cartCount"
-            );
-
-        if (
-            desktopBadge &&
-            /^\d+$/.test(
-                desktopBadge.textContent.trim()
-            )
-        ) {
-
-            currentCount =
-                parseInt(
-                    desktopBadge.textContent.trim(),
-                    10
-                );
-
-            if (
-                currentCount > 99
-            ) {
-                currentCount = 99;
-            }
-
-        }
-
-
-        let newCount;
-
-
-        if (
-            typeof returnedCount === "number" &&
-            !Number.isNaN(returnedCount)
-        ) {
-
-            newCount =
-                returnedCount;
-
-        } else {
-
-            newCount =
-                currentCount +
-                (increment ? 1 : 0);
-
-        }
-
-
-        newCount =
-            Math.max(
-                0,
-                newCount
-            );
-
-
-        /*
-         * Keep base.html responsible for rendering
-         * desktop/mobile badges.
-         */
-
-        if (
-            window.ARTSASA &&
-            typeof window.ARTSASA.renderCounts ===
-                "function"
-        ) {
-
-            window.ARTSASA.renderCounts(
-                newCount,
-                undefined
-            );
-
-        }
-
-
-        /*
-         * Keep localStorage in sync as a fallback.
-         */
-
-        try {
-
-            localStorage.setItem(
-                "artsasa_cart_count",
-                String(newCount)
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "Unable to save cart count:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
-       HEADER WISHLIST COUNT
-    ========================================================== */
-
-    function updateWishlistBadge(
-        returnedCount,
-        increment
-    ) {
-
-        let currentCount = 0;
-
-        const desktopBadge =
-            document.getElementById(
-                "wishlistCount"
-            );
-
-        if (
-            desktopBadge &&
-            /^\d+$/.test(
-                desktopBadge.textContent.trim()
-            )
-        ) {
-
-            currentCount =
-                parseInt(
-                    desktopBadge.textContent.trim(),
-                    10
-                );
-
-        }
-
-
-        let newCount;
-
-
-        if (
-            typeof returnedCount === "number" &&
-            !Number.isNaN(returnedCount)
-        ) {
-
-            newCount =
-                returnedCount;
-
-        } else {
-
-            newCount =
-                currentCount +
-                (increment ? 1 : -1);
-
-        }
-
-
-        newCount =
-            Math.max(
-                0,
-                newCount
-            );
-
-
-        if (
-            window.ARTSASA &&
-            typeof window.ARTSASA.renderCounts ===
-                "function"
-        ) {
-
-            window.ARTSASA.renderCounts(
-                undefined,
-                newCount
-            );
-
-        }
-
-
-        try {
-
-            localStorage.setItem(
-                "artsasa_wishlist_count",
-                String(newCount)
-            );
-
-        } catch (error) {
-
-            console.warn(
-                "Unable to save wishlist count:",
-                error
-            );
-
-        }
-
-    }
-
-
-    /* =========================================================
        ADD TO CART
     ========================================================== */
 
@@ -3152,7 +2872,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     cartButton.disabled ||
                     !artworkId
                 ) {
+
                     return;
+
                 }
 
 
@@ -3178,28 +2900,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    const endpoint =
-                        "{% url 'add_to_cart' 0 %}"
-                            .replace(
-                                "/0/",
-                                "/" +
-                                artworkId +
-                                "/"
-                            );
-
-
+                    /*
+                     * IMPORTANT:
+                     * Use Django's real URL directly.
+                     */
                     const response =
                         await fetch(
-                            endpoint,
+                            CART_ADD_URL,
                             {
                                 method: "POST",
+
+                                credentials:
+                                    "same-origin",
 
                                 headers: {
                                     "X-CSRFToken":
                                         csrfToken,
 
                                     "X-Requested-With":
-                                        "XMLHttpRequest"
+                                        "XMLHttpRequest",
+
+                                    "Accept":
+                                        "application/json"
                                 },
 
                                 body:
@@ -3209,12 +2931,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     const data =
-                        await response.json();
+                        await readResponse(
+                            response
+                        );
 
 
                     if (
-                        !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
@@ -3225,20 +2948,40 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    /*
-                     * If backend returns cart_count,
-                     * use the authoritative value.
-                     *
-                     * Otherwise only increment when this
-                     * artwork was not already in the cart.
-                     */
+                    const cartCount =
+                        extractCount(
+                            data,
+                            [
+                                "cart_count",
+                                "count",
+                                "total"
+                            ]
+                        );
 
-                    updateCartBadge(
-                        typeof data.cart_count === "number"
-                            ? data.cart_count
-                            : undefined,
-                        !data.already_in_cart
-                    );
+
+                    if (
+                        cartCount !== null
+                    ) {
+
+                        renderBadge(
+                            "cartCount",
+                            "cartCountMobile",
+                            cartCount
+                        );
+
+                        saveLocalCount(
+                            "artsasa_cart_count",
+                            cartCount
+                        );
+
+                    }
+
+
+                    /*
+                     * Always ask the server for the
+                     * authoritative value afterwards.
+                     */
+                    await refreshCartCount();
 
 
                     const text =
@@ -3268,18 +3011,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    setTimeout(
-                        function () {
-
-                            cartButton.classList.remove(
-                                "is-added"
-                            );
-
-                        },
-                        1200
-                    );
-
-
                 } catch (error) {
 
                     console.error(
@@ -3294,11 +3025,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         "error"
                     );
 
-
                 } finally {
 
                     setTimeout(
                         function () {
+
+                            cartButton.classList.remove(
+                                "is-added"
+                            );
 
                             restoreButton(
                                 cartButton
@@ -3330,7 +3064,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================================
        BUY NOW
-       Add artwork to cart first, then open cart.
     ========================================================== */
 
     if (buyButton) {
@@ -3343,7 +3076,9 @@ document.addEventListener("DOMContentLoaded", function () {
                     buyButton.disabled ||
                     !artworkId
                 ) {
+
                     return;
+
                 }
 
 
@@ -3369,28 +3104,24 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                    const endpoint =
-                        "{% url 'add_to_cart' 0 %}"
-                            .replace(
-                                "/0/",
-                                "/" +
-                                artworkId +
-                                "/"
-                            );
-
-
                     const response =
                         await fetch(
-                            endpoint,
+                            CART_ADD_URL,
                             {
                                 method: "POST",
+
+                                credentials:
+                                    "same-origin",
 
                                 headers: {
                                     "X-CSRFToken":
                                         csrfToken,
 
                                     "X-Requested-With":
-                                        "XMLHttpRequest"
+                                        "XMLHttpRequest",
+
+                                    "Accept":
+                                        "application/json"
                                 },
 
                                 body:
@@ -3400,12 +3131,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     const data =
-                        await response.json();
+                        await readResponse(
+                            response
+                        );
 
 
                     if (
-                        !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
@@ -3416,21 +3148,11 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    updateCartBadge(
-                        typeof data.cart_count === "number"
-                            ? data.cart_count
-                            : undefined,
-                        !data.already_in_cart
-                    );
+                    await refreshCartCount();
 
-
-                    /*
-                     * The existing cart URL is used rather
-                     * than inventing a checkout URL.
-                     */
 
                     window.location.href =
-                        "{% url 'cart' %}";
+                        CART_URL;
 
                 } catch (error) {
 
@@ -3445,6 +3167,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "Unable to continue to purchase.",
                         "error"
                     );
+
 
                     restoreButton(
                         buyButton
@@ -3472,11 +3195,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     wishlistButton.disabled ||
                     !artworkId
                 ) {
+
                     return;
+
                 }
 
 
-                const isActive =
+                const currentlyActive =
                     wishlistButton.classList.contains(
                         "is-active"
                     );
@@ -3484,10 +3209,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 setButtonLoading(
                     wishlistButton,
-                    isActive
+                    currentlyActive
                         ? "Removing..."
                         : "Saving..."
                 );
+
 
                 showStatus(
                     "",
@@ -3500,16 +3226,27 @@ document.addEventListener("DOMContentLoaded", function () {
                     const formData =
                         new FormData();
 
+                    /*
+                     * Send the ID in both common forms.
+                     * This is harmless and makes the
+                     * frontend compatible with the current
+                     * Django wishlist views.
+                     */
                     formData.append(
                         "artwork_id",
                         artworkId
                     );
 
+                    formData.append(
+                        "id",
+                        artworkId
+                    );
+
 
                     const endpoint =
-                        isActive
-                            ? "{% url 'remove_from_wishlist' %}"
-                            : "{% url 'add_to_wishlist' %}";
+                        currentlyActive
+                            ? WISHLIST_REMOVE_URL
+                            : WISHLIST_ADD_URL;
 
 
                     const response =
@@ -3518,12 +3255,18 @@ document.addEventListener("DOMContentLoaded", function () {
                             {
                                 method: "POST",
 
+                                credentials:
+                                    "same-origin",
+
                                 headers: {
                                     "X-CSRFToken":
                                         csrfToken,
 
                                     "X-Requested-With":
-                                        "XMLHttpRequest"
+                                        "XMLHttpRequest",
+
+                                    "Accept":
+                                        "application/json"
                                 },
 
                                 body:
@@ -3533,12 +3276,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     const data =
-                        await response.json();
+                        await readResponse(
+                            response
+                        );
 
 
                     if (
-                        !response.ok ||
-                        !data.success
+                        data.success === false
                     ) {
 
                         throw new Error(
@@ -3549,12 +3293,49 @@ document.addEventListener("DOMContentLoaded", function () {
                     }
 
 
-                    const active =
-                        Boolean(
-                            data.active
-                        );
+                    /*
+                     * Different Django implementations
+                     * may return `active`, `added`,
+                     * `in_wishlist`, or simply success.
+                     */
+                    let active;
 
 
+                    if (
+                        typeof data.active ===
+                        "boolean"
+                    ) {
+
+                        active =
+                            data.active;
+
+                    } else if (
+                        typeof data.in_wishlist ===
+                        "boolean"
+                    ) {
+
+                        active =
+                            data.in_wishlist;
+
+                    } else if (
+                        typeof data.added ===
+                        "boolean"
+                    ) {
+
+                        active =
+                            data.added;
+
+                    } else {
+
+                        active =
+                            !currentlyActive;
+
+                    }
+
+
+                    /*
+                     * Update the heart immediately.
+                     */
                     wishlistButton.classList.toggle(
                         "is-active",
                         active
@@ -3590,16 +3371,63 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                     /*
-                     * Use server count if available.
-                     * Otherwise update according to the
-                     * state change.
+                     * If the backend supplied the count,
+                     * use it immediately.
                      */
+                    const returnedWishlistCount =
+                        extractCount(
+                            data,
+                            [
+                                "wishlist_count",
+                                "count",
+                                "total"
+                            ]
+                        );
 
-                    updateWishlistBadge(
-                        typeof data.wishlist_count === "number"
-                            ? data.wishlist_count
-                            : undefined,
-                        active
+
+                    if (
+                        returnedWishlistCount !== null
+                    ) {
+
+                        renderBadge(
+                            "wishlistCount",
+                            "wishlistCountMobile",
+                            returnedWishlistCount
+                        );
+
+                        saveLocalCount(
+                            "artsasa_wishlist_count",
+                            returnedWishlistCount
+                        );
+
+                    }
+
+
+                    /*
+                     * CRITICAL:
+                     * Ask Django for the actual count after
+                     * the mutation. This prevents the
+                     * superscript from becoming stale.
+                     */
+                    await refreshWishlistCount();
+
+
+                    /*
+                     * Tell base.html / other page scripts
+                     * that the wishlist changed.
+                     */
+                    document.dispatchEvent(
+                        new CustomEvent(
+                            "artsasa:wishlist-updated",
+                            {
+                                detail: {
+                                    artworkId:
+                                        artworkId,
+                                    active:
+                                        active
+                                }
+                            }
+                        )
                     );
 
 
@@ -3641,7 +3469,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* =========================================================
        INITIAL WISHLIST STATE
-       Read server-provided wishlist_ids when available.
     ========================================================== */
 
     {% if wishlist_ids %}
@@ -3651,12 +3478,19 @@ document.addEventListener("DOMContentLoaded", function () {
             artworkId
         ) {
 
-            const wishlistIds =
-                [
-                    {% for id in wishlist_ids %}
-                        "{{ id }}"{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                ];
+            const wishlistIds = [
+
+                {% for id in wishlist_ids %}
+
+                    "{{ id }}"
+
+                    {% if not forloop.last %}
+                        ,
+                    {% endif %}
+
+                {% endfor %}
+
+            ];
 
 
             if (
@@ -3690,6 +3524,17 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     {% endif %}
+
+
+    /* =========================================================
+       INITIAL SERVER COUNT SYNC
+    ========================================================== */
+
+    /*
+     * This makes sure the detail page does not rely on
+     * an old localStorage number.
+     */
+    refreshAllCounts();
 
 
     /* =========================================================
@@ -3781,11 +3626,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (
                 event.key !== "Escape"
             ) {
+
                 return;
+
             }
 
-            closeArtworkViewerFunction();
 
+            closeArtworkViewerFunction();
             closeEnquiryModal();
 
         }
@@ -3819,7 +3666,9 @@ document.addEventListener("DOMContentLoaded", function () {
                             if (
                                 !entry.isIntersecting
                             ) {
+
                                 return;
+
                             }
 
 

@@ -1,4 +1,3 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -668,6 +667,441 @@
 
     .loader-progress span{
         width:100%;
+    }
+}
+
+</style>
+
+
+<!-- =========================================================
+     M-PESA PAYMENT CARD
+========================================================= -->
+<style>
+
+.mpesa-band{
+    --mpesa-green:#4BA32F;
+    --mpesa-green-deep:#3A8524;
+    --mpesa-paper:#F6F2E9;
+    --mpesa-ink:#1F1C18;
+    --mpesa-muted:#7C786F;
+    --mpesa-rule:rgba(31,28,24,.16);
+
+    margin:64px 0 0;
+    padding:56px 0 12px;
+    border-top:1px solid rgba(255,255,255,.12);
+}
+
+
+.mpesa-layout{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(320px,420px);
+    gap:56px;
+    align-items:start;
+}
+
+
+/* ---------- LEFT: HOW PAYMENT WORKS ---------- */
+
+.mpesa-lede{
+    max-width:46ch;
+}
+
+
+.mpesa-title{
+    margin:0;
+
+    font-family:
+        var(--font-display,
+        "Cormorant Garamond",
+        serif);
+
+    font-size:clamp(28px,3.4vw,42px);
+    line-height:1.05;
+    font-weight:400;
+    letter-spacing:-.02em;
+}
+
+
+.mpesa-lede p{
+    margin:16px 0 0;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:14.5px;
+    line-height:1.75;
+    opacity:.72;
+}
+
+
+.mpesa-steps{
+    margin:28px 0 0;
+    padding:0;
+    list-style:none;
+    counter-reset:mpesa-step;
+}
+
+
+.mpesa-steps li{
+    position:relative;
+    counter-increment:mpesa-step;
+    padding:12px 0 12px 40px;
+    border-top:1px solid rgba(255,255,255,.1);
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:14px;
+    line-height:1.6;
+    opacity:.85;
+}
+
+
+.mpesa-steps li:last-child{
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+
+.mpesa-steps li::before{
+    content:counter(mpesa-step);
+    position:absolute;
+    left:0;
+    top:13px;
+
+    width:22px;
+    height:22px;
+
+    display:grid;
+    place-items:center;
+
+    border:1px solid rgba(255,255,255,.28);
+    border-radius:50%;
+
+    font-size:10.5px;
+    font-weight:600;
+    opacity:.8;
+}
+
+
+.mpesa-steps b{
+    font-weight:600;
+    opacity:1;
+}
+
+
+.mpesa-assist{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    margin-top:26px;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:13.5px;
+    font-weight:500;
+    text-decoration:none;
+    color:inherit;
+
+    border-bottom:1px solid currentColor;
+    padding-bottom:3px;
+
+    transition:opacity .25s ease;
+}
+
+
+.mpesa-assist:hover{
+    opacity:.65;
+}
+
+
+/* ---------- RIGHT: PAYMENT PLAQUE ---------- */
+
+.mpesa-card{
+    position:relative;
+    background:var(--mpesa-paper);
+    color:var(--mpesa-ink);
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 26px 60px -30px rgba(0,0,0,.65);
+}
+
+
+.mpesa-card-top{
+    position:relative;
+    background:var(--mpesa-green);
+    padding:20px 24px 26px;
+    text-align:center;
+}
+
+
+.mpesa-card-top::after{
+    content:"";
+    position:absolute;
+    left:50%;
+    top:10px;
+    transform:translateX(-50%);
+
+    width:34px;
+    height:10px;
+    border-radius:3px;
+
+    background:rgba(255,255,255,.62);
+}
+
+
+.mpesa-wordmark{
+    margin:16px 0 0;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-.03em;
+    color:#fff;
+}
+
+
+.mpesa-wordmark span{
+    font-weight:400;
+    opacity:.9;
+}
+
+
+.mpesa-card-top small{
+    display:block;
+    margin-top:4px;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.06em;
+    color:rgba(255,255,255,.88);
+}
+
+
+.mpesa-card-body{
+    padding:26px 24px 24px;
+}
+
+
+.mpesa-field + .mpesa-field{
+    margin-top:22px;
+    padding-top:22px;
+    border-top:1px dashed var(--mpesa-rule);
+}
+
+
+.mpesa-field-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+}
+
+
+.mpesa-field-name{
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.01em;
+    color:var(--mpesa-ink);
+}
+
+
+.mpesa-copy{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+
+    background:none;
+    border:1px solid var(--mpesa-rule);
+    border-radius:999px;
+    padding:5px 12px;
+    cursor:pointer;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:11.5px;
+    font-weight:600;
+    color:var(--mpesa-muted);
+
+    transition:
+        color .2s ease,
+        border-color .2s ease,
+        background .2s ease;
+}
+
+
+.mpesa-copy:hover{
+    color:var(--mpesa-green-deep);
+    border-color:var(--mpesa-green);
+    background:rgba(75,163,47,.08);
+}
+
+
+.mpesa-copy:focus-visible{
+    outline:2px solid var(--mpesa-green-deep);
+    outline-offset:2px;
+}
+
+
+.mpesa-copy.is-copied{
+    color:var(--mpesa-green-deep);
+    border-color:var(--mpesa-green);
+    background:rgba(75,163,47,.14);
+}
+
+
+.mpesa-digits{
+    display:flex;
+    gap:8px;
+}
+
+
+.mpesa-digits span{
+    flex:1;
+    min-width:0;
+    aspect-ratio:1 / 1.12;
+
+    display:grid;
+    place-items:center;
+
+    border:1.5px solid var(--mpesa-green);
+    border-radius:6px;
+    background:#fff;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:clamp(18px,3.4vw,24px);
+    font-weight:700;
+    color:var(--mpesa-ink);
+    font-variant-numeric:tabular-nums;
+}
+
+
+.mpesa-account{
+    display:block;
+    width:100%;
+    padding:13px 15px;
+
+    border:1.5px solid var(--mpesa-rule);
+    border-radius:8px;
+    background:#fff;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:15px;
+    font-weight:600;
+    color:var(--mpesa-ink);
+}
+
+
+.mpesa-hint{
+    margin:9px 0 0;
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:11.5px;
+    line-height:1.5;
+    color:var(--mpesa-muted);
+}
+
+
+.mpesa-card-foot{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:14px 24px;
+
+    background:rgba(31,28,24,.05);
+    border-top:1px solid var(--mpesa-rule);
+
+    font-family:
+        var(--font-body,
+        "DM Sans",
+        sans-serif);
+
+    font-size:11.5px;
+    line-height:1.5;
+    color:var(--mpesa-muted);
+}
+
+
+.mpesa-card-foot i{
+    color:var(--mpesa-green-deep);
+}
+
+
+@media(max-width:1024px){
+
+    .mpesa-layout{
+        grid-template-columns:1fr;
+        gap:36px;
+    }
+
+    .mpesa-card{
+        max-width:460px;
+    }
+}
+
+
+@media(max-width:520px){
+
+    .mpesa-band{
+        margin-top:44px;
+        padding-top:40px;
+    }
+
+    .mpesa-card-body{
+        padding:22px 18px 20px;
+    }
+
+    .mpesa-digits{
+        gap:6px;
+    }
+
+    .mpesa-card-foot{
+        padding:13px 18px;
+    }
+}
+
+
+@media(prefers-reduced-motion:reduce){
+
+    .mpesa-copy,
+    .mpesa-assist{
+        transition:none;
     }
 }
 
@@ -1903,6 +2337,199 @@
         </div>
 
 
+        <!-- =====================================================
+             M-PESA PAYMENT CARD
+        ====================================================== -->
+
+        <section class="mpesa-band"
+                 aria-labelledby="mpesaTitle">
+
+            <div class="mpesa-layout">
+
+
+                <!-- HOW PAYMENT WORKS -->
+
+                <div class="mpesa-lede">
+
+                    <h2 class="mpesa-title"
+                        id="mpesaTitle">
+
+                        Pay for your work with M-Pesa
+
+                    </h2>
+
+
+                    <p>
+                        Once we confirm a piece is available, you can
+                        settle it directly from your phone. Payment is
+                        received in the gallery&rsquo;s name and a receipt
+                        follows the same day.
+                    </p>
+
+
+                    <ol class="mpesa-steps">
+
+                        <li>
+                            Open M-Pesa on your phone and choose
+                            <b>Lipa na M-Pesa</b>, then <b>Pay Bill</b>.
+                        </li>
+
+                        <li>
+                            Enter business number <b>973810</b>.
+                        </li>
+
+                        <li>
+                            Enter your order number as the account number.
+                        </li>
+
+                        <li>
+                            Enter the amount, confirm with your M-Pesa PIN,
+                            and send us the confirmation message.
+                        </li>
+
+                    </ol>
+
+
+                    <a href="https://wa.me/254700000000"
+                       class="mpesa-assist">
+
+                        <i class="fa-brands fa-whatsapp"
+                           aria-hidden="true"></i>
+
+                        Send your M-Pesa confirmation
+
+                    </a>
+
+                </div>
+
+
+                <!-- PAYMENT PLAQUE -->
+
+                <div class="mpesa-card">
+
+                    <div class="mpesa-card-top">
+
+                        <p class="mpesa-wordmark">
+                            M-PESA <span>Pay Bill</span>
+                        </p>
+
+                        <small>
+                            ARTSASA Contemporary Art Gallery
+                        </small>
+
+                    </div>
+
+
+                    <div class="mpesa-card-body">
+
+
+                        <!-- BUSINESS NUMBER -->
+
+                        <div class="mpesa-field">
+
+                            <div class="mpesa-field-head">
+
+                                <span class="mpesa-field-name">
+                                    Business number
+                                </span>
+
+
+                                <button type="button"
+                                        class="mpesa-copy"
+                                        data-mpesa-copy="973810"
+                                        aria-label="Copy business number 973810">
+
+                                    <i class="fa-regular fa-copy"
+                                       aria-hidden="true"></i>
+
+                                    <span class="mpesa-copy-label">
+                                        Copy
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+
+                            <div class="mpesa-digits"
+                                 role="text"
+                                 aria-label="Business number 9 7 3 8 1 0">
+
+                                <span>9</span>
+                                <span>7</span>
+                                <span>3</span>
+                                <span>8</span>
+                                <span>1</span>
+                                <span>0</span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- ACCOUNT NUMBER -->
+
+                        <div class="mpesa-field">
+
+                            <div class="mpesa-field-head">
+
+                                <span class="mpesa-field-name">
+                                    Account number
+                                </span>
+
+
+                                <button type="button"
+                                        class="mpesa-copy"
+                                        data-mpesa-copy="{{ order.reference|default:'' }}"
+                                        aria-label="Copy account number">
+
+                                    <i class="fa-regular fa-copy"
+                                       aria-hidden="true"></i>
+
+                                    <span class="mpesa-copy-label">
+                                        Copy
+                                    </span>
+
+                                </button>
+
+                            </div>
+
+
+                            <span class="mpesa-account">
+                                {{ order.reference|default:"Your order number" }}
+                            </span>
+
+
+                            <p class="mpesa-hint">
+                                Use the order number from your enquiry email.
+                                If you don&rsquo;t have one yet, enter your
+                                full name.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="mpesa-card-foot">
+
+                        <i class="fa-solid fa-shield-halved"
+                           aria-hidden="true"></i>
+
+                        <span>
+                            Payments go to ARTSASA only. We never ask you
+                            to send money to a personal number.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
         <div class="footer-bottom">
 
             <div class="footer-copyright">
@@ -2466,7 +3093,6 @@
 
     /* =========================================================
        UPDATE WISHLIST BADGES
-       THIS IS THE IMPORTANT PART
     ========================================================== */
 
     function updateWishlistBadge(count) {
@@ -2708,7 +3334,7 @@
 
     /* =========================================================
        FETCH WISHLIST COUNT DIRECTLY
-       ========================================================== */
+    ========================================================== */
 
     function fetchWishlistCount() {
 
@@ -2787,11 +3413,6 @@
             function (count) {
 
                 if (count !== null) {
-
-                    /*
-                     * THIS DIRECTLY UPDATES THE
-                     * WISHLIST SUPERSCRIPT.
-                     */
 
                     updateWishlistBadge(
                         count
@@ -2933,7 +3554,7 @@
 
     /* =========================================================
        REFRESH WISHLIST ONLY
-       ========================================================== */
+    ========================================================== */
 
     window.ARTSASA.refreshWishlist =
         function () {
@@ -2945,7 +3566,7 @@
 
     /* =========================================================
        REFRESH CART ONLY
-       ========================================================== */
+    ========================================================== */
 
     window.ARTSASA.refreshCart =
         function () {
@@ -3021,7 +3642,6 @@
 
 
     /* =========================================================
-       IMPORTANT:
        WISHLIST SYNCHRONIZATION AFTER CLICK
     ========================================================== */
 
@@ -3077,7 +3697,6 @@
 
 
     /* =========================================================
-       IMPORTANT:
        CART SYNCHRONIZATION AFTER CLICK
     ========================================================== */
 
@@ -3181,7 +3800,7 @@
 
     /* =========================================================
        CUSTOM WISHLIST EVENT
-       ========================================================== */
+    ========================================================== */
 
     /*
      * Your wishlist JavaScript can also do:
@@ -3206,7 +3825,7 @@
 
     /* =========================================================
        CUSTOM CART EVENT
-       ========================================================== */
+    ========================================================== */
 
     document.addEventListener(
         "artsasa:cart-updated",
@@ -3528,6 +4147,165 @@
                 );
 
         };
+
+
+    /* =========================================================
+       M-PESA COPY TO CLIPBOARD
+    ========================================================== */
+
+    var mpesaButtons =
+        $$("[data-mpesa-copy]");
+
+
+    function mpesaFallbackCopy(text) {
+
+        var field =
+            document.createElement("textarea");
+
+
+        field.value = text;
+
+        field.setAttribute(
+            "readonly",
+            ""
+        );
+
+        field.style.position = "fixed";
+        field.style.opacity = "0";
+
+
+        document.body.appendChild(field);
+
+        field.select();
+
+
+        try {
+
+            document.execCommand("copy");
+
+        } catch (error) {
+
+            /*
+             * Clipboard unavailable.
+             */
+
+        }
+
+
+        document.body.removeChild(field);
+
+    }
+
+
+    function mpesaMarkCopied(button) {
+
+        var label =
+            button.querySelector(
+                ".mpesa-copy-label"
+            );
+
+
+        button.classList.add(
+            "is-copied"
+        );
+
+
+        if (label) {
+
+            label.textContent = "Copied";
+
+        }
+
+
+        window.setTimeout(
+            function () {
+
+                button.classList.remove(
+                    "is-copied"
+                );
+
+
+                if (label) {
+
+                    label.textContent = "Copy";
+
+                }
+
+            },
+            1800
+        );
+
+    }
+
+
+    mpesaButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    var value =
+                        (
+                            button.getAttribute(
+                                "data-mpesa-copy"
+                            ) || ""
+                        ).trim();
+
+
+                    if (!value) {
+
+                        window.ARTSASA.toast(
+                            "Your order number appears here once an enquiry is confirmed."
+                        );
+
+                        return;
+
+                    }
+
+
+                    if (
+                        navigator.clipboard &&
+                        navigator.clipboard.writeText
+                    ) {
+
+                        navigator.clipboard
+                            .writeText(value)
+                            .then(
+                                function () {
+
+                                    mpesaMarkCopied(button);
+
+                                }
+                            )
+                            .catch(
+                                function () {
+
+                                    mpesaFallbackCopy(value);
+
+                                    mpesaMarkCopied(button);
+
+                                }
+                            );
+
+                    } else {
+
+                        mpesaFallbackCopy(value);
+
+                        mpesaMarkCopied(button);
+
+                    }
+
+
+                    window.ARTSASA.toast(
+                        "Copied " + value
+                    );
+
+                }
+            );
+
+        }
+    );
 
 
     /* =========================================================
@@ -3985,4 +4763,3 @@
 
 </body>
 </html>
-
