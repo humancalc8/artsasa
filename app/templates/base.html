@@ -1138,6 +1138,86 @@ body.is-locked{
 </style>
 
 
+
+<!-- =============================================================
+     WHATSAPP CONTACT / CTA
+============================================================= -->
+<style>
+.artsasa-whatsapp-float{
+    position:fixed;
+    left:22px;
+    bottom:24px;
+    z-index:9990;
+    width:58px;
+    height:58px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    box-shadow:0 12px 30px rgba(20,17,14,.18);
+    transition:transform .25s ease, box-shadow .25s ease;
+}
+.artsasa-whatsapp-float i{
+    font-size:25px;
+}
+.artsasa-whatsapp-float:hover{
+    transform:translateY(-3px);
+    box-shadow:0 16px 34px rgba(20,17,14,.24);
+}
+.artsasa-whatsapp-float:focus-visible{
+    outline:2px solid #211E1B;
+    outline-offset:4px;
+}
+.artsasa-whatsapp-float-label{
+    position:absolute;
+    left:calc(100% + 10px);
+    top:50%;
+    transform:translateY(-50%);
+    padding:8px 11px;
+    border:1px solid rgba(33,30,27,.12);
+    background:#F1EADB;
+    color:#211E1B;
+    font-family:var(--font-body,"DM Sans",sans-serif);
+    font-size:9px;
+    line-height:1;
+    font-weight:700;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    white-space:nowrap;
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+    transition:opacity .2s ease, visibility .2s ease;
+}
+.artsasa-whatsapp-float:hover .artsasa-whatsapp-float-label,
+.artsasa-whatsapp-float:focus-visible .artsasa-whatsapp-float-label{
+    opacity:1;
+    visibility:visible;
+}
+@media(max-width:700px){
+    .artsasa-whatsapp-float{
+        left:15px;
+        bottom:18px;
+        width:54px;
+        height:54px;
+    }
+    .artsasa-whatsapp-float i{
+        font-size:23px;
+    }
+    .artsasa-whatsapp-float-label{
+        display:none;
+    }
+}
+@media(prefers-reduced-motion:reduce){
+    .artsasa-whatsapp-float{
+        transition:none;
+    }
+}
+</style>
+
 {% block extra_css %}{% endblock %}
 
 </head>
@@ -1216,6 +1296,20 @@ body.is-locked{
 
 </div>
 
+
+
+<!-- =============================================================
+     FLOATING WHATSAPP CTA
+============================================================= -->
+<a href="https://wa.me/254742814824"
+   class="artsasa-whatsapp-float"
+   target="_blank"
+   rel="noopener noreferrer"
+   aria-label="Chat with ARTSASA on WhatsApp"
+   title="Chat with ARTSASA on WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <span class="artsasa-whatsapp-float-label">Chat with ARTSASA</span>
+</a>
 
 <!-- =============================================================
      MOBILE NAV BACKDROP
@@ -1492,25 +1586,25 @@ body.is-locked{
 
         <div class="mobile-nav-social">
 
-            <a href="#" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
+            <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw==" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
 
-            <a href="#" aria-label="Facebook">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
+            <a href="https://share.google/9LfIAg3IozD7qUaJO" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
 
-            <a href="#" aria-label="X">
-                <i class="fa-brands fa-x-twitter"></i>
-            </a>
+            <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
 
-            <a href="#" aria-label="Pinterest">
-                <i class="fa-brands fa-pinterest-p"></i>
-            </a>
+            <a href="https://ke.linkedin.com/company/artsasa" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
 
-            <a href="#" aria-label="WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
+            <a href="https://wa.me/254742814824" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
 
         </div>
 
@@ -1819,23 +1913,23 @@ body.is-locked{
 
             <div class="header-social">
 
-                <a href="#" aria-label="Instagram">
+                <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw==" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-instagram"></i>
                 </a>
 
-                <a href="#" aria-label="Facebook">
+                <a href="https://share.google/9LfIAg3IozD7qUaJO" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
 
-                <a href="#" aria-label="X">
-                    <i class="fa-brands fa-x-twitter"></i>
+                <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-tiktok"></i>
                 </a>
 
-                <a href="#" aria-label="Pinterest">
-                    <i class="fa-brands fa-pinterest-p"></i>
+                <a href="https://ke.linkedin.com/company/artsasa" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-linkedin-in"></i>
                 </a>
 
-                <a href="#" aria-label="WhatsApp">
+                <a href="https://wa.me/254742814824" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
                     <i class="fa-brands fa-whatsapp"></i>
                 </a>
 
@@ -2311,13 +2405,13 @@ body.is-locked{
                     </div>
 
 
-                    <a href="tel:+254700000000"
+                    <a href="tel:+254742814824"
                        class="footer-contact-link">
 
                         <i class="fa-solid fa-phone"></i>
 
                         <span>
-                            +254 700 000 000
+                            +254 742 814 824
                         </span>
 
                     </a>
@@ -2361,25 +2455,25 @@ body.is-locked{
 
                 <div class="footer-social">
 
-                    <a href="#" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
+                    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw==" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
 
-                    <a href="#" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
+                    <a href="https://share.google/9LfIAg3IozD7qUaJO" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
 
-                    <a href="#" aria-label="X">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
+                    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
 
-                    <a href="#" aria-label="Pinterest">
-                        <i class="fa-brands fa-pinterest-p"></i>
-                    </a>
+                    <a href="https://ke.linkedin.com/company/artsasa" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
 
-                    <a href="#" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
+                    <a href="https://wa.me/254742814824" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
 
                 </div>
 
