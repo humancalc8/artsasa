@@ -300,7 +300,7 @@ img {
 ============================================================= */
 
 .site-header {
-    position: fixed !important;
+    position: sticky;
 
     top: 0;
     left: 0;
