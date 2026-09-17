@@ -13,6 +13,81 @@
 
 <meta name="theme-color" content="#1A1714">
 
+<!-- =========================================================
+     SEARCH / SEO FOUNDATION
+========================================================= -->
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="bingbot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="author" content="ARTSASA Contemporary Art Gallery">
+<meta name="publisher" content="ARTSASA Contemporary Art Gallery">
+<meta name="application-name" content="ARTSASA">
+<meta name="format-detection" content="telephone=no">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Canonical URL: keeps search engines focused on the preferred page URL -->
+<link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+
+<!-- Favicon / browser tab icon -->
+<link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="96x96" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/logo.png' %}">
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
+
+<!-- Open Graph / Facebook / WhatsApp / LinkedIn previews -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ARTSASA">
+<meta property="og:title" content="{% block og_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
+<meta property="og:description" content="{% block og_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media from Kenya and Africa.{% endblock %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
+<meta property="og:image:alt" content="ARTSASA Contemporary Art Gallery — Nairobi, Kenya">
+<meta property="og:locale" content="en_KE">
+
+<!-- X / Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
+<meta name="twitter:description" content="{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
+<meta name="twitter:image:alt" content="ARTSASA Contemporary Art Gallery — Nairobi, Kenya">
+
+<!-- Optional per-page head additions -->
+{% block extra_head %}{% endblock %}
+
+<!-- =========================================================
+     ARTSASA ORGANIZATION / GALLERY STRUCTURED DATA
+========================================================= -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ArtGallery",
+  "name": "ARTSASA",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+  "description": "Independent contemporary art gallery in Nairobi presenting contemporary African art, Kenyan artists, painting, photography, sculpture, woodwork and mixed media.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Kindaruma Road",
+    "addressLocality": "Nairobi",
+    "addressCountry": "KE"
+  },
+  "sameAs": [
+    "https://www.instagram.com/artsasagallery",
+    "https://ke.linkedin.com/company/artsasa",
+    "https://www.tiktok.com/@artsasa"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+254742814824",
+    "contactType": "customer service",
+    "areaServed": "KE",
+    "availableLanguage": "en"
+  }
+}
+</script>
+
 
 <!-- =========================================================
      FONTS
