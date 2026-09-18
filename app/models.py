@@ -745,3 +745,136 @@ class EmailVerification(models.Model):
     def __str__(self):
         status = "Verified" if self.is_verified else "Unverified"
         return f"{self.user.email} - {status}"
+
+from django.db import models
+from django.urls import reverse
+
+
+# ============================================================
+# BLOG CATEGORY
+# ============================================================
+
+class BlogCategory(models.Model):
+    name = models.CharField(
+        max_length=120
+    )
+
+    slug = models.SlugField(
+        unique=True
+    )
+
+    class Meta:
+        verbose_name = "Blog Category"
+        verbose_name_plural = "Blog Categories"
+        ordering = ["name"]
+
+    def __str__(self):
+        return self.name
+
+
+# ============================================================
+# BLOG POST
+# ============================================================
+
+class BlogPost(models.Model):
+
+    category = models.ForeignKey(
+        BlogCategory,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="posts"
+    )
+
+    title = models.CharField(
+        max_length=220
+    )
+
+    slug = models.SlugField(
+        unique=True
+    )
+
+    excerpt = models.TextField(
+        blank=True
+    )
+
+    content = models.TextField()
+
+    featured_image = models.ImageField(
+        upload_to="blog/",
+        blank=True,
+        null=True
+    )
+
+    author = models.CharField(
+        max_length=120,
+        blank=True
+    )
+
+    published = models.BooleanField(
+        default=False
+    )
+
+    featured = models.BooleanField(
+        default=False
+    )
+
+    published_at = models.DateTimeField(
+        blank=True,
+        null=True
+    )
+
+    # ========================================================
+    # SEO
+    # ========================================================
+
+    meta_title = models.CharField(
+        max_length=160,
+        blank=True,
+        help_text="SEO title. Ideally under 60 characters."
+    )
+
+    meta_description = models.CharField(
+        max_length=320,
+        blank=True,
+        help_text="SEO description. Ideally around 150–160 characters."
+    )
+
+    # ========================================================
+    # TIMESTAMPS
+    # ========================================================
+
+    created_at = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    updated_at = models.DateTimeField(
+        auto_now=True
+    )
+
+    class Meta:
+        ordering = [
+            "-published_at",
+            "-created_at",
+        ]
+
+        indexes = [
+            models.Index(
+                fields=["published", "-published_at"]
+            ),
+            models.Index(
+                fields=["slug"]
+            ),
+        ]
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse(
+            "blog_detail",
+            kwargs={
+                "slug": self.slug
+            }
+        )
+

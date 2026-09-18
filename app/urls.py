@@ -35,6 +35,7 @@ from .views import (
     exhibitions,
     exhibition_detail,
     blog,
+    blog_detail,
     # Cart
     cart,
     add_to_cart,
@@ -93,7 +94,12 @@ path(
 ),
     
     path("artists/", artists, name="artists"),
-    path("blog/", blog, name="blog"),
+   path("blog/", blog, name="blog"),
+path(
+    "blog/<slug:slug>/",
+    blog_detail,
+    name="blog_detail"
+),
 
     # YOUR EXISTING URLS
     # ...

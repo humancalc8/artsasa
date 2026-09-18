@@ -495,3 +495,128 @@ class EmailVerificationAdmin(admin.ModelAdmin):
         return "Pending"
 
     verification_status.short_description = "Status"
+
+
+from django.contrib import admin
+
+from .models import (
+    BlogCategory,
+    BlogPost,
+)
+
+
+# ============================================================
+# BLOG CATEGORY
+# ============================================================
+
+@admin.register(BlogCategory)
+class BlogCategoryAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "name",
+        "slug",
+    )
+
+    search_fields = (
+        "name",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "name",
+        )
+    }
+
+
+# ============================================================
+# BLOG POST
+# ============================================================
+
+@admin.register(BlogPost)
+class BlogPostAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "title",
+        "category",
+        "author",
+        "published",
+        "featured",
+        "published_at",
+        "created_at",
+    )
+
+    list_filter = (
+        "published",
+        "featured",
+        "category",
+        "published_at",
+    )
+
+    search_fields = (
+        "title",
+        "excerpt",
+        "content",
+        "author",
+        "meta_title",
+        "meta_description",
+    )
+
+    prepopulated_fields = {
+        "slug": (
+            "title",
+        )
+    }
+
+    readonly_fields = (
+        "created_at",
+        "updated_at",
+    )
+
+    fieldsets = (
+
+        (
+            "Article",
+            {
+                "fields": (
+                    "title",
+                    "slug",
+                    "category",
+                    "author",
+                    "excerpt",
+                    "content",
+                    "featured_image",
+                )
+            }
+        ),
+
+        (
+            "Publishing",
+            {
+                "fields": (
+                    "published",
+                    "featured",
+                    "published_at",
+                )
+            }
+        ),
+
+        (
+            "SEO",
+            {
+                "fields": (
+                    "meta_title",
+                    "meta_description",
+                )
+            }
+        ),
+
+        (
+            "System",
+            {
+                "fields": (
+                    "created_at",
+                    "updated_at",
+                )
+            }
+        ),
+    )

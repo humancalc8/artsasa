@@ -1513,12 +1513,90 @@ def toggle_wishlist(request):
     )
 from django.shortcuts import render
 
-def blog(request):
-    return render(request, "blog.html")
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, render
+
+from .models import BlogPost
 
 
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, render
 from datetime import timedelta
 
+# ============================================================
+# BLOG
+# ============================================================
+
+def blog(request):
+    """
+    Main ARTSASA Journal / Blog page.
+    Only published articles are visible publicly.
+    """
+
+    posts = (
+        BlogPost.objects
+        .filter(published=True)
+        .select_related("category")
+        .order_by(
+            "-published_at",
+            "-created_at"
+        )
+    )
+
+    featured_post = (
+        posts
+        .filter(featured=True)
+        .first()
+    )
+
+    paginator = Paginator(
+        posts,
+        9
+    )
+
+    page_number = request.GET.get("page")
+
+    page_obj = paginator.get_page(
+        page_number
+    )
+
+    context = {
+        "posts": page_obj,
+        "page_obj": page_obj,
+        "featured_post": featured_post,
+    }
+
+    return render(
+        request,
+        "blog.html",
+        context
+    )
+
+
+# ============================================================
+# BLOG ARTICLE
+# ============================================================
+
+def blog_detail(request, slug):
+    """
+    Individual published blog article.
+    """
+
+    post = get_object_or_404(
+        BlogPost.objects.select_related(
+            "category"
+        ),
+        slug=slug,
+        published=True
+    )
+
+    return render(
+        request,
+        "blog_detail.html",
+        {
+            "post": post,
+        }
+    )
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User

@@ -1,0 +1,1050 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+{{ post.meta_title|default:post.title }} — ARTSASA Journal
+{% endblock %}
+
+{% block meta_description %}
+{{ post.meta_description|default:post.excerpt|truncatechars:160 }}
+{% endblock %}
+
+{% block extra_head %}
+
+<link
+    rel="canonical"
+    href="{{ request.build_absolute_uri }}"
+>
+
+<meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+>
+
+<meta
+    property="og:type"
+    content="article"
+>
+
+<meta
+    property="og:title"
+    content="{{ post.meta_title|default:post.title }}"
+>
+
+<meta
+    property="og:description"
+    content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}"
+>
+
+<meta
+    property="og:url"
+    content="{{ request.build_absolute_uri }}"
+>
+
+<meta
+    property="og:site_name"
+    content="ARTSASA"
+>
+
+<meta
+    property="og:locale"
+    content="en_KE"
+>
+
+{% if post.featured_image %}
+
+<meta
+    property="og:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}"
+>
+
+<meta
+    property="og:image:alt"
+    content="{{ post.title }}"
+>
+
+{% endif %}
+
+{% if post.published_at %}
+
+<meta
+    property="article:published_time"
+    content="{{ post.published_at|date:'c' }}"
+>
+
+{% endif %}
+
+{% if post.updated_at %}
+
+<meta
+    property="article:modified_time"
+    content="{{ post.updated_at|date:'c' }}"
+>
+
+{% endif %}
+
+{% if post.category %}
+
+<meta
+    property="article:section"
+    content="{{ post.category.name }}"
+>
+
+{% endif %}
+
+<meta
+    name="twitter:card"
+    content="summary_large_image"
+>
+
+<meta
+    name="twitter:title"
+    content="{{ post.meta_title|default:post.title }}"
+>
+
+<meta
+    name="twitter:description"
+    content="{{ post.meta_description|default:post.excerpt|truncatechars:160 }}"
+>
+
+{% if post.featured_image %}
+
+<meta
+    name="twitter:image"
+    content="{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}"
+>
+
+{% endif %}
+
+
+<!-- =========================================================
+     ARTICLE STRUCTURED DATA
+========================================================= -->
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+
+    "headline": "{{ post.title|escapejs }}",
+
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "{{ request.build_absolute_uri }}"
+    },
+
+    "publisher": {
+        "@type": "Organization",
+        "name": "ARTSASA",
+        "url": "{{ request.scheme }}://{{ request.get_host }}"
+    }
+
+    {% if post.excerpt %},
+    "description": "{{ post.excerpt|escapejs }}"
+    {% endif %}
+
+    {% if post.featured_image %},
+    "image": [
+        "{{ request.scheme }}://{{ request.get_host }}{{ post.featured_image.url }}"
+    ]
+    {% endif %}
+
+    {% if post.author %},
+    "author": {
+        "@type": "Person",
+        "name": "{{ post.author|escapejs }}"
+    }
+    {% else %},
+    "author": {
+        "@type": "Organization",
+        "name": "ARTSASA"
+    }
+    {% endif %}
+
+    {% if post.published_at %},
+    "datePublished": "{{ post.published_at|date:'c' }}"
+    {% endif %}
+
+    {% if post.updated_at %},
+    "dateModified": "{{ post.updated_at|date:'c' }}"
+    {% endif %}
+
+    {% if post.category %},
+    "articleSection": "{{ post.category.name|escapejs }}"
+    {% endif %}
+}
+</script>
+
+
+<style>
+
+/* ============================================================
+   ARTSASA ARTICLE
+============================================================ */
+
+.artsasa-article-page {
+    --bg: #f1eadb;
+    --ink: #211e1b;
+    --muted: #716b63;
+    --soft: #918a80;
+    --line: rgba(33, 30, 27, 0.15);
+    --accent: #a15c3b;
+
+    min-height: 100vh;
+
+    padding-bottom: 120px;
+
+    background: var(--bg);
+
+    color: var(--ink);
+}
+
+
+/* ============================================================
+   HEADER
+============================================================ */
+
+.artsasa-article-header {
+
+    width: min(1120px, 90vw);
+
+    margin: 0 auto;
+
+    padding:
+        clamp(70px, 10vw, 125px)
+        0
+        65px;
+
+    text-align: center;
+}
+
+
+.artsasa-article-category {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-bottom: 28px;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.18em;
+
+    text-transform: uppercase;
+
+    color: var(--accent);
+}
+
+
+.artsasa-article-category::before,
+.artsasa-article-category::after {
+
+    content: "";
+
+    width: 28px;
+
+    height: 1px;
+
+    background: var(--accent);
+}
+
+
+.artsasa-article-title {
+
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size:
+        clamp(
+            52px,
+            8vw,
+            112px
+        );
+
+    font-weight: 400;
+
+    line-height: 0.88;
+
+    letter-spacing: -0.055em;
+}
+
+
+.artsasa-article-excerpt {
+
+    max-width: 720px;
+
+    margin: 38px auto 0;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 16px;
+
+    line-height: 1.8;
+
+    color: var(--muted);
+}
+
+
+.artsasa-article-meta {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    margin-top: 32px;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: var(--soft);
+}
+
+
+/* ============================================================
+   HERO IMAGE
+============================================================ */
+
+.artsasa-article-hero {
+
+    width: min(1400px, 90vw);
+
+    margin: 0 auto 85px;
+}
+
+
+.artsasa-article-hero-frame {
+
+    width: 100%;
+
+    overflow: hidden;
+
+    background: #c9bb9f;
+}
+
+
+.artsasa-article-hero img {
+
+    display: block;
+
+    width: 100%;
+
+    max-height: 760px;
+
+    object-fit: cover;
+}
+
+
+/* ============================================================
+   CONTENT LAYOUT
+============================================================ */
+
+.artsasa-article-layout {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(120px, 180px)
+        minmax(0, 760px)
+        minmax(120px, 180px);
+
+    justify-content: center;
+
+    gap: 55px;
+
+    width: min(1250px, 90vw);
+
+    margin: 0 auto;
+}
+
+
+/* ============================================================
+   SIDE ELEMENTS
+============================================================ */
+
+.artsasa-article-side {
+
+    padding-top: 8px;
+}
+
+
+.artsasa-back-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--ink);
+
+    text-decoration: none;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    transition:
+        color 0.2s ease,
+        gap 0.2s ease;
+}
+
+
+.artsasa-back-link:hover {
+
+    color: var(--accent);
+
+    gap: 14px;
+}
+
+
+/* ============================================================
+   ARTICLE CONTENT
+============================================================ */
+
+.artsasa-article-content {
+
+    min-width: 0;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 17px;
+
+    line-height: 1.95;
+
+    color: #3f3a35;
+}
+
+
+.artsasa-article-content p {
+
+    margin:
+        0
+        0
+        30px;
+}
+
+
+.artsasa-article-content p:first-child::first-letter {
+
+    float: left;
+
+    margin:
+        9px
+        12px
+        0
+        0;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 82px;
+
+    font-weight: 500;
+
+    line-height: 0.7;
+
+    color: var(--accent);
+}
+
+
+.artsasa-article-content h2 {
+
+    margin:
+        65px
+        0
+        22px;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 45px;
+
+    font-weight: 500;
+
+    line-height: 1;
+
+    letter-spacing: -0.025em;
+}
+
+
+.artsasa-article-content h3 {
+
+    margin:
+        50px
+        0
+        18px;
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 34px;
+
+    font-weight: 500;
+
+    line-height: 1.05;
+}
+
+
+.artsasa-article-content strong {
+
+    color: var(--ink);
+}
+
+
+.artsasa-article-content a {
+
+    color: var(--accent);
+
+    text-decoration: underline;
+
+    text-decoration-thickness: 1px;
+
+    text-underline-offset: 4px;
+}
+
+
+.artsasa-article-content ul,
+.artsasa-article-content ol {
+
+    margin:
+        0
+        0
+        32px;
+
+    padding-left: 28px;
+}
+
+
+.artsasa-article-content li {
+
+    margin-bottom: 12px;
+}
+
+
+/* ============================================================
+   BLOCKQUOTE
+============================================================ */
+
+.artsasa-article-content blockquote {
+
+    margin:
+        55px
+        0;
+
+    padding:
+        12px
+        0
+        12px
+        32px;
+
+    border-left:
+        2px solid
+        var(--accent);
+
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 34px;
+
+    font-style: italic;
+
+    line-height: 1.25;
+
+    color: var(--ink);
+}
+
+
+/* ============================================================
+   ARTICLE IMAGES
+============================================================ */
+
+.artsasa-article-content img {
+
+    display: block;
+
+    width: 100%;
+
+    height: auto;
+
+    margin:
+        50px
+        0;
+
+    object-fit: cover;
+}
+
+
+/* ============================================================
+   AUTHOR
+============================================================ */
+
+.artsasa-article-author {
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    line-height: 1.7;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+
+    color: var(--soft);
+}
+
+
+.artsasa-article-author-name {
+
+    display: block;
+
+    margin-top: 7px;
+
+    font-weight: 700;
+
+    color: var(--ink);
+}
+
+
+/* ============================================================
+   FOOTER
+============================================================ */
+
+.artsasa-article-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    width: min(760px, 90vw);
+
+    margin: 90px auto 0;
+
+    padding-top: 35px;
+
+    border-top:
+        1px solid
+        var(--line);
+}
+
+
+.artsasa-article-footer-label {
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.12em;
+
+    text-transform: uppercase;
+
+    color: var(--soft);
+}
+
+
+.artsasa-article-footer-link {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--ink);
+
+    text-decoration: none;
+
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.1em;
+
+    text-transform: uppercase;
+}
+
+
+.artsasa-article-footer-link:hover {
+
+    color: var(--accent);
+}
+
+
+/* ============================================================
+   TABLET
+============================================================ */
+
+@media (max-width: 1050px) {
+
+    .artsasa-article-layout {
+
+        grid-template-columns:
+            minmax(0, 760px);
+    }
+
+    .artsasa-article-side {
+
+        display: none;
+    }
+
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media (max-width: 700px) {
+
+    .artsasa-article-header {
+
+        width: 88vw;
+
+        padding:
+            65px
+            0
+            45px;
+    }
+
+
+    .artsasa-article-title {
+
+        font-size: 58px;
+
+        line-height: 0.9;
+    }
+
+
+    .artsasa-article-excerpt {
+
+        font-size: 15px;
+
+        line-height: 1.75;
+    }
+
+
+    .artsasa-article-meta {
+
+        line-height: 1.8;
+    }
+
+
+    .artsasa-article-hero {
+
+        width: 88vw;
+
+        margin-bottom: 55px;
+    }
+
+
+    .artsasa-article-hero img {
+
+        min-height: 300px;
+
+        max-height: 500px;
+    }
+
+
+    .artsasa-article-layout {
+
+        width: 88vw;
+    }
+
+
+    .artsasa-article-content {
+
+        font-size: 16px;
+
+        line-height: 1.85;
+    }
+
+
+    .artsasa-article-content p:first-child::first-letter {
+
+        font-size: 70px;
+    }
+
+
+    .artsasa-article-content h2 {
+
+        margin-top: 50px;
+
+        font-size: 38px;
+    }
+
+
+    .artsasa-article-content h3 {
+
+        margin-top: 40px;
+
+        font-size: 31px;
+    }
+
+
+    .artsasa-article-content blockquote {
+
+        margin:
+            42px
+            0;
+
+        padding-left: 24px;
+
+        font-size: 28px;
+    }
+
+
+    .artsasa-article-footer {
+
+        width: 88vw;
+
+        margin-top: 65px;
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+}
+
+</style>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="artsasa-article-page">
+
+    <!-- =====================================================
+         ARTICLE HEADER
+    ====================================================== -->
+
+    <header class="artsasa-article-header">
+
+        {% if post.category %}
+
+            <div class="artsasa-article-category">
+                {{ post.category.name }}
+            </div>
+
+        {% endif %}
+
+
+        <h1 class="artsasa-article-title">
+            {{ post.title }}
+        </h1>
+
+
+        {% if post.excerpt %}
+
+            <p class="artsasa-article-excerpt">
+                {{ post.excerpt }}
+            </p>
+
+        {% endif %}
+
+
+        <div class="artsasa-article-meta">
+
+            {% if post.author %}
+
+                <span>
+                    By {{ post.author }}
+                </span>
+
+            {% endif %}
+
+
+            {% if post.author and post.published_at %}
+
+                <span aria-hidden="true">
+                    ·
+                </span>
+
+            {% endif %}
+
+
+            {% if post.published_at %}
+
+                <time datetime="{{ post.published_at|date:'c' }}">
+                    {{ post.published_at|date:"d F Y" }}
+                </time>
+
+            {% endif %}
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         FEATURED IMAGE
+    ====================================================== -->
+
+    {% if post.featured_image %}
+
+        <figure class="artsasa-article-hero">
+
+            <div class="artsasa-article-hero-frame">
+
+                <img
+                    src="{{ post.featured_image.url }}"
+                    alt="{{ post.title }}"
+                    loading="eager"
+                    fetchpriority="high"
+                >
+
+            </div>
+
+        </figure>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         ARTICLE BODY
+    ====================================================== -->
+
+    <section class="artsasa-article-layout">
+
+        <!-- LEFT -->
+
+        <aside class="artsasa-article-side">
+
+            <a
+                href="{% url 'blog' %}"
+                class="artsasa-back-link"
+            >
+                <span aria-hidden="true">←</span>
+                Journal
+            </a>
+
+        </aside>
+
+
+        <!-- CONTENT -->
+
+        <article class="artsasa-article-content">
+
+            {{ post.content|linebreaks }}
+
+        </article>
+
+
+        <!-- RIGHT -->
+
+        <aside class="artsasa-article-side">
+
+            {% if post.author %}
+
+                <div class="artsasa-article-author">
+
+                    Written by
+
+                    <span class="artsasa-article-author-name">
+                        {{ post.author }}
+                    </span>
+
+                </div>
+
+            {% endif %}
+
+        </aside>
+
+    </section>
+
+
+    <!-- =====================================================
+         ARTICLE FOOTER
+    ====================================================== -->
+
+    <footer class="artsasa-article-footer">
+
+        <span class="artsasa-article-footer-label">
+            ARTSASA Journal
+        </span>
+
+        <a
+            href="{% url 'blog' %}"
+            class="artsasa-article-footer-link"
+        >
+            More stories
+            <span aria-hidden="true">→</span>
+        </a>
+
+    </footer>
+
+</main>
+
+{% endblock %}

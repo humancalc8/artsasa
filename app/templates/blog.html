@@ -10,18 +10,19 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 {% block content %}
 
 <style>
+
 /* =========================================================
    ARTSASA JOURNAL
-   Editorial contemporary-art direction
+   Premium Editorial Art Direction
    ========================================================= */
 
 :root {
     --journal-ink: #211E1B;
     --journal-muted: #716B64;
     --journal-paper: #F1EADB;
-    --journal-paper-deep: #E7DDCA;
+    --journal-paper-deep: #E6DCC9;
     --journal-white: #FAF8F3;
-    --journal-line: rgba(33, 30, 27, .16);
+    --journal-line: rgba(33, 30, 27, .14);
     --journal-terra: #A15C3B;
     --journal-terra-dark: #7C4429;
     --journal-rattan: #C9BB9F;
@@ -45,18 +46,18 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
 
 /* =========================================================
-   INTRO / MASTHEAD
+   MASTHEAD
    ========================================================= */
 
 .journal-masthead {
-    padding: clamp(72px, 10vw, 150px) 0 70px;
+    padding: clamp(80px, 10vw, 155px) 0 72px;
     border-bottom: 1px solid var(--journal-line);
 }
 
 .journal-masthead-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
-    gap: 70px;
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+    gap: 80px;
     align-items: end;
 }
 
@@ -64,19 +65,19 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 24px;
+    margin-bottom: 26px;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: .18em;
+    letter-spacing: .2em;
     text-transform: uppercase;
     color: var(--journal-terra-dark);
 }
 
 .journal-kicker::before {
     content: "";
-    width: 38px;
+    width: 42px;
     height: 1px;
     background: var(--journal-terra);
 }
@@ -85,23 +86,24 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     margin: 0;
 
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(68px, 10vw, 150px);
+    font-size: clamp(76px, 10.5vw, 158px);
     font-weight: 500;
-    line-height: .78;
-    letter-spacing: -.055em;
+    line-height: .76;
+    letter-spacing: -.06em;
 }
 
 .journal-title em {
+    font-style: italic;
     font-weight: 400;
 }
 
 .journal-introduction {
-    max-width: 520px;
-    margin: 0 0 8px auto;
+    max-width: 500px;
+    margin: 0 0 7px auto;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    line-height: 1.85;
+    font-size: 14px;
+    line-height: 1.9;
     color: var(--journal-muted);
 }
 
@@ -119,8 +121,11 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     display: flex;
     align-items: center;
     gap: 9px;
+
     padding: 18px 0;
+
     border-bottom: 1px solid var(--journal-line);
+
     overflow-x: auto;
     scrollbar-width: none;
 }
@@ -133,6 +138,7 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     flex: 0 0 auto;
 
     padding: 9px 16px;
+
     border: 1px solid var(--journal-line);
     border-radius: 999px;
 
@@ -140,9 +146,9 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     text-decoration: none;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .07em;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
     text-transform: uppercase;
 
     transition:
@@ -165,7 +171,7 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
    ========================================================= */
 
 .journal-featured {
-    padding: 90px 0 110px;
+    padding: 90px 0 115px;
 }
 
 .journal-section-label {
@@ -173,20 +179,20 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     justify-content: space-between;
     align-items: center;
 
-    margin-bottom: 28px;
+    margin-bottom: 27px;
 }
 
 .journal-section-label span:first-child {
     font-family: "DM Sans", sans-serif;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: .17em;
+    letter-spacing: .18em;
     text-transform: uppercase;
 }
 
 .journal-section-number {
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 17px;
+    font-size: 18px;
     font-style: italic;
     color: var(--journal-muted);
 }
@@ -198,55 +204,76 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 }
 
 .journal-featured-frame {
-    position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1.55fr) minmax(300px, .7fr);
-    min-height: 590px;
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, .75fr);
+
+    min-height: 610px;
+
     background: var(--journal-white);
 }
 
+
+/* =========================================================
+   FEATURED IMAGE
+   ========================================================= */
+
 .journal-featured-image {
     position: relative;
-    min-height: 590px;
+
+    width: 100%;
+    height: 610px;
+
     overflow: hidden;
+
     background: var(--journal-paper-deep);
 }
 
 .journal-featured-image img {
     width: 100%;
     height: 100%;
-    display: block;
-    object-fit: cover;
 
-    transition: transform .9s cubic-bezier(.2,.65,.2,1);
+    display: block;
+
+    object-fit: cover;
+    object-position: center center;
+
+    transition:
+        transform 1s cubic-bezier(.2,.65,.2,1);
 }
 
-.journal-featured-link:hover .journal-featured-image img {
+.journal-featured-link:hover
+.journal-featured-image img {
     transform: scale(1.035);
 }
 
 .journal-featured-image::after {
     content: "";
+
     position: absolute;
     inset: 0;
 
     background:
         linear-gradient(
             90deg,
-            rgba(0,0,0,.03),
-            transparent 45%,
+            rgba(0,0,0,.015),
+            transparent 55%,
             rgba(0,0,0,.12)
         );
 
     pointer-events: none;
 }
 
+
+/* =========================================================
+   FEATURED CONTENT
+   ========================================================= */
+
 .journal-featured-copy {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    padding: clamp(30px, 4vw, 62px);
+    padding: clamp(34px, 4.5vw, 66px);
 }
 
 .journal-featured-meta {
@@ -255,9 +282,9 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     gap: 20px;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .13em;
     text-transform: uppercase;
     color: var(--journal-muted);
 }
@@ -267,21 +294,26 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 }
 
 .journal-featured-heading {
-    margin: 45px 0 22px;
+    margin: 45px 0 24px;
 
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(40px, 4.2vw, 68px);
+    font-size: clamp(46px, 4.4vw, 72px);
     font-weight: 500;
-    line-height: .93;
-    letter-spacing: -.035em;
+    line-height: .91;
+    letter-spacing: -.045em;
 }
 
 .journal-featured-excerpt {
-    max-width: 470px;
+    max-width: 475px;
+    margin: 0;
 
-    font-family: "DM Sans", sans-serif;
-    font-size: 14px;
-    line-height: 1.85;
+    font-family: "Newsreader", "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    letter-spacing: -.005em;
+
     color: var(--journal-muted);
 }
 
@@ -293,28 +325,60 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     width: fit-content;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 700;
-    letter-spacing: .1em;
+    letter-spacing: .13em;
     text-transform: uppercase;
 }
 
 .journal-read i {
-    font-size: 13px;
-    transition: transform .25s ease;
+    font-size: 12px;
+
+    transition:
+        transform .3s ease;
 }
 
-.journal-featured-link:hover .journal-read i {
-    transform: translateX(5px);
+.journal-featured-link:hover
+.journal-read i {
+    transform: translateX(6px);
 }
 
 
 /* =========================================================
-   ARTICLE GRID
+   DIVIDER
+   ========================================================= */
+
+.journal-divider {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    margin: 0 0 110px;
+
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+
+    color: var(--journal-muted);
+}
+
+.journal-divider::before,
+.journal-divider::after {
+    content: "";
+
+    height: 1px;
+    flex: 1;
+
+    background: var(--journal-line);
+}
+
+
+/* =========================================================
+   LATEST STORIES
    ========================================================= */
 
 .journal-latest {
-    padding: 0 0 120px;
+    padding-bottom: 120px;
 }
 
 .journal-latest-heading {
@@ -323,33 +387,49 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     justify-content: space-between;
 
     padding-bottom: 22px;
-    border-bottom: 1px solid var(--journal-line);
+    margin-bottom: 44px;
 
-    margin-bottom: 42px;
+    border-bottom: 1px solid var(--journal-line);
 }
 
 .journal-latest-title {
     margin: 0;
 
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(42px, 5vw, 70px);
+    font-size: clamp(46px, 5vw, 72px);
     font-weight: 500;
-    letter-spacing: -.04em;
+    line-height: .9;
+    letter-spacing: -.045em;
 }
 
 .journal-latest-count {
     font-family: "DM Sans", sans-serif;
-    font-size: 10px;
-    letter-spacing: .12em;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
     text-transform: uppercase;
+
     color: var(--journal-muted);
 }
 
+
+/* =========================================================
+   GRID
+   ========================================================= */
+
 .journal-grid {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 48px 28px;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 58px 28px;
 }
+
+
+/* =========================================================
+   ARTICLE CARD
+   ========================================================= */
 
 .journal-card {
     min-width: 0;
@@ -357,29 +437,49 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
 .journal-card-link {
     display: block;
+
     color: inherit;
     text-decoration: none;
 }
 
+
+/* =========================================================
+   CARD IMAGE
+   ========================================================= */
+
 .journal-card-image {
     position: relative;
+
+    width: 100%;
     aspect-ratio: 4 / 3;
+
     overflow: hidden;
+
     background: var(--journal-paper-deep);
 }
 
 .journal-card-image img {
     width: 100%;
     height: 100%;
-    display: block;
-    object-fit: cover;
 
-    transition: transform .7s cubic-bezier(.2,.65,.2,1);
+    display: block;
+
+    object-fit: cover;
+    object-position: center center;
+
+    transition:
+        transform .8s cubic-bezier(.2,.65,.2,1);
 }
 
-.journal-card-link:hover .journal-card-image img {
+.journal-card-link:hover
+.journal-card-image img {
     transform: scale(1.045);
 }
+
+
+/* =========================================================
+   IMAGE OVERLAY
+   ========================================================= */
 
 .journal-card-overlay {
     position: absolute;
@@ -390,37 +490,49 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     justify-content: center;
 
     opacity: 0;
+
     background: rgba(33, 30, 27, .16);
 
-    transition: opacity .3s ease;
+    transition:
+        opacity .3s ease;
 }
 
 .journal-card-overlay span {
-    width: 52px;
-    height: 52px;
+    width: 54px;
+    height: 54px;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
     border-radius: 50%;
+
     background: var(--journal-white);
     color: var(--journal-ink);
 
-    transform: translateY(8px);
-    transition: transform .3s ease;
+    transform: translateY(9px);
+
+    transition:
+        transform .3s ease;
 }
 
-.journal-card-link:hover .journal-card-overlay {
+.journal-card-link:hover
+.journal-card-overlay {
     opacity: 1;
 }
 
-.journal-card-link:hover .journal-card-overlay span {
+.journal-card-link:hover
+.journal-card-overlay span {
     transform: translateY(0);
 }
 
+
+/* =========================================================
+   CARD CONTENT
+   ========================================================= */
+
 .journal-card-info {
-    padding-top: 20px;
+    padding-top: 21px;
 }
 
 .journal-card-meta {
@@ -428,20 +540,23 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     align-items: center;
     gap: 12px;
 
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 
     font-family: "DM Sans", sans-serif;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: .13em;
     text-transform: uppercase;
+
     color: var(--journal-muted);
 }
 
 .journal-card-meta::before {
     content: "";
+
     width: 20px;
     height: 1px;
+
     background: var(--journal-terra);
 }
 
@@ -449,24 +564,36 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     margin: 0;
 
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(27px, 2.4vw, 36px);
+    font-size: clamp(29px, 2.5vw, 38px);
     font-weight: 500;
-    line-height: .98;
-    letter-spacing: -.025em;
+    line-height: .96;
+    letter-spacing: -.03em;
 
-    transition: color .25s ease;
+    transition:
+        color .25s ease;
 }
 
-.journal-card-link:hover .journal-card-title {
+.journal-card-link:hover
+.journal-card-title {
     color: var(--journal-terra-dark);
 }
 
 .journal-card-excerpt {
-    margin: 14px 0 0;
+    max-width: 450px;
 
-    font-family: "DM Sans", sans-serif;
-    font-size: 12px;
-    line-height: 1.75;
+    margin: 15px 0 0;
+
+    font-family:
+        "Newsreader",
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+
     color: var(--journal-muted);
 
     display: -webkit-box;
@@ -477,39 +604,15 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
 
 /* =========================================================
-   EDITORIAL DIVIDER
-   ========================================================= */
-
-.journal-divider {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 25px;
-
-    margin: 0 0 120px;
-
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 17px;
-    font-style: italic;
-    color: var(--journal-muted);
-}
-
-.journal-divider::before,
-.journal-divider::after {
-    content: "";
-    height: 1px;
-    flex: 1;
-    background: var(--journal-line);
-}
-
-
-/* =========================================================
-   JOURNAL STATEMENT
+   STATEMENT
    ========================================================= */
 
 .journal-statement {
     margin-bottom: 120px;
-    padding: clamp(55px, 7vw, 100px) clamp(25px, 6vw, 90px);
+
+    padding:
+        clamp(60px, 8vw, 105px)
+        clamp(28px, 7vw, 95px);
 
     background: var(--journal-ink);
     color: var(--journal-white);
@@ -517,32 +620,41 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
 .journal-statement-grid {
     display: grid;
+
     grid-template-columns: .65fr 1.35fr;
+
     gap: 70px;
+
     align-items: start;
 }
 
 .journal-statement-label {
     font-family: "DM Sans", sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: .16em;
+    letter-spacing: .17em;
     text-transform: uppercase;
+
     color: var(--journal-rattan);
 }
 
 .journal-statement-text {
     margin: 0;
 
-    font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(34px, 4vw, 58px);
+    font-family:
+        "Cormorant Garamond",
+        Georgia,
+        serif;
+
+    font-size: clamp(38px, 4vw, 61px);
     font-weight: 400;
-    line-height: 1.04;
-    letter-spacing: -.025em;
+    line-height: 1.03;
+    letter-spacing: -.035em;
 }
 
 .journal-statement-text em {
     color: var(--journal-rattan);
+    font-style: italic;
 }
 
 
@@ -554,9 +666,11 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     display: flex;
     justify-content: center;
     align-items: center;
+
     gap: 8px;
 
-    padding: 0 0 120px;
+    padding:
+        0 0 120px;
 }
 
 .journal-page {
@@ -573,9 +687,13 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     text-decoration: none;
 
     font-family: "DM Sans", sans-serif;
-    font-size: 11px;
+    font-size: 10px;
+    font-weight: 600;
 
-    transition: all .25s ease;
+    transition:
+        background .25s ease,
+        color .25s ease,
+        border-color .25s ease;
 }
 
 .journal-page:hover,
@@ -591,38 +709,43 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
    ========================================================= */
 
 .journal-empty {
-    padding: 100px 30px;
+    padding: 110px 30px;
+
     text-align: center;
+
     border-top: 1px solid var(--journal-line);
     border-bottom: 1px solid var(--journal-line);
 }
 
 .journal-empty h2 {
-    margin: 0 0 12px;
+    margin: 0 0 13px;
 
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: 52px;
+    font-size: 54px;
     font-weight: 500;
+    letter-spacing: -.035em;
 }
 
 .journal-empty p {
     margin: 0;
 
-    font-family: "DM Sans", sans-serif;
-    font-size: 13px;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+
     color: var(--journal-muted);
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   RESPONSIVE — TABLET
    ========================================================= */
 
 @media (max-width: 1000px) {
 
     .journal-masthead-grid {
         grid-template-columns: 1fr;
-        gap: 35px;
+        gap: 38px;
     }
 
     .journal-introduction {
@@ -634,68 +757,85 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     }
 
     .journal-featured-image {
-        min-height: 480px;
+        height: 500px;
     }
 
     .journal-featured-copy {
-        min-height: 420px;
+        min-height: 430px;
     }
 
     .journal-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
     .journal-statement-grid {
         grid-template-columns: 1fr;
-        gap: 30px;
+        gap: 32px;
     }
 }
 
 
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
 @media (max-width: 650px) {
 
     .journal-shell {
-        width: min(100% - 36px, 1380px);
+        width: calc(100% - 36px);
     }
 
     .journal-masthead {
-        padding: 65px 0 45px;
+        padding: 68px 0 48px;
     }
 
     .journal-title {
-        font-size: clamp(62px, 19vw, 100px);
+        font-size: clamp(66px, 19vw, 105px);
     }
 
     .journal-introduction {
         font-size: 13px;
-        line-height: 1.75;
+        line-height: 1.8;
     }
 
     .journal-featured {
-        padding: 58px 0 75px;
+        padding: 60px 0 80px;
     }
 
     .journal-featured-image {
-        min-height: 330px;
+        height: 360px;
     }
 
     .journal-featured-copy {
-        padding: 28px;
-        min-height: 410px;
+        min-height: 430px;
+        padding: 30px;
     }
 
     .journal-featured-heading {
-        margin-top: 35px;
-        font-size: 43px;
+        margin-top: 34px;
+        font-size: 46px;
+    }
+
+    .journal-featured-excerpt {
+        font-size: 17px;
     }
 
     .journal-grid {
         grid-template-columns: 1fr;
-        gap: 52px;
+        gap: 55px;
     }
 
     .journal-card-image {
         aspect-ratio: 5 / 4;
+    }
+
+    .journal-card-title {
+        font-size: 34px;
+    }
+
+    .journal-card-excerpt {
+        font-size: 16px;
     }
 
     .journal-latest {
@@ -704,15 +844,16 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
     .journal-divider {
         margin-bottom: 80px;
+        font-size: 16px;
     }
 
     .journal-statement {
         margin-bottom: 80px;
-        padding: 48px 28px;
+        padding: 52px 28px;
     }
 
     .journal-statement-text {
-        font-size: 39px;
+        font-size: 40px;
     }
 
     .journal-pagination {
@@ -735,226 +876,133 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
     .journal-card-overlay span,
     .journal-card-title,
     .journal-read i {
-        transition: none;
+        transition: none !important;
     }
 }
+
 </style>
+
 
 <main class="artsasa-journal">
 
-```
-<!-- =====================================================
-     JOURNAL MASTHEAD
-====================================================== -->
 
-<section class="journal-masthead">
-    <div class="journal-shell">
+    <!-- =====================================================
+         MASTHEAD
+    ====================================================== -->
 
-        <div class="journal-masthead-grid">
+    <section class="journal-masthead">
 
-            <div>
-                <div class="journal-kicker">
-                    ARTSASA Journal
-                </div>
+        <div class="journal-shell">
 
-                <h1 class="journal-title">
-                    Art.<br>
-                    <em>Ideas.</em><br>
-                    Stories.
-                </h1>
-            </div>
+            <div class="journal-masthead-grid">
 
-            <p class="journal-introduction">
-                A closer look at
-                <strong>contemporary African art</strong>,
-                the artists shaping Kenya's creative landscape,
-                exhibitions in Nairobi, and the ideas that live
-                behind the work.
-            </p>
+                <div>
 
-        </div>
-
-    </div>
-</section>
-
-
-<!-- =====================================================
-     TOPIC NAVIGATION
-====================================================== -->
-
-<div class="journal-shell">
-
-    <nav class="journal-topics" aria-label="Journal topics">
-
-        <a href="{% url 'blog' %}" class="journal-topic">
-            All Stories
-        </a>
-
-        <a href="{% url 'artists' %}" class="journal-topic">
-            Artists
-        </a>
-
-        <a href="{% url 'exhibitions' %}" class="journal-topic">
-            Exhibitions
-        </a>
-
-        <a href="{% url 'collection' %}" class="journal-topic">
-            Art & Collection
-        </a>
-
-        <a href="{% url 'about' %}" class="journal-topic">
-            The Gallery
-        </a>
-
-    </nav>
-
-</div>
-
-
-<div class="journal-shell">
-
-
-    <!-- =================================================
-         FEATURED STORY
-    ================================================== -->
-
-    {% if featured_post %}
-
-    <section class="journal-featured">
-
-        <div class="journal-section-label">
-            <span>Editor's selection</span>
-            <span class="journal-section-number">01</span>
-        </div>
-
-        <a href="{{ featured_post.get_absolute_url }}"
-           class="journal-featured-link">
-
-            <article class="journal-featured-frame">
-
-                <div class="journal-featured-image">
-
-                    {% if featured_post.image %}
-                        <img
-                            src="{{ featured_post.image.url }}"
-                            alt="{{ featured_post.title }}"
-                            loading="eager">
-                    {% else %}
-                        <img
-                            src="{% static 'images/logo.png' %}"
-                            alt="ARTSASA">
-                    {% endif %}
-
-                </div>
-
-
-                <div class="journal-featured-copy">
-
-                    <div>
-
-                        <div class="journal-featured-meta">
-
-                            <span class="journal-featured-category">
-                                {{ featured_post.category|default:"Journal" }}
-                            </span>
-
-                            <span>
-                                {% if featured_post.published_at %}
-                                    {{ featured_post.published_at|date:"d M Y" }}
-                                {% elif featured_post.created_at %}
-                                    {{ featured_post.created_at|date:"d M Y" }}
-                                {% endif %}
-                            </span>
-
-                        </div>
-
-
-                        <h2 class="journal-featured-heading">
-                            {{ featured_post.title }}
-                        </h2>
-
-
-                        <p class="journal-featured-excerpt">
-
-                            {% if featured_post.excerpt %}
-                                {{ featured_post.excerpt }}
-                            {% elif featured_post.summary %}
-                                {{ featured_post.summary }}
-                            {% else %}
-                                {{ featured_post.content|striptags|truncatewords:42 }}
-                            {% endif %}
-
-                        </p>
-
+                    <div class="journal-kicker">
+                        ARTSASA Journal
                     </div>
 
-
-                    <span class="journal-read">
-                        Read story
-                        <i class="fa-solid fa-arrow-right"
-                           aria-hidden="true"></i>
-                    </span>
+                    <h1 class="journal-title">
+                        Art.<br>
+                        <em>Ideas.</em><br>
+                        Stories.
+                    </h1>
 
                 </div>
 
-            </article>
 
-        </a>
+                <p class="journal-introduction">
+
+                    A closer look at
+                    <strong>contemporary African art</strong>,
+                    the artists shaping Kenya's creative landscape,
+                    exhibitions in Nairobi, and the ideas that live
+                    behind the work.
+
+                </p>
+
+            </div>
+
+        </div>
 
     </section>
 
-    {% endif %}
 
+    <!-- =====================================================
+         TOPIC NAVIGATION
+    ====================================================== -->
 
-    <!-- =================================================
-         EDITORIAL DIVIDER
-    ================================================== -->
+    <div class="journal-shell">
 
-    <div class="journal-divider">
-        <span>From the ARTSASA archive</span>
+        <nav class="journal-topics"
+             aria-label="Journal topics">
+
+            <a href="{% url 'blog' %}"
+               class="journal-topic">
+                All Stories
+            </a>
+
+            <a href="{% url 'artists' %}"
+               class="journal-topic">
+                Artists
+            </a>
+
+            
+            <a href="{% url 'collection' %}"
+               class="journal-topic">
+                Art &amp; Collection
+            </a>
+
+            <a href="{% url 'about' %}"
+               class="journal-topic">
+                The Gallery
+            </a>
+
+        </nav>
+
     </div>
 
 
-    <!-- =================================================
-         LATEST STORIES
-    ================================================== -->
+    <div class="journal-shell">
 
-    <section class="journal-latest">
 
-        <div class="journal-latest-heading">
+        <!-- =================================================
+             FEATURED STORY
+        ================================================== -->
 
-            <h2 class="journal-latest-title">
-                Latest stories
-            </h2>
+        {% if featured_post %}
 
-            {% if posts %}
-                <span class="journal-latest-count">
-                    {{ posts|length }} stories
+        <section class="journal-featured">
+
+            <div class="journal-section-label">
+
+                <span>
+                    Editor's selection
                 </span>
-            {% endif %}
 
-        </div>
+                <span class="journal-section-number">
+                    01
+                </span>
+
+            </div>
 
 
-        {% if posts %}
+            <a href="{{ featured_post.get_absolute_url }}"
+               class="journal-featured-link">
 
-        <div class="journal-grid">
+                <article class="journal-featured-frame">
 
-            {% for post in posts %}
 
-            <article class="journal-card">
+                    <!-- FEATURED IMAGE -->
 
-                <a href="{{ post.get_absolute_url }}"
-                   class="journal-card-link">
+                    <div class="journal-featured-image">
 
-                    <div class="journal-card-image">
-
-                        {% if post.image %}
+                        {% if featured_post.featured_image %}
 
                             <img
-                                src="{{ post.image.url }}"
-                                alt="{{ post.title }}"
-                                loading="lazy">
+                                src="{{ featured_post.featured_image.url }}"
+                                alt="{{ featured_post.title }}"
+                                loading="eager">
 
                         {% else %}
 
@@ -964,206 +1012,417 @@ Stories, artists, exhibitions and ideas from ARTSASA — a contemporary art gall
 
                         {% endif %}
 
-
-                        <div class="journal-card-overlay">
-                            <span>
-                                <i class="fa-solid fa-arrow-up-right-from-square"
-                                   aria-hidden="true"></i>
-                            </span>
-                        </div>
-
                     </div>
 
 
-                    <div class="journal-card-info">
+                    <!-- FEATURED COPY -->
 
-                        <div class="journal-card-meta">
+                    <div class="journal-featured-copy">
 
-                            <span>
-                                {{ post.category|default:"Journal" }}
-                            </span>
+                        <div>
 
-                            {% if post.published_at %}
-                                <span>
-                                    {{ post.published_at|date:"d M Y" }}
+                            <div class="journal-featured-meta">
+
+                                <span class="journal-featured-category">
+
+                                    {% if featured_post.category %}
+                                        {{ featured_post.category.name }}
+                                    {% else %}
+                                        Journal
+                                    {% endif %}
+
                                 </span>
-                            {% elif post.created_at %}
+
+
                                 <span>
-                                    {{ post.created_at|date:"d M Y" }}
+
+                                    {% if featured_post.published_at %}
+
+                                        {{ featured_post.published_at|date:"d M Y" }}
+
+                                    {% else %}
+
+                                        {{ featured_post.created_at|date:"d M Y" }}
+
+                                    {% endif %}
+
                                 </span>
-                            {% endif %}
+
+                            </div>
+
+
+                            <h2 class="journal-featured-heading">
+                                {{ featured_post.title }}
+                            </h2>
+
+
+                            <p class="journal-featured-excerpt">
+
+                                {% if featured_post.excerpt %}
+
+                                    {{ featured_post.excerpt }}
+
+                                {% else %}
+
+                                    {{ featured_post.content|striptags|truncatewords:42 }}
+
+                                {% endif %}
+
+                            </p>
 
                         </div>
 
 
-                        <h3 class="journal-card-title">
-                            {{ post.title }}
-                        </h3>
+                        <span class="journal-read">
 
+                            Read story
 
-                        <p class="journal-card-excerpt">
+                            <i class="fa-solid fa-arrow-right"
+                               aria-hidden="true"></i>
 
-                            {% if post.excerpt %}
-                                {{ post.excerpt }}
-                            {% elif post.summary %}
-                                {{ post.summary }}
-                            {% else %}
-                                {{ post.content|striptags|truncatewords:28 }}
-                            {% endif %}
-
-                        </p>
+                        </span>
 
                     </div>
 
-                </a>
+                </article>
 
-            </article>
+            </a>
 
-            {% endfor %}
+        </section>
+
+        {% endif %}
+
+
+        <!-- =================================================
+             EDITORIAL DIVIDER
+        ================================================== -->
+
+        <div class="journal-divider">
+
+            <span>
+                From the ARTSASA archive
+            </span>
 
         </div>
 
 
         <!-- =================================================
-             PAGINATION
+             LATEST STORIES
         ================================================== -->
 
-        {% if page_obj and page_obj.has_other_pages %}
-
-        <nav class="journal-pagination"
-             aria-label="Journal pagination">
-
-            {% if page_obj.has_previous %}
-
-                <a
-                    href="?page={{ page_obj.previous_page_number }}"
-                    class="journal-page"
-                    aria-label="Previous page">
-
-                    <i class="fa-solid fa-arrow-left"
-                       aria-hidden="true"></i>
-
-                </a>
-
-            {% endif %}
+        <section class="journal-latest">
 
 
-            {% for number in page_obj.paginator.page_range %}
+            <div class="journal-latest-heading">
 
-                {% if page_obj.number == number %}
+                <h2 class="journal-latest-title">
+                    Latest stories
+                </h2>
 
-                    <span class="journal-page is-active">
-                        {{ number }}
+
+                {% if posts %}
+
+                    <span class="journal-latest-count">
+
+                        {{ posts|length }}
+                        {% if posts|length == 1 %}
+                            story
+                        {% else %}
+                            stories
+                        {% endif %}
+
                     </span>
 
-                {% else %}
+                {% endif %}
+
+            </div>
+
+
+            {% if posts %}
+
+
+            <div class="journal-grid">
+
+
+                {% for post in posts %}
+
+                <article class="journal-card">
+
+                    <a href="{{ post.get_absolute_url }}"
+                       class="journal-card-link">
+
+
+                        <!-- CARD IMAGE -->
+
+                        <div class="journal-card-image">
+
+                            {% if post.featured_image %}
+
+                                <img
+                                    src="{{ post.featured_image.url }}"
+                                    alt="{{ post.title }}"
+                                    loading="lazy">
+
+                            {% else %}
+
+                                <img
+                                    src="{% static 'images/logo.png' %}"
+                                    alt="ARTSASA">
+
+                            {% endif %}
+
+
+                            <div class="journal-card-overlay">
+
+                                <span>
+
+                                    <i
+                                        class="fa-solid fa-arrow-up-right-from-square"
+                                        aria-hidden="true">
+                                    </i>
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- CARD INFORMATION -->
+
+                        <div class="journal-card-info">
+
+
+                            <div class="journal-card-meta">
+
+                                <span>
+
+                                    {% if post.category %}
+                                        {{ post.category.name }}
+                                    {% else %}
+                                        Journal
+                                    {% endif %}
+
+                                </span>
+
+
+                                {% if post.published_at %}
+
+                                    <span>
+                                        {{ post.published_at|date:"d M Y" }}
+                                    </span>
+
+                                {% else %}
+
+                                    <span>
+                                        {{ post.created_at|date:"d M Y" }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <h3 class="journal-card-title">
+                                {{ post.title }}
+                            </h3>
+
+
+                            <p class="journal-card-excerpt">
+
+                                {% if post.excerpt %}
+
+                                    {{ post.excerpt }}
+
+                                {% else %}
+
+                                    {{ post.content|striptags|truncatewords:28 }}
+
+                                {% endif %}
+
+                            </p>
+
+
+                        </div>
+
+                    </a>
+
+                </article>
+
+                {% endfor %}
+
+
+            </div>
+
+
+            <!-- =================================================
+                 PAGINATION
+            ================================================== -->
+
+            {% if page_obj and page_obj.has_other_pages %}
+
+            <nav class="journal-pagination"
+                 aria-label="Journal pagination">
+
+
+                {% if page_obj.has_previous %}
 
                     <a
-                        href="?page={{ number }}"
-                        class="journal-page">
+                        href="?page={{ page_obj.previous_page_number }}"
+                        class="journal-page"
+                        aria-label="Previous page">
 
-                        {{ number }}
+                        <i class="fa-solid fa-arrow-left"
+                           aria-hidden="true"></i>
 
                     </a>
 
                 {% endif %}
 
-            {% endfor %}
+
+                {% for number in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == number %}
+
+                        <span class="journal-page is-active">
+                            {{ number }}
+                        </span>
+
+                    {% else %}
+
+                        <a
+                            href="?page={{ number }}"
+                            class="journal-page">
+
+                            {{ number }}
+
+                        </a>
+
+                    {% endif %}
+
+                {% endfor %}
 
 
-            {% if page_obj.has_next %}
+                {% if page_obj.has_next %}
 
-                <a
-                    href="?page={{ page_obj.next_page_number }}"
-                    class="journal-page"
-                    aria-label="Next page">
+                    <a
+                        href="?page={{ page_obj.next_page_number }}"
+                        class="journal-page"
+                        aria-label="Next page">
 
-                    <i class="fa-solid fa-arrow-right"
-                       aria-hidden="true"></i>
+                        <i class="fa-solid fa-arrow-right"
+                           aria-hidden="true"></i>
 
-                </a>
+                    </a>
+
+                {% endif %}
+
+
+            </nav>
 
             {% endif %}
 
-        </nav>
 
-        {% endif %}
+            {% else %}
 
 
-        {% else %}
+                <div class="journal-empty">
 
-            <div class="journal-empty">
+                    <h2>
+                        The journal is opening soon.
+                    </h2>
 
-                <h2>The journal is opening soon.</h2>
+                    <p>
+                        Stories from the artists and exhibitions
+                        at ARTSASA will appear here.
+                    </p>
 
-                <p>
-                    Stories from the artists and exhibitions at
-                    ARTSASA will appear here.
+                </div>
+
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =================================================
+             EDITORIAL STATEMENT
+        ================================================== -->
+
+        <section class="journal-statement">
+
+            <div class="journal-statement-grid">
+
+                <div class="journal-statement-label">
+                    About the journal
+                </div>
+
+                <p class="journal-statement-text">
+
+                    We look beyond the frame —
+                    into the
+                    <em>people, places and ideas</em>
+                    that make contemporary African art matter.
+
                 </p>
 
             </div>
 
-        {% endif %}
-
-    </section>
+        </section>
 
 
-    <!-- =================================================
-         EDITORIAL STATEMENT
-    ================================================== -->
-
-    <section class="journal-statement">
-
-        <div class="journal-statement-grid">
-
-            <div class="journal-statement-label">
-                About the journal
-            </div>
-
-            <p class="journal-statement-text">
-                We look beyond the frame —
-                into the <em>people, places and ideas</em>
-                that make contemporary African art matter.
-            </p>
-
-        </div>
-
-    </section>
-
-
-</div>
-```
+    </div>
 
 </main>
 
+
+<!-- =========================================================
+     EDITORIAL REVEAL
+========================================================== -->
+
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const cards = document.querySelectorAll(
         ".journal-card, .journal-featured-frame"
     );
 
+
     if (!("IntersectionObserver" in window)) {
-        cards.forEach(card => {
+
+        cards.forEach(function (card) {
+
             card.style.opacity = "1";
             card.style.transform = "none";
+
         });
+
         return;
+
     }
 
-    cards.forEach(card => {
+
+    cards.forEach(function (card) {
+
         card.style.opacity = "0";
         card.style.transform = "translateY(18px)";
+
         card.style.transition =
             "opacity .65s ease, transform .65s cubic-bezier(.2,.65,.2,1)";
+
     });
 
+
     const observer = new IntersectionObserver(
-        entries => {
 
-            entries.forEach(entry => {
+        function (entries) {
 
-                if (!entry.isIntersecting) return;
+            entries.forEach(function (entry) {
+
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
                 entry.target.style.opacity = "1";
                 entry.target.style.transform = "translateY(0)";
@@ -1173,14 +1432,23 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         },
+
         {
             threshold: 0.08
         }
+
     );
 
-    cards.forEach(card => observer.observe(card));
+
+    cards.forEach(function (card) {
+
+        observer.observe(card);
+
+    });
 
 });
+
 </script>
+
 
 {% endblock %}
