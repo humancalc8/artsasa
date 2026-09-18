@@ -22,6 +22,7 @@ from .views import (
     add_to_wishlist,
     remove_from_wishlist,
     wishlist_count,
+    live_blog_seo_analyzer,
 )
 from . import views
 from .views import (
@@ -149,5 +150,10 @@ path(
     "terms/",
     views.terms,
     name="terms"
+),
+path(
+    "admin/live-blog-seo/",
+    live_blog_seo_analyzer,
+    name="live_blog_seo_analyzer",
 ),
 ]

@@ -13,28 +13,88 @@
 
 <meta name="theme-color" content="#211E1B">
 
-
 <!-- =========================================================
-     FONTS
-========================================================== -->
+     ARTSASA — FAVICON + SEARCH ENGINE IDENTITY
+========================================================= -->
+<!--
+    logo.png is used as the live favicon so the icon works immediately
+    with the assets already used by the ARTSASA header and footer.
+    For the best Google/browser result, a dedicated square favicon.png
+    can later replace logo.png without changing the rest of the SEO code.
+-->
+<link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}">
+<link rel="shortcut icon" href="{% static 'images/logo.png' %}">
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
+
+<!-- Browser / search identity -->
+<meta name="application-name" content="ARTSASA">
+<meta name="author" content="ARTSASA Contemporary Art Gallery">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+
+<!-- Search / social preview identity -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ARTSASA">
+<meta property="og:title" content="{% block og_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
+<meta property="og:description" content="{% block og_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
+<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
+<meta property="og:image:alt" content="ARTSASA Contemporary Art Gallery — Nairobi, Kenya">
+<meta property="og:locale" content="en_KE">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{% block twitter_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
+<meta name="twitter:description" content="{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
+<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
+
+<!-- Structured data: helps Google understand the gallery and its official logo -->
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ARTSASA",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
+    "description": "ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Nairobi",
+        "addressCountry": "KE"
+    }
+}
+</script>
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "ARTSASA",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'index' %}?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+    }
+}
+</script>
+
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,400;1,500&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,0..72,400;1,0..72,500&family=Permanent+Marker&display=swap"
       rel="stylesheet">
 
-
-<!-- =========================================================
-     ICONS
-========================================================== -->
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-
-<!-- =========================================================
-     STYLES
-========================================================== -->
-<link rel="stylesheet" href="{% static 'css/site.css' %}">
+<link rel="stylesheet"
+      href="{% static 'css/site.css' %}">
 
 {% block extra_css %}{% endblock %}
 
@@ -69,13 +129,11 @@
             visibility .55s ease;
     }
 
-
     .page-loader.is-active {
         opacity: 1;
         visibility: visible;
         pointer-events: all;
     }
-
 
     .loader-stage {
         position: relative;
@@ -148,12 +206,10 @@
        UNDERLINE
     ========================================================== */
 
-     
-
 
     /* =========================================================
        CUSTOM PAINTBRUSH
-       
+
        This is NOT a Font Awesome icon.
        It is drawn entirely with SVG shapes.
     ========================================================== */
@@ -169,7 +225,6 @@
 
         transition: opacity .2s ease;
     }
-
 
     .loader-brush.is-visible {
         opacity: 1;
@@ -201,9 +256,7 @@
     }
 
 
-    /*
-       Main wooden handle
-    */
+    /* Main wooden handle */
 
     .brush-handle {
         fill: url(#brushWood);
@@ -213,9 +266,7 @@
     }
 
 
-    /*
-       Handle highlight
-    */
+    /* Handle highlight */
 
     .brush-handle-highlight {
         fill: none;
@@ -227,9 +278,7 @@
     }
 
 
-    /*
-       Metal ferrule
-    */
+    /* Metal ferrule */
 
     .brush-ferrule {
         fill: url(#brushMetal);
@@ -239,9 +288,7 @@
     }
 
 
-    /*
-       Ferrule lines
-    */
+    /* Ferrule lines */
 
     .brush-ferrule-line {
         stroke: rgba(255,255,255,.35);
@@ -249,9 +296,7 @@
     }
 
 
-    /*
-       Natural bristles
-    */
+    /* Natural bristles */
 
     .brush-bristles {
         fill: url(#brushBristles);
@@ -285,7 +330,6 @@
         opacity: .9;
     }
 
-
     .brush-paint-highlight {
         fill: #d0a679;
 
@@ -308,7 +352,6 @@
         margin-top: 7px;
     }
 
-
     .loader-palette .dot {
         width: 5px;
         height: 5px;
@@ -320,7 +363,6 @@
         animation:
             paletteDot .5s ease forwards;
     }
-
 
     .loader-palette .dot-1 {
         background: #b98b5d;
@@ -391,7 +433,6 @@
 
     }
 
-
     @keyframes loaderCaption {
 
         from {
@@ -402,6 +443,31 @@
         to {
             opacity: 1;
             transform: translateY(0);
+        }
+
+    }
+
+
+    /* =========================================================
+       CART / WISHLIST BADGE — "just changed" pulse
+
+       Uses box-shadow only (never transform) so it can't fight
+       with however site.css positions the badge.
+    ========================================================== */
+
+    .header-action-count.is-bump,
+    .nav-sup.is-bump {
+        animation: countPulse .6s ease-out;
+    }
+
+    @keyframes countPulse {
+
+        0% {
+            box-shadow: 0 0 0 0 rgba(185, 139, 93, .75);
+        }
+
+        100% {
+            box-shadow: 0 0 0 9px rgba(185, 139, 93, 0);
         }
 
     }
@@ -457,6 +523,11 @@
             opacity: .8;
         }
 
+        .header-action-count.is-bump,
+        .nav-sup.is-bump {
+            animation: none;
+        }
+
     }
 
 </style>
@@ -469,7 +540,7 @@
 
 <!-- =============================================================
      PAGE LOADER
-     
+
      Custom SVG PAINT BRUSH.
      No Font Awesome brush/pen icon is used.
 ============================================================= -->
@@ -487,91 +558,46 @@
 
             <defs>
 
-                <!-- =================================================
-                     BRUSH WOOD
-                ================================================== -->
-
-                <linearGradient
-                    id="brushWood"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0">
-
+                <!-- BRUSH WOOD -->
+                <linearGradient id="brushWood" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stop-color="#4b2817"/>
                     <stop offset="25%" stop-color="#8d5935"/>
                     <stop offset="48%" stop-color="#c08451"/>
                     <stop offset="68%" stop-color="#754329"/>
                     <stop offset="100%" stop-color="#3b2115"/>
-
                 </linearGradient>
 
-
-                <!-- =================================================
-                     METAL FERRULE
-                ================================================== -->
-
-                <linearGradient
-                    id="brushMetal"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0">
-
+                <!-- METAL FERRULE -->
+                <linearGradient id="brushMetal" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stop-color="#6f706d"/>
                     <stop offset="20%" stop-color="#c6c6bd"/>
                     <stop offset="42%" stop-color="#f0eee4"/>
                     <stop offset="65%" stop-color="#96968e"/>
                     <stop offset="100%" stop-color="#555650"/>
-
                 </linearGradient>
 
-
-                <!-- =================================================
-                     NATURAL BRISTLES
-                ================================================== -->
-
-                <linearGradient
-                    id="brushBristles"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0">
-
+                <!-- NATURAL BRISTLES -->
+                <linearGradient id="brushBristles" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%" stop-color="#17120f"/>
                     <stop offset="20%" stop-color="#3c2b21"/>
                     <stop offset="45%" stop-color="#75533c"/>
                     <stop offset="68%" stop-color="#3b2920"/>
                     <stop offset="100%" stop-color="#16110e"/>
-
                 </linearGradient>
 
-
-                <!-- =================================================
+                <!--
                      WET-EDGE PAINT HIGHLIGHT
 
                      A narrow glossy band that travels exactly at
                      the reveal boundary, simulating fresh pigment.
-                ================================================== -->
-
-                <linearGradient
-                    id="wetEdgeGradient"
-                    x1="0"
-                    y1="0"
-                    x2="1"
-                    y2="0">
-
+                -->
+                <linearGradient id="wetEdgeGradient" x1="0" y1="0" x2="1" y2="0">
                     <stop offset="0%"  stop-color="#f5eee4" stop-opacity="0"/>
                     <stop offset="50%" stop-color="#fff8ec" stop-opacity=".85"/>
                     <stop offset="100%" stop-color="#f5eee4" stop-opacity="0"/>
-
                 </linearGradient>
 
-
-                <!-- =================================================
-                     SOFT BRUSH GLOW
-                ================================================== -->
-
+                <!-- SOFT BRUSH GLOW -->
                 <filter id="brushSoftShadow"
                         x="-50%"
                         y="-50%"
@@ -588,44 +614,32 @@
                         result="offsetBlur"/>
 
                     <feComponentTransfer>
-
-                        <feFuncA
-                            type="linear"
-                            slope=".38"/>
-
+                        <feFuncA type="linear" slope=".38"/>
                     </feComponentTransfer>
 
                     <feMerge>
-
                         <feMergeNode/>
                         <feMergeNode in="SourceGraphic"/>
-
                     </feMerge>
 
                 </filter>
 
-
-                <!-- =================================================
+                <!--
                      REVEAL CLIP
 
                      Its rect's width is set at runtime from the
                      real, measured width of the word below — the
                      brush only ever uncovers exactly as much of
                      the true glyph shapes as it has "painted".
-                ================================================== -->
-
+                -->
                 <clipPath id="loaderReveal" clipPathUnits="userSpaceOnUse">
-
                     <rect id="loaderRevealRect" x="0" y="0" width="0" height="0"/>
-
                 </clipPath>
 
             </defs>
 
 
-            <!-- =====================================================
-                 UNDERLINE
-            ====================================================== -->
+            <!-- UNDERLINE -->
 
             <path
                 class="loader-stroke"
@@ -638,14 +652,14 @@
             />
 
 
-            <!-- =====================================================
+            <!--
                  WORD — REAL, SOLID TEXT
 
                  Revealed left-to-right through the clip-path above.
                  Because this is genuine text (not a traced outline),
                  the shapes uncovered are always pixel-true to what
                  the browser itself renders.
-            ====================================================== -->
+            -->
 
             <g clip-path="url(#loaderReveal)">
 
@@ -662,9 +676,7 @@
             </g>
 
 
-            <!-- =====================================================
-                 WET EDGE HIGHLIGHT
-            ====================================================== -->
+            <!-- WET EDGE HIGHLIGHT -->
 
             <rect
                 id="loaderWetEdge"
@@ -677,7 +689,7 @@
             />
 
 
-            <!-- =====================================================
+            <!--
                  INVISIBLE WRITING PATH
 
                  Rebuilt at runtime from the ACTUAL per-letter
@@ -686,7 +698,7 @@
                  the brush is always honestly aligned over every
                  letter it is "painting" — not moving along a
                  decorative curve unrelated to the lettering.
-            ====================================================== -->
+            -->
 
             <path
                 id="brushWritingPath"
@@ -699,7 +711,7 @@
             />
 
 
-            <!-- =====================================================
+            <!--
                  PAINTBRUSH
 
                  The entire brush is custom SVG.
@@ -717,7 +729,7 @@
                      the point animateMotion is placing on the
                      writing path. That's what makes the brush
                      itself, not its handle, do the "painting".
-            ====================================================== -->
+            -->
 
             <g
                 class="loader-brush"
@@ -735,9 +747,7 @@
                     class="brush-tilt"
                     transform="translate(-118 -31) rotate(-18 118 31)">
 
-                    <!-- ============================================
-                         BRUSH HANDLE
-                    ============================================= -->
+                    <!-- BRUSH HANDLE -->
 
                     <path
                         class="brush-handle"
@@ -753,10 +763,7 @@
                             Z
                         " />
 
-
-                    <!-- ============================================
-                         HANDLE HIGHLIGHT
-                    ============================================= -->
+                    <!-- HANDLE HIGHLIGHT -->
 
                     <path
                         class="brush-handle-highlight"
@@ -766,10 +773,7 @@
                         "
                     />
 
-
-                    <!-- ============================================
-                         FERRULE
-                    ============================================= -->
+                    <!-- FERRULE -->
 
                     <path
                         class="brush-ferrule"
@@ -782,34 +786,17 @@
                         "
                     />
 
+                    <!-- FERRULE DETAILS -->
 
-                    <!-- ============================================
-                         FERRULE DETAILS
-                    ============================================= -->
+                    <line class="brush-ferrule-line" x1="49" y1="9" x2="42" y2="29"/>
+                    <line class="brush-ferrule-line" x1="59" y1="12" x2="52" y2="33"/>
 
-                    <line
-                        class="brush-ferrule-line"
-                        x1="49"
-                        y1="9"
-                        x2="42"
-                        y2="29"
-                    />
-
-                    <line
-                        class="brush-ferrule-line"
-                        x1="59"
-                        y1="12"
-                        x2="52"
-                        y2="33"
-                    />
-
-
-                    <!-- ============================================
+                    <!--
                          NATURAL BRISTLES
 
                          Tapered to a fine converging point at
                          (118, 31) — the true contact tip.
-                    ============================================= -->
+                    -->
 
                     <path
                         class="brush-bristles"
@@ -826,53 +813,20 @@
                         "
                     />
 
-
-                    <!-- ============================================
+                    <!--
                          INDIVIDUAL BRISTLE STRANDS
 
                          Fine converging hairs, each ending near the
                          same contact point for a believable point.
-                    ============================================= -->
+                    -->
 
-                    <path
-                        class="brush-strand"
-                        stroke="#b68d69"
-                        stroke-width=".9"
-                        d="M64 18 C79 21 96 25 116 30"
-                    />
+                    <path class="brush-strand" stroke="#b68d69" stroke-width=".9"  d="M64 18 C79 21 96 25 116 30"/>
+                    <path class="brush-strand" stroke="#a47b59" stroke-width=".75" d="M62 21 C78 24 97 28 117 32"/>
+                    <path class="brush-strand" stroke="#d0aa85" stroke-width=".6"  d="M67 16 C83 19 101 23 118 29"/>
+                    <path class="brush-strand" stroke="#60432f" stroke-width=".75" d="M63 24 C79 27 95 31 113 34"/>
+                    <path class="brush-strand" stroke="#8a6748" stroke-width=".55" d="M69 19 C86 22 103 26 118 31"/>
 
-                    <path
-                        class="brush-strand"
-                        stroke="#a47b59"
-                        stroke-width=".75"
-                        d="M62 21 C78 24 97 28 117 32"
-                    />
-
-                    <path
-                        class="brush-strand"
-                        stroke="#d0aa85"
-                        stroke-width=".6"
-                        d="M67 16 C83 19 101 23 118 29"
-                    />
-
-                    <path
-                        class="brush-strand"
-                        stroke="#60432f"
-                        stroke-width=".75"
-                        d="M63 24 C79 27 95 31 113 34"
-                    />
-
-                    <path
-                        class="brush-strand"
-                        stroke="#8a6748"
-                        stroke-width=".55"
-                        d="M69 19 C86 22 103 26 118 31"
-                    />
-
-
-                    <!-- ============================================
-                         WET PAINT LOADED ON THE TIP
-                    ============================================= -->
+                    <!-- WET PAINT LOADED ON THE TIP -->
 
                     <path
                         class="brush-paint"
@@ -898,14 +852,14 @@
                 </g>
 
 
-                <!-- ================================================
+                <!--
                      BRUSH MOTION
 
                      Translation only along the real writing path —
                      no rotate="auto". begin="indefinite": started
                      explicitly from JavaScript once that path has
                      been built from the true lettering.
-                ================================================= -->
+                -->
 
                 <animateMotion
                     id="brushMotion"
@@ -925,23 +879,17 @@
         </svg>
 
 
-        <!-- =====================================================
-             PALETTE DOTS
-        ====================================================== -->
+        <!-- PALETTE DOTS -->
 
         <div class="loader-palette" aria-hidden="true">
-
             <span class="dot dot-1"></span>
             <span class="dot dot-2"></span>
             <span class="dot dot-3"></span>
             <span class="dot dot-4"></span>
-
         </div>
 
 
-        <!-- =====================================================
-             CAPTION
-        ====================================================== -->
+        <!-- CAPTION -->
 
         <p class="loader-caption">
             Contemporary Art · Nairobi
@@ -978,7 +926,6 @@
         <p class="search-kicker">
             Search ARTSASA
         </p>
-
 
         <form
             class="search-form"
@@ -1039,33 +986,17 @@
             class="main-nav"
             aria-label="Primary">
 
-            <a href="{% url 'index'%}">
-                Home
-            </a>
+            <a href="{% url 'index'%}">Home</a>
 
-            <a href="{% url 'collection' %}">
-                Collection
-            </a>
+            <a href="{% url 'collection' %}">Collection</a>
 
-            <a href="{% url 'exhibitions' %}">
-                Exhibitions
-            </a>
+            <a href="{% url 'artists' %}">Artists</a>
 
-            <a href="{% url 'artists' %}">
-                Artists
-            </a>
+            <a href="{% url 'blog' %}">Blog</a>
 
-            <a href="{% url 'blog' %}">
-                Blog
-            </a>
+            <a href="{% url 'about' %}">About</a>
 
-            <a href="{% url 'about' %}">
-                About
-            </a>
-
-            <a href="{% url 'index' %}">
-                Visit
-            </a>
+            <a href="{% url 'index' %}">Visit</a>
 
         </nav>
 
@@ -1101,14 +1032,9 @@
                     <span
                         class="header-action-count"
                         id="wishlistCount"
-                        data-count-badge>
-
-                        0
-
-                    </span>
+                        data-count-badge>0</span>
 
                 </a>
-
 
                 <a
                     href="{% url 'cart' %}"
@@ -1120,11 +1046,7 @@
                     <span
                         class="header-action-count"
                         id="cartCount"
-                        data-count-badge>
-
-                        0
-
-                    </span>
+                        data-count-badge>0</span>
 
                 </a>
 
@@ -1153,9 +1075,7 @@
                     {% else %}
 
                         <span class="profile-avatar profile-avatar-guest">
-
                             <i class="fa-regular fa-user"></i>
-
                         </span>
 
                     {% endif %}
@@ -1219,7 +1139,6 @@
                             Settings
                         </a>
 
-
                         <form
                             action="{% url 'index' %}"
                             method="post"
@@ -1228,15 +1147,11 @@
                             {% csrf_token %}
 
                             <button type="submit">
-
                                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
-
                                 Sign Out
-
                             </button>
 
                         </form>
-
 
                     {% else %}
 
@@ -1266,25 +1181,11 @@
 
             <div class="header-social">
 
-                <a href="#" aria-label="Instagram">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-
-                <a href="#" aria-label="Facebook">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-
-                <a href="#" aria-label="X">
-                    <i class="fa-brands fa-x-twitter"></i>
-                </a>
-
-                <a href="#" aria-label="Pinterest">
-                    <i class="fa-brands fa-pinterest-p"></i>
-                </a>
-
-                <a href="#" aria-label="WhatsApp">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
+                <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
             </div>
 
@@ -1344,7 +1245,6 @@
 
         </span>
 
-
         <button
             class="mobile-nav-close"
             id="mobileNavClose"
@@ -1384,9 +1284,7 @@
             {% else %}
 
                 <span class="profile-avatar profile-avatar-guest">
-
                     <i class="fa-regular fa-user"></i>
-
                 </span>
 
                 <span class="mobile-profile-text">
@@ -1410,14 +1308,9 @@
 
             {% if user.is_authenticated %}
 
-                <a
-                    href="{% url 'index' %}"
-                    class="mp-btn">
-
+                <a href="{% url 'index' %}" class="mp-btn">
                     My Profile
-
                 </a>
-
 
                 <form
                     action="{% url 'index' %}"
@@ -1438,20 +1331,12 @@
 
             {% else %}
 
-                <a
-                    href="{% url 'index' %}"
-                    class="mp-btn">
-
+                <a href="{% url 'index' %}" class="mp-btn">
                     Sign In
-
                 </a>
 
-                <a
-                    href="{% url 'index' %}"
-                    class="mp-btn mp-btn-ghost">
-
+                <a href="{% url 'index' %}" class="mp-btn mp-btn-ghost">
                     Register
-
                 </a>
 
             {% endif %}
@@ -1467,140 +1352,46 @@
         class="mobile-nav-links"
         aria-label="Mobile primary">
 
-
         <a href="{% url 'index'%}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-house"></i>
-            </span>
-
-            <span class="nav-label">
-                Home
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+            <span class="nav-label">Home</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
-
 
         <a href="{% url 'collection' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-palette"></i>
-            </span>
-
-            <span class="nav-label">
-                Collection
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-palette"></i></span>
+            <span class="nav-label">Collection</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
-
-
-        <a href="{% url 'exhibitions' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-image"></i>
-            </span>
-
-            <span class="nav-label">
-                Exhibitions
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
-        </a>
-
 
         <a href="{% url 'artists' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-users"></i>
-            </span>
-
-            <span class="nav-label">
-                Artists
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
+            <span class="nav-label">Artists</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
-
 
         <a href="{% url 'blog' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-feather"></i>
-            </span>
-
-            <span class="nav-label">
-                Blog
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-feather"></i></span>
+            <span class="nav-label">Blog</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
-
 
         <a href="{% url 'about' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-circle-info"></i>
-            </span>
-
-            <span class="nav-label">
-                About
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-circle-info"></i></span>
+            <span class="nav-label">About</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
 
-
         <a href="{% url 'index' %}">
-
-            <span class="nav-icon">
-                <i class="fa-solid fa-location-dot"></i>
-            </span>
-
-            <span class="nav-label">
-                Visit
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span>
+            <span class="nav-label">Visit</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
 
-
         <a href="{% url 'index' %}">
-
-            <span class="nav-icon">
-                <i class="fa-regular fa-envelope"></i>
-            </span>
-
-            <span class="nav-label">
-                Contact
-            </span>
-
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
-
+            <span class="nav-icon"><i class="fa-regular fa-envelope"></i></span>
+            <span class="nav-label">Contact</span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
         </a>
 
 
@@ -1615,21 +1406,13 @@
                 <sup
                     class="nav-sup"
                     id="wishlistCountMobile"
-                    data-count-badge>
-
-                    0
-
-                </sup>
+                    data-count-badge>0</sup>
 
             </span>
 
-            <span class="nav-label">
-                Wishlist
-            </span>
+            <span class="nav-label">Wishlist</span>
 
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
 
         </a>
 
@@ -1645,21 +1428,13 @@
                 <sup
                     class="nav-sup"
                     id="cartCountMobile"
-                    data-count-badge>
-
-                    0
-
-                </sup>
+                    data-count-badge>0</sup>
 
             </span>
 
-            <span class="nav-label">
-                Cart
-            </span>
+            <span class="nav-label">Cart</span>
 
-            <span class="nav-go">
-                <i class="fa-solid fa-arrow-right"></i>
-            </span>
+            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
 
         </a>
 
@@ -1674,28 +1449,13 @@
             Follow ARTSASA
         </p>
 
-
         <div class="mobile-nav-social">
 
-            <a href="#" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-
-            <a href="#" aria-label="Facebook">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
-
-            <a href="#" aria-label="X">
-                <i class="fa-brands fa-x-twitter"></i>
-            </a>
-
-            <a href="#" aria-label="Pinterest">
-                <i class="fa-brands fa-pinterest-p"></i>
-            </a>
-
-            <a href="#" aria-label="WhatsApp">
-                <i class="fa-brands fa-whatsapp"></i>
-            </a>
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+            <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
         </div>
 
@@ -1730,14 +1490,11 @@
             </h2>
 
             <p class="newsletter-desc">
-
                 Openings, new acquisitions and studio notes —
                 sent occasionally, never noisily.
-
             </p>
 
         </div>
-
 
         <form
             class="newsletter-form"
@@ -1789,15 +1546,11 @@
 
                 </a>
 
-
                 <p class="footer-description">
-
                     A contemporary art space in Nairobi connecting
                     collectors with original works and emerging
                     artistic voices.
-
                 </p>
-
 
                 <a
                     href="{% url 'collection' %}"
@@ -1820,32 +1573,17 @@
                     Explore
                 </p>
 
-
                 <nav class="footer-links">
 
-                    <a href="{% url 'index' %}">
-                        Home
-                    </a>
+                    <a href="{% url 'index' %}">Home</a>
 
-                    <a href="{% url 'collection' %}">
-                        Collection
-                    </a>
+                    <a href="{% url 'collection' %}">Collection</a>
 
-                    <a href="{% url 'exhibitions' %}">
-                        Exhibitions
-                    </a>
+                    <a href="{% url 'artists' %}">Artists</a>
 
-                    <a href="{% url 'artists' %}">
-                        Artists
-                    </a>
+                    <a href="{% url 'blog' %}">Journal</a>
 
-                    <a href="{% url 'blog' %}">
-                        Journal
-                    </a>
-
-                    <a href="{% url 'about' %}">
-                        About ARTSASA
-                    </a>
+                    <a href="{% url 'about' %}">About ARTSASA</a>
 
                 </nav>
 
@@ -1860,93 +1598,60 @@
                     How to Buy
                 </p>
 
-
                 <div class="footer-buy">
-
 
                     <div class="footer-buy-step">
 
-                        <span class="footer-step-number">
-                            01
-                        </span>
+                        <span class="footer-step-number">01</span>
 
                         <div>
-
-                            <strong>
-                                Discover a work
-                            </strong>
-
+                            <strong>Discover a work</strong>
                             <p>
                                 Browse the collection and find a
                                 piece that speaks to you.
                             </p>
-
                         </div>
 
                     </div>
 
-
                     <div class="footer-buy-step">
 
-                        <span class="footer-step-number">
-                            02
-                        </span>
+                        <span class="footer-step-number">02</span>
 
                         <div>
-
-                            <strong>
-                                Make an enquiry
-                            </strong>
-
+                            <strong>Make an enquiry</strong>
                             <p>
                                 Add the artwork to your selection
                                 and send us an enquiry.
                             </p>
-
                         </div>
 
                     </div>
 
-
                     <div class="footer-buy-step">
 
-                        <span class="footer-step-number">
-                            03
-                        </span>
+                        <span class="footer-step-number">03</span>
 
                         <div>
-
-                            <strong>
-                                We assist you
-                            </strong>
-
+                            <strong>We assist you</strong>
                             <p>
                                 Our team confirms availability,
                                 pricing and acquisition details.
                             </p>
-
                         </div>
 
                     </div>
 
-
                     <div class="footer-buy-step">
 
-                        <span class="footer-step-number">
-                            04
-                        </span>
+                        <span class="footer-step-number">04</span>
 
                         <div>
-
-                            <strong>
-                                Collect your work
-                            </strong>
-
+                            <strong>Collect your work</strong>
                             <p>
                                 We arrange collection or delivery
                                 according to your preference.
                             </p>
-
                         </div>
 
                     </div>
@@ -1964,9 +1669,7 @@
                     Visit the Gallery
                 </p>
 
-
                 <div class="footer-hours">
-
 
                     <div class="footer-location-block">
 
@@ -1980,54 +1683,28 @@
 
                     </div>
 
-
                     <div class="footer-hours-block">
 
                         <span class="footer-mini-label">
                             Open Hours
                         </span>
 
-
                         <div class="hours-row">
-
-                            <span>
-                                Tuesday — Friday
-                            </span>
-
-                            <strong>
-                                10:00 — 18:00
-                            </strong>
-
+                            <span>Tuesday — Friday</span>
+                            <strong>10:00 — 18:00</strong>
                         </div>
 
-
                         <div class="hours-row">
-
-                            <span>
-                                Saturday
-                            </span>
-
-                            <strong>
-                                10:00 — 17:00
-                            </strong>
-
+                            <span>Saturday</span>
+                            <strong>10:00 — 17:00</strong>
                         </div>
-
 
                         <div class="hours-row hours-closed">
-
-                            <span>
-                                Sunday — Monday
-                            </span>
-
-                            <strong>
-                                Closed
-                            </strong>
-
+                            <span>Sunday — Monday</span>
+                            <strong>Closed</strong>
                         </div>
 
                     </div>
-
 
                     <a
                         href="tel:+254700000000"
@@ -2035,12 +1712,9 @@
 
                         <i class="fa-solid fa-phone"></i>
 
-                        <span>
-                            +254 700 000 000
-                        </span>
+                        <span>+254 700 000 000</span>
 
                     </a>
-
 
                     <a
                         href="mailto:hello@artsasa.com"
@@ -2048,9 +1722,7 @@
 
                         <i class="fa-regular fa-envelope"></i>
 
-                        <span>
-                            hello@artsasa.com
-                        </span>
+                        <span>hello@artsasa.com</span>
 
                     </a>
 
@@ -2067,39 +1739,20 @@
                     Connect
                 </p>
 
-
                 <p class="footer-connect-copy">
-
                     Follow exhibitions, new works and stories
                     from the artists we work with.
-
                 </p>
-
 
                 <div class="footer-social">
 
-                    <a href="#" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-
-                    <a href="#" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-
-                    <a href="#" aria-label="X">
-                        <i class="fa-brands fa-x-twitter"></i>
-                    </a>
-
-                    <a href="#" aria-label="Pinterest">
-                        <i class="fa-brands fa-pinterest-p"></i>
-                    </a>
-
-                    <a href="#" aria-label="WhatsApp">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fa-brands fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 
                 </div>
-
 
                 <a
                     href="{% url 'index' %}"
@@ -2121,22 +1774,15 @@
         <div class="footer-bottom">
 
             <div class="footer-copyright">
-
                 © {% now "Y" %} ARTSASA.
                 All rights reserved.
-
             </div>
-
 
             <div class="footer-bottom-right">
 
-                <a href="{% url 'index' %}">
-                    Privacy
-                </a>
+                <a href="{% url 'index' %}">Privacy</a>
 
-                <a href="{% url 'index' %}">
-                    Terms
-                </a>
+                <a href="{% url 'index' %}">Terms</a>
 
                 <span class="footer-made">
                     Contemporary Art · Nairobi
@@ -2168,7 +1814,6 @@
             <i class="fa-solid fa-cookie-bite"></i>
         </span>
 
-
         <div class="cookie-copy">
 
             <p class="cookie-title">
@@ -2189,7 +1834,6 @@
 
         </div>
 
-
         <div class="cookie-actions">
 
             <button
@@ -2199,7 +1843,6 @@
                 Decline
 
             </button>
-
 
             <button
                 class="cookie-btn cookie-accept"
@@ -2245,7 +1888,6 @@
         return document.querySelector(s);
     };
 
-
     var $$ = function (s) {
         return Array.prototype.slice.call(
             document.querySelectorAll(s)
@@ -2259,7 +1901,6 @@
 
     var header = $("#siteHeader");
 
-
     var onScroll = function () {
 
         if (!header) return;
@@ -2271,13 +1912,11 @@
 
     };
 
-
     window.addEventListener(
         "scroll",
         onScroll,
         { passive: true }
     );
-
 
     onScroll();
 
@@ -2303,14 +1942,9 @@
 
         toggle.classList.add("active");
 
-        toggle.setAttribute(
-            "aria-expanded",
-            "true"
-        );
+        toggle.setAttribute("aria-expanded", "true");
 
-        document.body.classList.add(
-            "menu-open"
-        );
+        document.body.classList.add("menu-open");
 
     }
 
@@ -2325,14 +1959,9 @@
 
         toggle.classList.remove("active");
 
-        toggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+        toggle.setAttribute("aria-expanded", "false");
 
-        document.body.classList.remove(
-            "menu-open"
-        );
+        document.body.classList.remove("menu-open");
 
     }
 
@@ -2355,23 +1984,16 @@
 
     if (backdrop) {
 
-        backdrop.addEventListener(
-            "click",
-            closeNav
-        );
+        backdrop.addEventListener("click", closeNav);
 
     }
 
 
     var navClose = $("#mobileNavClose");
 
-
     if (navClose) {
 
-        navClose.addEventListener(
-            "click",
-            closeNav
-        );
+        navClose.addEventListener("click", closeNav);
 
     }
 
@@ -2389,10 +2011,7 @@
 
         panel.classList.add("open");
 
-        document.body.classList.add(
-            "search-open"
-        );
-
+        document.body.classList.add("search-open");
 
         setTimeout(function () {
 
@@ -2413,9 +2032,7 @@
 
         panel.classList.remove("open");
 
-        document.body.classList.remove(
-            "search-open"
-        );
+        document.body.classList.remove("search-open");
 
     }
 
@@ -2424,23 +2041,15 @@
 
     var searchClose = $("#searchClose");
 
-
     if (searchOpen) {
 
-        searchOpen.addEventListener(
-            "click",
-            openSearch
-        );
+        searchOpen.addEventListener("click", openSearch);
 
     }
 
-
     if (searchClose) {
 
-        searchClose.addEventListener(
-            "click",
-            closeSearch
-        );
+        searchClose.addEventListener("click", closeSearch);
 
     }
 
@@ -2460,10 +2069,7 @@
 
         pMenu.classList.remove("open");
 
-        pTrigger.setAttribute(
-            "aria-expanded",
-            "false"
-        );
+        pTrigger.setAttribute("aria-expanded", "false");
 
     }
 
@@ -2476,8 +2082,7 @@
 
                 e.stopPropagation();
 
-                var open =
-                    pMenu.classList.toggle("open");
+                var open = pMenu.classList.toggle("open");
 
                 pTrigger.setAttribute(
                     "aria-expanded",
@@ -2530,159 +2135,492 @@
 
 
     /* =========================================================
-       CART / WISHLIST COUNTS
+       CART / WISHLIST COUNTS   (FIXED)
+
+       WHY THE OLD VERSION DIDN'T UPDATE
+
+         1. The badges were only painted ONCE, on page load.
+            Nothing repainted them after an add-to-cart request
+            unless the page's own script called
+            ARTSASA.renderCounts() by hand.
+
+         2. When the server-side count was 0 the template
+            printed "undefined", so the badge silently fell
+            back to a localStorage value that nothing ever
+            wrote — i.e. a stale number.
+
+       WHAT THIS VERSION DOES
+
+         - The server value (cart_count / wishlist_count from a
+           context processor) is authoritative on every page
+           load, including 0, and is mirrored to localStorage.
+
+         - Any fetch() / XMLHttpRequest that returns JSON
+           containing a cart or wishlist count updates the
+           badges immediately (see CART_KEYS / WISH_KEYS).
+
+         - Page scripts can also update the badges directly:
+
+               ARTSASA.setCartCount(3);
+               ARTSASA.setWishlistCount(5);
+               ARTSASA.renderCounts(cartCount, wishCount);
+
+           or by dispatching an event:
+
+               document.dispatchEvent(new CustomEvent(
+                   "artsasa:cart-updated", { detail: { count: 3 } }));
+
+         - Badges stay in sync across tabs and when the browser
+           restores a page from the back/forward cache.
     ========================================================== */
 
-    function readCount(
-        key,
-        serverValue
-    ) {
+    var CART_KEY = "artsasa_cart_count";
+    var WISH_KEY = "artsasa_wishlist_count";
+
+    var CART_KEYS = [
+        "cart_count", "cartCount", "cart_items_count",
+        "cart_total_items", "cart_quantity", "cart_total_quantity"
+    ];
+
+    var WISH_KEYS = [
+        "wishlist_count", "wishlistCount", "wish_count",
+        "wishlist_items_count", "wishlist_total_items"
+    ];
+
+    var GENERIC_KEYS = [
+        "count", "total_items", "item_count", "items_count"
+    ];
+
+    var badgeState = { cart: 0, wish: 0 };
+
+
+    function toCount(v) {
 
         if (
-            typeof serverValue === "number" &&
-            !isNaN(serverValue)
+            v === null ||
+            v === undefined ||
+            v === "" ||
+            typeof v === "boolean" ||
+            typeof v === "object"
         ) {
-
-            return serverValue;
-
+            return null;
         }
 
+        var n = parseInt(v, 10);
 
-        var value = parseInt(
-            localStorage.getItem(key) || "0",
-            10
-        );
-
-
-        return isNaN(value)
-            ? 0
-            : value;
+        return (isNaN(n) || n < 0) ? null : n;
 
     }
 
 
-    window.ARTSASA =
-        window.ARTSASA || {};
+    function readStored(key) {
+
+        try {
+            return toCount(localStorage.getItem(key));
+        } catch (e) {
+            return null;
+        }
+
+    }
 
 
-    window.ARTSASA.renderCounts =
-        function (cart, wish) {
+    function writeStored(key, n) {
 
-            var c = readCount(
-                "artsasa_cart_count",
-                cart
-            );
+        try {
+            localStorage.setItem(key, String(n));
+        } catch (e) {}
 
-
-            var w = readCount(
-                "artsasa_wishlist_count",
-                wish
-            );
+    }
 
 
-            [
-                ["#cartCount", c],
-                ["#cartCountMobile", c],
-                ["#wishlistCount", w],
-                ["#wishlistCountMobile", w]
-            ]
-            .forEach(function (pair) {
+    function paintBadge(selector, n, bump) {
 
-                var el = $(pair[0]);
+        var el = $(selector);
 
-                if (!el) return;
+        if (!el) return;
+
+        var label = n > 99 ? "99+" : String(n);
+
+        var changed = el.textContent.replace(/\s+/g, "") !== label;
+
+        el.textContent = label;
+
+        el.classList.toggle("is-empty", n === 0);
+
+        el.classList.toggle("has-items", n > 0);
+
+        if (bump && changed && n > 0) {
+
+            el.classList.remove("is-bump");
+
+            /* force reflow so the pulse can replay */
+            void el.offsetWidth;
+
+            el.classList.add("is-bump");
+
+        }
+
+    }
 
 
-                el.textContent =
-                    pair[1] > 99
-                        ? "99+"
-                        : pair[1];
+    function paintCounts(bumpCart, bumpWish) {
+
+        paintBadge("#cartCount",        badgeState.cart, bumpCart);
+        paintBadge("#cartCountMobile",  badgeState.cart, bumpCart);
+        paintBadge("#wishlistCount",       badgeState.wish, bumpWish);
+        paintBadge("#wishlistCountMobile", badgeState.wish, bumpWish);
+
+    }
 
 
-                el.classList.toggle(
-                    "is-empty",
-                    pair[1] === 0
-                );
+    function setCount(kind, value, bump) {
+
+        var n = toCount(value);
+
+        if (n === null) return;
+
+        if (kind === "cart") {
+
+            badgeState.cart = n;
+            writeStored(CART_KEY, n);
+            paintCounts(!!bump, false);
+
+        } else {
+
+            badgeState.wish = n;
+            writeStored(WISH_KEY, n);
+            paintCounts(false, !!bump);
+
+        }
+
+    }
 
 
-                el.classList.toggle(
-                    "has-items",
-                    pair[1] > 0
-                );
+    function syncFromStorage() {
 
-            });
+        var c = readStored(CART_KEY);
+        var w = readStored(WISH_KEY);
+
+        if (c !== null) badgeState.cart = c;
+        if (w !== null) badgeState.wish = w;
+
+        paintCounts(false, false);
+
+    }
+
+
+    function findIn(obj, keys) {
+
+        if (!obj || typeof obj !== "object") return null;
+
+        for (var i = 0; i < keys.length; i++) {
+
+            if (Object.prototype.hasOwnProperty.call(obj, keys[i])) {
+
+                var n = toCount(obj[keys[i]]);
+
+                if (n !== null) return n;
+
+            }
+
+        }
+
+        return null;
+
+    }
+
+
+    /*
+       Looks through a JSON response for cart / wishlist counts.
+       Generic keys such as "count" are only trusted when the
+       request URL (or a nested "cart" / "wishlist" object) makes
+       it clear which badge they belong to.
+    */
+
+    function scan(obj, url, depth) {
+
+        if (!obj || typeof obj !== "object" || depth > 2) return;
+
+        url = String(url || "");
+
+        var c = findIn(obj, CART_KEYS);
+        var w = findIn(obj, WISH_KEYS);
+
+        if (c !== null) setCount("cart", c, true);
+        if (w !== null) setCount("wish", w, true);
+
+        if (c === null && w === null) {
+
+            var g = findIn(obj, GENERIC_KEYS);
+
+            if (g !== null) {
+
+                if (/wish/i.test(url)) {
+                    setCount("wish", g, true);
+                } else if (/cart|basket|bag/i.test(url)) {
+                    setCount("cart", g, true);
+                }
+
+            }
+
+        }
+
+        ["data", "cart", "wishlist"].forEach(function (k) {
+
+            if (obj[k] && typeof obj[k] === "object") {
+                scan(obj[k], url + "/" + k, depth + 1);
+            }
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------------------
+       Public API
+    ------------------------------------------------------------ */
+
+    window.ARTSASA = window.ARTSASA || {};
+
+    window.ARTSASA.setCartCount = function (n) {
+        setCount("cart", n, true);
+    };
+
+    window.ARTSASA.setWishlistCount = function (n) {
+        setCount("wish", n, true);
+    };
+
+    /* Backwards-compatible with the old renderCounts(cart, wish) */
+    window.ARTSASA.renderCounts = function (cart, wish) {
+
+        if (toCount(cart) !== null) setCount("cart", cart, true);
+        if (toCount(wish) !== null) setCount("wish", wish, true);
+
+    };
+
+    window.ARTSASA.updateFromResponse = function (data) {
+        scan(data, "", 0);
+    };
+
+
+    /* ---------------------------------------------------------
+       Custom events
+    ------------------------------------------------------------ */
+
+    function detailCount(detail) {
+
+        if (detail && typeof detail === "object") {
+
+            return findIn(detail, [
+                "count", "cart_count", "cartCount",
+                "wishlist_count", "wishlistCount"
+            ]);
+
+        }
+
+        return toCount(detail);
+
+    }
+
+    document.addEventListener("artsasa:cart-updated", function (e) {
+
+        var n = detailCount(e.detail);
+
+        if (n !== null) setCount("cart", n, true);
+
+    });
+
+    document.addEventListener("artsasa:wishlist-updated", function (e) {
+
+        var n = detailCount(e.detail);
+
+        if (n !== null) setCount("wish", n, true);
+
+    });
+
+
+    /* ---------------------------------------------------------
+       Auto-update from fetch() responses
+    ------------------------------------------------------------ */
+
+    if (window.fetch && !window.fetch.__artsasaWrapped) {
+
+        var nativeFetch = window.fetch;
+
+        var wrappedFetch = function (input) {
+
+            var promise = nativeFetch.apply(this, arguments);
+
+            try {
+
+                var url = typeof input === "string"
+                    ? input
+                    : (input && input.url) || "";
+
+                promise.then(function (res) {
+
+                    try {
+
+                        var type = res.headers.get("content-type") || "";
+
+                        if (type.indexOf("json") > -1) {
+
+                            res.clone().json().then(function (data) {
+                                scan(data, url, 0);
+                            }).catch(function () {});
+
+                        }
+
+                    } catch (e) {}
+
+                }).catch(function () {});
+
+            } catch (e) {}
+
+            return promise;
 
         };
 
+        wrappedFetch.__artsasaWrapped = true;
 
-    window.ARTSASA.renderCounts(
+        window.fetch = wrappedFetch;
 
-        {% if cart_count %}
-            {{ cart_count }}
-        {% else %}
-            undefined
-        {% endif %},
+    }
 
-        {% if wishlist_count %}
-            {{ wishlist_count }}
-        {% else %}
-            undefined
-        {% endif %}
 
-    );
+    /* ---------------------------------------------------------
+       Auto-update from XMLHttpRequest / jQuery.ajax responses
+    ------------------------------------------------------------ */
+
+    if (window.XMLHttpRequest && !XMLHttpRequest.prototype.__artsasaWrapped) {
+
+        var nativeOpen = XMLHttpRequest.prototype.open;
+        var nativeSend = XMLHttpRequest.prototype.send;
+
+        XMLHttpRequest.prototype.open = function (method, url) {
+
+            this.__artsasaUrl = url;
+
+            return nativeOpen.apply(this, arguments);
+
+        };
+
+        XMLHttpRequest.prototype.send = function () {
+
+            this.addEventListener("load", function () {
+
+                try {
+
+                    var type = this.getResponseHeader("content-type") || "";
+
+                    if (type.indexOf("json") > -1) {
+
+                        scan(
+                            JSON.parse(this.responseText),
+                            this.__artsasaUrl,
+                            0
+                        );
+
+                    }
+
+                } catch (e) {}
+
+            });
+
+            return nativeSend.apply(this, arguments);
+
+        };
+
+        XMLHttpRequest.prototype.__artsasaWrapped = true;
+
+    }
+
+
+    /* ---------------------------------------------------------
+       Initial paint
+
+       Server value wins whenever the context processor supplies
+       it (including 0). localStorage is only a fallback for
+       pages that don't receive the counts.
+    ------------------------------------------------------------ */
+
+    var serverCart = toCount("{% if cart_count is not None %}{{ cart_count|escapejs }}{% endif %}");
+
+    var serverWish = toCount("{% if wishlist_count is not None %}{{ wishlist_count|escapejs }}{% endif %}");
+
+    var startCart = serverCart !== null ? serverCart : readStored(CART_KEY);
+
+    var startWish = serverWish !== null ? serverWish : readStored(WISH_KEY);
+
+    badgeState.cart = startCart === null ? 0 : startCart;
+
+    badgeState.wish = startWish === null ? 0 : startWish;
+
+    if (serverCart !== null) writeStored(CART_KEY, serverCart);
+
+    if (serverWish !== null) writeStored(WISH_KEY, serverWish);
+
+    paintCounts(false, false);
+
+
+    /* ---------------------------------------------------------
+       Keep other tabs / restored pages in sync
+    ------------------------------------------------------------ */
+
+    window.addEventListener("storage", function (e) {
+
+        if (e.key === CART_KEY || e.key === WISH_KEY) {
+            syncFromStorage();
+        }
+
+    });
+
+    window.addEventListener("pageshow", function (e) {
+
+        if (e.persisted) {
+            syncFromStorage();
+        }
+
+    });
 
 
     /* =========================================================
        TOAST
     ========================================================== */
 
-    var toastEl =
-        $("#artsasaToast");
-
+    var toastEl = $("#artsasaToast");
 
     var toastTimer;
 
+    window.ARTSASA.toast = function (msg) {
 
-    window.ARTSASA.toast =
-        function (msg) {
+        if (!toastEl) return;
 
-            if (!toastEl) return;
+        toastEl.textContent = msg;
 
+        toastEl.classList.add("show");
 
-            toastEl.textContent = msg;
+        clearTimeout(toastTimer);
 
-            toastEl.classList.add("show");
+        toastTimer = setTimeout(
+            function () {
 
+                toastEl.classList.remove("show");
 
-            clearTimeout(toastTimer);
+            },
+            2400
+        );
 
-
-            toastTimer =
-                setTimeout(
-                    function () {
-
-                        toastEl.classList.remove(
-                            "show"
-                        );
-
-                    },
-                    2400
-                );
-
-        };
+    };
 
 
     /* =========================================================
        COOKIE CONSENT
     ========================================================== */
 
-    var banner =
-        $("#cookieBanner");
+    var banner = $("#cookieBanner");
 
-
-    var COOKIE_KEY =
-        "artsasa_cookie_choice";
-
+    var COOKIE_KEY = "artsasa_cookie_choice";
 
     if (
         banner &&
@@ -2703,25 +2641,16 @@
 
     function decide(choice) {
 
-        localStorage.setItem(
-            COOKIE_KEY,
-            choice
-        );
+        localStorage.setItem(COOKIE_KEY, choice);
 
-        banner.classList.remove(
-            "show"
-        );
+        banner.classList.remove("show");
 
     }
 
 
-    var cookieAccept =
-        $("#cookieAccept");
+    var cookieAccept = $("#cookieAccept");
 
-
-    var cookieDecline =
-        $("#cookieDecline");
-
+    var cookieDecline = $("#cookieDecline");
 
     if (cookieAccept) {
 
@@ -2735,7 +2664,6 @@
         );
 
     }
-
 
     if (cookieDecline) {
 
@@ -2789,9 +2717,7 @@
 
         clearTimeout(loaderTimer);
 
-        loader.classList.add(
-            "is-active"
-        );
+        loader.classList.add("is-active");
 
     }
 
@@ -2800,9 +2726,7 @@
 
         if (!loader) return;
 
-        loader.classList.remove(
-            "is-active"
-        );
+        loader.classList.remove("is-active");
 
     }
 
@@ -2922,10 +2846,7 @@
 
         revealRect.setAttribute("x", bbox.x - 4);
         revealRect.setAttribute("y", bbox.y - pad);
-        revealRect.setAttribute(
-            "height",
-            bbox.height + pad * 2
-        );
+        revealRect.setAttribute("height", bbox.height + pad * 2);
         revealRect.setAttribute("width", 0);
 
         var fullWidth = bbox.width + 6;
@@ -2937,8 +2858,7 @@
             var text = wordText.textContent;
             var len = text.length;
 
-            var firstStart =
-                wordText.getStartPositionOfChar(0);
+            var firstStart = wordText.getStartPositionOfChar(0);
 
             pathPoints.push({
                 x: firstStart.x - 20,
@@ -2947,11 +2867,9 @@
 
             for (var i = 0; i < len; i++) {
 
-                var start =
-                    wordText.getStartPositionOfChar(i);
+                var start = wordText.getStartPositionOfChar(i);
 
-                var end =
-                    wordText.getEndPositionOfChar(i);
+                var end = wordText.getEndPositionOfChar(i);
 
                 var ch = text.charAt(i);
 
@@ -2962,8 +2880,7 @@
 
             }
 
-            var lastEnd =
-                wordText.getEndPositionOfChar(len - 1);
+            var lastEnd = wordText.getEndPositionOfChar(len - 1);
 
             pathPoints.push({
                 x: lastEnd.x + 22,
@@ -2987,10 +2904,7 @@
 
         }
 
-        brushPath.setAttribute(
-            "d",
-            buildSmoothPath(pathPoints)
-        );
+        brushPath.setAttribute("d", buildSmoothPath(pathPoints));
 
         return {
             bbox: bbox,
@@ -3010,15 +2924,11 @@
 
         if (reduceMotion) {
 
-            revealRect.setAttribute(
-                "width",
-                metrics.fullWidth
-            );
+            revealRect.setAttribute("width", metrics.fullWidth);
 
             if (underline) {
 
-                var staticLen =
-                    underline.getTotalLength();
+                var staticLen = underline.getTotalLength();
 
                 underline.style.strokeDasharray = staticLen;
                 underline.style.strokeDashoffset = 0;
@@ -3052,15 +2962,9 @@
             var startX = metrics.bbox.x;
             var endX = metrics.bbox.x + metrics.fullWidth;
 
-            wetEdge.setAttribute(
-                "y",
-                metrics.bbox.y - 20
-            );
+            wetEdge.setAttribute("y", metrics.bbox.y - 20);
 
-            wetEdge.setAttribute(
-                "height",
-                metrics.bbox.height + 40
-            );
+            wetEdge.setAttribute("height", metrics.bbox.height + 40);
 
             var wetAnim = wetEdge.animate(
                 [
@@ -3098,8 +3002,7 @@
 
         if (underline) {
 
-            var underlineLen =
-                underline.getTotalLength();
+            var underlineLen = underline.getTotalLength();
 
             underline.style.strokeDasharray = underlineLen;
             underline.style.strokeDashoffset = underlineLen;
@@ -3195,9 +3098,7 @@
        Start when DOM is ready.
     */
 
-    if (
-        document.readyState === "loading"
-    ) {
+    if (document.readyState === "loading") {
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -3243,13 +3144,9 @@
                     ? e.target.closest("a")
                     : null;
 
-
             if (!link) return;
 
-
-            var href =
-                link.getAttribute("href");
-
+            var href = link.getAttribute("href");
 
             if (!href) return;
 
@@ -3278,8 +3175,7 @@
 
             if (
                 link.hostname &&
-                link.hostname !==
-                window.location.hostname
+                link.hostname !== window.location.hostname
             ) {
 
                 return;
@@ -3324,9 +3220,7 @@
 
             if (
                 e.target &&
-                e.target.classList.contains(
-                    "search-form"
-                )
+                e.target.classList.contains("search-form")
             ) {
 
                 showLoader();
@@ -3356,8 +3250,7 @@
        REVEAL ON SCROLL
     ========================================================== */
 
-    var reveals =
-        $$(".reveal");
+    var reveals = $$(".reveal");
 
 
     if (
@@ -3365,36 +3258,28 @@
         reveals.length
     ) {
 
-        var io =
-            new IntersectionObserver(
-                function (entries) {
+        var io = new IntersectionObserver(
+            function (entries) {
 
-                    entries.forEach(
-                        function (entry) {
+                entries.forEach(
+                    function (entry) {
 
-                            if (
-                                entry.isIntersecting
-                            ) {
+                        if (entry.isIntersecting) {
 
-                                entry.target.classList.add(
-                                    "is-visible"
-                                );
+                            entry.target.classList.add("is-visible");
 
-                                io.unobserve(
-                                    entry.target
-                                );
-
-                            }
+                            io.unobserve(entry.target);
 
                         }
-                    );
 
-                },
-                {
-                    threshold: .12
-                }
-            );
+                    }
+                );
 
+            },
+            {
+                threshold: .12
+            }
+        );
 
         reveals.forEach(
             function (el) {
@@ -3404,15 +3289,12 @@
             }
         );
 
-
     } else {
 
         reveals.forEach(
             function (el) {
 
-                el.classList.add(
-                    "is-visible"
-                );
+                el.classList.add("is-visible");
 
             }
         );

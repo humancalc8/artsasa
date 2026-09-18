@@ -823,6 +823,7 @@ class BlogPost(models.Model):
         blank=True,
         null=True
     )
+    
 
     # ========================================================
     # SEO
@@ -839,7 +840,24 @@ class BlogPost(models.Model):
         blank=True,
         help_text="SEO description. Ideally around 150–160 characters."
     )
-
+    focus_keyword = models.CharField(
+    max_length=160,
+    blank=True,
+    help_text=(
+        "The main search phrase you want this article "
+        "to be found for."
+    )
+)
+    image_alt = models.CharField(
+        max_length=250,
+        blank=True,
+        help_text=(
+            "Descriptive ALT text for the featured image."
+    )
+)
+    
+    
+    
     # ========================================================
     # TIMESTAMPS
     # ========================================================

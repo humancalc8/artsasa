@@ -1,0 +1,1213 @@
+
+
+{% extends "admin/change_form.html" %}
+
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+
+    <style>
+
+        /* =====================================================
+           ARTSASA LIVE SEO ANALYZER
+        ===================================================== */
+
+        .artsasa-live-seo-wrapper {
+            margin: 24px 0 10px;
+            width: 100%;
+        }
+
+        .artsasa-live-seo {
+            background: #f1eadb;
+            border: 1px solid #d8d0c2;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(33, 30, 27, 0.06);
+        }
+
+        .artsasa-live-seo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 22px 24px;
+            border-bottom: 1px solid #d8d0c2;
+            background: #211e1b;
+            color: #fff;
+        }
+
+        .artsasa-live-seo-heading {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .artsasa-live-seo-heading strong {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: .02em;
+        }
+
+        .artsasa-live-seo-heading span {
+            font-size: 12px;
+            color: #c9bb9f;
+        }
+
+        .artsasa-live-seo-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: #c9bb9f;
+            white-space: nowrap;
+        }
+
+        .artsasa-seo-status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #7c4429;
+        }
+
+        .artsasa-seo-status-dot.active {
+            background: #5f8f6c;
+        }
+
+        .artsasa-seo-status-dot.error {
+            background: #b84b3c;
+        }
+
+        .artsasa-live-seo-body {
+            padding: 24px;
+        }
+
+        /* SCORE */
+
+        .artsasa-live-seo-score {
+            display: grid;
+            grid-template-columns: 145px 1fr;
+            gap: 25px;
+            align-items: center;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #d8d0c2;
+        }
+
+        .artsasa-score-circle {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            border: 8px solid #d0c5b3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: #fffaf0;
+            margin: auto;
+        }
+
+        .artsasa-score-circle strong {
+            font-size: 38px;
+            line-height: 1;
+            color: #211e1b;
+            font-weight: 600;
+        }
+
+        .artsasa-score-circle span {
+            margin-top: 7px;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .12em;
+            color: #6f6a63;
+        }
+
+        .artsasa-score-copy h3 {
+            margin: 0 0 7px;
+            font-size: 20px;
+            color: #211e1b;
+        }
+
+        .artsasa-score-copy p {
+            margin: 0;
+            color: #6f6a63;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .artsasa-score-bar {
+            height: 8px;
+            margin-top: 16px;
+            background: #ddd7cc;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .artsasa-score-bar span {
+            display: block;
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background: #7c4429;
+            transition: width .35s ease;
+        }
+
+        /* METRICS */
+
+        .artsasa-live-seo-metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            margin: 24px 0;
+            border: 1px solid #d8d0c2;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fffaf0;
+        }
+
+        .artsasa-live-seo-metric {
+            padding: 17px;
+            border-right: 1px solid #d8d0c2;
+        }
+
+        .artsasa-live-seo-metric:last-child {
+            border-right: 0;
+        }
+
+        .artsasa-live-seo-metric small {
+            display: block;
+            margin-bottom: 7px;
+            color: #77716a;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+        }
+
+        .artsasa-live-seo-metric strong {
+            color: #211e1b;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        /* CHECKS */
+
+        .artsasa-live-seo-section {
+            margin-top: 25px;
+        }
+
+        .artsasa-live-seo-section-title {
+            margin-bottom: 12px;
+            color: #211e1b;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+        }
+
+        .artsasa-live-seo-checks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+
+        .artsasa-live-seo-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: #fffaf0;
+            border: 1px solid #ddd7cc;
+            border-radius: 8px;
+        }
+
+        .artsasa-live-seo-check-icon {
+            width: 20px;
+            height: 20px;
+            flex: 0 0 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .artsasa-live-seo-check.good
+        .artsasa-live-seo-check-icon {
+            background: #dcebdd;
+            color: #2e6b43;
+        }
+
+        .artsasa-live-seo-check.warning
+        .artsasa-live-seo-check-icon {
+            background: #eee3cf;
+            color: #8a632d;
+        }
+
+        .artsasa-live-seo-check.bad
+        .artsasa-live-seo-check-icon {
+            background: #efd8d4;
+            color: #9b3f32;
+        }
+
+        .artsasa-live-seo-check-content strong {
+            display: block;
+            color: #211e1b;
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .artsasa-live-seo-check-content span {
+            display: block;
+            color: #77716a;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        /* RECOMMENDATIONS */
+
+        .artsasa-live-seo-recommendations {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: grid;
+            gap: 8px;
+        }
+
+        .artsasa-live-seo-recommendations li {
+            padding: 13px 15px;
+            border-left: 3px solid #7c4429;
+            background: #fffaf0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .artsasa-live-seo-recommendations strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 12px;
+            color: #211e1b;
+        }
+
+        .artsasa-live-seo-recommendations span {
+            display: block;
+            color: #6f6a63;
+            font-size: 11px;
+            line-height: 1.55;
+        }
+
+        .artsasa-seo-empty {
+            padding: 25px;
+            text-align: center;
+            color: #77716a;
+            font-size: 12px;
+        }
+
+        /* LOADING */
+
+        .artsasa-seo-loading {
+            opacity: .55;
+            pointer-events: none;
+        }
+
+        .artsasa-seo-loading .artsasa-score-bar span {
+            animation: artsasaSeoPulse 1s infinite ease-in-out;
+        }
+
+        @keyframes artsasaSeoPulse {
+            0%, 100% {
+                opacity: .35;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .artsasa-live-seo-score {
+                grid-template-columns: 1fr;
+            }
+
+            .artsasa-score-circle {
+                margin: 0;
+            }
+
+            .artsasa-live-seo-metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .artsasa-live-seo-metric:nth-child(2) {
+                border-right: 0;
+            }
+
+            .artsasa-live-seo-metric:nth-child(-n+2) {
+                border-bottom: 1px solid #d8d0c2;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .artsasa-live-seo-body {
+                padding: 17px;
+            }
+
+            .artsasa-live-seo-header {
+                padding: 18px;
+            }
+
+            .artsasa-live-seo-checks {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+{% endblock %}
+
+
+{% block after_field_sets %}
+
+    {{ block.super }}
+
+    <div class="artsasa-live-seo-wrapper">
+
+        <div
+            class="artsasa-live-seo"
+            id="artsasaLiveSeo"
+            data-url="{% url 'live_blog_seo_analyzer' %}"
+        >
+
+            <div class="artsasa-live-seo-header">
+
+                <div class="artsasa-live-seo-heading">
+                    <strong>SEO ANALYSIS</strong>
+                    <span>Live publishing assistant</span>
+                </div>
+
+                <div class="artsasa-live-seo-status">
+
+                    <span
+                        class="artsasa-seo-status-dot"
+                        id="artsasaSeoStatusDot"
+                    ></span>
+
+                    <span id="artsasaSeoStatus">
+                        Waiting for content
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="artsasa-live-seo-body">
+
+                <div class="artsasa-live-seo-score">
+
+                    <div class="artsasa-score-circle">
+
+                        <strong id="artsasaSeoScore">
+                            —
+                        </strong>
+
+                        <span>SEO Score</span>
+
+                    </div>
+
+
+                    <div class="artsasa-score-copy">
+
+                        <h3 id="artsasaSeoRating">
+                            Start writing
+                        </h3>
+
+                        <p id="artsasaSeoMessage">
+                            Add your title, focus keyword and article content
+                            to begin the live SEO analysis.
+                        </p>
+
+                        <div class="artsasa-score-bar">
+                            <span id="artsasaSeoScoreBar"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="artsasa-live-seo-metrics">
+
+                    <div class="artsasa-live-seo-metric">
+
+                        <small>Words</small>
+
+                        <strong id="artsasaSeoWords">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="artsasa-live-seo-metric">
+
+                        <small>Headings</small>
+
+                        <strong id="artsasaSeoHeadings">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="artsasa-live-seo-metric">
+
+                        <small>Links</small>
+
+                        <strong id="artsasaSeoLinks">
+                            0
+                        </strong>
+
+                    </div>
+
+
+                    <div class="artsasa-live-seo-metric">
+
+                        <small>Images</small>
+
+                        <strong id="artsasaSeoImages">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="artsasa-live-seo-section">
+
+                    <div class="artsasa-live-seo-section-title">
+                        SEO Checks
+                    </div>
+
+                    <div
+                        class="artsasa-live-seo-checks"
+                        id="artsasaSeoChecks"
+                    >
+
+                        <div class="artsasa-seo-empty">
+                            Start entering content to see SEO checks.
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="artsasa-live-seo-section">
+
+                    <div class="artsasa-live-seo-section-title">
+                        Recommendations
+                    </div>
+
+                    <ul
+                        class="artsasa-live-seo-recommendations"
+                        id="artsasaSeoRecommendations"
+                    >
+
+                        <li>
+                            <strong>Begin your article</strong>
+
+                            <span>
+                                The analyzer will provide specific
+                                recommendations as you write.
+                            </span>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+
+{% block admin_change_form_document_ready %}
+
+    {{ block.super }}
+
+    <script>
+
+        (function () {
+
+            "use strict";
+
+
+            const panel =
+                document.getElementById("artsasaLiveSeo");
+
+            if (!panel) {
+                return;
+            }
+
+
+            const form =
+                document.getElementById("blogpost_form")
+                || document.querySelector("#content-main form");
+
+            if (!form) {
+                return;
+            }
+
+
+            const endpoint =
+                panel.dataset.url;
+
+
+            const score =
+                document.getElementById("artsasaSeoScore");
+
+            const rating =
+                document.getElementById("artsasaSeoRating");
+
+            const message =
+                document.getElementById("artsasaSeoMessage");
+
+            const scoreBar =
+                document.getElementById("artsasaSeoScoreBar");
+
+            const words =
+                document.getElementById("artsasaSeoWords");
+
+            const headings =
+                document.getElementById("artsasaSeoHeadings");
+
+            const links =
+                document.getElementById("artsasaSeoLinks");
+
+            const images =
+                document.getElementById("artsasaSeoImages");
+
+            const checks =
+                document.getElementById("artsasaSeoChecks");
+
+            const recommendations =
+                document.getElementById(
+                    "artsasaSeoRecommendations"
+                );
+
+            const status =
+                document.getElementById(
+                    "artsasaSeoStatus"
+                );
+
+            const statusDot =
+                document.getElementById(
+                    "artsasaSeoStatusDot"
+                );
+
+
+            let timer = null;
+
+            let controller = null;
+
+
+            function getValue(name) {
+
+                const field =
+                    form.querySelector(
+                        `[name="${name}"]`
+                    );
+
+                return field
+                    ? field.value
+                    : "";
+
+            }
+
+
+            function getEditorContent() {
+
+                /*
+                 * Django admin editors can expose content
+                 * differently depending on the editor.
+                 */
+
+                const contentField =
+                    form.querySelector(
+                        '[name="content"]'
+                    );
+
+                if (!contentField) {
+                    return "";
+                }
+
+
+                /*
+                 * CKEditor 5
+                 */
+
+                if (
+                    window.CKEDITOR
+                    && contentField.id
+                    && window.CKEDITOR.instances
+                    && window.CKEDITOR.instances[
+                        contentField.id
+                    ]
+                ) {
+
+                    return window.CKEDITOR.instances[
+                        contentField.id
+                    ].getData();
+
+                }
+
+
+                /*
+                 * Standard textarea.
+                 */
+
+                return contentField.value || "";
+
+            }
+
+
+            function csrfToken() {
+
+                const input =
+                    form.querySelector(
+                        'input[name="csrfmiddlewaretoken"]'
+                    );
+
+                return input
+                    ? input.value
+                    : "";
+
+            }
+
+
+            function setStatus(
+                textValue,
+                type
+            ) {
+
+                status.textContent =
+                    textValue;
+
+                statusDot.classList.remove(
+                    "active",
+                    "error"
+                );
+
+                if (type === "active") {
+                    statusDot.classList.add(
+                        "active"
+                    );
+                }
+
+                if (type === "error") {
+                    statusDot.classList.add(
+                        "error"
+                    );
+                }
+
+            }
+
+
+            function escapeHtml(value) {
+
+                const div =
+                    document.createElement("div");
+
+                div.textContent =
+                    value == null
+                        ? ""
+                        : String(value);
+
+                return div.innerHTML;
+
+            }
+
+
+            function extractScore(data) {
+
+                return Number(
+                    data.score
+                    ?? data.seo_score
+                    ?? 0
+                );
+
+            }
+
+
+            function extractRating(data) {
+
+                return (
+                    data.rating
+                    || data.label
+                    || data.status
+                    || "SEO analysis"
+                );
+
+            }
+
+
+            function extractMetrics(data) {
+
+                return data.metrics || {};
+
+            }
+
+
+            function renderChecks(data) {
+
+                const source =
+                    data.checks || [];
+
+                if (
+                    !Array.isArray(source)
+                    || source.length === 0
+                ) {
+
+                    checks.innerHTML = `
+                        <div class="artsasa-seo-empty">
+                            No checks available yet.
+                        </div>
+                    `;
+
+                    return;
+
+                }
+
+
+                checks.innerHTML =
+                    source.map(function (item) {
+
+                        const passed =
+                            item.passed
+                            ?? item.success
+                            ?? item.ok
+                            ?? false;
+
+                        const state =
+                            passed
+                                ? "good"
+                                : "warning";
+
+                        const icon =
+                            passed
+                                ? "✓"
+                                : "!";
+
+                        const title =
+                            item.title
+                            || item.name
+                            || "SEO check";
+
+                        const detail =
+                            item.message
+                            || item.description
+                            || "";
+
+                        return `
+                            <div
+                                class="artsasa-live-seo-check ${state}"
+                            >
+
+                                <div
+                                    class="artsasa-live-seo-check-icon"
+                                >
+                                    ${icon}
+                                </div>
+
+                                <div
+                                    class="artsasa-live-seo-check-content"
+                                >
+
+                                    <strong>
+                                        ${escapeHtml(title)}
+                                    </strong>
+
+                                    <span>
+                                        ${escapeHtml(detail)}
+                                    </span>
+
+                                </div>
+
+                            </div>
+                        `;
+
+                    }).join("");
+
+            }
+
+
+            function renderRecommendations(data) {
+
+                const source =
+                    data.recommendations || [];
+
+
+                if (
+                    !Array.isArray(source)
+                    || source.length === 0
+                ) {
+
+                    recommendations.innerHTML = `
+                        <li>
+                            <strong>
+                                Everything looks good
+                            </strong>
+
+                            <span>
+                                No additional SEO recommendations
+                                were returned.
+                            </span>
+                        </li>
+                    `;
+
+                    return;
+
+                }
+
+
+                recommendations.innerHTML =
+                    source.map(function (item) {
+
+                        if (
+                            typeof item === "string"
+                        ) {
+
+                            return `
+                                <li>
+                                    <span>
+                                        ${escapeHtml(item)}
+                                    </span>
+                                </li>
+                            `;
+
+                        }
+
+
+                        const title =
+                            item.title
+                            || item.name
+                            || "Recommendation";
+
+                        const detail =
+                            item.message
+                            || item.description
+                            || item.text
+                            || "";
+
+                        return `
+                            <li>
+
+                                <strong>
+                                    ${escapeHtml(title)}
+                                </strong>
+
+                                <span>
+                                    ${escapeHtml(detail)}
+                                </span>
+
+                            </li>
+                        `;
+
+                    }).join("");
+
+            }
+
+
+            function render(data) {
+
+                const seoScore =
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            extractScore(data)
+                        )
+                    );
+
+
+                const seoRating =
+                    extractRating(data);
+
+
+                const metrics =
+                    extractMetrics(data);
+
+
+                score.textContent =
+                    seoScore;
+
+
+                rating.textContent =
+                    seoRating;
+
+
+                message.textContent =
+                    data.message
+                    || "SEO analysis updated from your current content.";
+
+
+                scoreBar.style.width =
+                    seoScore + "%";
+
+
+                words.textContent =
+                    metrics.word_count
+                    ?? data.word_count
+                    ?? 0;
+
+
+                headings.textContent =
+                    metrics.heading_count
+                    ?? data.heading_count
+                    ?? 0;
+
+
+                links.textContent =
+                    metrics.link_count
+                    ?? data.link_count
+                    ?? 0;
+
+
+                images.textContent =
+                    metrics.image_count
+                    ?? data.image_count
+                    ?? 0;
+
+
+                renderChecks(data);
+
+                renderRecommendations(data);
+
+            }
+
+
+            async function analyze() {
+
+                if (controller) {
+                    controller.abort();
+                }
+
+
+                controller =
+                    new AbortController();
+
+
+                panel.classList.add(
+                    "artsasa-seo-loading"
+                );
+
+
+                setStatus(
+                    "Analyzing…",
+                    "active"
+                );
+
+
+                const formData =
+                    new FormData();
+
+
+                formData.append(
+                    "title",
+                    getValue("title")
+                );
+
+
+                formData.append(
+                    "slug",
+                    getValue("slug")
+                );
+
+
+                formData.append(
+                    "excerpt",
+                    getValue("excerpt")
+                );
+
+
+                formData.append(
+                    "content",
+                    getEditorContent()
+                );
+
+
+                formData.append(
+                    "focus_keyword",
+                    getValue("focus_keyword")
+                );
+
+
+                formData.append(
+                    "meta_title",
+                    getValue("meta_title")
+                );
+
+
+                formData.append(
+                    "meta_description",
+                    getValue("meta_description")
+                );
+
+
+                formData.append(
+                    "image_alt",
+                    getValue("image_alt")
+                );
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            endpoint,
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "X-CSRFToken":
+                                        csrfToken(),
+
+                                    "X-Requested-With":
+                                        "XMLHttpRequest"
+                                },
+
+                                body: formData,
+
+                                credentials: "same-origin",
+
+                                signal:
+                                    controller.signal
+                            }
+                        );
+
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "SEO analyzer returned HTTP "
+                            + response.status
+                        );
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    render(data);
+
+
+                    setStatus(
+                        "Updated just now",
+                        "active"
+                    );
+
+                }
+                catch (error) {
+
+                    if (
+                        error.name ===
+                        "AbortError"
+                    ) {
+                        return;
+                    }
+
+
+                    console.error(
+                        "ARTSASA SEO analyzer:",
+                        error
+                    );
+
+
+                    setStatus(
+                        "Analysis unavailable",
+                        "error"
+                    );
+
+                }
+                finally {
+
+                    panel.classList.remove(
+                        "artsasa-seo-loading"
+                    );
+
+                }
+
+            }
+
+
+            function scheduleAnalysis() {
+
+                clearTimeout(timer);
+
+
+                timer =
+                    setTimeout(
+                        analyze,
+                        700
+                    );
+
+            }
+
+
+            /*
+             * Normal Django fields.
+             */
+
+            form.addEventListener(
+                "input",
+                function (event) {
+
+                    if (
+                        event.target.matches(
+                            "input, textarea, select"
+                        )
+                    ) {
+
+                        scheduleAnalysis();
+
+                    }
+
+                }
+            );
+
+
+            /*
+             * Some rich-text editors trigger
+             * change instead of input.
+             */
+
+            form.addEventListener(
+                "change",
+                function () {
+
+                    scheduleAnalysis();
+
+                }
+            );
+
+
+            /*
+             * Initial analysis.
+             */
+
+            setTimeout(
+                analyze,
+                500
+            );
+
+
+        })();
+
+    </script>
+
+{% endblock %}
