@@ -775,7 +775,7 @@ class BlogCategory(models.Model):
 # ============================================================
 # BLOG POST
 # ============================================================
-
+from django_ckeditor_5.fields import CKEditor5Field
 class BlogPost(models.Model):
 
     category = models.ForeignKey(
@@ -822,6 +822,11 @@ class BlogPost(models.Model):
     published_at = models.DateTimeField(
         blank=True,
         null=True
+    )
+    content = CKEditor5Field(
+        config_name="extends",
+        verbose_name="Article content",
+        blank=True,
     )
     
 

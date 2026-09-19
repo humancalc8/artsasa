@@ -3327,3 +3327,52 @@ body {
 .cart-count.has-items {
     transform: scale(1.08);
 }
+
+.blog-content p {
+    margin: 0 0 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: #4f4943;
+}
+
+.blog-content h2 {
+    margin: 3rem 0 1rem;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 500;
+    line-height: 1.1;
+    color: #211E1B;
+}
+
+.blog-content h3 {
+    margin: 2rem 0 1rem;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.8rem;
+    color: #211E1B;
+}
+
+.blog-content a {
+    color: #7C4429;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.blog-content blockquote {
+    margin: 2.5rem 0;
+    padding: 1.5rem 2rem;
+    border-left: 2px solid #A15C3B;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: #7C4429;
+}
+
+.blog-content ul,
+.blog-content ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.blog-content li {
+    margin-bottom: .6rem;
+}

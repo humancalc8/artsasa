@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_ckeditor_5",
 
     # ARTSASA core application
     "app",
@@ -184,7 +185,31 @@ AUTH_PASSWORD_VALIDATORS = [
             "NumericPasswordValidator",
     },
 ]
-
+CKEDITOR_5_CONFIGS = {
+    "extends": {
+        "toolbar": [
+            "heading",
+            "|",
+            "bold",
+            "italic",
+            "underline",
+            "strikethrough",
+            "|",
+            "bulletedList",
+            "numberedList",
+            "|",
+            "alignment",
+            "outdent",
+            "indent",
+            "|",
+            "link",
+            "blockQuote",
+            "|",
+            "undo",
+            "redo",
+        ],
+    },
+}
 
 # ============================================================
 # INTERNATIONALIZATION

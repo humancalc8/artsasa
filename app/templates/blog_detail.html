@@ -628,6 +628,84 @@
 }
 
 
+.artsasa-article-content figure {
+    margin: 50px 0;
+}
+
+.artsasa-article-content figure.image {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.artsasa-article-content figure.image img {
+    margin: 0;
+}
+
+.artsasa-article-content figcaption {
+    margin-top: 12px;
+    font-family:
+        "DM Sans",
+        Arial,
+        sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    letter-spacing: 0.04em;
+    color: var(--soft);
+    text-align: left;
+}
+
+.artsasa-article-content table {
+    width: 100%;
+    margin: 45px 0;
+    border-collapse: collapse;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.artsasa-article-content th,
+.artsasa-article-content td {
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+}
+
+.artsasa-article-content th {
+    font-weight: 700;
+    color: var(--ink);
+    background: rgba(33, 30, 27, 0.035);
+}
+
+.artsasa-article-content hr {
+    margin: 55px 0;
+    border: 0;
+    border-top: 1px solid var(--line);
+}
+
+.artsasa-article-content pre {
+    overflow-x: auto;
+    margin: 35px 0;
+    padding: 22px;
+    background: #211e1b;
+    color: #f1eadb;
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.artsasa-article-content code {
+    font-family: "DM Sans", Arial, sans-serif;
+    font-size: 0.92em;
+}
+
+.artsasa-article-content p:last-child,
+.artsasa-article-content ul:last-child,
+.artsasa-article-content ol:last-child,
+.artsasa-article-content blockquote:last-child {
+    margin-bottom: 0;
+}
+
+
 /* ============================================================
    AUTHOR
 ============================================================ */
@@ -864,6 +942,19 @@
     }
 
 
+    .artsasa-article-content table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        font-size: 14px;
+    }
+
+    .artsasa-article-content th,
+    .artsasa-article-content td {
+        padding: 11px 13px;
+    }
+
+
     .artsasa-article-footer {
 
         width: 88vw;
@@ -997,7 +1088,7 @@
 
         <article class="artsasa-article-content">
 
-            {{ post.content|linebreaks }}
+            {{ post.content|safe }}
 
         </article>
 
