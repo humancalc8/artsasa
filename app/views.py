@@ -434,6 +434,8 @@ from django.http import JsonResponse
 
 
 
+
+
 # =========================================================
 # REMOVE FROM CART
 # =========================================================
@@ -441,56 +443,81 @@ from django.http import JsonResponse
 @require_POST
 def remove_from_cart(request):
 
-    artwork_id = request.POST.get(
-        "artwork_id"
-    )
+    artwork_id = request.POST.get("artwork_id")
 
     if not artwork_id:
+        if _cart_is_ajax(request):
+            return JsonResponse(
+                {
+                    "success": False,
+                    "message": "No artwork was supplied.",
+                    "cart_count": _cart_count(_get_cart(request)),
+                },
+                status=400,
+            )
+
+        return redirect("cart")
+
+    # -----------------------------------------------------
+    # USE THE SAME CART AS ADD_TO_CART
+    # -----------------------------------------------------
+
+    cart = _get_cart(request)
+
+    artwork_key = str(artwork_id)
+
+    # -----------------------------------------------------
+    # REMOVE ARTWORK
+    # -----------------------------------------------------
+
+    if artwork_key in cart:
+
+        del cart[artwork_key]
+
+        request.session["cart"] = cart
+        request.session.modified = True
+
+        removed = True
+
+    else:
+
+        removed = False
+
+    # -----------------------------------------------------
+    # UPDATED AUTHORITATIVE COUNT
+    # -----------------------------------------------------
+
+    cart_count = _cart_count(cart)
+
+    # -----------------------------------------------------
+    # AJAX / FETCH REQUEST
+    # -----------------------------------------------------
+
+    if _cart_is_ajax(request):
 
         return JsonResponse(
             {
-                "success": False,
-                "message": "No artwork was supplied."
-            },
-            status=400
+                "success": True,
+                "removed": removed,
+                "cart_count": cart_count,
+                "count": cart_count,
+                "cart_items_count": cart_count,
+                "cart_total_items": cart_count,
+                "artwork_id": artwork_id,
+                "message": (
+                    "Artwork removed from your cart."
+                    if removed
+                    else "Artwork was not in your cart."
+                ),
+            }
         )
 
-    cart = get_session_cart(
-        request
-    )
+    # -----------------------------------------------------
+    # NORMAL FORM REQUEST
+    # -----------------------------------------------------
 
-    key = str(
-        artwork_id
-    )
+    return redirect("cart")
 
-    removed = key in cart
-
-    if removed:
-
-        del cart[key]
-
-        save_session_cart(
-            request,
-            cart
-        )
-
-    return JsonResponse(
-        {
-            "success": True,
-            "removed": removed,
-            "cart_count": len(cart),
-            "message": (
-                "Artwork removed from your cart."
-                if removed
-                else "Artwork was not in your cart."
-            ),
-        }
-    )
-
-
-# =========================================================
-# CART
-# =========================================================
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse
