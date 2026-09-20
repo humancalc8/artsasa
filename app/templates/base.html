@@ -1,5 +1,7 @@
 {% load static %}
+
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 
@@ -9,19 +11,14 @@
 <title>{% block title %}ARTSASA — Contemporary Art Gallery{% endblock %}</title>
 
 <meta name="description"
-      content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
+   content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
 
 <meta name="theme-color" content="#211E1B">
 
 <!-- =========================================================
      ARTSASA — FAVICON + SEARCH ENGINE IDENTITY
 ========================================================= -->
-<!--
-    logo.png is used as the live favicon so the icon works immediately
-    with the assets already used by the ARTSASA header and footer.
-    For the best Google/browser result, a dedicated square favicon.png
-    can later replace logo.png without changing the rest of the SEO code.
--->
+
 <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
 <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
 <link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/logo.png' %}">
@@ -30,14 +27,16 @@
 <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
 <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
 
-<!-- Browser / search identity -->
 <meta name="application-name" content="ARTSASA">
 <meta name="author" content="ARTSASA Contemporary Art Gallery">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<!-- Search / social preview identity -->
+<!-- =========================================================
+     OPEN GRAPH
+========================================================= -->
+
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ARTSASA">
 <meta property="og:title" content="{% block og_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
@@ -52,7 +51,10 @@
 <meta name="twitter:description" content="{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
 <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
 
-<!-- Structured data: helps Google understand the gallery and its official logo -->
+<!-- =========================================================
+     STRUCTURED DATA
+========================================================= -->
+
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
@@ -83,7 +85,6 @@
 }
 </script>
 
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -98,1179 +99,887 @@
 
 {% block extra_css %}{% endblock %}
 
-
-<!-- =========================================================
-     LOADER-SPECIFIC STYLES
-========================================================== -->
 <style>
 
-    /* =========================================================
-       ARTSASA PAGE LOADER
-    ========================================================== */
+/* =========================================================
+   PAGE LOADER
+========================================================= */
 
-    .page-loader {
-        position: fixed;
-        inset: 0;
-        z-index: 99999;
+.page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        background: #211E1B;
+    background: #211E1B;
 
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity .55s ease,
+        visibility .55s ease;
+}
+
+.page-loader.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+}
+
+.loader-stage {
+    position: relative;
+    width: min(520px, 86vw);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loader-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+}
+
+.loader-word-solid {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 88px;
+    font-weight: 500;
+    letter-spacing: -3px;
+    fill: #f5eee4;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .35));
+}
+
+.wet-edge {
+    mix-blend-mode: screen;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.loader-brush {
+    transform-box: fill-box;
+    transform: scale(.72);
+    transform-origin: center;
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+
+.loader-brush.is-visible {
+    opacity: 1;
+}
+
+.brush-contact-shadow {
+    fill: rgba(0, 0, 0, .3);
+    filter: blur(1.4px);
+}
+
+.brush-tilt {
+    filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .32));
+}
+
+.brush-handle {
+    fill: url(#brushWood);
+    stroke: #15110e;
+    stroke-width: 1;
+}
+
+.brush-handle-highlight {
+    fill: none;
+    stroke: rgba(255, 240, 215, .55);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+}
+
+.brush-ferrule {
+    fill: url(#brushMetal);
+    stroke: #14110f;
+    stroke-width: 1;
+}
+
+.brush-ferrule-line {
+    stroke: rgba(255,255,255,.35);
+    stroke-width: 1;
+}
+
+.brush-bristles {
+    fill: url(#brushBristles);
+    stroke: #17120f;
+    stroke-width: .9;
+}
+
+.brush-strand {
+    fill: none;
+    stroke-linecap: round;
+    opacity: .55;
+}
+
+.brush-paint {
+    fill: #b98b5d;
+    opacity: .9;
+}
+
+.brush-paint-highlight {
+    fill: #d0a679;
+    opacity: .55;
+}
+
+.loader-palette {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 7px;
+}
+
+.loader-palette .dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    opacity: 0;
+
+    animation:
+        paletteDot .5s ease forwards;
+}
+
+.loader-palette .dot-1 {
+    background: #b98b5d;
+    animation-delay: .35s;
+}
+
+.loader-palette .dot-2 {
+    background: #d5b28a;
+    animation-delay: .48s;
+}
+
+.loader-palette .dot-3 {
+    background: #eee2d2;
+    animation-delay: .61s;
+}
+
+.loader-palette .dot-4 {
+    background: #6e5542;
+    animation-delay: .74s;
+}
+
+.loader-caption {
+    margin: 12px 0 0;
+
+    color: rgba(245, 238, 228, .62);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 500;
+
+    letter-spacing: 3px;
+    text-transform: uppercase;
+
+    opacity: 0;
+
+    animation:
+        loaderCaption .7s ease .55s forwards;
+}
+
+@keyframes paletteDot {
+
+    0% {
         opacity: 0;
-        visibility: hidden;
-
-        pointer-events: none;
-
-        transition:
-            opacity .55s ease,
-            visibility .55s ease;
+        transform: scale(.3);
     }
 
-    .page-loader.is-active {
+    70% {
         opacity: 1;
-        visibility: visible;
-        pointer-events: all;
+        transform: scale(1.15);
+    }
+
+    100% {
+        opacity: .8;
+        transform: scale(1);
+    }
+}
+
+@keyframes loaderCaption {
+
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   COUNTER PULSE
+========================================================= */
+
+.header-action-count.is-bump,
+.nav-sup.is-bump {
+    animation: countPulse .6s ease-out;
+}
+
+@keyframes countPulse {
+
+    0% {
+        box-shadow: 0 0 0 0 rgba(185, 139, 93, .75);
+    }
+
+    100% {
+        box-shadow: 0 0 0 9px rgba(185, 139, 93, 0);
+    }
+}
+
+/* =========================================================
+   FOOTER CREDIT
+========================================================= */
+
+.footer-credit {
+    width: 100%;
+    margin-top: 26px;
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(241, 234, 219, .12);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+    flex-wrap: wrap;
+
+    text-align: center;
+
+    color: rgba(241, 234, 219, .52);
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    line-height: 1.6;
+    letter-spacing: .15px;
+}
+
+.footer-credit-label {
+    color: rgba(241, 234, 219, .42);
+}
+
+.footer-credit-name {
+    color: #f1eadb;
+    font-weight: 600;
+}
+
+.footer-credit a {
+    color: #f1eadb;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.footer-credit a i {
+    margin-right: 5px;
+    font-size: 10px;
+}
+
+.footer-credit a:hover,
+.footer-credit a:focus-visible {
+    color: #c9bb9f;
+}
+
+/* =========================================================
+   SOCIAL LINKS
+========================================================= */
+
+.header-social a,
+.mobile-nav-social a,
+.footer-social a {
+    text-decoration: none;
+}
+
+/* =========================================================
+   WHATSAPP
+========================================================= */
+
+.artsasa-whatsapp-float {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 9990;
+
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #25D366;
+    color: #ffffff;
+
+    text-decoration: none;
+
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, .24),
+        0 3px 10px rgba(0, 0, 0, .16);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease;
+}
+
+.artsasa-whatsapp-float i {
+    font-size: 27px;
+    line-height: 1;
+}
+
+.artsasa-whatsapp-float:hover,
+.artsasa-whatsapp-float:focus-visible {
+    transform: translateY(-3px);
+    background: #20bd5a;
+    color: #ffffff;
+
+    box-shadow:
+        0 14px 34px rgba(0, 0, 0, .28),
+        0 5px 13px rgba(0, 0, 0, .18);
+}
+
+.artsasa-whatsapp-float:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, .9);
+    outline-offset: 3px;
+}
+
+.artsasa-whatsapp-tooltip {
+    position: absolute;
+    right: 68px;
+    top: 50%;
+
+    transform: translateY(-50%) translateX(5px);
+
+    white-space: nowrap;
+    pointer-events: none;
+
+    padding: 8px 11px;
+    border-radius: 6px;
+
+    background: #211E1B;
+    color: #f1eadb;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity .2s ease,
+        visibility .2s ease,
+        transform .2s ease;
+}
+
+.artsasa-whatsapp-float:hover .artsasa-whatsapp-tooltip,
+.artsasa-whatsapp-float:focus-visible .artsasa-whatsapp-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(0);
+}
+
+/* =========================================================
+   PAYMENT
+========================================================= */
+
+.till-card {
+    margin-top: 12px;
+    padding: 14px 14px 12px;
+
+    border: 1px solid rgba(185, 139, 93, .55);
+    border-radius: 10px;
+
+    background: rgba(185, 139, 93, .10);
+}
+
+.till-label {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+
+    color: #d5b28a;
+}
+
+.till-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+    gap: 12px;
+
+    margin-top: 8px;
+}
+
+.till-number {
+    font-family: "DM Sans", sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    line-height: 1.1;
+
+    color: #f5eee4;
+
+    cursor: text;
+
+    -webkit-user-select: all;
+    user-select: all;
+}
+
+/* =========================================================
+   PRIVATE NOTICE
+========================================================= */
+
+.private-notice {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(20, 17, 15, .72);
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity .25s ease,
+        visibility .25s ease;
+}
+
+.private-notice.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.private-notice-box {
+    max-width: 360px;
+    padding: 30px 32px;
+
+    border: 1px solid rgba(185, 139, 93, .6);
+    border-radius: 14px;
+
+    background: #211E1B;
+    color: #f5eee4;
+
+    text-align: center;
+
+    font-family: "DM Sans", sans-serif;
+
+    box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+}
+
+.private-notice-box i {
+    display: block;
+    margin-bottom: 12px;
+
+    font-size: 26px;
+    color: #b98b5d;
+}
+
+.private-notice-box strong {
+    display: block;
+
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 26px;
+    font-weight: 500;
+}
+
+.private-notice-box span {
+    display: block;
+    margin-top: 8px;
+
+    font-size: 11px;
+    letter-spacing: .4px;
+
+    color: rgba(245, 238, 228, .6);
+}
+
+img {
+    -webkit-user-drag: none;
+}
+
+/* =========================================================
+   ANCHOR SCROLLING
+========================================================= */
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+#visit-gallery,
+#contact-footer {
+    scroll-margin-top: 90px;
+}
+
+@media (max-width: 600px) {
+
+    html {
+        scroll-padding-top: 76px;
+    }
+
+    #visit-gallery,
+    #contact-footer {
+        scroll-margin-top: 76px;
     }
 
     .loader-stage {
-        position: relative;
-
-        width: min(520px, 86vw);
-
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        width: 88vw;
     }
-
-
-    /* =========================================================
-       SVG
-    ========================================================== */
-
-    .loader-svg {
-        display: block;
-
-        width: 100%;
-        height: auto;
-
-        overflow: visible;
-    }
-
-
-    /*
-       ---------------------------------------------------------
-       WORD
-
-       The word is real, solid text — never an approximated
-       outline. It is revealed left-to-right through an
-       animated clip-path rect whose width is computed at
-       runtime from the text's own measured geometry
-       (getBBox / getComputedTextLength), so the reveal always
-       lines up perfectly with the true glyph shapes, at any
-       viewport size or fallback font.
-       ---------------------------------------------------------
-    */
 
     .loader-word-solid {
-        font-family: "Cormorant Garamond", Georgia, serif;
-
-        font-size: 88px;
-        font-weight: 500;
-
-        letter-spacing: -3px;
-
-        fill: #f5eee4;
-
-        filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .35));
+        font-size: 72px;
+        letter-spacing: -2px;
     }
-
-
-    /*
-       A soft, glossy "wet paint" highlight that travels exactly
-       at the reveal boundary, giving the impression of pigment
-       being freshly laid down by the brush tip.
-    */
-
-    .wet-edge {
-        mix-blend-mode: screen;
-        pointer-events: none;
-        opacity: 0;
-    }
-
-
-    /* =========================================================
-       UNDERLINE
-    ========================================================== */
-
-
-    /* =========================================================
-       CUSTOM PAINTBRUSH
-
-       This is NOT a Font Awesome icon.
-       It is drawn entirely with SVG shapes.
-    ========================================================== */
 
     .loader-brush {
-        transform-box: fill-box;
-
-        transform: scale(.72);
-
-        transform-origin: center;
-
-        opacity: 0;
-
-        transition: opacity .2s ease;
+        transform: scale(.62);
     }
-
-    .loader-brush.is-visible {
-        opacity: 1;
-    }
-
-
-    /*
-       A flat contact shadow that stays level with the canvas
-       (it lives outside the tilted brush group), so the tip
-       reads as actually touching down rather than floating.
-    */
-
-    .brush-contact-shadow {
-        fill: rgba(0, 0, 0, .3);
-        filter: blur(1.4px);
-    }
-
-
-    /*
-       The brush itself keeps a fixed, natural hand-angle. It is
-       only ever translated along the writing path, never spun
-       to match the path's tangent — that spinning is what made
-       the long handle read as a stick sweeping across the
-       screen rather than a brush being held and painted with.
-    */
-
-    .brush-tilt {
-        filter: drop-shadow(0 3px 3px rgba(0, 0, 0, .32));
-    }
-
-
-    /* Main wooden handle */
-
-    .brush-handle {
-        fill: url(#brushWood);
-
-        stroke: #15110e;
-        stroke-width: 1;
-    }
-
-
-    /* Handle highlight */
-
-    .brush-handle-highlight {
-        fill: none;
-
-        stroke: rgba(255, 240, 215, .55);
-        stroke-width: 1.5;
-
-        stroke-linecap: round;
-    }
-
-
-    /* Metal ferrule */
-
-    .brush-ferrule {
-        fill: url(#brushMetal);
-
-        stroke: #14110f;
-        stroke-width: 1;
-    }
-
-
-    /* Ferrule lines */
-
-    .brush-ferrule-line {
-        stroke: rgba(255,255,255,.35);
-        stroke-width: 1;
-    }
-
-
-    /* Natural bristles */
-
-    .brush-bristles {
-        fill: url(#brushBristles);
-
-        stroke: #17120f;
-        stroke-width: .9;
-    }
-
-
-    /*
-       Individual bristle strands make the brush feel less
-       like a geometric icon.
-    */
-
-    .brush-strand {
-        fill: none;
-
-        stroke-linecap: round;
-
-        opacity: .55;
-    }
-
-
-    /* =========================================================
-       PAINT CONTACT
-    ========================================================== */
-
-    .brush-paint {
-        fill: #b98b5d;
-
-        opacity: .9;
-    }
-
-    .brush-paint-highlight {
-        fill: #d0a679;
-
-        opacity: .55;
-    }
-
-
-    /* =========================================================
-       PALETTE DOTS
-    ========================================================== */
-
-    .loader-palette {
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-
-        gap: 7px;
-
-        margin-top: 7px;
-    }
-
-    .loader-palette .dot {
-        width: 5px;
-        height: 5px;
-
-        border-radius: 50%;
-
-        opacity: 0;
-
-        animation:
-            paletteDot .5s ease forwards;
-    }
-
-    .loader-palette .dot-1 {
-        background: #b98b5d;
-        animation-delay: .35s;
-    }
-
-    .loader-palette .dot-2 {
-        background: #d5b28a;
-        animation-delay: .48s;
-    }
-
-    .loader-palette .dot-3 {
-        background: #eee2d2;
-        animation-delay: .61s;
-    }
-
-    .loader-palette .dot-4 {
-        background: #6e5542;
-        animation-delay: .74s;
-    }
-
-
-    /* =========================================================
-       LOADER CAPTION
-    ========================================================== */
 
     .loader-caption {
-        margin: 12px 0 0;
-
-        color: rgba(245, 238, 228, .62);
-
-        font-family: "DM Sans", sans-serif;
-
-        font-size: 9px;
-        font-weight: 500;
-
-        letter-spacing: 3px;
-
-        text-transform: uppercase;
-
-        opacity: 0;
-
-        animation:
-            loaderCaption .7s ease .55s forwards;
+        font-size: 8px;
+        letter-spacing: 2.4px;
     }
-
-
-    /* =========================================================
-       ANIMATIONS
-    ========================================================== */
-
-    @keyframes paletteDot {
-
-        0% {
-            opacity: 0;
-            transform: scale(.3);
-        }
-
-        70% {
-            opacity: 1;
-            transform: scale(1.15);
-        }
-
-        100% {
-            opacity: .8;
-            transform: scale(1);
-        }
-
-    }
-
-    @keyframes loaderCaption {
-
-        from {
-            opacity: 0;
-            transform: translateY(5px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-    }
-
-
-    /* =========================================================
-       CART / WISHLIST BADGE — "just changed" pulse
-
-       Uses box-shadow only (never transform) so it can't fight
-       with however site.css positions the badge.
-    ========================================================== */
-
-    .header-action-count.is-bump,
-    .nav-sup.is-bump {
-        animation: countPulse .6s ease-out;
-    }
-
-    @keyframes countPulse {
-
-        0% {
-            box-shadow: 0 0 0 0 rgba(185, 139, 93, .75);
-        }
-
-        100% {
-            box-shadow: 0 0 0 9px rgba(185, 139, 93, 0);
-        }
-
-    }
-
-
-    /* =========================================================
-       MOBILE
-    ========================================================== */
-
-    @media (max-width: 600px) {
-
-        .loader-stage {
-            width: 88vw;
-        }
-
-        .loader-word-solid {
-            font-size: 72px;
-            letter-spacing: -2px;
-        }
-
-        .loader-brush {
-            transform: scale(.62);
-        }
-
-        .loader-caption {
-            font-size: 8px;
-            letter-spacing: 2.4px;
-        }
-
-    }
-
-
-    /* =========================================================
-       ACCESSIBILITY
-
-       The word-painting itself is driven entirely from
-       JavaScript (Web Animations API), where it checks
-       prefers-reduced-motion directly and, when set, shows the
-       finished word instantly with no brush movement at all.
-       Only the small ambient flourishes below are pure CSS and
-       need disabling here.
-    ========================================================== */
-
-    @media (prefers-reduced-motion: reduce) {
-
-        .loader-caption {
-            animation: none;
-            opacity: 1;
-        }
-
-        .loader-palette .dot {
-            animation: none;
-            opacity: .8;
-        }
-
-        .header-action-count.is-bump,
-        .nav-sup.is-bump {
-            animation: none;
-        }
-
-    }
-
-</style>
-
-
-<style id="artsasa-footer-credit-styles">
-    /* =========================================================
-       ARTSASA — DESIGN / DEVELOPMENT CREDIT
-       ========================================================= */
 
     .footer-credit {
-        width: 100%;
-        margin-top: 26px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(241, 234, 219, .12);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        text-align: center;
-        color: rgba(241, 234, 219, .52);
-        font-family: "DM Sans", sans-serif;
-        font-size: 11px;
-        line-height: 1.6;
-        letter-spacing: .15px;
-    }
-
-    .footer-credit-label {
-        color: rgba(241, 234, 219, .42);
-    }
-
-    .footer-credit-name {
-        color: #f1eadb;
-        font-weight: 600;
-    }
-
-    .footer-credit a {
-        color: #f1eadb;
-        text-decoration: none;
-        font-weight: 600;
-        transition: color .25s ease, opacity .25s ease;
-    }
-
-    .footer-credit a i {
-        margin-right: 5px;
+        margin-top: 22px;
+        padding-top: 18px;
         font-size: 10px;
+        gap: 5px;
     }
-
-    .footer-credit a:hover,
-    .footer-credit a:focus-visible {
-        color: #c9bb9f;
-    }
-
-    .footer-credit-separator {
-        color: rgba(241, 234, 219, .25);
-    }
-
-    /* =========================================================
-       SOCIAL LINKS
-       ========================================================= */
-
-    .header-social a,
-    .mobile-nav-social a,
-    .footer-social a {
-        text-decoration: none;
-    }
-
-    /* =========================================================
-       FLOATING WHATSAPP
-       ========================================================= */
 
     .artsasa-whatsapp-float {
-        position: fixed;
-        right: 22px;
-        bottom: 22px;
-        z-index: 9990;
+        right: 16px;
+        bottom: 16px;
 
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-
-        background: #25D366;
-        color: #ffffff;
-
-        text-decoration: none;
-        box-shadow:
-            0 10px 28px rgba(0, 0, 0, .24),
-            0 3px 10px rgba(0, 0, 0, .16);
-
-        transition:
-            transform .25s ease,
-            box-shadow .25s ease,
-            background .25s ease;
+        width: 54px;
+        height: 54px;
     }
 
     .artsasa-whatsapp-float i {
-        font-size: 27px;
-        line-height: 1;
-    }
-
-    .artsasa-whatsapp-float:hover,
-    .artsasa-whatsapp-float:focus-visible {
-        transform: translateY(-3px);
-        background: #20bd5a;
-        color: #ffffff;
-        box-shadow:
-            0 14px 34px rgba(0, 0, 0, .28),
-            0 5px 13px rgba(0, 0, 0, .18);
-    }
-
-    .artsasa-whatsapp-float:focus-visible {
-        outline: 3px solid rgba(255, 255, 255, .9);
-        outline-offset: 3px;
+        font-size: 25px;
     }
 
     .artsasa-whatsapp-tooltip {
-        position: absolute;
-        right: 68px;
-        top: 50%;
-        transform: translateY(-50%) translateX(5px);
-
-        white-space: nowrap;
-        pointer-events: none;
-
-        padding: 8px 11px;
-        border-radius: 6px;
-
-        background: #211E1B;
-        color: #f1eadb;
-
-        font-family: "DM Sans", sans-serif;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: .2px;
-
-        opacity: 0;
-        visibility: hidden;
-
-        transition:
-            opacity .2s ease,
-            visibility .2s ease,
-            transform .2s ease;
-    }
-
-    .artsasa-whatsapp-float:hover .artsasa-whatsapp-tooltip,
-    .artsasa-whatsapp-float:focus-visible .artsasa-whatsapp-tooltip {
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(-50%) translateX(0);
-    }
-
-    @media (max-width: 600px) {
-        .footer-credit {
-            margin-top: 22px;
-            padding-top: 18px;
-            font-size: 10px;
-            gap: 5px;
-        }
-
-        .artsasa-whatsapp-float {
-            right: 16px;
-            bottom: 16px;
-            width: 54px;
-            height: 54px;
-        }
-
-        .artsasa-whatsapp-float i {
-            font-size: 25px;
-        }
-
-        .artsasa-whatsapp-tooltip {
-            display: none;
-        }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .artsasa-whatsapp-float,
-        .artsasa-whatsapp-tooltip {
-            transition: none;
-        }
-    }
-</style>
-
-
-<style id="artsasa-payment-and-protection-styles">
-
-    /* =========================================================
-       PAYMENT — M-PESA TILL CARD (inside "How to Buy")
-       ========================================================= */
-
-    .till-card {
-        margin-top: 12px;
-        padding: 14px 14px 12px;
-        border: 1px solid rgba(185, 139, 93, .55);
-        border-radius: 10px;
-        background: rgba(185, 139, 93, .10);
-    }
-
-    .till-label {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-        font-family: "DM Sans", sans-serif;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1.6px;
-        text-transform: uppercase;
-        color: #d5b28a;
-    }
-
-    .till-row {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 8px;
+        display: none;
     }
 
     .till-number {
-        font-family: "DM Sans", sans-serif;
-        font-size: 30px;
-        font-weight: 700;
-        letter-spacing: 4px;
-        line-height: 1.1;
-        color: #f5eee4;
-        cursor: text;
-        -webkit-user-select: all;
-        user-select: all;          /* one click / tap selects the whole number */
+        font-size: 26px;
+        letter-spacing: 3px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
     }
 
-    .till-copy {
-        display: inline-flex;
-        align-items: center;
-        gap: 7px;
-        padding: 9px 15px;
-        border: 0;
-        border-radius: 999px;
-        background: #b98b5d;
-        color: #211E1B;
-        font-family: "DM Sans", sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: .4px;
-        cursor: pointer;
-        transition:
-            background .25s ease,
-            color .25s ease,
-            transform .2s ease;
-    }
-
-    .till-copy:hover {
-        background: #d5b28a;
-        transform: translateY(-1px);
-    }
-
-    .till-copy:focus-visible {
-        outline: 2px solid #f5eee4;
-        outline-offset: 2px;
-    }
-
-    .till-copy.is-copied {
-        background: #25D366;
-        color: #ffffff;
-    }
-
-    .till-steps {
-        margin: 11px 0 0;
-        padding-left: 18px;
-        list-style: decimal;
-        font-family: "DM Sans", sans-serif;
-        font-size: 12px;
-        line-height: 1.65;
-        color: rgba(241, 234, 219, .72);
-    }
-
-    .till-steps li {
-        margin: 0;
-        padding: 0;
-    }
-
-    .till-steps strong {
-        color: #f5eee4;
-    }
-
-    @media (max-width: 600px) {
-
-        .till-number {
-            font-size: 26px;
-            letter-spacing: 3px;
-        }
-
-    }
-
-    /* =========================================================
-       "PRIVATE ASSET" NOTICE
-       ========================================================= */
-
-    .private-notice {
-        position: fixed;
-        inset: 0;
-        z-index: 100000;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        padding: 20px;
-
-        background: rgba(20, 17, 15, .72);
-
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-
-        transition:
-            opacity .25s ease,
-            visibility .25s ease;
-    }
-
-    .private-notice.show {
+    .loader-caption {
+        animation: none;
         opacity: 1;
-        visibility: visible;
     }
 
-    .private-notice-box {
-        max-width: 360px;
-        padding: 30px 32px;
-
-        border: 1px solid rgba(185, 139, 93, .6);
-        border-radius: 14px;
-
-        background: #211E1B;
-        color: #f5eee4;
-
-        text-align: center;
-        font-family: "DM Sans", sans-serif;
-
-        box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+    .loader-palette .dot {
+        animation: none;
+        opacity: .8;
     }
 
-    .private-notice-box i {
-        display: block;
-        margin-bottom: 12px;
-        font-size: 26px;
-        color: #b98b5d;
+    .header-action-count.is-bump,
+    .nav-sup.is-bump {
+        animation: none;
     }
 
-    .private-notice-box strong {
-        display: block;
-        font-family: "Cormorant Garamond", Georgia, serif;
-        font-size: 26px;
-        font-weight: 500;
+    .artsasa-whatsapp-float {
+        transition: none;
     }
-
-    .private-notice-box span {
-        display: block;
-        margin-top: 8px;
-        font-size: 11px;
-        letter-spacing: .4px;
-        color: rgba(245, 238, 228, .6);
-    }
-
-    /* Discourage dragging artwork images out of the page */
-
-    img {
-        -webkit-user-drag: none;
-    }
+}
 
 </style>
 
 </head>
 
-
 <body>
-
 
 <!-- =============================================================
      PAGE LOADER
-
-     Custom SVG PAINT BRUSH.
-     No Font Awesome brush/pen icon is used.
 ============================================================= -->
 
 <div class="page-loader" id="pageLoader" aria-hidden="true">
 
-    <div class="loader-stage">
 
-        <svg
-            class="loader-svg"
-            viewBox="0 0 520 190"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-label="Artsasa">
+<div class="loader-stage">
 
-            <defs>
+    <svg
+        class="loader-svg"
+        viewBox="0 0 520 190"
+        xmlns="http://www.w3.org/2000/svg"
+        role="img"
+        aria-label="Artsasa">
 
-                <!-- BRUSH WOOD -->
-                <linearGradient id="brushWood" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#4b2817"/>
-                    <stop offset="25%" stop-color="#8d5935"/>
-                    <stop offset="48%" stop-color="#c08451"/>
-                    <stop offset="68%" stop-color="#754329"/>
-                    <stop offset="100%" stop-color="#3b2115"/>
-                </linearGradient>
+        <defs>
 
-                <!-- METAL FERRULE -->
-                <linearGradient id="brushMetal" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#6f706d"/>
-                    <stop offset="20%" stop-color="#c6c6bd"/>
-                    <stop offset="42%" stop-color="#f0eee4"/>
-                    <stop offset="65%" stop-color="#96968e"/>
-                    <stop offset="100%" stop-color="#555650"/>
-                </linearGradient>
+            <linearGradient id="brushWood" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#4b2817"/>
+                <stop offset="25%" stop-color="#8d5935"/>
+                <stop offset="48%" stop-color="#c08451"/>
+                <stop offset="68%" stop-color="#754329"/>
+                <stop offset="100%" stop-color="#3b2115"/>
+            </linearGradient>
 
-                <!-- NATURAL BRISTLES -->
-                <linearGradient id="brushBristles" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%" stop-color="#17120f"/>
-                    <stop offset="20%" stop-color="#3c2b21"/>
-                    <stop offset="45%" stop-color="#75533c"/>
-                    <stop offset="68%" stop-color="#3b2920"/>
-                    <stop offset="100%" stop-color="#16110e"/>
-                </linearGradient>
+            <linearGradient id="brushMetal" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#6f706d"/>
+                <stop offset="20%" stop-color="#c6c6bd"/>
+                <stop offset="42%" stop-color="#f0eee4"/>
+                <stop offset="65%" stop-color="#96968e"/>
+                <stop offset="100%" stop-color="#555650"/>
+            </linearGradient>
 
-                <!--
-                     WET-EDGE PAINT HIGHLIGHT
+            <linearGradient id="brushBristles" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#17120f"/>
+                <stop offset="20%" stop-color="#3c2b21"/>
+                <stop offset="45%" stop-color="#75533c"/>
+                <stop offset="68%" stop-color="#3b2920"/>
+                <stop offset="100%" stop-color="#16110e"/>
+            </linearGradient>
 
-                     A narrow glossy band that travels exactly at
-                     the reveal boundary, simulating fresh pigment.
-                -->
-                <linearGradient id="wetEdgeGradient" x1="0" y1="0" x2="1" y2="0">
-                    <stop offset="0%"  stop-color="#f5eee4" stop-opacity="0"/>
-                    <stop offset="50%" stop-color="#fff8ec" stop-opacity=".85"/>
-                    <stop offset="100%" stop-color="#f5eee4" stop-opacity="0"/>
-                </linearGradient>
+            <linearGradient id="wetEdgeGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#f5eee4" stop-opacity="0"/>
+                <stop offset="50%" stop-color="#fff8ec" stop-opacity=".85"/>
+                <stop offset="100%" stop-color="#f5eee4" stop-opacity="0"/>
+            </linearGradient>
 
-                <!-- SOFT BRUSH GLOW -->
-                <filter id="brushSoftShadow"
-                        x="-50%"
-                        y="-50%"
-                        width="200%"
-                        height="200%">
+            <filter id="brushSoftShadow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%">
 
-                    <feGaussianBlur
-                        in="SourceAlpha"
-                        stdDeviation="1.4"
-                        result="blur"/>
+                <feGaussianBlur
+                    in="SourceAlpha"
+                    stdDeviation="1.4"
+                    result="blur"/>
 
-                    <feOffset
-                        dy="2"
-                        result="offsetBlur"/>
+                <feOffset
+                    dy="2"
+                    result="offsetBlur"/>
 
-                    <feComponentTransfer>
-                        <feFuncA type="linear" slope=".38"/>
-                    </feComponentTransfer>
+                <feComponentTransfer>
+                    <feFuncA type="linear" slope=".38"/>
+                </feComponentTransfer>
 
-                    <feMerge>
-                        <feMergeNode/>
-                        <feMergeNode in="SourceGraphic"/>
-                    </feMerge>
+                <feMerge>
+                    <feMergeNode/>
+                    <feMergeNode in="SourceGraphic"/>
+                </feMerge>
 
-                </filter>
+            </filter>
 
-                <!--
-                     REVEAL CLIP
+            <clipPath id="loaderReveal" clipPathUnits="userSpaceOnUse">
+                <rect
+                    id="loaderRevealRect"
+                    x="0"
+                    y="0"
+                    width="0"
+                    height="0"/>
+            </clipPath>
 
-                     Its rect's width is set at runtime from the
-                     real, measured width of the word below — the
-                     brush only ever uncovers exactly as much of
-                     the true glyph shapes as it has "painted".
-                -->
-                <clipPath id="loaderReveal" clipPathUnits="userSpaceOnUse">
-                    <rect id="loaderRevealRect" x="0" y="0" width="0" height="0"/>
-                </clipPath>
+        </defs>
 
-            </defs>
+        <path
+            class="loader-stroke"
+            id="loaderUnderline"
+            d="M34 148
+               C150 176,
+               330 176,
+               470 138"
+            fill="none"/>
 
+        <g clip-path="url(#loaderReveal)">
 
-            <!-- UNDERLINE -->
+            <text
+                id="loaderWordText"
+                class="loader-word-solid"
+                x="30"
+                y="120">Artsasa</text>
 
-            <path
-                class="loader-stroke"
-                id="loaderUnderline"
-                d="M34 148
-                   C150 176,
-                   330 176,
-                   470 138"
-                fill="none"
-            />
+        </g>
 
+        <rect
+            id="loaderWetEdge"
+            class="wet-edge"
+            x="0"
+            y="40"
+            width="16"
+            height="120"
+            fill="url(#wetEdgeGradient)"/>
 
-            <!--
-                 WORD — REAL, SOLID TEXT
+        <path
+            id="brushWritingPath"
+            d="M 10 118 C 60 108, 120 92, 470 112"
+            fill="none"
+            stroke="none"
+            pathLength="1000"/>
 
-                 Revealed left-to-right through the clip-path above.
-                 Because this is genuine text (not a traced outline),
-                 the shapes uncovered are always pixel-true to what
-                 the browser itself renders.
-            -->
+        <g
+            class="loader-brush"
+            id="loaderBrushGroup">
 
-            <g clip-path="url(#loaderReveal)">
-
-                <text
-                    id="loaderWordText"
-                    class="loader-word-solid"
-                    x="30"
-                    y="120">
-
-                    Artsasa
-
-                </text>
-
-            </g>
-
-
-            <!-- WET EDGE HIGHLIGHT -->
-
-            <rect
-                id="loaderWetEdge"
-                class="wet-edge"
-                x="0"
-                y="40"
-                width="16"
-                height="120"
-                fill="url(#wetEdgeGradient)"
-            />
-
-
-            <!--
-                 INVISIBLE WRITING PATH
-
-                 Rebuilt at runtime from the ACTUAL per-letter
-                 positions of the word above (via
-                 getStartPositionOfChar / getEndPositionOfChar), so
-                 the brush is always honestly aligned over every
-                 letter it is "painting" — not moving along a
-                 decorative curve unrelated to the lettering.
-            -->
-
-            <path
-                id="brushWritingPath"
-                d="M 10 118
-                   C 60 108, 120 92, 470 112"
-
-                fill="none"
-                stroke="none"
-                pathLength="1000"
-            />
-
-
-            <!--
-                 PAINTBRUSH
-
-                 The entire brush is custom SVG.
-
-                 Structure, deliberately:
-                   - the OUTER group is the only thing animateMotion
-                     moves, and it moves by translation only — no
-                     rotate="auto". A flat contact shadow lives here
-                     too, so the shadow stays level with the canvas
-                     instead of tilting with the brush.
-                   - the INNER "brush-tilt" group holds the actual
-                     brush artwork at a fixed hand-angle, positioned
-                     so the real bristle TIP — not the middle of the
-                     handle — sits exactly at local (0,0), which is
-                     the point animateMotion is placing on the
-                     writing path. That's what makes the brush
-                     itself, not its handle, do the "painting".
-            -->
+            <ellipse
+                class="brush-contact-shadow"
+                cx="0"
+                cy="5"
+                rx="9"
+                ry="2.6"/>
 
             <g
-                class="loader-brush"
-                id="loaderBrushGroup">
+                class="brush-tilt"
+                transform="translate(-118 -31) rotate(-18 118 31)">
 
-                <ellipse
-                    class="brush-contact-shadow"
-                    cx="0"
-                    cy="5"
-                    rx="9"
-                    ry="2.6"
-                />
+                <path
+                    class="brush-handle"
+                    d="M-4 -5
+                       C-1 -9 5 -11 10 -9
+                       L55 7
+                       C60 9 63 14 61 18
+                       L58 25
+                       C56 30 51 32 46 30
+                       L3 15
+                       C-2 13 -5 8 -4 3 Z"/>
 
-                <g
-                    class="brush-tilt"
-                    transform="translate(-118 -31) rotate(-18 118 31)">
+                <path
+                    class="brush-handle-highlight"
+                    d="M7 -5 C18 0 32 6 49 12"/>
 
-                    <!-- BRUSH HANDLE -->
+                <path
+                    class="brush-ferrule"
+                    d="M45 7 L67 15 L60 35 L38 27 Z"/>
 
-                    <path
-                        class="brush-handle"
-                        d="
-                            M-4 -5
-                            C-1 -9 5 -11 10 -9
-                            L55 7
-                            C60 9 63 14 61 18
-                            L58 25
-                            C56 30 51 32 46 30
-                            L3 15
-                            C-2 13 -5 8 -4 3
-                            Z
-                        " />
+                <line
+                    class="brush-ferrule-line"
+                    x1="49"
+                    y1="9"
+                    x2="42"
+                    y2="29"/>
 
-                    <!-- HANDLE HIGHLIGHT -->
+                <line
+                    class="brush-ferrule-line"
+                    x1="59"
+                    y1="12"
+                    x2="52"
+                    y2="33"/>
 
-                    <path
-                        class="brush-handle-highlight"
-                        d="
-                            M7 -5
-                            C18 0 32 6 49 12
-                        "
-                    />
+                <path
+                    class="brush-bristles"
+                    d="M66 15
+                       C77 15 91 17 103 20
+                       C111 23 116 27 118 31
+                       C112 32 104 32 96 30
+                       C84 27 72 23 60 20 Z"/>
 
-                    <!-- FERRULE -->
+                <path
+                    class="brush-strand"
+                    stroke="#b68d69"
+                    stroke-width=".9"
+                    d="M64 18 C79 21 96 25 116 30"/>
 
-                    <path
-                        class="brush-ferrule"
-                        d="
-                            M45 7
-                            L67 15
-                            L60 35
-                            L38 27
-                            Z
-                        "
-                    />
+                <path
+                    class="brush-strand"
+                    stroke="#a47b59"
+                    stroke-width=".75"
+                    d="M62 21 C78 24 97 28 117 32"/>
 
-                    <!-- FERRULE DETAILS -->
+                <path
+                    class="brush-strand"
+                    stroke="#d0aa85"
+                    stroke-width=".6"
+                    d="M67 16 C83 19 101 23 118 29"/>
 
-                    <line class="brush-ferrule-line" x1="49" y1="9" x2="42" y2="29"/>
-                    <line class="brush-ferrule-line" x1="59" y1="12" x2="52" y2="33"/>
+                <path
+                    class="brush-strand"
+                    stroke="#60432f"
+                    stroke-width=".75"
+                    d="M63 24 C79 27 95 31 113 34"/>
 
-                    <!--
-                         NATURAL BRISTLES
+                <path
+                    class="brush-strand"
+                    stroke="#8a6748"
+                    stroke-width=".55"
+                    d="M69 19 C86 22 103 26 118 31"/>
 
-                         Tapered to a fine converging point at
-                         (118, 31) — the true contact tip.
-                    -->
+                <path
+                    class="brush-paint"
+                    d="M97 20
+                       C106 23 113 26 118 31
+                       C113 33 107 34 101 33
+                       C106 29 103 24 97 20 Z"/>
 
-                    <path
-                        class="brush-bristles"
-                        d="
-                            M66 15
-                            C77 15 91 17 103 20
-                            C111 23 116 27 118 31
-
-                            C112 32 104 32 96 30
-
-                            C84 27 72 23 60 20
-
-                            Z
-                        "
-                    />
-
-                    <!--
-                         INDIVIDUAL BRISTLE STRANDS
-
-                         Fine converging hairs, each ending near the
-                         same contact point for a believable point.
-                    -->
-
-                    <path class="brush-strand" stroke="#b68d69" stroke-width=".9"  d="M64 18 C79 21 96 25 116 30"/>
-                    <path class="brush-strand" stroke="#a47b59" stroke-width=".75" d="M62 21 C78 24 97 28 117 32"/>
-                    <path class="brush-strand" stroke="#d0aa85" stroke-width=".6"  d="M67 16 C83 19 101 23 118 29"/>
-                    <path class="brush-strand" stroke="#60432f" stroke-width=".75" d="M63 24 C79 27 95 31 113 34"/>
-                    <path class="brush-strand" stroke="#8a6748" stroke-width=".55" d="M69 19 C86 22 103 26 118 31"/>
-
-                    <!-- WET PAINT LOADED ON THE TIP -->
-
-                    <path
-                        class="brush-paint"
-                        d="
-                            M97 20
-                            C106 23 113 26 118 31
-                            C113 33 107 34 101 33
-                            C106 29 103 24 97 20
-                            Z
-                        "
-                    />
-
-                    <path
-                        class="brush-paint-highlight"
-                        d="
-                            M103 22
-                            C109 24 113 27 116 30
-                            C112 29 108 27 104 26
-                            Z
-                        "
-                    />
-
-                </g>
-
-
-                <!--
-                     BRUSH MOTION
-
-                     Translation only along the real writing path —
-                     no rotate="auto". begin="indefinite": started
-                     explicitly from JavaScript once that path has
-                     been built from the true lettering.
-                -->
-
-                <animateMotion
-                    id="brushMotion"
-                    dur="2.35s"
-                    begin="indefinite"
-                    fill="freeze"
-                    calcMode="spline"
-                    keyTimes="0;1"
-                    keySplines=".65 0 .25 1">
-
-                    <mpath href="#brushWritingPath" />
-
-                </animateMotion>
+                <path
+                    class="brush-paint-highlight"
+                    d="M103 22
+                       C109 24 113 27 116 30
+                       C112 29 108 27 104 26 Z"/>
 
             </g>
 
-        </svg>
+            <animateMotion
+                id="brushMotion"
+                dur="2.35s"
+                begin="indefinite"
+                fill="freeze"
+                calcMode="spline"
+                keyTimes="0;1"
+                keySplines=".65 0 .25 1">
 
+                <mpath href="#brushWritingPath"/>
 
-        <!-- PALETTE DOTS -->
+            </animateMotion>
 
-        <div class="loader-palette" aria-hidden="true">
-            <span class="dot dot-1"></span>
-            <span class="dot dot-2"></span>
-            <span class="dot dot-3"></span>
-            <span class="dot dot-4"></span>
-        </div>
+        </g>
 
+    </svg>
 
-        <!-- CAPTION -->
-
-        <p class="loader-caption">
-            Contemporary Art · Nairobi
-        </p>
-
+    <div class="loader-palette" aria-hidden="true">
+        <span class="dot dot-1"></span>
+        <span class="dot dot-2"></span>
+        <span class="dot dot-3"></span>
+        <span class="dot dot-4"></span>
     </div>
+
+    <p class="loader-caption">
+        Imagine . Create
+    </p>
 
 </div>
 
+
+</div>
 
 <!-- =============================================================
      SEARCH PANEL
@@ -1283,49 +992,49 @@
     aria-modal="true"
     aria-label="Search ARTSASA">
 
-    <button
-        class="search-close"
-        id="searchClose"
-        aria-label="Close search">
 
-        <i class="fa-solid fa-xmark"></i>
+<button
+    class="search-close"
+    id="searchClose"
+    aria-label="Close search">
 
-    </button>
+    <i class="fa-solid fa-xmark"></i>
 
+</button>
 
-    <div class="search-inner">
+<div class="search-inner">
 
-        <p class="search-kicker">
-            Search ARTSASA
-        </p>
+    <p class="search-kicker">
+        Search ARTSASA
+    </p>
 
-        <form
-            class="search-form"
-            action="{% url 'index' %}"
-            method="get">
+    <form
+        class="search-form"
+        action="{% url 'index' %}"
+        method="get">
 
-            <input
-                type="search"
-                name="q"
-                id="searchInput"
-                placeholder="Artists, artworks, exhibitions…"
-                autocomplete="off">
+        <input
+            type="search"
+            name="q"
+            id="searchInput"
+            placeholder="Artists, artworks, exhibitions…"
+            autocomplete="off">
 
-            <button
-                type="submit"
-                class="search-submit"
-                aria-label="Search">
+        <button
+            type="submit"
+            class="search-submit"
+            aria-label="Search">
 
-                <i class="fa-solid fa-arrow-right"></i>
+            <i class="fa-solid fa-arrow-right"></i>
 
-            </button>
+        </button>
 
-        </form>
-
-    </div>
+    </form>
 
 </div>
 
+
+</div>
 
 <!-- =============================================================
      HEADER
@@ -1335,267 +1044,324 @@
     class="site-header"
     id="siteHeader">
 
-    <div class="site-container header-inner">
+
+<div class="site-container header-inner">
+
+    <a
+        href="{% url 'index' %}"
+        class="brand"
+        aria-label="ARTSASA home">
+
+        <img
+            src="{% static 'images/logo.png' %}"
+            alt="ARTSASA">
+
+    </a>
 
 
-        <!-- LOGO -->
+    <!-- DESKTOP NAV -->
 
-        <a
-            href="{% url 'index'%}"
-            class="brand"
-            aria-label="ARTSASA home">
+    <nav
+        class="main-nav"
+        aria-label="Primary">
 
-            <img
-                src="{% static 'images/logo.png' %}"
-                alt="ARTSASA">
-
+        <a href="{% url 'index' %}">
+            Home
         </a>
 
+        <a href="{% url 'collection' %}">
+            Collection
+        </a>
 
-        <!-- DESKTOP NAV -->
+        <a href="{% url 'artists' %}">
+            Artists
+        </a>
 
-        <nav
-            class="main-nav"
-            aria-label="Primary">
+        <a href="{% url 'blog' %}">
+            Blog
+        </a>
 
-            <a href="{% url 'index'%}">Home</a>
+        <a href="{% url 'about' %}">
+            About
+        </a>
 
-            <a href="{% url 'collection' %}">Collection</a>
+        <!-- VISIT → HOMEPAGE VISIT SECTION -->
 
-            <a href="{% url 'artists' %}">Artists</a>
+        <a href="{% url 'index' %}#visit">
+            Visit
+        </a>
 
-            <a href="{% url 'blog' %}">Blog</a>
+        <!-- CONTACT → HOMEPAGE FOOTER -->
 
-            <a href="{% url 'about' %}">About</a>
+        <a href="{% url 'index' %}#contact-footer">
+            Contact
+        </a>
 
-            <a href="{% url 'index' %}">Visit</a>
-
-        </nav>
-
-
-        <!-- HEADER RIGHT -->
-
-        <div class="header-side">
+    </nav>
 
 
-            <!-- SEARCH -->
+    <!-- HEADER RIGHT -->
+
+    <div class="header-side">
+
+        <button
+            class="icon-btn"
+            id="searchOpen"
+            aria-label="Open search">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+        </button>
+
+
+        <!-- WISHLIST + CART -->
+
+        <div class="header-actions">
+
+            <a
+                href="{% url 'wishlist' %}"
+                class="header-action"
+                aria-label="Wishlist">
+
+                <i class="fa-regular fa-heart"></i>
+
+                <span
+                    class="header-action-count"
+                    id="wishlistCount"
+                    data-count-badge>0</span>
+
+            </a>
+
+            <a
+                href="{% url 'cart' %}"
+                class="header-action header-cart"
+                aria-label="Cart">
+
+                <i class="fa-solid fa-bag-shopping"></i>
+
+                <span
+                    class="header-action-count"
+                    id="cartCount"
+                    data-count-badge>0</span>
+
+            </a>
+
+        </div>
+
+
+        <!-- PROFILE -->
+
+        <div
+            class="profile-menu"
+            id="profileMenu">
 
             <button
-                class="icon-btn"
-                id="searchOpen"
-                aria-label="Open search">
+                class="profile-trigger"
+                id="profileTrigger"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-label="Account menu">
 
-                <i class="fa-solid fa-magnifying-glass"></i>
+                {% if user.is_authenticated %}
+
+                    <span class="profile-avatar">
+                        {{ user.get_username|slice:":1"|upper }}
+                    </span>
+
+                {% else %}
+
+                    <span class="profile-avatar profile-avatar-guest">
+                        <i class="fa-regular fa-user"></i>
+                    </span>
+
+                {% endif %}
+
+                <i class="fa-solid fa-chevron-down profile-caret"></i>
 
             </button>
 
 
-            <!-- WISHLIST + CART -->
-
-            <div class="header-actions">
-
-                <a
-                    href="{% url 'wishlist' %}"
-                    class="header-action"
-                    aria-label="Wishlist">
-
-                    <i class="fa-regular fa-heart"></i>
-
-                    <span
-                        class="header-action-count"
-                        id="wishlistCount"
-                        data-count-badge>0</span>
-
-                </a>
-
-                <a
-                    href="{% url 'cart' %}"
-                    class="header-action header-cart"
-                    aria-label="Cart">
-
-                    <i class="fa-solid fa-bag-shopping"></i>
-
-                    <span
-                        class="header-action-count"
-                        id="cartCount"
-                        data-count-badge>0</span>
-
-                </a>
-
-            </div>
-
-
-            <!-- PROFILE -->
-
             <div
-                class="profile-menu"
-                id="profileMenu">
+                class="profile-dropdown"
+                id="profileDropdown"
+                role="menu">
 
-                <button
-                    class="profile-trigger"
-                    id="profileTrigger"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    aria-label="Account menu">
+                <div class="profile-head">
 
                     {% if user.is_authenticated %}
 
-                        <span class="profile-avatar">
-                            {{ user.get_username|slice:":1"|upper }}
-                        </span>
+                        <p class="profile-name">
+                            {{ user.get_full_name|default:user.get_username }}
+                        </p>
+
+                        <p class="profile-mail">
+                            {{ user.email }}
+                        </p>
 
                     {% else %}
 
-                        <span class="profile-avatar profile-avatar-guest">
-                            <i class="fa-regular fa-user"></i>
-                        </span>
+                        <p class="profile-name">
+                            Welcome to ARTSASA
+                        </p>
 
-                    {% endif %}
-
-                    <i class="fa-solid fa-chevron-down profile-caret"></i>
-
-                </button>
-
-
-                <div
-                    class="profile-dropdown"
-                    id="profileDropdown"
-                    role="menu">
-
-                    <div class="profile-head">
-
-                        {% if user.is_authenticated %}
-
-                            <p class="profile-name">
-                                {{ user.get_full_name|default:user.get_username }}
-                            </p>
-
-                            <p class="profile-mail">
-                                {{ user.email }}
-                            </p>
-
-                        {% else %}
-
-                            <p class="profile-name">
-                                Welcome to ARTSASA
-                            </p>
-
-                            <p class="profile-mail">
-                                Sign in to collect and save works.
-                            </p>
-
-                        {% endif %}
-
-                    </div>
-
-
-                    {% if user.is_authenticated %}
-
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-regular fa-id-badge"></i>
-                            My Profile
-                        </a>
-
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-box-open"></i>
-                            Orders
-                        </a>
-
-                        <a href="{% url 'wishlist' %}" role="menuitem">
-                            <i class="fa-regular fa-heart"></i>
-                            Wishlist
-                        </a>
-
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-sliders"></i>
-                            Settings
-                        </a>
-
-                        <form
-                            action="{% url 'index' %}"
-                            method="post"
-                            class="profile-logout">
-
-                            {% csrf_token %}
-
-                            <button type="submit">
-                                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                                Sign Out
-                            </button>
-
-                        </form>
-
-                    {% else %}
-
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-solid fa-arrow-right-to-bracket"></i>
-                            Sign In
-                        </a>
-
-                        <a href="{% url 'index' %}" role="menuitem">
-                            <i class="fa-regular fa-pen-to-square"></i>
-                            Create Account
-                        </a>
-
-                        <a href="{% url 'wishlist' %}" role="menuitem">
-                            <i class="fa-regular fa-heart"></i>
-                            Wishlist
-                        </a>
+                        <p class="profile-mail">
+                            Sign in to collect and save works.
+                        </p>
 
                     {% endif %}
 
                 </div>
 
+
+                {% if user.is_authenticated %}
+
+                   
+
+              
+
+                    <a
+                        href="{% url 'wishlist' %}"
+                        role="menuitem">
+
+                        <i class="fa-regular fa-heart"></i>
+                        Wishlist
+
+                    </a>
+
+                    <a
+                        href="{% url 'index' %}"
+                        role="menuitem">
+
+                        <i class="fa-solid fa-sliders"></i>
+                        Settings
+
+                    </a>
+
+                    <form
+                        action="{% url 'logout' %}"
+                        method="post"
+                        class="profile-logout">
+
+                        {% csrf_token %}
+
+                        <button type="submit">
+
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Sign Out
+
+                        </button>
+
+                    </form>
+
+                {% else %}
+
+                    <!-- REAL DJANGO ALLAUTH LOGIN -->
+
+                  <a
+    href="{% url 'login' %}"
+    role="menuitem">
+    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+    Sign In
+</a>
+
+                    <!-- REAL DJANGO ALLAUTH SIGNUP -->
+
+                   <a
+    href="{% url 'register' %}"
+    role="menuitem">
+    <i class="fa-solid fa-user-plus"></i>
+    Create Account
+</a>
+
+
+                    <a
+                        href="{% url 'wishlist' %}"
+                        role="menuitem">
+
+                        <i class="fa-regular fa-heart"></i>
+                        Wishlist
+
+                    </a>
+
+                {% endif %}
+
             </div>
-
-
-            <!-- SOCIAL -->
-
-            <div class="header-social">
-                <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-                   target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="https://share.google/9LfIAg3IozD7qUaJO"
-                   target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-                <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-                   target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                    <i class="fa-brands fa-tiktok"></i>
-                </a>
-                <a href="https://ke.linkedin.com/company/artsasa"
-                   target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <i class="fa-brands fa-linkedin-in"></i>
-                </a>
-            </div>
-
-
-            <span class="header-note">
-                Nairobi · Kenya
-            </span>
-
-
-            <!-- HAMBURGER -->
-
-            <button
-                class="menu-toggle"
-                id="menuToggle"
-                aria-label="Open menu"
-                aria-expanded="false">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </button>
 
         </div>
 
+
+        <!-- SOCIAL -->
+
+        <div class="header-social">
+
+            <a
+                href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram">
+
+                <i class="fa-brands fa-instagram"></i>
+
+            </a>
+
+            <a
+                href="https://share.google/9LfIAg3IozD7qUaJO"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook">
+
+                <i class="fa-brands fa-facebook-f"></i>
+
+            </a>
+
+            <a
+                href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok">
+
+                <i class="fa-brands fa-tiktok"></i>
+
+            </a>
+
+            <a
+                href="https://ke.linkedin.com/company/artsasa"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn">
+
+                <i class="fa-brands fa-linkedin-in"></i>
+
+            </a>
+
+        </div>
+
+
+        <span class="header-note">
+            Nairobi · Kenya
+        </span>
+
+
+        <!-- HAMBURGER -->
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
     </div>
 
-</header>
+</div>
 
+
+</header>
 
 <!-- =============================================================
      MOBILE NAV BACKDROP
@@ -1606,7 +1372,6 @@
     id="mobileNavBackdrop">
 </div>
 
-
 <!-- =============================================================
      MOBILE NAV
 ============================================================= -->
@@ -1616,243 +1381,350 @@
     id="mobileNav"
     aria-label="Mobile menu">
 
-    <div class="mobile-nav-head">
 
-        <span class="mobile-nav-mark">
+<div class="mobile-nav-head">
 
-            <img
-                src="{% static 'images/logo.png' %}"
-                alt="ARTSASA">
+    <span class="mobile-nav-mark">
+
+        <img
+            src="{% static 'images/logo.png' %}"
+            alt="ARTSASA">
+
+    </span>
+
+    <button
+        class="mobile-nav-close"
+        id="mobileNavClose"
+        aria-label="Close menu">
+
+        <i class="fa-solid fa-xmark"></i>
+
+    </button>
+
+</div>
+
+
+<!-- MOBILE PROFILE -->
+
+<div class="mobile-profile">
+
+    <div class="mobile-profile-id">
+
+        {% if user.is_authenticated %}
+
+            <span class="profile-avatar">
+                {{ user.get_username|slice:":1"|upper }}
+            </span>
+
+            <span class="mobile-profile-text">
+
+                <strong>
+                    {{ user.get_full_name|default:user.get_username }}
+                </strong>
+
+                <small>
+                    {{ user.email }}
+                </small>
+
+            </span>
+
+        {% else %}
+
+            <span class="profile-avatar profile-avatar-guest">
+                <i class="fa-regular fa-user"></i>
+            </span>
+
+            <span class="mobile-profile-text">
+
+                <strong>
+                    Guest
+                </strong>
+
+                <small>
+                    Sign in to your collection
+                </small>
+
+            </span>
+
+        {% endif %}
+
+    </div>
+
+
+    <div class="mobile-profile-actions">
+
+        {% if user.is_authenticated %}
+
+        
+            <form
+                action="{% url 'logout' %}"
+                method="post"
+                class="mp-form">
+
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="mp-btn mp-btn-ghost">
+
+                    Sign Out
+
+                </button>
+
+            </form>
+
+        {% else %}
+
+                             <a
+    href="{% url 'login' %}"
+    role="menuitem">
+    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+    Sign In
+</a>
+
+            <a
+    href="{% url 'register' %}"
+    role="menuitem">
+    <i class="fa-solid fa-user-plus"></i>
+    Create Account
+</a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+<!-- MOBILE LINKS -->
+
+<nav
+    class="mobile-nav-links"
+    aria-label="Mobile primary">
+
+    <a href="{% url 'index' %}">
+        <span class="nav-icon">
+            <i class="fa-solid fa-house"></i>
+        </span>
+
+        <span class="nav-label">
+            Home
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <a href="{% url 'collection' %}">
+        <span class="nav-icon">
+            <i class="fa-solid fa-palette"></i>
+        </span>
+
+        <span class="nav-label">
+            Collection
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <a href="{% url 'artists' %}">
+        <span class="nav-icon">
+            <i class="fa-solid fa-users"></i>
+        </span>
+
+        <span class="nav-label">
+            Artists
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <a href="{% url 'blog' %}">
+        <span class="nav-icon">
+            <i class="fa-solid fa-feather"></i>
+        </span>
+
+        <span class="nav-label">
+            Blog
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <a href="{% url 'about' %}">
+        <span class="nav-icon">
+            <i class="fa-solid fa-circle-info"></i>
+        </span>
+
+        <span class="nav-label">
+            About
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+    </a>
+
+
+    <!-- VISIT -->
+
+    <a href="{% url 'index' %}#visit">
+
+        <span class="nav-icon">
+            <i class="fa-solid fa-location-dot"></i>
+        </span>
+
+        <span class="nav-label">
+            Visit
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+
+    </a>
+
+
+    <!-- CONTACT -->
+
+    <a href="{% url 'index' %}#contact-footer">
+
+        <span class="nav-icon">
+            <i class="fa-regular fa-envelope"></i>
+        </span>
+
+        <span class="nav-label">
+            Contact
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+
+    </a>
+
+
+    <!-- WISHLIST -->
+
+    <a href="{% url 'wishlist' %}">
+
+        <span class="nav-icon nav-icon-count">
+
+            <i class="fa-regular fa-heart"></i>
+
+            <sup
+                class="nav-sup"
+                id="wishlistCountMobile"
+                data-count-badge>0</sup>
 
         </span>
 
-        <button
-            class="mobile-nav-close"
-            id="mobileNavClose"
-            aria-label="Close menu">
+        <span class="nav-label">
+            Wishlist
+        </span>
 
-            <i class="fa-solid fa-xmark"></i>
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
 
-        </button>
+    </a>
+
+
+    <!-- CART -->
+
+    <a href="{% url 'cart' %}">
+
+        <span class="nav-icon nav-icon-count">
+
+            <i class="fa-solid fa-bag-shopping"></i>
+
+            <sup
+                class="nav-sup"
+                id="cartCountMobile"
+                data-count-badge>0</sup>
+
+        </span>
+
+        <span class="nav-label">
+            Cart
+        </span>
+
+        <span class="nav-go">
+            <i class="fa-solid fa-arrow-right"></i>
+        </span>
+
+    </a>
+
+</nav>
+
+
+<!-- MOBILE SOCIAL -->
+
+<div class="mobile-nav-foot">
+
+    <p class="mobile-nav-foot-label">
+        Follow ARTSASA
+    </p>
+
+    <div class="mobile-nav-social">
+
+        <a
+            href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram">
+
+            <i class="fa-brands fa-instagram"></i>
+
+        </a>
+
+        <a
+            href="https://share.google/9LfIAg3IozD7qUaJO"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook">
+
+            <i class="fa-brands fa-facebook-f"></i>
+
+        </a>
+
+        <a
+            href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="TikTok">
+
+            <i class="fa-brands fa-tiktok"></i>
+
+        </a>
+
+        <a
+            href="https://ke.linkedin.com/company/artsasa"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn">
+
+            <i class="fa-brands fa-linkedin-in"></i>
+
+        </a>
 
     </div>
 
+</div>
 
-    <!-- MOBILE PROFILE -->
-
-    <div class="mobile-profile">
-
-        <div class="mobile-profile-id">
-
-            {% if user.is_authenticated %}
-
-                <span class="profile-avatar">
-                    {{ user.get_username|slice:":1"|upper }}
-                </span>
-
-                <span class="mobile-profile-text">
-
-                    <strong>
-                        {{ user.get_full_name|default:user.get_username }}
-                    </strong>
-
-                    <small>
-                        {{ user.email }}
-                    </small>
-
-                </span>
-
-            {% else %}
-
-                <span class="profile-avatar profile-avatar-guest">
-                    <i class="fa-regular fa-user"></i>
-                </span>
-
-                <span class="mobile-profile-text">
-
-                    <strong>
-                        Guest
-                    </strong>
-
-                    <small>
-                        Sign in to your collection
-                    </small>
-
-                </span>
-
-            {% endif %}
-
-        </div>
-
-
-        <div class="mobile-profile-actions">
-
-            {% if user.is_authenticated %}
-
-                <a href="{% url 'index' %}" class="mp-btn">
-                    My Profile
-                </a>
-
-                <form
-                    action="{% url 'index' %}"
-                    method="post"
-                    class="mp-form">
-
-                    {% csrf_token %}
-
-                    <button
-                        type="submit"
-                        class="mp-btn mp-btn-ghost">
-
-                        Sign Out
-
-                    </button>
-
-                </form>
-
-            {% else %}
-
-                <a href="{% url 'index' %}" class="mp-btn">
-                    Sign In
-                </a>
-
-                <a href="{% url 'index' %}" class="mp-btn mp-btn-ghost">
-                    Register
-                </a>
-
-            {% endif %}
-
-        </div>
-
-    </div>
-
-
-    <!-- MOBILE LINKS -->
-
-    <nav
-        class="mobile-nav-links"
-        aria-label="Mobile primary">
-
-        <a href="{% url 'index'%}">
-            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
-            <span class="nav-label">Home</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'collection' %}">
-            <span class="nav-icon"><i class="fa-solid fa-palette"></i></span>
-            <span class="nav-label">Collection</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'artists' %}">
-            <span class="nav-icon"><i class="fa-solid fa-users"></i></span>
-            <span class="nav-label">Artists</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'blog' %}">
-            <span class="nav-icon"><i class="fa-solid fa-feather"></i></span>
-            <span class="nav-label">Blog</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'about' %}">
-            <span class="nav-icon"><i class="fa-solid fa-circle-info"></i></span>
-            <span class="nav-label">About</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'index' %}">
-            <span class="nav-icon"><i class="fa-solid fa-location-dot"></i></span>
-            <span class="nav-label">Visit</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-        <a href="{% url 'index' %}">
-            <span class="nav-icon"><i class="fa-regular fa-envelope"></i></span>
-            <span class="nav-label">Contact</span>
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-        </a>
-
-
-        <!-- WISHLIST -->
-
-        <a href="{% url 'wishlist' %}">
-
-            <span class="nav-icon nav-icon-count">
-
-                <i class="fa-regular fa-heart"></i>
-
-                <sup
-                    class="nav-sup"
-                    id="wishlistCountMobile"
-                    data-count-badge>0</sup>
-
-            </span>
-
-            <span class="nav-label">Wishlist</span>
-
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-
-        </a>
-
-
-        <!-- CART -->
-
-        <a href="{% url 'cart' %}">
-
-            <span class="nav-icon nav-icon-count">
-
-                <i class="fa-solid fa-bag-shopping"></i>
-
-                <sup
-                    class="nav-sup"
-                    id="cartCountMobile"
-                    data-count-badge>0</sup>
-
-            </span>
-
-            <span class="nav-label">Cart</span>
-
-            <span class="nav-go"><i class="fa-solid fa-arrow-right"></i></span>
-
-        </a>
-
-    </nav>
-
-
-    <!-- MOBILE SOCIAL -->
-
-    <div class="mobile-nav-foot">
-
-        <p class="mobile-nav-foot-label">
-            Follow ARTSASA
-        </p>
-
-        <div class="mobile-nav-social">
-            <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-               target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://share.google/9LfIAg3IozD7qUaJO"
-               target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-               target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                <i class="fa-brands fa-tiktok"></i>
-            </a>
-            <a href="https://ke.linkedin.com/company/artsasa"
-               target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                <i class="fa-brands fa-linkedin-in"></i>
-            </a>
-        </div>
-
-    </div>
 
 </aside>
-
 
 <!-- =============================================================
      PAGE CONTENT
@@ -1860,213 +1732,265 @@
 
 <main class="page-content">
 
-    {% block content %}{% endblock %}
+
+{% block content %}{% endblock %}
+
 
 </main>
 
-
 <!-- =============================================================
-     NEWSLETTER BAND
+     NEWSLETTER
 ============================================================= -->
 
 <section class="newsletter-band">
 
-    <div class="site-container newsletter-inner">
 
-        <div class="newsletter-copy">
+<div class="site-container newsletter-inner">
 
-            <h2 class="newsletter-title">
-                Stay close to the work
-            </h2>
+    <div class="newsletter-copy">
 
-            <p class="newsletter-desc">
-                Openings, new acquisitions and studio notes —
-                sent occasionally, never noisily.
-            </p>
+        <h2 class="newsletter-title">
+            Stay close to the work
+        </h2>
 
-        </div>
-
-        <form
-            class="newsletter-form"
-            action="{% url 'index' %}"
-            method="post">
-
-            {% csrf_token %}
-
-            <input
-                type="email"
-                name="email"
-                placeholder="Your email address"
-                required>
-
-            <button type="submit">
-                Subscribe
-            </button>
-
-        </form>
+        <p class="newsletter-desc">
+            Openings, new acquisitions and studio notes —
+            sent occasionally, never noisily.
+        </p>
 
     </div>
 
-</section>
+    <form
+        class="newsletter-form"
+        action="{% url 'index' %}"
+        method="post">
 
+        {% csrf_token %}
+
+        <input
+            type="email"
+            name="email"
+            placeholder="Your email address"
+            required>
+
+        <button type="submit">
+            Subscribe
+        </button>
+
+    </form>
+
+</div>
+
+
+</section>
 
 <!-- =============================================================
      FOOTER
+     
+     CONTACT NAVIGATION TARGET
 ============================================================= -->
 
-<footer class="site-footer">
-
-    <div class="site-container">
-
-
-        <div class="footer-grid">
+<footer
+    class="site-footer"
+    id="contact-footer">
 
 
-            <!-- BRAND -->
+<div class="site-container">
 
-            <div class="footer-column footer-brand-column">
+    <div class="footer-grid">
 
-                <a
-                    href="{% url 'index' %}"
-                    class="footer-brand">
 
-                    <img
-                        src="{% static 'images/logo2.png' %}"
-                        alt="ARTSASA Contemporary Art Gallery">
+        <!-- BRAND -->
 
+        <div class="footer-column footer-brand-column">
+
+            <a
+                href="{% url 'index' %}"
+                class="footer-brand">
+
+                <img
+                    src="{% static 'images/logo2.png' %}"
+                    alt="ARTSASA Contemporary Art Gallery">
+
+            </a>
+
+            <p class="footer-description">
+
+                A contemporary art space in Nairobi connecting
+                collectors with original works and emerging
+                artistic voices.
+
+            </p>
+
+            <a
+                href="{% url 'collection' %}"
+                class="footer-discover-link">
+
+                Explore the collection
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+            </a>
+
+        </div>
+
+
+        <!-- EXPLORE -->
+
+        <div class="footer-column">
+
+            <p class="footer-heading">
+                Explore
+            </p>
+
+            <nav class="footer-links">
+
+                <a href="{% url 'index' %}">
+                    Home
                 </a>
 
-                <p class="footer-description">
-                    A contemporary art space in Nairobi connecting
-                    collectors with original works and emerging
-                    artistic voices.
-                </p>
-
-                <a
-                    href="{% url 'collection' %}"
-                    class="footer-discover-link">
-
-                    Explore the collection
-
-                    <i class="fa-solid fa-arrow-right"></i>
-
+                <a href="{% url 'collection' %}">
+                    Collection
                 </a>
 
-            </div>
+                <a href="{% url 'artists' %}">
+                    Artists
+                </a>
+
+                <a href="{% url 'blog' %}">
+                    Journal
+                </a>
+
+                <a href="{% url 'about' %}">
+                    About ARTSASA
+                </a>
+
+                <a href="{% url 'index' %}#visit-gallery">
+                    Visit
+                </a>
+
+            </nav>
+
+        </div>
 
 
-            <!-- EXPLORE -->
+        <!-- HOW TO BUY -->
 
-            <div class="footer-column">
+        <div class="footer-column">
 
-                <p class="footer-heading">
-                    Explore
-                </p>
+            <p class="footer-heading">
+                How to Buy
+            </p>
 
-                <nav class="footer-links">
+            <div class="footer-buy">
 
-                    <a href="{% url 'index' %}">Home</a>
+                <div class="footer-buy-step">
 
-                    <a href="{% url 'collection' %}">Collection</a>
+                    <span class="footer-step-number">
+                        01
+                    </span>
 
-                    <a href="{% url 'artists' %}">Artists</a>
+                    <div>
 
-                    <a href="{% url 'blog' %}">Journal</a>
+                        <strong>
+                            Discover a work
+                        </strong>
 
-                    <a href="{% url 'about' %}">About ARTSASA</a>
-
-                </nav>
-
-            </div>
-
-
-            <!-- HOW TO BUY -->
-
-            <div class="footer-column">
-
-                <p class="footer-heading">
-                    How to Buy
-                </p>
-
-                <div class="footer-buy">
-
-                    <div class="footer-buy-step">
-
-                        <span class="footer-step-number">01</span>
-
-                        <div>
-                            <strong>Discover a work</strong>
-                            <p>
-                                Browse the collection and find a
-                                piece that speaks to you.
-                            </p>
-                        </div>
+                        <p>
+                            Browse the collection and find a
+                            piece that speaks to you.
+                        </p>
 
                     </div>
 
-                    <div class="footer-buy-step">
+                </div>
 
-                        <span class="footer-step-number">02</span>
 
-                        <div>
-                            <strong>Make an enquiry</strong>
-                            <p>
-                                Add the artwork to your selection
-                                and send us an enquiry.
-                            </p>
-                        </div>
+                <div class="footer-buy-step">
 
-                    </div>
+                    <span class="footer-step-number">
+                        02
+                    </span>
 
-                    <div class="footer-buy-step">
+                    <div>
 
-                        <span class="footer-step-number">03</span>
+                        <strong>
+                            Make an enquiry
+                        </strong>
 
-                        <div>
-                            <strong>We assist you</strong>
-                            <p>
-                                Our team confirms availability,
-                                pricing and acquisition details.
-                            </p>
-                        </div>
+                        <p>
+                            Add the artwork to your selection
+                            and send us an enquiry.
+                        </p>
 
                     </div>
 
-                    <!-- PAYMENT -->
+                </div>
 
-                    <div class="footer-buy-step footer-buy-step-pay">
 
-                        <span class="footer-step-number">04</span>
+                <div class="footer-buy-step">
 
-                        <div>
+                    <span class="footer-step-number">
+                        03
+                    </span>
 
-                            <strong>Make payment</strong>
+                    <div>
 
-                            <p>
-                                Once the price is confirmed, pay securely
-                                via M-Pesa and send us the confirmation
-                                message.
-                            </p>
+                        <strong>
+                            We assist you
+                        </strong>
 
-                            <div class="till-card">
+                        <p>
+                            Our team confirms availability,
+                            pricing and acquisition details.
+                        </p>
 
-                                <span class="till-label">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    M-Pesa · Till Number
+                    </div>
+
+                </div>
+
+
+                <!-- PAYMENT -->
+
+                <div class="footer-buy-step footer-buy-step-pay">
+
+                    <span class="footer-step-number">
+                        04
+                    </span>
+
+                    <div>
+
+                        <strong>
+                            Make payment
+                        </strong>
+
+                        <p>
+                            Once the price is confirmed, pay securely
+                            via M-Pesa and send us the confirmation
+                            message.
+                        </p>
+
+                        <div class="till-card">
+
+                            <span class="till-label">
+
+                                <i class="fa-solid fa-mobile-screen-button"></i>
+
+                                M-Pesa · Till Number
+
+                            </span>
+
+                            <div class="till-row">
+
+                                <span
+                                    class="till-number"
+                                    id="tillNumber"
+                                    data-till="973810"
+                                    data-allow-copy>
+
+                                    973810
+
                                 </span>
-
-                                <div class="till-row">
-
-                                    <span
-                                        class="till-number"
-                                        id="tillNumber"
-                                        data-till="973810"
-                                        data-allow-copy>973810</span>
-
-
-                                </div>
-
-                               
 
                             </div>
 
@@ -2074,134 +1998,153 @@
 
                     </div>
 
-                    <div class="footer-buy-step">
-
-                        <span class="footer-step-number">05</span>
-
-                        <div>
-                            <strong>Collect your work</strong>
-                            <p>
-                                We arrange collection or delivery
-                                according to your preference.
-                            </p>
-                        </div>
-
-                    </div>
-
                 </div>
 
-            </div>
 
+                <div class="footer-buy-step">
 
-            <!-- OPEN HOURS -->
+                    <span class="footer-step-number">
+                        05
+                    </span>
 
-            <div class="footer-column">
+                    <div>
 
-                <p class="footer-heading">
-                    Visit the Gallery
-                </p>
-
-                <div class="footer-hours">
-
-                    <div class="footer-location-block">
-
-                        <span class="footer-mini-label">
-                            Nairobi
-                        </span>
+                        <strong>
+                            Collect your work
+                        </strong>
 
                         <p>
-                            Kenya
+                            We arrange collection or delivery
+                            according to your preference.
                         </p>
 
                     </div>
 
-                    <div class="footer-hours-block">
-
-                        <span class="footer-mini-label">
-                            Open Hours
-                        </span>
-
-                        <div class="hours-row">
-                            <span>Tuesday — Friday</span>
-                            <strong>10:00 — 18:00</strong>
-                        </div>
-
-                        <div class="hours-row">
-                            <span>Saturday</span>
-                            <strong>10:00 — 17:00</strong>
-                        </div>
-
-                        <div class="hours-row hours-closed">
-                            <span>Sunday — Monday</span>
-                            <strong>Closed</strong>
-                        </div>
-
-                    </div>
-
-                    <a
-                        href="tel:+25472798319"
-                        class="footer-contact-link">
-
-                        <i class="fa-solid fa-phone"></i>
-
-                        <span>0727 983 19</span>
-
-                    </a>
-
-                    <a
-                        href="mailto:hello@artsasa.com"
-                        class="footer-contact-link">
-
-                        <i class="fa-regular fa-envelope"></i>
-
-                        <span>hello@artsasa.com</span>
-
-                    </a>
-
                 </div>
 
             </div>
 
+        </div>
 
-            <!-- CONNECT -->
 
-            <div class="footer-column">
+        <!-- =================================================
+             VISIT / CONTACT
+             
+             This is also the target of:
+             /#visit-gallery
+        ================================================== -->
 
-                <p class="footer-heading">
-                    Connect
-                </p>
+        <div
+            class="footer-column"
+            id="visit-gallery">
 
-                <p class="footer-connect-copy">
-                    Follow exhibitions, new works and stories
-                    from the artists we work with.
-                </p>
+            <p class="footer-heading">
+                Visit the Gallery
+            </p>
 
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-                       target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                        <i class="fa-brands fa-instagram"></i>
-                    </a>
-                    <a href="https://share.google/9LfIAg3IozD7qUaJO"
-                       target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                        <i class="fa-brands fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-                       target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                        <i class="fa-brands fa-tiktok"></i>
-                    </a>
-                    <a href="https://ke.linkedin.com/company/artsasa"
-                       target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                        <i class="fa-brands fa-linkedin-in"></i>
-                    </a>
+            <div class="footer-hours">
+
+                <div class="footer-location-block">
+
+                    <span class="footer-mini-label">
+                        Nairobi
+                    </span>
+
+                    <p>
+                        Kenya
+                    </p>
+
                 </div>
 
+
+                <div class="footer-hours-block">
+
+                    <span class="footer-mini-label">
+                        Open Hours
+                    </span>
+
+                    <div class="hours-row">
+
+                        <span>
+                            Tuesday — Friday
+                        </span>
+
+                        <strong>
+                            10:00 — 18:00
+                        </strong>
+
+                    </div>
+
+                    <div class="hours-row">
+
+                        <span>
+                            Saturday
+                        </span>
+
+                        <strong>
+                            10:00 — 17:00
+                        </strong>
+
+                    </div>
+
+                    <div class="hours-row hours-closed">
+
+                        <span>
+                            Sunday — Monday
+                        </span>
+
+                        <strong>
+                            Closed
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DIRECTIONS -->
+
                 <a
-                    href="{% url 'index' %}"
-                    class="footer-contact-cta">
+                    href="https://www.google.com/maps/search/?api=1&query=ARTSASA+Contemporary+Art+Gallery+Nairobi"
+                    class="footer-contact-link"
+                    target="_blank"
+                    rel="noopener noreferrer">
 
-                    Contact ARTSASA
+                    <i class="fa-solid fa-location-arrow"></i>
 
-                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                    <span>
+                        Get directions
+                    </span>
+
+                </a>
+
+
+                <!-- PHONE -->
+
+                <a
+                    href="tel:+25472798319"
+                    class="footer-contact-link">
+
+                    <i class="fa-solid fa-phone"></i>
+
+                    <span>
+                        0727 983 19
+                    </span>
+
+                </a>
+
+
+                <!-- EMAIL -->
+
+                <a
+                    href="mailto:hello@artsasa.com"
+                    class="footer-contact-link">
+
+                    <i class="fa-regular fa-envelope"></i>
+
+                    <span>
+                        hello@artsasa.com
+                    </span>
 
                 </a>
 
@@ -2210,72 +2153,165 @@
         </div>
 
 
-        <!-- FOOTER BOTTOM -->
+        <!-- CONNECT -->
 
-        <div class="footer-bottom">
+        <div class="footer-column">
 
-            <div class="footer-copyright">
-                © {% now "Y" %} ARTSASA.
-                All rights reserved.
+            <p class="footer-heading">
+                Connect
+            </p>
+
+            <p class="footer-connect-copy">
+
+                Follow exhibitions, new works and stories
+                from the artists we work with.
+
+            </p>
+
+            <div class="footer-social">
+
+                <a
+                    href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram">
+
+                    <i class="fa-brands fa-instagram"></i>
+
+                </a>
+
+                <a
+                    href="https://share.google/9LfIAg3IozD7qUaJO"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook">
+
+                    <i class="fa-brands fa-facebook-f"></i>
+
+                </a>
+
+                <a
+                    href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="TikTok">
+
+                    <i class="fa-brands fa-tiktok"></i>
+
+                </a>
+
+                <a
+                    href="https://ke.linkedin.com/company/artsasa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn">
+
+                    <i class="fa-brands fa-linkedin-in"></i>
+
+                </a>
+
             </div>
 
-            <div class="footer-bottom-right">
-
-                <a href="{% url 'index' %}">Privacy</a>
-
-                <a href="{% url 'index' %}">Terms</a>
-
-                <span class="footer-made">
-                    Contemporary Art · Nairobi
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <!-- DESIGN / DEVELOPMENT CREDIT -->
-
-        <div class="footer-credit">
-
-            <span class="footer-credit-label">Designed &amp; developed by</span>
-
-            <span class="footer-credit-name">TingsTech Technologies</span>
-
-            <span class="footer-credit-separator">&amp;</span>
-
-            <span class="footer-credit-name">Arcana Systems and Engineering</span>
-
-            <span class="footer-credit-separator">·</span>
-
-            <a href="tel:+254727698319" aria-label="Call the website designers">
-                <i class="fa-solid fa-phone"></i> 0727 698 319
-            </a>
+            <!--
+                The old "Contact ARTSASA" button has been
+                deliberately removed as requested.
+            -->
 
         </div>
 
     </div>
 
+
+    <!-- FOOTER BOTTOM -->
+
+    <div class="footer-bottom">
+
+        <div class="footer-copyright">
+
+            © {% now "Y" %} ARTSASA.
+            All rights reserved.
+
+        </div>
+
+        <div class="footer-bottom-right">
+
+            <a href="{% url 'index' %}">
+                Privacy
+            </a>
+
+            <a href="{% url 'index' %}">
+                Terms
+            </a>
+
+            <span class="footer-made">
+                Imagine . Create
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- DESIGN / DEVELOPMENT CREDIT -->
+
+    <div class="footer-credit">
+
+        <span class="footer-credit-label">
+            Designed &amp; developed by
+        </span>
+
+        <span class="footer-credit-name">
+            TingsTech Technologies
+        </span>
+
+        <span class="footer-credit-separator">
+            &amp;
+        </span>
+
+        <span class="footer-credit-name">
+            Arcana Systems and Engineering
+        </span>
+
+        <span class="footer-credit-separator">
+            ·
+        </span>
+
+        <a
+            href="tel:+254727698319"
+            aria-label="Call the website designers">
+
+            <i class="fa-solid fa-phone"></i>
+            0727 698 319
+
+        </a>
+
+    </div>
+
+</div>
+
+
 </footer>
 
-
 <!-- =============================================================
-     FLOATING WHATSAPP BUTTON
+     WHATSAPP
 ============================================================= -->
 
 <a
-    href="https://wa.me/254742814824?text=Hello%20ARTSASA%2C%20I%27d%20like%20to%20enquire%20about%20an%20artwork."
-    class="artsasa-whatsapp-float"
-    target="_blank"
-    rel="noopener noreferrer"
-    aria-label="Chat with ARTSASA on WhatsApp">
+ href="https://wa.me/254742814824?text=Hello%20ARTSASA%2C%20I%27d%20like%20to%20enquire%20about%20an%20artwork."
+ class="artsasa-whatsapp-float"
+ target="_blank"
+ rel="noopener noreferrer"
+ aria-label="Chat with ARTSASA on WhatsApp">
 
-    <i class="fa-brands fa-whatsapp"></i>
 
-    <span class="artsasa-whatsapp-tooltip">Chat on WhatsApp</span>
+<i class="fa-brands fa-whatsapp"></i>
+
+<span class="artsasa-whatsapp-tooltip">
+    Chat on WhatsApp
+</span>
+
 
 </a>
-
 
 <!-- =============================================================
      COOKIE CONSENT
@@ -2288,56 +2324,57 @@
     aria-live="polite"
     aria-label="Cookie notice">
 
-    <div class="cookie-inner">
 
-        <span class="cookie-mark">
-            <i class="fa-solid fa-cookie-bite"></i>
-        </span>
+<div class="cookie-inner">
 
-        <div class="cookie-copy">
+    <span class="cookie-mark">
+        <i class="fa-solid fa-cookie-bite"></i>
+    </span>
 
-            <p class="cookie-title">
-                We use cookies
-            </p>
+    <div class="cookie-copy">
 
-            <p class="cookie-text">
+        <p class="cookie-title">
+            We use cookies
+        </p>
 
-                ARTSASA uses cookies to remember your cart,
-                your saved works and to understand how the
-                gallery is browsed.
+        <p class="cookie-text">
 
-                <a href="{% url 'index' %}">
-                    Privacy policy
-                </a>
+            ARTSASA uses cookies to remember your cart,
+            your saved works and to understand how the
+            gallery is browsed.
 
-            </p>
+            <a href="{% url 'index' %}">
+                Privacy policy
+            </a>
 
-        </div>
+        </p>
 
-        <div class="cookie-actions">
+    </div>
 
-            <button
-                class="cookie-btn cookie-decline"
-                id="cookieDecline">
+    <div class="cookie-actions">
 
-                Decline
+        <button
+            class="cookie-btn cookie-decline"
+            id="cookieDecline">
 
-            </button>
+            Decline
 
-            <button
-                class="cookie-btn cookie-accept"
-                id="cookieAccept">
+        </button>
 
-                Accept
+        <button
+            class="cookie-btn cookie-accept"
+            id="cookieAccept">
 
-            </button>
+            Accept
 
-        </div>
+        </button>
 
     </div>
 
 </div>
 
+
+</div>
 
 <!-- =============================================================
      TOAST
@@ -2348,10 +2385,8 @@
     id="artsasaToast">
 </div>
 
-
 <!-- =============================================================
-     "PRIVATE ASSET" NOTICE
-     (shown when inspect / view-source shortcuts are used)
+     PRIVATE ASSET NOTICE
 ============================================================= -->
 
 <div
@@ -2361,21 +2396,26 @@
     aria-live="assertive"
     aria-label="Private asset notice">
 
-    <div class="private-notice-box">
 
-        <i class="fa-solid fa-lock"></i>
+<div class="private-notice-box">
 
-        <strong>This is a private asset</strong>
+    <i class="fa-solid fa-lock"></i>
 
-        <span>© ARTSASA. All rights reserved.</span>
+    <strong>
+        This is a private asset
+    </strong>
 
-    </div>
+    <span>
+        © ARTSASA. All rights reserved.
+    </span>
 
 </div>
 
 
+</div>
+
 <!-- =============================================================
-     SCRIPTS
+     MAIN JAVASCRIPT
 ============================================================= -->
 
 <script>
@@ -2401,7 +2441,7 @@
 
 
     /* =========================================================
-       HEADER SCROLL STATE
+       HEADER SCROLL
     ========================================================== */
 
     var header = $("#siteHeader");
@@ -2431,11 +2471,8 @@
     ========================================================== */
 
     var nav = $("#mobileNav");
-
     var backdrop = $("#mobileNavBackdrop");
-
     var toggle = $("#menuToggle");
-
 
     function openNav() {
 
@@ -2443,16 +2480,18 @@
 
         nav.classList.add("open");
 
-        backdrop.classList.add("open");
+        if (backdrop) {
+            backdrop.classList.add("open");
+        }
 
-        toggle.classList.add("active");
-
-        toggle.setAttribute("aria-expanded", "true");
+        if (toggle) {
+            toggle.classList.add("active");
+            toggle.setAttribute("aria-expanded", "true");
+        }
 
         document.body.classList.add("menu-open");
 
     }
-
 
     function closeNav() {
 
@@ -2460,16 +2499,18 @@
 
         nav.classList.remove("open");
 
-        backdrop.classList.remove("open");
+        if (backdrop) {
+            backdrop.classList.remove("open");
+        }
 
-        toggle.classList.remove("active");
-
-        toggle.setAttribute("aria-expanded", "false");
+        if (toggle) {
+            toggle.classList.remove("active");
+            toggle.setAttribute("aria-expanded", "false");
+        }
 
         document.body.classList.remove("menu-open");
 
     }
-
 
     if (toggle) {
 
@@ -2486,29 +2527,53 @@
 
     }
 
-
     if (backdrop) {
-
-        backdrop.addEventListener("click", closeNav);
-
+        backdrop.addEventListener(
+            "click",
+            closeNav
+        );
     }
-
 
     var navClose = $("#mobileNavClose");
 
     if (navClose) {
-
-        navClose.addEventListener("click", closeNav);
-
+        navClose.addEventListener(
+            "click",
+            closeNav
+        );
     }
 
 
     /* =========================================================
-       SEARCH PANEL
+       CLOSE MOBILE MENU AFTER INTERNAL NAVIGATION
+    ========================================================== */
+
+    document.addEventListener(
+        "click",
+        function (e) {
+
+            var link = e.target.closest
+                ? e.target.closest("a")
+                : null;
+
+            if (!link) return;
+
+            if (
+                link.matches(".mobile-nav a") &&
+                link.getAttribute("href")
+            ) {
+                closeNav();
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       SEARCH
     ========================================================== */
 
     var panel = $("#searchPanel");
-
 
     function openSearch() {
 
@@ -2530,7 +2595,6 @@
 
     }
 
-
     function closeSearch() {
 
         if (!panel) return;
@@ -2541,21 +2605,21 @@
 
     }
 
-
     var searchOpen = $("#searchOpen");
-
     var searchClose = $("#searchClose");
 
     if (searchOpen) {
-
-        searchOpen.addEventListener("click", openSearch);
-
+        searchOpen.addEventListener(
+            "click",
+            openSearch
+        );
     }
 
     if (searchClose) {
-
-        searchClose.addEventListener("click", closeSearch);
-
+        searchClose.addEventListener(
+            "click",
+            closeSearch
+        );
     }
 
 
@@ -2564,9 +2628,7 @@
     ========================================================== */
 
     var pMenu = $("#profileMenu");
-
     var pTrigger = $("#profileTrigger");
-
 
     function closeProfile() {
 
@@ -2574,10 +2636,12 @@
 
         pMenu.classList.remove("open");
 
-        pTrigger.setAttribute("aria-expanded", "false");
+        pTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
     }
-
 
     if (pTrigger) {
 
@@ -2599,7 +2663,6 @@
 
     }
 
-
     document.addEventListener(
         "click",
         function (e) {
@@ -2608,9 +2671,7 @@
                 pMenu &&
                 !pMenu.contains(e.target)
             ) {
-
                 closeProfile();
-
             }
 
         }
@@ -2618,7 +2679,7 @@
 
 
     /* =========================================================
-       ESCAPE KEY
+       ESCAPE
     ========================================================== */
 
     document.addEventListener(
@@ -2628,9 +2689,7 @@
             if (e.key === "Escape") {
 
                 closeSearch();
-
                 closeNav();
-
                 closeProfile();
 
             }
@@ -2641,48 +2700,39 @@
 
     /* =========================================================
        CART / WISHLIST COUNTS
-
-         - The server value (cart_count / wishlist_count from a
-           context processor) is authoritative on every page
-           load, including 0, and is mirrored to localStorage.
-
-         - Any fetch() / XMLHttpRequest that returns JSON
-           containing a cart or wishlist count updates the
-           badges immediately (see CART_KEYS / WISH_KEYS).
-
-         - Page scripts can also update the badges directly:
-
-               ARTSASA.setCartCount(3);
-               ARTSASA.setWishlistCount(5);
-               ARTSASA.renderCounts(cartCount, wishCount);
-
-           or by dispatching an event:
-
-               document.dispatchEvent(new CustomEvent(
-                   "artsasa:cart-updated", { detail: { count: 3 } }));
-
-         - Badges stay in sync across tabs and when the browser
-           restores a page from the back/forward cache.
     ========================================================== */
 
     var CART_KEY = "artsasa_cart_count";
     var WISH_KEY = "artsasa_wishlist_count";
 
     var CART_KEYS = [
-        "cart_count", "cartCount", "cart_items_count",
-        "cart_total_items", "cart_quantity", "cart_total_quantity"
+        "cart_count",
+        "cartCount",
+        "cart_items_count",
+        "cart_total_items",
+        "cart_quantity",
+        "cart_total_quantity"
     ];
 
     var WISH_KEYS = [
-        "wishlist_count", "wishlistCount", "wish_count",
-        "wishlist_items_count", "wishlist_total_items"
+        "wishlist_count",
+        "wishlistCount",
+        "wish_count",
+        "wishlist_items_count",
+        "wishlist_total_items"
     ];
 
     var GENERIC_KEYS = [
-        "count", "total_items", "item_count", "items_count"
+        "count",
+        "total_items",
+        "item_count",
+        "items_count"
     ];
 
-    var badgeState = { cart: 0, wish: 0 };
+    var badgeState = {
+        cart: 0,
+        wish: 0
+    };
 
 
     function toCount(v) {
@@ -2699,7 +2749,9 @@
 
         var n = parseInt(v, 10);
 
-        return (isNaN(n) || n < 0) ? null : n;
+        return (isNaN(n) || n < 0)
+            ? null
+            : n;
 
     }
 
@@ -2707,7 +2759,9 @@
     function readStored(key) {
 
         try {
-            return toCount(localStorage.getItem(key));
+            return toCount(
+                localStorage.getItem(key)
+            );
         } catch (e) {
             return null;
         }
@@ -2718,7 +2772,10 @@
     function writeStored(key, n) {
 
         try {
-            localStorage.setItem(key, String(n));
+            localStorage.setItem(
+                key,
+                String(n)
+            );
         } catch (e) {}
 
     }
@@ -2730,41 +2787,84 @@
 
         if (!el) return;
 
-        var label = n > 99 ? "99+" : String(n);
+        var label =
+            n > 99
+                ? "99+"
+                : String(n);
 
-        var changed = el.textContent.replace(/\s+/g, "") !== label;
+        var changed =
+            el.textContent.replace(/\s+/g, "") !== label;
 
         el.textContent = label;
 
-        el.classList.toggle("is-empty", n === 0);
+        el.classList.toggle(
+            "is-empty",
+            n === 0
+        );
 
-        el.classList.toggle("has-items", n > 0);
+        el.classList.toggle(
+            "has-items",
+            n > 0
+        );
 
-        if (bump && changed && n > 0) {
+        if (
+            bump &&
+            changed &&
+            n > 0
+        ) {
 
-            el.classList.remove("is-bump");
+            el.classList.remove(
+                "is-bump"
+            );
 
-            /* force reflow so the pulse can replay */
             void el.offsetWidth;
 
-            el.classList.add("is-bump");
+            el.classList.add(
+                "is-bump"
+            );
 
         }
 
     }
 
 
-    function paintCounts(bumpCart, bumpWish) {
+    function paintCounts(
+        bumpCart,
+        bumpWish
+    ) {
 
-        paintBadge("#cartCount",        badgeState.cart, bumpCart);
-        paintBadge("#cartCountMobile",  badgeState.cart, bumpCart);
-        paintBadge("#wishlistCount",       badgeState.wish, bumpWish);
-        paintBadge("#wishlistCountMobile", badgeState.wish, bumpWish);
+        paintBadge(
+            "#cartCount",
+            badgeState.cart,
+            bumpCart
+        );
+
+        paintBadge(
+            "#cartCountMobile",
+            badgeState.cart,
+            bumpCart
+        );
+
+        paintBadge(
+            "#wishlistCount",
+            badgeState.wish,
+            bumpWish
+        );
+
+        paintBadge(
+            "#wishlistCountMobile",
+            badgeState.wish,
+            bumpWish
+        );
 
     }
 
 
-    function setCount(kind, value, bump) {
+    function setCount(
+        kind,
+        value,
+        bump
+    ) {
 
         var n = toCount(value);
 
@@ -2773,14 +2873,30 @@
         if (kind === "cart") {
 
             badgeState.cart = n;
-            writeStored(CART_KEY, n);
-            paintCounts(!!bump, false);
+
+            writeStored(
+                CART_KEY,
+                n
+            );
+
+            paintCounts(
+                !!bump,
+                false
+            );
 
         } else {
 
             badgeState.wish = n;
-            writeStored(WISH_KEY, n);
-            paintCounts(false, !!bump);
+
+            writeStored(
+                WISH_KEY,
+                n
+            );
+
+            paintCounts(
+                false,
+                !!bump
+            );
 
         }
 
@@ -2792,25 +2908,51 @@
         var c = readStored(CART_KEY);
         var w = readStored(WISH_KEY);
 
-        if (c !== null) badgeState.cart = c;
-        if (w !== null) badgeState.wish = w;
+        if (c !== null) {
+            badgeState.cart = c;
+        }
 
-        paintCounts(false, false);
+        if (w !== null) {
+            badgeState.wish = w;
+        }
+
+        paintCounts(
+            false,
+            false
+        );
 
     }
 
 
     function findIn(obj, keys) {
 
-        if (!obj || typeof obj !== "object") return null;
+        if (
+            !obj ||
+            typeof obj !== "object"
+        ) {
+            return null;
+        }
 
-        for (var i = 0; i < keys.length; i++) {
+        for (
+            var i = 0;
+            i < keys.length;
+            i++
+        ) {
 
-            if (Object.prototype.hasOwnProperty.call(obj, keys[i])) {
+            if (
+                Object.prototype.hasOwnProperty.call(
+                    obj,
+                    keys[i]
+                )
+            ) {
 
-                var n = toCount(obj[keys[i]]);
+                var n = toCount(
+                    obj[keys[i]]
+                );
 
-                if (n !== null) return n;
+                if (n !== null) {
+                    return n;
+                }
 
             }
 
@@ -2821,45 +2963,101 @@
     }
 
 
-    /*
-       Looks through a JSON response for cart / wishlist counts.
-       Generic keys such as "count" are only trusted when the
-       request URL (or a nested "cart" / "wishlist" object) makes
-       it clear which badge they belong to.
-    */
+    function scan(
+        obj,
+        url,
+        depth
+    ) {
 
-    function scan(obj, url, depth) {
-
-        if (!obj || typeof obj !== "object" || depth > 2) return;
+        if (
+            !obj ||
+            typeof obj !== "object" ||
+            depth > 2
+        ) {
+            return;
+        }
 
         url = String(url || "");
 
-        var c = findIn(obj, CART_KEYS);
-        var w = findIn(obj, WISH_KEYS);
+        var c = findIn(
+            obj,
+            CART_KEYS
+        );
 
-        if (c !== null) setCount("cart", c, true);
-        if (w !== null) setCount("wish", w, true);
+        var w = findIn(
+            obj,
+            WISH_KEYS
+        );
 
-        if (c === null && w === null) {
+        if (c !== null) {
+            setCount(
+                "cart",
+                c,
+                true
+            );
+        }
 
-            var g = findIn(obj, GENERIC_KEYS);
+        if (w !== null) {
+            setCount(
+                "wish",
+                w,
+                true
+            );
+        }
+
+        if (
+            c === null &&
+            w === null
+        ) {
+
+            var g = findIn(
+                obj,
+                GENERIC_KEYS
+            );
 
             if (g !== null) {
 
                 if (/wish/i.test(url)) {
-                    setCount("wish", g, true);
-                } else if (/cart|basket|bag/i.test(url)) {
-                    setCount("cart", g, true);
+
+                    setCount(
+                        "wish",
+                        g,
+                        true
+                    );
+
+                } else if (
+                    /cart|basket|bag/i.test(url)
+                ) {
+
+                    setCount(
+                        "cart",
+                        g,
+                        true
+                    );
+
                 }
 
             }
 
         }
 
-        ["data", "cart", "wishlist"].forEach(function (k) {
+        [
+            "data",
+            "cart",
+            "wishlist"
+        ].forEach(function (k) {
 
-            if (obj[k] && typeof obj[k] === "object") {
-                scan(obj[k], url + "/" + k, depth + 1);
+            if (
+                obj[k] &&
+                typeof obj[k] === "object"
+            ) {
+
+                scan(
+                    obj[k],
+                    url + "/" + k,
+                    depth + 1
+                );
+
             }
 
         });
@@ -2867,45 +3065,96 @@
     }
 
 
-    /* ---------------------------------------------------------
-       Public API
-    ------------------------------------------------------------ */
-
-    window.ARTSASA = window.ARTSASA || {};
-
-    window.ARTSASA.setCartCount = function (n) {
-        setCount("cart", n, true);
-    };
-
-    window.ARTSASA.setWishlistCount = function (n) {
-        setCount("wish", n, true);
-    };
-
-    /* Backwards-compatible with the old renderCounts(cart, wish) */
-    window.ARTSASA.renderCounts = function (cart, wish) {
-
-        if (toCount(cart) !== null) setCount("cart", cart, true);
-        if (toCount(wish) !== null) setCount("wish", wish, true);
-
-    };
-
-    window.ARTSASA.updateFromResponse = function (data) {
-        scan(data, "", 0);
-    };
+    window.ARTSASA =
+        window.ARTSASA || {};
 
 
-    /* ---------------------------------------------------------
-       Custom events
-    ------------------------------------------------------------ */
+    window.ARTSASA.setCartCount =
+        function (n) {
+
+            setCount(
+                "cart",
+                n,
+                true
+            );
+
+        };
+
+
+    window.ARTSASA.setWishlistCount =
+        function (n) {
+
+            setCount(
+                "wish",
+                n,
+                true
+            );
+
+        };
+
+
+    window.ARTSASA.renderCounts =
+        function (
+            cart,
+            wish
+        ) {
+
+            if (
+                toCount(cart) !== null
+            ) {
+
+                setCount(
+                    "cart",
+                    cart,
+                    true
+                );
+
+            }
+
+            if (
+                toCount(wish) !== null
+            ) {
+
+                setCount(
+                    "wish",
+                    wish,
+                    true
+                );
+
+            }
+
+        };
+
+
+    window.ARTSASA.updateFromResponse =
+        function (data) {
+
+            scan(
+                data,
+                "",
+                0
+            );
+
+        };
+
 
     function detailCount(detail) {
 
-        if (detail && typeof detail === "object") {
+        if (
+            detail &&
+            typeof detail === "object"
+        ) {
 
-            return findIn(detail, [
-                "count", "cart_count", "cartCount",
-                "wishlist_count", "wishlistCount"
-            ]);
+            return findIn(
+                detail,
+                [
+                    "count",
+                    "cart_count",
+                    "cartCount",
+                    "wishlist_count",
+                    "wishlistCount"
+                ]
+            );
 
         }
 
@@ -2913,215 +3162,377 @@
 
     }
 
-    document.addEventListener("artsasa:cart-updated", function (e) {
 
-        var n = detailCount(e.detail);
+    document.addEventListener(
+        "artsasa:cart-updated",
+        function (e) {
 
-        if (n !== null) setCount("cart", n, true);
+            var n = detailCount(
+                e.detail
+            );
 
-    });
+            if (n !== null) {
 
-    document.addEventListener("artsasa:wishlist-updated", function (e) {
+                setCount(
+                    "cart",
+                    n,
+                    true
+                );
 
-        var n = detailCount(e.detail);
+            }
 
-        if (n !== null) setCount("wish", n, true);
-
-    });
-
-
-    /* ---------------------------------------------------------
-       Auto-update from fetch() responses
-    ------------------------------------------------------------ */
-
-    if (window.fetch && !window.fetch.__artsasaWrapped) {
-
-        var nativeFetch = window.fetch;
-
-        var wrappedFetch = function (input) {
-
-            var promise = nativeFetch.apply(this, arguments);
-
-            try {
-
-                var url = typeof input === "string"
-                    ? input
-                    : (input && input.url) || "";
-
-                promise.then(function (res) {
-
-                    try {
-
-                        var type = res.headers.get("content-type") || "";
-
-                        if (type.indexOf("json") > -1) {
-
-                            res.clone().json().then(function (data) {
-                                scan(data, url, 0);
-                            }).catch(function () {});
-
-                        }
-
-                    } catch (e) {}
-
-                }).catch(function () {});
-
-            } catch (e) {}
-
-            return promise;
-
-        };
-
-        wrappedFetch.__artsasaWrapped = true;
-
-        window.fetch = wrappedFetch;
-
-    }
+        }
+    );
 
 
-    /* ---------------------------------------------------------
-       Auto-update from XMLHttpRequest / jQuery.ajax responses
-    ------------------------------------------------------------ */
+    document.addEventListener(
+        "artsasa:wishlist-updated",
+        function (e) {
 
-    if (window.XMLHttpRequest && !XMLHttpRequest.prototype.__artsasaWrapped) {
+            var n = detailCount(
+                e.detail
+            );
 
-        var nativeOpen = XMLHttpRequest.prototype.open;
-        var nativeSend = XMLHttpRequest.prototype.send;
+            if (n !== null) {
 
-        XMLHttpRequest.prototype.open = function (method, url) {
+                setCount(
+                    "wish",
+                    n,
+                    true
+                );
 
-            this.__artsasaUrl = url;
+            }
 
-            return nativeOpen.apply(this, arguments);
+        }
+    );
 
-        };
 
-        XMLHttpRequest.prototype.send = function () {
+    if (
+        window.fetch &&
+        !window.fetch.__artsasaWrapped
+    ) {
 
-            this.addEventListener("load", function () {
+        var nativeFetch =
+            window.fetch;
+
+        var wrappedFetch =
+            function (input) {
+
+                var promise =
+                    nativeFetch.apply(
+                        this,
+                        arguments
+                    );
 
                 try {
 
-                    var type = this.getResponseHeader("content-type") || "";
+                    var url =
+                        typeof input === "string"
+                            ? input
+                            : (
+                                input &&
+                                input.url
+                            ) || "";
 
-                    if (type.indexOf("json") > -1) {
+                    promise.then(
+                        function (res) {
 
-                        scan(
-                            JSON.parse(this.responseText),
-                            this.__artsasaUrl,
-                            0
-                        );
+                            try {
 
-                    }
+                                var type =
+                                    res.headers.get(
+                                        "content-type"
+                                    ) || "";
+
+                                if (
+                                    type.indexOf("json") > -1
+                                ) {
+
+                                    res.clone()
+                                        .json()
+                                        .then(
+                                            function (data) {
+
+                                                scan(
+                                                    data,
+                                                    url,
+                                                    0
+                                                );
+
+                                            }
+                                        )
+                                        .catch(
+                                            function () {}
+                                        );
+
+                                }
+
+                            } catch (e) {}
+
+                        }
+                    ).catch(
+                        function () {}
+                    );
 
                 } catch (e) {}
 
-            });
+                return promise;
 
-            return nativeSend.apply(this, arguments);
+            };
 
-        };
+        wrappedFetch.__artsasaWrapped =
+            true;
 
-        XMLHttpRequest.prototype.__artsasaWrapped = true;
+        window.fetch =
+            wrappedFetch;
 
     }
 
 
-    /* ---------------------------------------------------------
-       Initial paint
+    if (
+        window.XMLHttpRequest &&
+        !XMLHttpRequest
+            .prototype
+            .__artsasaWrapped
+    ) {
 
-       Server value wins whenever the context processor supplies
-       it (including 0). localStorage is only a fallback for
-       pages that don't receive the counts.
-    ------------------------------------------------------------ */
+        var nativeOpen =
+            XMLHttpRequest
+                .prototype
+                .open;
 
-    var serverCart = toCount("{% if cart_count is not None %}{{ cart_count|escapejs }}{% endif %}");
-
-    var serverWish = toCount("{% if wishlist_count is not None %}{{ wishlist_count|escapejs }}{% endif %}");
-
-    var startCart = serverCart !== null ? serverCart : readStored(CART_KEY);
-
-    var startWish = serverWish !== null ? serverWish : readStored(WISH_KEY);
-
-    badgeState.cart = startCart === null ? 0 : startCart;
-
-    badgeState.wish = startWish === null ? 0 : startWish;
-
-    if (serverCart !== null) writeStored(CART_KEY, serverCart);
-
-    if (serverWish !== null) writeStored(WISH_KEY, serverWish);
-
-    paintCounts(false, false);
+        var nativeSend =
+            XMLHttpRequest
+                .prototype
+                .send;
 
 
-    /* ---------------------------------------------------------
-       Keep other tabs / restored pages in sync
-    ------------------------------------------------------------ */
+        XMLHttpRequest
+            .prototype
+            .open =
+            function (
+                method,
+                url
+            ) {
 
-    window.addEventListener("storage", function (e) {
+                this.__artsasaUrl =
+                    url;
 
-        if (e.key === CART_KEY || e.key === WISH_KEY) {
-            syncFromStorage();
+                return nativeOpen.apply(
+                    this,
+                    arguments
+                );
+
+            };
+
+
+        XMLHttpRequest
+            .prototype
+            .send =
+            function () {
+
+                this.addEventListener(
+                    "load",
+                    function () {
+
+                        try {
+
+                            var type =
+                                this.getResponseHeader(
+                                    "content-type"
+                                ) || "";
+
+                            if (
+                                type.indexOf("json") > -1
+                            ) {
+
+                                scan(
+                                    JSON.parse(
+                                        this.responseText
+                                    ),
+                                    this.__artsasaUrl,
+                                    0
+                                );
+
+                            }
+
+                        } catch (e) {}
+
+                    }
+                );
+
+                return nativeSend.apply(
+                    this,
+                    arguments
+                );
+
+            };
+
+
+        XMLHttpRequest
+            .prototype
+            .__artsasaWrapped =
+            true;
+
+    }
+
+
+    var serverCart =
+        toCount(
+            "{% if cart_count is not None %}{{ cart_count|escapejs }}{% endif %}"
+        );
+
+    var serverWish =
+        toCount(
+            "{% if wishlist_count is not None %}{{ wishlist_count|escapejs }}{% endif %}"
+        );
+
+
+    var startCart =
+        serverCart !== null
+            ? serverCart
+            : readStored(CART_KEY);
+
+    var startWish =
+        serverWish !== null
+            ? serverWish
+            : readStored(WISH_KEY);
+
+
+    badgeState.cart =
+        startCart === null
+            ? 0
+            : startCart;
+
+    badgeState.wish =
+        startWish === null
+            ? 0
+            : startWish;
+
+
+    if (
+        serverCart !== null
+    ) {
+
+        writeStored(
+            CART_KEY,
+            serverCart
+        );
+
+    }
+
+
+    if (
+        serverWish !== null
+    ) {
+
+        writeStored(
+            WISH_KEY,
+            serverWish
+        );
+
+    }
+
+
+    paintCounts(
+        false,
+        false
+    );
+
+
+    window.addEventListener(
+        "storage",
+        function (e) {
+
+            if (
+                e.key === CART_KEY ||
+                e.key === WISH_KEY
+            ) {
+
+                syncFromStorage();
+
+            }
+
         }
+    );
 
-    });
 
-    window.addEventListener("pageshow", function (e) {
+    window.addEventListener(
+        "pageshow",
+        function (e) {
 
-        if (e.persisted) {
-            syncFromStorage();
+            if (e.persisted) {
+                syncFromStorage();
+            }
+
         }
-
-    });
+    );
 
 
     /* =========================================================
        TOAST
     ========================================================== */
 
-    var toastEl = $("#artsasaToast");
+    var toastEl =
+        $("#artsasaToast");
 
     var toastTimer;
 
-    window.ARTSASA.toast = function (msg) {
+    window.ARTSASA.toast =
+        function (msg) {
 
-        if (!toastEl) return;
+            if (!toastEl) return;
 
-        toastEl.textContent = msg;
+            toastEl.textContent =
+                msg;
 
-        toastEl.classList.add("show");
+            toastEl.classList.add(
+                "show"
+            );
 
-        clearTimeout(toastTimer);
+            clearTimeout(
+                toastTimer
+            );
 
-        toastTimer = setTimeout(
-            function () {
+            toastTimer =
+                setTimeout(
+                    function () {
 
-                toastEl.classList.remove("show");
+                        toastEl.classList.remove(
+                            "show"
+                        );
 
-            },
-            2400
-        );
+                    },
+                    2400
+                );
 
-    };
+        };
 
 
     /* =========================================================
        COOKIE CONSENT
     ========================================================== */
 
-    var banner = $("#cookieBanner");
+    var banner =
+        $("#cookieBanner");
 
-    var COOKIE_KEY = "artsasa_cookie_choice";
+    var COOKIE_KEY =
+        "artsasa_cookie_choice";
+
 
     if (
         banner &&
-        !localStorage.getItem(COOKIE_KEY)
+        !localStorage.getItem(
+            COOKIE_KEY
+        )
     ) {
 
         setTimeout(
             function () {
 
-                banner.classList.add("show");
+                banner.classList.add(
+                    "show"
+                );
 
             },
             900
@@ -3132,16 +3543,26 @@
 
     function decide(choice) {
 
-        localStorage.setItem(COOKIE_KEY, choice);
+        localStorage.setItem(
+            COOKIE_KEY,
+            choice
+        );
 
-        banner.classList.remove("show");
+        if (banner) {
+            banner.classList.remove(
+                "show"
+            );
+        }
 
     }
 
 
-    var cookieAccept = $("#cookieAccept");
+    var cookieAccept =
+        $("#cookieAccept");
 
-    var cookieDecline = $("#cookieDecline");
+    var cookieDecline =
+        $("#cookieDecline");
+
 
     if (cookieAccept) {
 
@@ -3149,12 +3570,15 @@
             "click",
             function () {
 
-                decide("accepted");
+                decide(
+                    "accepted"
+                );
 
             }
         );
 
     }
+
 
     if (cookieDecline) {
 
@@ -3162,7 +3586,9 @@
             "click",
             function () {
 
-                decide("declined");
+                decide(
+                    "declined"
+                );
 
             }
         );
@@ -3172,22 +3598,16 @@
 
     /* =========================================================
        ARTSASA LOADER
-
-       The loader chrome remains visible for at least 3 full
-       seconds. The brush path and the paint reveal are built at
-       runtime from the ACTUAL rendered geometry of the
-       "Artsasa" text (real per-letter positions via
-       getStartPositionOfChar / getEndPositionOfChar, and the
-       real advance width via getBBox), so the brush stays
-       honestly aligned to every letter on any screen size or
-       fallback font.
     ========================================================== */
 
-    var loader = $("#pageLoader");
+    var loader =
+        $("#pageLoader");
 
-    var LOADER_DURATION = 3000;
+    var LOADER_DURATION =
+        3000;
 
-    var loaderTimer = null;
+    var loaderTimer =
+        null;
 
     var reduceMotion =
         window.matchMedia &&
@@ -3200,9 +3620,13 @@
 
         if (!loader) return;
 
-        clearTimeout(loaderTimer);
+        clearTimeout(
+            loaderTimer
+        );
 
-        loader.classList.add("is-active");
+        loader.classList.add(
+            "is-active"
+        );
 
     }
 
@@ -3211,52 +3635,76 @@
 
         if (!loader) return;
 
-        loader.classList.remove("is-active");
+        loader.classList.remove(
+            "is-active"
+        );
 
     }
 
 
-    /* ---------------------------------------------------------
-       Word-painting engine
-    ------------------------------------------------------------ */
+    var wordText =
+        document.getElementById(
+            "loaderWordText"
+        );
 
-    var wordText    = document.getElementById("loaderWordText");
-    var revealRect  = document.getElementById("loaderRevealRect");
-    var wetEdge     = document.getElementById("loaderWetEdge");
-    var brushPath   = document.getElementById("brushWritingPath");
-    var brushMotion = document.getElementById("brushMotion");
-    var brushGroup  = document.getElementById("loaderBrushGroup");
-    var underline   = document.getElementById("loaderUnderline");
+    var revealRect =
+        document.getElementById(
+            "loaderRevealRect"
+        );
 
-    var runningAnimations = [];
+    var wetEdge =
+        document.getElementById(
+            "loaderWetEdge"
+        );
+
+    var brushPath =
+        document.getElementById(
+            "brushWritingPath"
+        );
+
+    var brushMotion =
+        document.getElementById(
+            "brushMotion"
+        );
+
+    var brushGroup =
+        document.getElementById(
+            "loaderBrushGroup"
+        );
+
+    var underline =
+        document.getElementById(
+            "loaderUnderline"
+        );
+
+    var runningAnimations =
+        [];
 
 
     function stopWordAnimations() {
 
-        runningAnimations.forEach(function (a) {
+        runningAnimations.forEach(
+            function (a) {
 
-            try {
-                a.cancel();
-            } catch (e) {}
+                try {
+                    a.cancel();
+                } catch (e) {}
 
-        });
+            }
+        );
 
         runningAnimations = [];
 
         if (brushGroup) {
-            brushGroup.classList.remove("is-visible");
+
+            brushGroup.classList.remove(
+                "is-visible"
+            );
+
         }
 
     }
 
-
-    /*
-       Rough, deliberately simple classification of each letter's
-       natural top height (cap-height / ascender / x-height), used
-       only to give the brush stroke a believable up-and-down
-       calligraphic rhythm as it passes over each letter's real
-       measured position.
-    */
 
     function letterTopOffset(ch) {
 
@@ -3264,11 +3712,15 @@
             return 62;
         }
 
-        if ("bdfhklt".indexOf(ch) > -1) {
+        if (
+            "bdfhklt".indexOf(ch) > -1
+        ) {
             return 54;
         }
 
-        if ("gjpqy".indexOf(ch) > -1) {
+        if (
+            "gjpqy".indexOf(ch) > -1
+        ) {
             return 30;
         }
 
@@ -3280,20 +3732,43 @@
     function buildSmoothPath(points) {
 
         var d =
-            "M " + points[0].x.toFixed(1) +
-            " " + points[0].y.toFixed(1);
+            "M " +
+            points[0].x.toFixed(1) +
+            " " +
+            points[0].y.toFixed(1);
 
-        for (var i = 0; i < points.length - 1; i++) {
 
-            var p0 = points[i];
-            var p1 = points[i + 1];
+        for (
+            var i = 0;
+            i < points.length - 1;
+            i++
+        ) {
 
-            var midX = ((p0.x + p1.x) / 2).toFixed(1);
+            var p0 =
+                points[i];
+
+            var p1 =
+                points[i + 1];
+
+            var midX =
+                (
+                    (p0.x + p1.x) / 2
+                ).toFixed(1);
+
 
             d +=
-                " C " + midX + " " + p0.y.toFixed(1) +
-                ", " + midX + " " + p1.y.toFixed(1) +
-                ", " + p1.x.toFixed(1) + " " + p1.y.toFixed(1);
+                " C " +
+                midX +
+                " " +
+                p0.y.toFixed(1) +
+                ", " +
+                midX +
+                " " +
+                p1.y.toFixed(1) +
+                ", " +
+                p1.x.toFixed(1) +
+                " " +
+                p1.y.toFixed(1);
 
         }
 
@@ -3302,94 +3777,181 @@
     }
 
 
-    /*
-       Measures the real, rendered "Artsasa" text and, from that,
-       builds:
-         - the clip rect that reveals it (sized to its true bbox)
-         - the brush's writing path (through its true per-letter
-           positions)
-    */
-
     function prepareWord() {
 
-        if (!wordText || !revealRect || !brushPath) {
+        if (
+            !wordText ||
+            !revealRect ||
+            !brushPath
+        ) {
             return null;
         }
 
         var bbox;
 
         try {
-            bbox = wordText.getBBox();
+
+            bbox =
+                wordText.getBBox();
+
         } catch (e) {
+
             return null;
+
         }
 
+
         var baselineY =
-            parseFloat(wordText.getAttribute("y")) || 120;
+            parseFloat(
+                wordText.getAttribute(
+                    "y"
+                )
+            ) || 120;
+
 
         var pad = 26;
 
-        revealRect.setAttribute("x", bbox.x - 4);
-        revealRect.setAttribute("y", bbox.y - pad);
-        revealRect.setAttribute("height", bbox.height + pad * 2);
-        revealRect.setAttribute("width", 0);
 
-        var fullWidth = bbox.width + 6;
+        revealRect.setAttribute(
+            "x",
+            bbox.x - 4
+        );
 
-        var pathPoints = [];
+        revealRect.setAttribute(
+            "y",
+            bbox.y - pad
+        );
+
+        revealRect.setAttribute(
+            "height",
+            bbox.height + pad * 2
+        );
+
+        revealRect.setAttribute(
+            "width",
+            0
+        );
+
+
+        var fullWidth =
+            bbox.width + 6;
+
+
+        var pathPoints =
+            [];
+
 
         try {
 
-            var text = wordText.textContent;
-            var len = text.length;
+            var text =
+                wordText.textContent.trim();
 
-            var firstStart = wordText.getStartPositionOfChar(0);
+            var len =
+                text.length;
+
+
+            var firstStart =
+                wordText
+                    .getStartPositionOfChar(0);
+
 
             pathPoints.push({
                 x: firstStart.x - 20,
                 y: baselineY + 7
             });
 
-            for (var i = 0; i < len; i++) {
 
-                var start = wordText.getStartPositionOfChar(i);
+            for (
+                var i = 0;
+                i < len;
+                i++
+            ) {
 
-                var end = wordText.getEndPositionOfChar(i);
+                var start =
+                    wordText
+                        .getStartPositionOfChar(i);
 
-                var ch = text.charAt(i);
+                var end =
+                    wordText
+                        .getEndPositionOfChar(i);
+
+                var ch =
+                    text.charAt(i);
+
 
                 pathPoints.push({
-                    x: (start.x + end.x) / 2,
-                    y: baselineY - letterTopOffset(ch)
+                    x:
+                        (
+                            start.x +
+                            end.x
+                        ) / 2,
+
+                    y:
+                        baselineY -
+                        letterTopOffset(ch)
                 });
 
             }
 
-            var lastEnd = wordText.getEndPositionOfChar(len - 1);
+
+            var lastEnd =
+                wordText
+                    .getEndPositionOfChar(
+                        len - 1
+                    );
+
 
             pathPoints.push({
                 x: lastEnd.x + 22,
                 y: baselineY - 42
             });
 
+
             pathPoints.push({
                 x: lastEnd.x + 40,
                 y: baselineY - 8
             });
 
+
         } catch (e) {
 
-            /* Fallback: a gentle sweep across the measured width. */
-
             pathPoints = [
-                { x: bbox.x - 16, y: baselineY + 6 },
-                { x: bbox.x + bbox.width * 0.5, y: baselineY - 40 },
-                { x: bbox.x + bbox.width + 16, y: baselineY - 10 }
+
+                {
+                    x: bbox.x - 16,
+                    y: baselineY + 6
+                },
+
+                {
+                    x:
+                        bbox.x +
+                        bbox.width * .5,
+
+                    y:
+                        baselineY - 40
+                },
+
+                {
+                    x:
+                        bbox.x +
+                        bbox.width + 16,
+
+                    y:
+                        baselineY - 10
+                }
+
             ];
 
         }
 
-        brushPath.setAttribute("d", buildSmoothPath(pathPoints));
+
+        brushPath.setAttribute(
+            "d",
+            buildSmoothPath(
+                pathPoints
+            )
+        );
+
 
         return {
             bbox: bbox,
@@ -3405,18 +3967,27 @@
 
         var DURATION = 2350;
         var DELAY = 180;
-        var EASE = "cubic-bezier(.65,0,.25,1)";
+        var EASE =
+            "cubic-bezier(.65,0,.25,1)";
+
 
         if (reduceMotion) {
 
-            revealRect.setAttribute("width", metrics.fullWidth);
+            revealRect.setAttribute(
+                "width",
+                metrics.fullWidth
+            );
 
             if (underline) {
 
-                var staticLen = underline.getTotalLength();
+                var staticLen =
+                    underline.getTotalLength();
 
-                underline.style.strokeDasharray = staticLen;
-                underline.style.strokeDashoffset = 0;
+                underline.style.strokeDasharray =
+                    staticLen;
+
+                underline.style.strokeDashoffset =
+                    0;
 
             }
 
@@ -3424,105 +3995,205 @@
 
         }
 
-        revealRect.setAttribute("width", 0);
 
-        var revealAnim = revealRect.animate(
-            [
-                { width: "0px" },
-                { width: metrics.fullWidth + "px" }
-            ],
-            {
-                duration: DURATION,
-                delay: DELAY,
-                easing: EASE,
-                fill: "forwards"
-            }
+        revealRect.setAttribute(
+            "width",
+            0
         );
 
-        runningAnimations.push(revealAnim);
+
+        var revealAnim =
+            revealRect.animate(
+                [
+                    {
+                        width: "0px"
+                    },
+                    {
+                        width:
+                            metrics.fullWidth +
+                            "px"
+                    }
+                ],
+                {
+                    duration:
+                        DURATION,
+
+                    delay:
+                        DELAY,
+
+                    easing:
+                        EASE,
+
+                    fill:
+                        "forwards"
+                }
+            );
+
+
+        runningAnimations.push(
+            revealAnim
+        );
 
 
         if (wetEdge) {
 
-            var startX = metrics.bbox.x;
-            var endX = metrics.bbox.x + metrics.fullWidth;
+            var startX =
+                metrics.bbox.x;
 
-            wetEdge.setAttribute("y", metrics.bbox.y - 20);
+            var endX =
+                metrics.bbox.x +
+                metrics.fullWidth;
 
-            wetEdge.setAttribute("height", metrics.bbox.height + 40);
 
-            var wetAnim = wetEdge.animate(
-                [
-                    {
-                        transform: "translateX(" + startX + "px)",
-                        opacity: 0
-                    },
-                    {
-                        transform: "translateX(" + startX + "px)",
-                        opacity: 1,
-                        offset: 0.04
-                    },
-                    {
-                        transform: "translateX(" + endX + "px)",
-                        opacity: 1,
-                        offset: 0.92
-                    },
-                    {
-                        transform: "translateX(" + endX + "px)",
-                        opacity: 0
-                    }
-                ],
-                {
-                    duration: DURATION,
-                    delay: DELAY,
-                    easing: "linear",
-                    fill: "forwards"
-                }
+            wetEdge.setAttribute(
+                "y",
+                metrics.bbox.y - 20
             );
 
-            runningAnimations.push(wetAnim);
+            wetEdge.setAttribute(
+                "height",
+                metrics.bbox.height + 40
+            );
+
+
+            var wetAnim =
+                wetEdge.animate(
+                    [
+                        {
+                            transform:
+                                "translateX(" +
+                                startX +
+                                "px)",
+
+                            opacity: 0
+                        },
+
+                        {
+                            transform:
+                                "translateX(" +
+                                startX +
+                                "px)",
+
+                            opacity: 1,
+
+                            offset: .04
+                        },
+
+                        {
+                            transform:
+                                "translateX(" +
+                                endX +
+                                "px)",
+
+                            opacity: 1,
+
+                            offset: .92
+                        },
+
+                        {
+                            transform:
+                                "translateX(" +
+                                endX +
+                                "px)",
+
+                            opacity: 0
+                        }
+                    ],
+                    {
+                        duration:
+                            DURATION,
+
+                        delay:
+                            DELAY,
+
+                        easing:
+                            "linear",
+
+                        fill:
+                            "forwards"
+                    }
+                );
+
+
+            runningAnimations.push(
+                wetAnim
+            );
 
         }
 
 
         if (underline) {
 
-            var underlineLen = underline.getTotalLength();
+            var underlineLen =
+                underline.getTotalLength();
 
-            underline.style.strokeDasharray = underlineLen;
-            underline.style.strokeDashoffset = underlineLen;
 
-            var underlineAnim = underline.animate(
-                [
-                    { strokeDashoffset: underlineLen },
-                    { strokeDashoffset: 0 }
-                ],
-                {
-                    duration: 1050,
-                    delay: DELAY + 1820,
-                    easing: EASE,
-                    fill: "forwards"
-                }
+            underline.style.strokeDasharray =
+                underlineLen;
+
+            underline.style.strokeDashoffset =
+                underlineLen;
+
+
+            var underlineAnim =
+                underline.animate(
+                    [
+                        {
+                            strokeDashoffset:
+                                underlineLen
+                        },
+
+                        {
+                            strokeDashoffset:
+                                0
+                        }
+                    ],
+                    {
+                        duration:
+                            1050,
+
+                        delay:
+                            DELAY + 1820,
+
+                        easing:
+                            EASE,
+
+                        fill:
+                            "forwards"
+                    }
+                );
+
+
+            runningAnimations.push(
+                underlineAnim
             );
-
-            runningAnimations.push(underlineAnim);
 
         }
 
 
         if (brushGroup) {
-            brushGroup.classList.add("is-visible");
+
+            brushGroup.classList.add(
+                "is-visible"
+            );
+
         }
+
 
         if (brushMotion) {
 
-            setTimeout(function () {
+            setTimeout(
+                function () {
 
-                try {
-                    brushMotion.beginElement();
-                } catch (e) {}
+                    try {
 
-            }, DELAY);
+                        brushMotion.beginElement();
+
+                    } catch (e) {}
+
+                },
+                DELAY
+            );
 
         }
 
@@ -3533,9 +4204,12 @@
 
         stopWordAnimations();
 
-        var metrics = prepareWord();
+        var metrics =
+            prepareWord();
 
-        animateWord(metrics);
+        animateWord(
+            metrics
+        );
 
     }
 
@@ -3546,44 +4220,67 @@
 
         showLoader();
 
-        var run = function () {
-            startWordPainting();
-        };
 
-        if (document.fonts && document.fonts.ready) {
+        var run =
+            function () {
+
+                startWordPainting();
+
+            };
+
+
+        if (
+            document.fonts &&
+            document.fonts.ready
+        ) {
 
             Promise.race([
                 document.fonts.ready,
-                new Promise(function (resolve) {
-                    setTimeout(resolve, 350);
-                })
+
+                new Promise(
+                    function (resolve) {
+
+                        setTimeout(
+                            resolve,
+                            350
+                        );
+
+                    }
+                )
             ]).then(run);
 
         } else {
 
-            setTimeout(run, 50);
+            setTimeout(
+                run,
+                50
+            );
 
         }
 
-        clearTimeout(loaderTimer);
 
-        loaderTimer = setTimeout(
-            function () {
-
-                hideLoader();
-
-            },
-            LOADER_DURATION
+        clearTimeout(
+            loaderTimer
         );
+
+
+        loaderTimer =
+            setTimeout(
+                function () {
+
+                    hideLoader();
+
+                },
+                LOADER_DURATION
+            );
 
     }
 
 
-    /*
-       Start when DOM is ready.
-    */
-
-    if (document.readyState === "loading") {
+    if (
+        document.readyState ===
+        "loading"
+    ) {
 
         document.addEventListener(
             "DOMContentLoaded",
@@ -3596,11 +4293,6 @@
 
     }
 
-
-    /*
-       If the browser restores a page from bfcache,
-       start the complete 3-second loader again.
-    */
 
     window.addEventListener(
         "pageshow",
@@ -3617,7 +4309,7 @@
 
 
     /* =========================================================
-       LOADER ON INTERNAL NAVIGATION
+       INTERNAL NAVIGATION LOADER
     ========================================================== */
 
     document.addEventListener(
@@ -3629,16 +4321,18 @@
                     ? e.target.closest("a")
                     : null;
 
+
             if (!link) return;
 
-            var href = link.getAttribute("href");
+
+            var href =
+                link.getAttribute(
+                    "href"
+                );
+
 
             if (!href) return;
 
-
-            /*
-               Ignore non-page links.
-            */
 
             if (
                 link.target === "_blank" ||
@@ -3654,23 +4348,16 @@
             }
 
 
-            /*
-               Ignore external websites.
-            */
-
             if (
                 link.hostname &&
-                link.hostname !== window.location.hostname
+                link.hostname !==
+                    window.location.hostname
             ) {
 
                 return;
 
             }
 
-
-            /*
-               Ignore modified clicks.
-            */
 
             if (
                 e.metaKey ||
@@ -3684,11 +4371,6 @@
             }
 
 
-            /*
-               Show loader immediately while
-               the next Django page loads.
-            */
-
             showLoader();
 
         }
@@ -3696,7 +4378,7 @@
 
 
     /* =========================================================
-       SEARCH FORM LOADER
+       SEARCH LOADER
     ========================================================== */
 
     document.addEventListener(
@@ -3705,7 +4387,9 @@
 
             if (
                 e.target &&
-                e.target.classList.contains("search-form")
+                e.target.classList.contains(
+                    "search-form"
+                )
             ) {
 
                 showLoader();
@@ -3715,11 +4399,6 @@
         }
     );
 
-
-    /*
-       Do NOT hide the loader immediately on beforeunload.
-       It must remain visible during navigation.
-    */
 
     window.addEventListener(
         "beforeunload",
@@ -3735,7 +4414,8 @@
        REVEAL ON SCROLL
     ========================================================== */
 
-    var reveals = $$(".reveal");
+    var reveals =
+        $$(".reveal");
 
 
     if (
@@ -3743,28 +4423,36 @@
         reveals.length
     ) {
 
-        var io = new IntersectionObserver(
-            function (entries) {
+        var io =
+            new IntersectionObserver(
+                function (entries) {
 
-                entries.forEach(
-                    function (entry) {
+                    entries.forEach(
+                        function (entry) {
 
-                        if (entry.isIntersecting) {
+                            if (
+                                entry.isIntersecting
+                            ) {
 
-                            entry.target.classList.add("is-visible");
+                                entry.target.classList.add(
+                                    "is-visible"
+                                );
 
-                            io.unobserve(entry.target);
+                                io.unobserve(
+                                    entry.target
+                                );
+
+                            }
 
                         }
+                    );
 
-                    }
-                );
+                },
+                {
+                    threshold: .12
+                }
+            );
 
-            },
-            {
-                threshold: .12
-            }
-        );
 
         reveals.forEach(
             function (el) {
@@ -3779,20 +4467,81 @@
         reveals.forEach(
             function (el) {
 
-                el.classList.add("is-visible");
+                el.classList.add(
+                    "is-visible"
+                );
 
             }
         );
 
     }
 
+
+    /* =========================================================
+       HASH NAVIGATION
+       
+       Ensures Visit/Contact links work even when coming
+       from another page.
+    ========================================================== */
+
+    function scrollToHash() {
+
+        if (!window.location.hash) {
+            return;
+        }
+
+        var id =
+            window.location.hash.substring(1);
+
+        if (!id) return;
+
+        var target =
+            document.getElementById(id);
+
+        if (!target) return;
+
+        setTimeout(
+            function () {
+
+                target.scrollIntoView({
+                    behavior:
+                        reduceMotion
+                            ? "auto"
+                            : "smooth",
+
+                    block: "start"
+                });
+
+            },
+            80
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            scrollToHash
+        );
+
+    } else {
+
+        scrollToHash();
+
+    }
+
+
 })();
 
 </script>
 
-
 <!-- =============================================================
-     COPY TILL NUMBER  +  PRIVATE ASSET PROTECTION
+     COPY TILL NUMBER + PRIVATE ASSET PROTECTION
 ============================================================= -->
 
 <script>
@@ -3803,200 +4552,155 @@
 
 
     /* =========================================================
-       COPY TILL NUMBER
+       PRIVATE ASSET PROTECTION
     ========================================================== */
 
-    var numEl = document.getElementById("tillNumber");
-    var btn   = document.getElementById("tillCopyBtn");
-
-    if (numEl && btn) {
-
-        var TILL  = numEl.getAttribute("data-till") || numEl.textContent.trim();
-        var label = btn.querySelector(".till-copy-label");
-        var icon  = btn.querySelector("i");
-        var resetTimer;
-
-        var finish = function (ok) {
-
-            btn.classList.toggle("is-copied", ok);
-
-            label.textContent = ok ? "Copied!" : "Select & copy";
-
-            icon.className = ok
-                ? "fa-solid fa-check"
-                : "fa-regular fa-copy";
-
-            if (window.ARTSASA && window.ARTSASA.toast) {
-
-                window.ARTSASA.toast(
-                    ok
-                        ? "Till number " + TILL + " copied"
-                        : "Tap the number to select it, then copy"
-                );
-
-            }
-
-            clearTimeout(resetTimer);
-
-            resetTimer = setTimeout(function () {
-
-                btn.classList.remove("is-copied");
-
-                label.textContent = "Copy";
-
-                icon.className = "fa-regular fa-copy";
-
-            }, 2200);
-
-        };
-
-        var fallbackCopy = function () {
-
-            var ta = document.createElement("textarea");
-
-            ta.value = TILL;
-            ta.setAttribute("readonly", "");
-            ta.style.position = "fixed";
-            ta.style.top = "0";
-            ta.style.opacity = "0";
-
-            document.body.appendChild(ta);
-
-            ta.select();
-            ta.setSelectionRange(0, ta.value.length);
-
-            var ok = false;
-
-            try {
-                ok = document.execCommand("copy");
-            } catch (e) {}
-
-            document.body.removeChild(ta);
-
-            finish(ok);
-
-        };
-
-        btn.addEventListener("click", function () {
-
-            if (navigator.clipboard && window.isSecureContext) {
-
-                navigator.clipboard.writeText(TILL).then(
-                    function () { finish(true); },
-                    fallbackCopy
-                );
-
-            } else {
-
-                fallbackCopy();
-
-            }
-
-        });
-
-    }
-
-
-    /* =========================================================
-       PRIVATE ASSET PROTECTION  (deterrent only)
-
-       - Right-click is blocked, EXCEPT on form fields and on
-         anything marked data-allow-copy (the till number), so
-         customers can still copy it.
-       - Ctrl/Cmd+U, F12, Ctrl+Shift+I/J/C/K and Cmd+Opt+I/J/C/U
-         are intercepted and show the "private asset" notice.
-    ========================================================== */
-
-    var notice = document.getElementById("privateAssetNotice");
+    var notice =
+        document.getElementById(
+            "privateAssetNotice"
+        );
 
     var noticeTimer;
+
 
     function showNotice() {
 
         if (!notice) return;
 
-        notice.classList.add("show");
+        notice.classList.add(
+            "show"
+        );
 
-        clearTimeout(noticeTimer);
+        clearTimeout(
+            noticeTimer
+        );
 
-        noticeTimer = setTimeout(function () {
+        noticeTimer =
+            setTimeout(
+                function () {
 
-            notice.classList.remove("show");
+                    notice.classList.remove(
+                        "show"
+                    );
 
-        }, 2600);
+                },
+                2600
+            );
 
     }
+
 
     function isAllowed(el) {
 
         return !!(
             el &&
             el.closest &&
-            el.closest("input, textarea, select, [data-allow-copy]")
+            el.closest(
+                "input, textarea, select, [data-allow-copy]"
+            )
         );
 
     }
 
-    document.addEventListener("contextmenu", function (e) {
 
-        if (isAllowed(e.target)) return;
+    document.addEventListener(
+        "contextmenu",
+        function (e) {
 
-        e.preventDefault();
-
-        showNotice();
-
-    });
-
-    document.addEventListener("keydown", function (e) {
-
-        var mod  = e.ctrlKey || e.metaKey;
-        var code = e.code || "";
-
-        var blocked =
-
-            e.key === "F12" ||
-
-            /* Ctrl/Cmd + U  (view source) */
-            (mod && code === "KeyU") ||
-
-            /* Ctrl/Cmd + Shift + I / J / C / K  (dev tools) */
-            (mod && e.shiftKey &&
-                (code === "KeyI" || code === "KeyJ" ||
-                 code === "KeyC" || code === "KeyK")) ||
-
-            /* Cmd + Option + I / J / C / U  (macOS) */
-            (e.metaKey && e.altKey &&
-                (code === "KeyI" || code === "KeyJ" ||
-                 code === "KeyC" || code === "KeyU"));
-
-        if (blocked) {
+            if (
+                isAllowed(e.target)
+            ) {
+                return;
+            }
 
             e.preventDefault();
-
-            e.stopPropagation();
 
             showNotice();
 
-            return false;
+        }
+    );
+
+
+    document.addEventListener(
+        "keydown",
+        function (e) {
+
+            var mod =
+                e.ctrlKey ||
+                e.metaKey;
+
+            var code =
+                e.code || "";
+
+
+            var blocked =
+
+                e.key === "F12" ||
+
+                (
+                    mod &&
+                    code === "KeyU"
+                ) ||
+
+                (
+                    mod &&
+                    e.shiftKey &&
+                    (
+                        code === "KeyI" ||
+                        code === "KeyJ" ||
+                        code === "KeyC" ||
+                        code === "KeyK"
+                    )
+                ) ||
+
+                (
+                    e.metaKey &&
+                    e.altKey &&
+                    (
+                        code === "KeyI" ||
+                        code === "KeyJ" ||
+                        code === "KeyC" ||
+                        code === "KeyU"
+                    )
+                );
+
+
+            if (blocked) {
+
+                e.preventDefault();
+
+                e.stopPropagation();
+
+                showNotice();
+
+                return false;
+
+            }
+
+        },
+        true
+    );
+
+
+    document.addEventListener(
+        "dragstart",
+        function (e) {
+
+            if (
+                e.target &&
+                e.target.tagName === "IMG"
+            ) {
+
+                e.preventDefault();
+
+            }
 
         }
-
-    }, true);
-
-    document.addEventListener("dragstart", function (e) {
-
-        if (e.target && e.target.tagName === "IMG") {
-
-            e.preventDefault();
-
-        }
-
-    });
+    );
 
 })();
 
 </script>
-
 
 {% block extra_js %}{% endblock %}
 

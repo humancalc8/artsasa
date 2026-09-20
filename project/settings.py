@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get(
     "django-insecure-6m$ac3gvbkloqub$_1ipmuvga)p6=3b=cid)s#%jlq*qrnf5b)"
 )
 
-DEBUG = True
+
 
 
 # ============================================================
@@ -223,7 +223,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+DEBUG = False
 # ============================================================
 # STATIC FILES
 # ============================================================

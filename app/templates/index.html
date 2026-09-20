@@ -55,7 +55,7 @@
         <div class="hero-copy">
 
             <span class="eyebrow hero-kicker">
-                Contemporary Art · Nairobi
+                Imagine . Create
             </span>
 
             <h1 class="hero-title">
@@ -607,7 +607,7 @@
 
             </div>
 
-            <a href="{% url 'index' %}"
+            <a href="{% url 'collection' %}"
                class="text-link">
                 View all articles
                 <span class="arrow">↗</span>
@@ -621,7 +621,7 @@
 
             <article class="journal-card reveal">
 
-                <a href="#"
+                <a href="{% url 'collection'%}"
                    class="journal-image">
 
                     <img src="{% static 'images/a.jpg' %}"
@@ -653,7 +653,7 @@
 
             <article class="journal-card reveal">
 
-                <a href="#"
+                <a href="{% url 'collection' %}"
                    class="journal-image">
 
                     <img src="{% static 'images/h.jpg' %}"
@@ -672,7 +672,7 @@
                         Meet the Artist: Nderitu Wanjiku
                     </h3>
 
-                    <a href="#"
+                    <a href="{% url 'collection' %}"
                        class="text-link journal-link">
                         Read more
                         <span class="arrow">↗</span>
@@ -685,7 +685,7 @@
 
             <article class="journal-card reveal">
 
-                <a href="#"
+                <a href="{%url 'collection'%}"
                    class="journal-image">
 
                     <img src="{% static 'images/b.jpg' %}"
@@ -704,7 +704,7 @@
                         Highlights from Our Latest Exhibition
                     </h3>
 
-                    <a href="#"
+                    <a href="{%url 'collection'%}"
                        class="text-link journal-link">
                         Read more
                         <span class="arrow">↗</span>

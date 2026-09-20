@@ -1,0 +1,658 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Page Not Found — ARTSASA</title>
+
+    <meta name="description"
+          content="The page you're looking for could not be found. Return to ARTSASA and continue exploring contemporary art in Nairobi.">
+
+    <link rel="icon"
+          type="image/png"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        :root {
+            --paper: #F1EADB;
+            --ink: #211E1B;
+            --terracotta: #A15C3B;
+            --dark-terracotta: #7C4429;
+            --muted: #83807A;
+            --rattan: #C9BB9F;
+            --line: rgba(33, 30, 27, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: "DM Sans", sans-serif;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
+
+        .error-header {
+            width: 100%;
+            padding: 28px 5vw;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .brand img {
+            width: 92px;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .header-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .header-link:hover {
+            color: var(--terracotta);
+            transform: translateX(-3px);
+        }
+
+
+        /* =====================================================
+           MAIN
+        ====================================================== */
+
+        .error-main {
+            flex: 1;
+
+            width: 100%;
+            max-width: 1300px;
+
+            margin: 0 auto;
+            padding: 8vh 5vw 10vh;
+
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+            align-items: center;
+            gap: 8vw;
+        }
+
+
+        /* =====================================================
+           COPY
+        ====================================================== */
+
+        .error-copy {
+            position: relative;
+            z-index: 2;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 22px;
+
+            color: var(--terracotta);
+
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+
+        .eyebrow::before {
+            content: "";
+            width: 30px;
+            height: 1px;
+            background: currentColor;
+        }
+
+        .error-code {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(110px, 18vw, 250px);
+            line-height: 0.72;
+            font-weight: 500;
+
+            color: var(--ink);
+
+            letter-spacing: -0.055em;
+
+            margin-bottom: 38px;
+        }
+
+        .error-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: clamp(42px, 5vw, 72px);
+            line-height: 0.95;
+            font-weight: 500;
+
+            max-width: 600px;
+
+            margin-bottom: 24px;
+        }
+
+        .error-description {
+            max-width: 520px;
+
+            color: var(--muted);
+
+            font-size: 15px;
+            line-height: 1.8;
+
+            margin-bottom: 34px;
+        }
+
+
+        /* =====================================================
+           ACTIONS
+        ====================================================== */
+
+        .error-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .btn-primary,
+        .btn-secondary {
+            min-height: 50px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+
+            padding: 0 23px;
+
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+
+            transition:
+                background 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .btn-primary {
+            background: var(--ink);
+            color: var(--paper);
+            border: 1px solid var(--ink);
+        }
+
+        .btn-primary:hover {
+            background: var(--terracotta);
+            border-color: var(--terracotta);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink);
+            border: 1px solid var(--line);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--ink);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary svg,
+        .btn-secondary svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+
+        /* =====================================================
+           ART PANEL
+        ====================================================== */
+
+        .error-art {
+            min-height: 470px;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: var(--rattan);
+
+            overflow: hidden;
+        }
+
+        .art-lines {
+            position: absolute;
+            inset: 0;
+
+            width: 100%;
+            height: 100%;
+
+            opacity: 0.55;
+        }
+
+        .art-lines path {
+            fill: none;
+            stroke: var(--ink);
+            stroke-width: 0.8;
+            opacity: 0.2;
+        }
+
+        .art-circle {
+            width: min(60%, 290px);
+            aspect-ratio: 1;
+
+            border: 1px solid rgba(33, 30, 27, 0.35);
+            border-radius: 50%;
+
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .art-circle::before {
+            content: "";
+
+            position: absolute;
+
+            width: 58%;
+            aspect-ratio: 1;
+
+            border: 1px solid rgba(33, 30, 27, 0.25);
+            border-radius: 50%;
+        }
+
+        .art-circle::after {
+            content: "";
+
+            position: absolute;
+
+            width: 12px;
+            height: 12px;
+
+            background: var(--terracotta);
+
+            border-radius: 50%;
+
+            transform: translate(70px, -70px);
+        }
+
+        .art-mark {
+            position: relative;
+            z-index: 2;
+
+            font-family: "Cormorant Garamond", serif;
+
+            font-size: clamp(55px, 7vw, 90px);
+            line-height: 1;
+
+            font-weight: 500;
+
+            color: var(--ink);
+        }
+
+        .art-caption {
+            position: absolute;
+            left: 28px;
+            bottom: 25px;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            letter-spacing: 0.13em;
+            text-transform: uppercase;
+
+            color: rgba(33, 30, 27, 0.65);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ====================================================== */
+
+        .error-footer {
+            width: 100%;
+
+            padding: 22px 5vw;
+
+            border-top: 1px solid var(--line);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            color: var(--muted);
+
+            font-size: 11px;
+            letter-spacing: 0.04em;
+        }
+
+        .footer-location {
+            color: var(--ink);
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 850px) {
+
+            .error-header {
+                padding: 22px 6vw;
+            }
+
+            .error-main {
+                grid-template-columns: 1fr;
+
+                padding: 7vh 6vw 8vh;
+
+                gap: 55px;
+            }
+
+            .error-code {
+                font-size: clamp(100px, 28vw, 180px);
+                margin-bottom: 32px;
+            }
+
+            .error-title {
+                font-size: clamp(40px, 10vw, 60px);
+            }
+
+            .error-art {
+                min-height: 360px;
+            }
+
+            .art-circle {
+                width: min(60%, 240px);
+            }
+
+            .error-footer {
+                padding: 20px 6vw;
+
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 7px;
+            }
+        }
+
+
+        @media (max-width: 520px) {
+
+            .brand img {
+                width: 78px;
+            }
+
+            .header-link {
+                font-size: 10px;
+            }
+
+            .error-main {
+                padding-top: 6vh;
+            }
+
+            .error-code {
+                font-size: 105px;
+                margin-bottom: 27px;
+            }
+
+            .error-title {
+                font-size: 42px;
+            }
+
+            .error-description {
+                font-size: 14px;
+                line-height: 1.75;
+            }
+
+            .error-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+            }
+
+            .error-art {
+                min-height: 300px;
+            }
+
+            .art-caption {
+                left: 20px;
+                bottom: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="error-page">
+
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
+    <header class="error-header">
+
+        <a href="{% url 'index' %}"
+           class="brand"
+           aria-label="ARTSASA Home">
+
+            <img src="{% static 'images/logo.png' %}"
+                 alt="ARTSASA">
+
+        </a>
+
+
+        <a href="{% url 'index' %}"
+           class="header-link">
+
+            Back to Gallery
+
+        </a>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="error-main">
+
+
+        <!-- COPY -->
+
+        <section class="error-copy">
+
+            <span class="eyebrow">
+                Lost in the archive
+            </span>
+
+
+            <div class="error-code"
+                 aria-hidden="true">
+
+                404
+
+            </div>
+
+
+            <h1 class="error-title">
+                This page isn't on the wall.
+            </h1>
+
+
+            <p class="error-description">
+                The page you are looking for may have moved,
+                been removed, or never existed. But there is
+                still plenty to discover at ARTSASA.
+            </p>
+
+
+            <div class="error-actions">
+
+                <a href="{% url 'index' %}"
+                   class="btn-primary">
+
+                    <svg viewBox="0 0 24 24"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="1.7"
+                         aria-hidden="true">
+
+                        <path d="M3 11.5 12 4l9 7.5"/>
+                        <path d="M5.5 10v9h13v-9"/>
+                        <path d="M9.5 19v-5h5v5"/>
+
+                    </svg>
+
+                    Return Home
+
+                </a>
+
+
+                <a href="{% url 'collection' %}"
+                   class="btn-secondary">
+
+                    Explore Collection
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- ARTWORK / MAP-STYLE PANEL -->
+
+        <section class="error-art"
+                 aria-hidden="true">
+
+            <svg class="art-lines"
+                 viewBox="0 0 500 600"
+                 preserveAspectRatio="none">
+
+                <path d="M-40 100 C 100 40, 160 180, 290 110 S 460 70, 540 150"/>
+                <path d="M-50 230 C 90 160, 180 300, 320 230 S 470 210, 550 290"/>
+                <path d="M-40 380 C 100 300, 190 450, 310 370 S 470 350, 550 430"/>
+                <path d="M80 -30 C 140 100, 60 230, 130 360 S 90 520, 120 650"/>
+                <path d="M300 -30 C 260 110, 340 210, 280 350 S 330 510, 300 650"/>
+
+            </svg>
+
+
+            <div class="art-circle">
+
+                <span class="art-mark">
+                    A
+                </span>
+
+            </div>
+
+
+            <span class="art-caption">
+                ARTSASA · Nairobi · 404
+            </span>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <footer class="error-footer">
+
+        <span>
+            © {% now "Y" %} ARTSASA
+        </span>
+
+        <span class="footer-location">
+            Contemporary Art · Nairobi
+        </span>
+
+    </footer>
+
+</div>
+
+</body>
+</html>
