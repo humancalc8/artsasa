@@ -560,11 +560,21 @@
         color: rgba(241, 234, 219, .42);
     }
 
+    .footer-credit-name {
+        color: #f1eadb;
+        font-weight: 600;
+    }
+
     .footer-credit a {
         color: #f1eadb;
         text-decoration: none;
         font-weight: 600;
         transition: color .25s ease, opacity .25s ease;
+    }
+
+    .footer-credit a i {
+        margin-right: 5px;
+        font-size: 10px;
     }
 
     .footer-credit a:hover,
@@ -704,6 +714,194 @@
             transition: none;
         }
     }
+</style>
+
+
+<style id="artsasa-payment-and-protection-styles">
+
+    /* =========================================================
+       PAYMENT — M-PESA TILL CARD (inside "How to Buy")
+       ========================================================= */
+
+    .till-card {
+        margin-top: 12px;
+        padding: 14px 14px 12px;
+        border: 1px solid rgba(185, 139, 93, .55);
+        border-radius: 10px;
+        background: rgba(185, 139, 93, .10);
+    }
+
+    .till-label {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-family: "DM Sans", sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+        color: #d5b28a;
+    }
+
+    .till-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .till-number {
+        font-family: "DM Sans", sans-serif;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        line-height: 1.1;
+        color: #f5eee4;
+        cursor: text;
+        -webkit-user-select: all;
+        user-select: all;          /* one click / tap selects the whole number */
+    }
+
+    .till-copy {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 15px;
+        border: 0;
+        border-radius: 999px;
+        background: #b98b5d;
+        color: #211E1B;
+        font-family: "DM Sans", sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: .4px;
+        cursor: pointer;
+        transition:
+            background .25s ease,
+            color .25s ease,
+            transform .2s ease;
+    }
+
+    .till-copy:hover {
+        background: #d5b28a;
+        transform: translateY(-1px);
+    }
+
+    .till-copy:focus-visible {
+        outline: 2px solid #f5eee4;
+        outline-offset: 2px;
+    }
+
+    .till-copy.is-copied {
+        background: #25D366;
+        color: #ffffff;
+    }
+
+    .till-steps {
+        margin: 11px 0 0;
+        padding-left: 18px;
+        list-style: decimal;
+        font-family: "DM Sans", sans-serif;
+        font-size: 12px;
+        line-height: 1.65;
+        color: rgba(241, 234, 219, .72);
+    }
+
+    .till-steps li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .till-steps strong {
+        color: #f5eee4;
+    }
+
+    @media (max-width: 600px) {
+
+        .till-number {
+            font-size: 26px;
+            letter-spacing: 3px;
+        }
+
+    }
+
+    /* =========================================================
+       "PRIVATE ASSET" NOTICE
+       ========================================================= */
+
+    .private-notice {
+        position: fixed;
+        inset: 0;
+        z-index: 100000;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 20px;
+
+        background: rgba(20, 17, 15, .72);
+
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+
+        transition:
+            opacity .25s ease,
+            visibility .25s ease;
+    }
+
+    .private-notice.show {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .private-notice-box {
+        max-width: 360px;
+        padding: 30px 32px;
+
+        border: 1px solid rgba(185, 139, 93, .6);
+        border-radius: 14px;
+
+        background: #211E1B;
+        color: #f5eee4;
+
+        text-align: center;
+        font-family: "DM Sans", sans-serif;
+
+        box-shadow: 0 24px 60px rgba(0, 0, 0, .5);
+    }
+
+    .private-notice-box i {
+        display: block;
+        margin-bottom: 12px;
+        font-size: 26px;
+        color: #b98b5d;
+    }
+
+    .private-notice-box strong {
+        display: block;
+        font-family: "Cormorant Garamond", Georgia, serif;
+        font-size: 26px;
+        font-weight: 500;
+    }
+
+    .private-notice-box span {
+        display: block;
+        margin-top: 8px;
+        font-size: 11px;
+        letter-spacing: .4px;
+        color: rgba(245, 238, 228, .6);
+    }
+
+    /* Discourage dragging artwork images out of the page */
+
+    img {
+        -webkit-user-drag: none;
+    }
+
 </style>
 
 </head>
@@ -1354,23 +1552,23 @@
             <!-- SOCIAL -->
 
             <div class="header-social">
-    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-       target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
-    <a href="https://share.google/9LfIAg3IozD7qUaJO"
-       target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <i class="fa-brands fa-facebook-f"></i>
-    </a>
-    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-       target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-        <i class="fa-brands fa-tiktok"></i>
-    </a>
-    <a href="https://ke.linkedin.com/company/artsasa"
-       target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <i class="fa-brands fa-linkedin-in"></i>
-    </a>
-</div>
+                <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+                   target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="https://share.google/9LfIAg3IozD7qUaJO"
+                   target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+                   target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+                <a href="https://ke.linkedin.com/company/artsasa"
+                   target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </a>
+            </div>
 
 
             <span class="header-note">
@@ -1633,23 +1831,23 @@
         </p>
 
         <div class="mobile-nav-social">
-    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-       target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
-    <a href="https://share.google/9LfIAg3IozD7qUaJO"
-       target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <i class="fa-brands fa-facebook-f"></i>
-    </a>
-    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-       target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-        <i class="fa-brands fa-tiktok"></i>
-    </a>
-    <a href="https://ke.linkedin.com/company/artsasa"
-       target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <i class="fa-brands fa-linkedin-in"></i>
-    </a>
-</div>
+            <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+               target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+            <a href="https://share.google/9LfIAg3IozD7qUaJO"
+               target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                <i class="fa-brands fa-facebook-f"></i>
+            </a>
+            <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+               target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+            <a href="https://ke.linkedin.com/company/artsasa"
+               target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin-in"></i>
+            </a>
+        </div>
 
     </div>
 
@@ -1834,9 +2032,51 @@
 
                     </div>
 
-                    <div class="footer-buy-step">
+                    <!-- PAYMENT -->
+
+                    <div class="footer-buy-step footer-buy-step-pay">
 
                         <span class="footer-step-number">04</span>
+
+                        <div>
+
+                            <strong>Make payment</strong>
+
+                            <p>
+                                Once the price is confirmed, pay securely
+                                via M-Pesa and send us the confirmation
+                                message.
+                            </p>
+
+                            <div class="till-card">
+
+                                <span class="till-label">
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                    M-Pesa · Till Number
+                                </span>
+
+                                <div class="till-row">
+
+                                    <span
+                                        class="till-number"
+                                        id="tillNumber"
+                                        data-till="973810"
+                                        data-allow-copy>973810</span>
+
+
+                                </div>
+
+                               
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="footer-buy-step">
+
+                        <span class="footer-step-number">05</span>
 
                         <div>
                             <strong>Collect your work</strong>
@@ -1937,23 +2177,23 @@
                 </p>
 
                 <div class="footer-social">
-    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
-       target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <i class="fa-brands fa-instagram"></i>
-    </a>
-    <a href="https://share.google/9LfIAg3IozD7qUaJO"
-       target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-        <i class="fa-brands fa-facebook-f"></i>
-    </a>
-    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
-       target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-        <i class="fa-brands fa-tiktok"></i>
-    </a>
-    <a href="https://ke.linkedin.com/company/artsasa"
-       target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-        <i class="fa-brands fa-linkedin-in"></i>
-    </a>
-</div>
+                    <a href="https://www.instagram.com/artsasagallery?igsi=MWZjb3VtOHB0N2Rvbw=="
+                       target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://share.google/9LfIAg3IozD7qUaJO"
+                       target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@artsasa?_r=1&_t=ZS-99L4g5autim"
+                       target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://ke.linkedin.com/company/artsasa"
+                       target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <i class="fa-brands fa-linkedin-in"></i>
+                    </a>
+                </div>
 
                 <a
                     href="{% url 'index' %}"
@@ -1992,7 +2232,9 @@
             </div>
 
         </div>
-                <!-- DESIGN / DEVELOPMENT CREDIT -->
+
+
+        <!-- DESIGN / DEVELOPMENT CREDIT -->
 
         <div class="footer-credit">
 
@@ -2006,7 +2248,7 @@
 
             <span class="footer-credit-separator">·</span>
 
-            <a href="tel:+25472798319" aria-label="Call the website designers">
+            <a href="tel:+254727698319" aria-label="Call the website designers">
                 <i class="fa-solid fa-phone"></i> 0727 698 319
             </a>
 
@@ -2016,12 +2258,13 @@
 
 </footer>
 
+
 <!-- =============================================================
      FLOATING WHATSAPP BUTTON
 ============================================================= -->
 
-
-    <a href="https://wa.me/254742814824?text=Hello%20ARTSASA%2C%20I%27d%20like%20to%20enquire%20about%20an%20artwork."
+<a
+    href="https://wa.me/254742814824?text=Hello%20ARTSASA%2C%20I%27d%20like%20to%20enquire%20about%20an%20artwork."
     class="artsasa-whatsapp-float"
     target="_blank"
     rel="noopener noreferrer"
@@ -2032,6 +2275,7 @@
     <span class="artsasa-whatsapp-tooltip">Chat on WhatsApp</span>
 
 </a>
+
 
 <!-- =============================================================
      COOKIE CONSENT
@@ -2102,6 +2346,31 @@
 <div
     class="artsasa-toast"
     id="artsasaToast">
+</div>
+
+
+<!-- =============================================================
+     "PRIVATE ASSET" NOTICE
+     (shown when inspect / view-source shortcuts are used)
+============================================================= -->
+
+<div
+    class="private-notice"
+    id="privateAssetNotice"
+    role="alertdialog"
+    aria-live="assertive"
+    aria-label="Private asset notice">
+
+    <div class="private-notice-box">
+
+        <i class="fa-solid fa-lock"></i>
+
+        <strong>This is a private asset</strong>
+
+        <span>© ARTSASA. All rights reserved.</span>
+
+    </div>
+
 </div>
 
 
@@ -2371,21 +2640,7 @@
 
 
     /* =========================================================
-       CART / WISHLIST COUNTS   (FIXED)
-
-       WHY THE OLD VERSION DIDN'T UPDATE
-
-         1. The badges were only painted ONCE, on page load.
-            Nothing repainted them after an add-to-cart request
-            unless the page's own script called
-            ARTSASA.renderCounts() by hand.
-
-         2. When the server-side count was 0 the template
-            printed "undefined", so the badge silently fell
-            back to a localStorage value that nothing ever
-            wrote — i.e. a stale number.
-
-       WHAT THIS VERSION DOES
+       CART / WISHLIST COUNTS
 
          - The server value (cart_count / wishlist_count from a
            context processor) is authoritative on every page
@@ -2918,20 +3173,14 @@
     /* =========================================================
        ARTSASA LOADER
 
-       IMPORTANT:
        The loader chrome remains visible for at least 3 full
-       seconds, exactly as before.
-
-       What changed is HOW the word gets "painted": the brush
-       path and the paint reveal are now built at runtime from
-       the ACTUAL rendered geometry of the "Artsasa" text
-       (real per-letter positions via getStartPositionOfChar /
-       getEndPositionOfChar, and the real advance width via
-       getBBox), instead of an arbitrary decorative curve. This
-       is what keeps the brush honestly aligned to every letter,
-       on any screen size or fallback font, and is what makes
-       the reveal look like real, precise painting rather than a
-       generic sweep.
+       seconds. The brush path and the paint reveal are built at
+       runtime from the ACTUAL rendered geometry of the
+       "Artsasa" text (real per-letter positions via
+       getStartPositionOfChar / getEndPositionOfChar, and the
+       real advance width via getBBox), so the brush stays
+       honestly aligned to every letter on any screen size or
+       fallback font.
     ========================================================== */
 
     var loader = $("#pageLoader");
@@ -3536,6 +3785,213 @@
         );
 
     }
+
+})();
+
+</script>
+
+
+<!-- =============================================================
+     COPY TILL NUMBER  +  PRIVATE ASSET PROTECTION
+============================================================= -->
+
+<script>
+
+(function () {
+
+    "use strict";
+
+
+    /* =========================================================
+       COPY TILL NUMBER
+    ========================================================== */
+
+    var numEl = document.getElementById("tillNumber");
+    var btn   = document.getElementById("tillCopyBtn");
+
+    if (numEl && btn) {
+
+        var TILL  = numEl.getAttribute("data-till") || numEl.textContent.trim();
+        var label = btn.querySelector(".till-copy-label");
+        var icon  = btn.querySelector("i");
+        var resetTimer;
+
+        var finish = function (ok) {
+
+            btn.classList.toggle("is-copied", ok);
+
+            label.textContent = ok ? "Copied!" : "Select & copy";
+
+            icon.className = ok
+                ? "fa-solid fa-check"
+                : "fa-regular fa-copy";
+
+            if (window.ARTSASA && window.ARTSASA.toast) {
+
+                window.ARTSASA.toast(
+                    ok
+                        ? "Till number " + TILL + " copied"
+                        : "Tap the number to select it, then copy"
+                );
+
+            }
+
+            clearTimeout(resetTimer);
+
+            resetTimer = setTimeout(function () {
+
+                btn.classList.remove("is-copied");
+
+                label.textContent = "Copy";
+
+                icon.className = "fa-regular fa-copy";
+
+            }, 2200);
+
+        };
+
+        var fallbackCopy = function () {
+
+            var ta = document.createElement("textarea");
+
+            ta.value = TILL;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.top = "0";
+            ta.style.opacity = "0";
+
+            document.body.appendChild(ta);
+
+            ta.select();
+            ta.setSelectionRange(0, ta.value.length);
+
+            var ok = false;
+
+            try {
+                ok = document.execCommand("copy");
+            } catch (e) {}
+
+            document.body.removeChild(ta);
+
+            finish(ok);
+
+        };
+
+        btn.addEventListener("click", function () {
+
+            if (navigator.clipboard && window.isSecureContext) {
+
+                navigator.clipboard.writeText(TILL).then(
+                    function () { finish(true); },
+                    fallbackCopy
+                );
+
+            } else {
+
+                fallbackCopy();
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       PRIVATE ASSET PROTECTION  (deterrent only)
+
+       - Right-click is blocked, EXCEPT on form fields and on
+         anything marked data-allow-copy (the till number), so
+         customers can still copy it.
+       - Ctrl/Cmd+U, F12, Ctrl+Shift+I/J/C/K and Cmd+Opt+I/J/C/U
+         are intercepted and show the "private asset" notice.
+    ========================================================== */
+
+    var notice = document.getElementById("privateAssetNotice");
+
+    var noticeTimer;
+
+    function showNotice() {
+
+        if (!notice) return;
+
+        notice.classList.add("show");
+
+        clearTimeout(noticeTimer);
+
+        noticeTimer = setTimeout(function () {
+
+            notice.classList.remove("show");
+
+        }, 2600);
+
+    }
+
+    function isAllowed(el) {
+
+        return !!(
+            el &&
+            el.closest &&
+            el.closest("input, textarea, select, [data-allow-copy]")
+        );
+
+    }
+
+    document.addEventListener("contextmenu", function (e) {
+
+        if (isAllowed(e.target)) return;
+
+        e.preventDefault();
+
+        showNotice();
+
+    });
+
+    document.addEventListener("keydown", function (e) {
+
+        var mod  = e.ctrlKey || e.metaKey;
+        var code = e.code || "";
+
+        var blocked =
+
+            e.key === "F12" ||
+
+            /* Ctrl/Cmd + U  (view source) */
+            (mod && code === "KeyU") ||
+
+            /* Ctrl/Cmd + Shift + I / J / C / K  (dev tools) */
+            (mod && e.shiftKey &&
+                (code === "KeyI" || code === "KeyJ" ||
+                 code === "KeyC" || code === "KeyK")) ||
+
+            /* Cmd + Option + I / J / C / U  (macOS) */
+            (e.metaKey && e.altKey &&
+                (code === "KeyI" || code === "KeyJ" ||
+                 code === "KeyC" || code === "KeyU"));
+
+        if (blocked) {
+
+            e.preventDefault();
+
+            e.stopPropagation();
+
+            showNotice();
+
+            return false;
+
+        }
+
+    }, true);
+
+    document.addEventListener("dragstart", function (e) {
+
+        if (e.target && e.target.tagName === "IMG") {
+
+            e.preventDefault();
+
+        }
+
+    });
 
 })();
 
