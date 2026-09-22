@@ -40,14 +40,23 @@ def index(request):
         )[:4]
     )
 
+    # Artists displayed on the homepage.
+    # The image is optional, so artists without an uploaded
+    # image will still appear with a blank circular profile.
+    artists = (
+        Artist.objects
+        .all()
+        .order_by("name")[:5]
+    )
+
     return render(
         request,
         "index.html",
         {
             "featured_artworks": featured_artworks,
+            "artists": artists,
         }
     )
-
 
 # =========================================================
 # ABOUT

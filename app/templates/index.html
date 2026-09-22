@@ -400,170 +400,55 @@
 
         </div>
 
+<div class="artists-grid">
 
-        <!-- =================================================
-             FIVE ARTISTS
-        ================================================== -->
-        <div class="artists-grid">
+    {% for artist in artists %}
 
+        <article class="artist-card">
 
-            <!-- ARTIST 01 -->
-            <a href="{% url 'artists' %}"
-               class="artist-card reveal">
+            <a href="{% url 'artist_detail' artist.slug %}" class="artist-link">
 
                 <div class="artist-avatar">
 
-                    <img src="{% static 'images/wanjiku.jpg' %}"
-                         alt="Featured ARTSASA artist"
-                         loading="lazy">
-
-                    <span class="artist-number">
-                        01
-                    </span>
+                    {% if artist.image %}
+                        <img
+                            src="{{ artist.image.url }}"
+                            alt="{{ artist.name }}"
+                            loading="lazy"
+                        >
+                    {% endif %}
 
                 </div>
 
-                <div class="artist-info">
+                <div class="artist-meta">
 
-                    <h3 class="artist-name">
-                        Nderitu Wanjiku
-                    </h3>
+                    <span class="artist-number">
+                        Artist {{ forloop.counter|stringformat:"02d" }}
+                    </span>
 
-                    <p class="artist-discipline">
-                        Painting
-                    </p>
+                    <h3>{{ artist.name }}</h3>
+
+                    {% if artist.location %}
+                        <p>{{ artist.location }}</p>
+                    {% else %}
+                        <p>Contemporary Artist</p>
+                    {% endif %}
 
                 </div>
 
             </a>
 
+        </article>
 
-            <!-- ARTIST 02 -->
-            <a href="{% url 'artists' %}"
-               class="artist-card reveal">
+    {% empty %}
 
-                <div class="artist-avatar">
-
-                    <img src="{% static 'images/artist-2.jpg' %}"
-                         alt="Featured ARTSASA artist"
-                         loading="lazy">
-
-                    <span class="artist-number">
-                        02
-                    </span>
-
-                </div>
-
-                <div class="artist-info">
-
-                    <h3 class="artist-name">
-                        Daniel Otieno
-                    </h3>
-
-                    <p class="artist-discipline">
-                        Sculpture
-                    </p>
-
-                </div>
-
-            </a>
-
-
-            <!-- ARTIST 03 -->
-            <a href="{% url 'artists' %}"
-               class="artist-card reveal">
-
-                <div class="artist-avatar">
-
-                    <img src="{% static 'images/artist-3.jpg' %}"
-                         alt="Featured ARTSASA artist"
-                         loading="lazy">
-
-                    <span class="artist-number">
-                        03
-                    </span>
-
-                </div>
-
-                <div class="artist-info">
-
-                    <h3 class="artist-name">
-                        Nyambura K.
-                    </h3>
-
-                    <p class="artist-discipline">
-                        Mixed Media
-                    </p>
-
-                </div>
-
-            </a>
-
-
-            <!-- ARTIST 04 -->
-            <a href="{% url 'artists' %}"
-               class="artist-card reveal">
-
-                <div class="artist-avatar">
-
-                    <img src="{% static 'images/artist-4.jpg' %}"
-                         alt="Featured ARTSASA artist"
-                         loading="lazy">
-
-                    <span class="artist-number">
-                        04
-                    </span>
-
-                </div>
-
-                <div class="artist-info">
-
-                    <h3 class="artist-name">
-                        James Mwangi
-                    </h3>
-
-                    <p class="artist-discipline">
-                        Photography
-                    </p>
-
-                </div>
-
-            </a>
-
-
-            <!-- ARTIST 05 -->
-            <a href="{% url 'artists' %}"
-               class="artist-card reveal">
-
-                <div class="artist-avatar">
-
-                    <img src="{% static 'images/artist-5.jpg' %}"
-                         alt="Featured ARTSASA artist"
-                         loading="lazy">
-
-                    <span class="artist-number">
-                        05
-                    </span>
-
-                </div>
-
-                <div class="artist-info">
-
-                    <h3 class="artist-name">
-                        Wanjiru G.
-                    </h3>
-
-                    <p class="artist-discipline">
-                        Contemporary Art
-                    </p>
-
-                </div>
-
-            </a>
-
-
+        <div class="artists-empty">
+            <p>No artists have been added yet.</p>
         </div>
 
+    {% endfor %}
+
+</div>
 
         <div class="artists-bottom reveal">
 
@@ -810,7 +695,7 @@
                     </span>
 
                     <span>
-                        hello@artsasa.co.ke
+                        artsasa@gmail.com
                     </span>
 
                 </li>
@@ -836,7 +721,7 @@
                     </span>
 
                     <span>
-                        Mon — Sat, 10:00 — 18:00
+                        Mon — Fri, 08:00am — 08:00pm
                     </span>
 
                 </li>
