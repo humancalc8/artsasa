@@ -429,9 +429,9 @@
                     <h3>{{ artist.name }}</h3>
 
                     {% if artist.location %}
-                        <p>{{ artist.location }}</p>
+                        <p class="artist-location" title="{{ artist.location }}">{{ artist.location }}</p>
                     {% else %}
-                        <p>Contemporary Artist</p>
+                        <p class="artist-location" title="Contemporary Artist">Contemporary Artist</p>
                     {% endif %}
 
                 </div>
@@ -1464,6 +1464,29 @@
 
 
 /* =============================================================
+   ARTIST LOCATION
+
+   Desktop: full text is always shown, no truncation.
+   Mobile (<=700px): capped to ~11 characters — anything
+   longer is cut and an ellipsis ("…") is appended, so the
+   five-across layout never breaks. The full value is kept
+   in a title="" attribute so it's still available on tap-hold
+   / hover.
+============================================================= */
+
+.artist-location {
+    margin: 0;
+
+    font-size: 11px;
+    line-height: 1.4;
+
+    color: var(--ink-soft);
+
+    white-space: nowrap;
+}
+
+
+/* =============================================================
    ARTIST FOOTER LINE
 ============================================================= */
 
@@ -2353,6 +2376,27 @@
         text-overflow: ellipsis;
     }
 
+    /*
+       ARTIST LOCATION — MOBILE TRUNCATION
+
+       Capped to ~11 characters using the "ch" unit (roughly
+       one character's width in the current font), with any
+       overflow cut and replaced by an ellipsis. Desktop is
+       untouched — see the base .artist-location rule above,
+       which has no width limit.
+    */
+
+    .artist-location {
+        max-width: 11ch;
+        margin: 0 auto;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        font-size: 7.5px;
+        letter-spacing: .03em;
+    }
+
     .artist-number {
         width: 18px;
         height: 18px;
@@ -2381,7 +2425,15 @@
     }
 
 
-    /* JOURNAL */
+    /* JOURNAL
+
+       Two columns on mobile leave the third (last) card
+       orphaned in its own row, with blank space where a
+       fourth card would sit. Instead, the last card spans
+       the full width and gets a wider aspect ratio, the same
+       treatment already used at the tablet breakpoint, so
+       there is no empty gap beside it.
+    */
 
     .journal-header {
         flex-direction: column;
@@ -2395,13 +2447,16 @@
     }
 
     .journal-card:last-child {
-        grid-column: auto;
+        grid-column: 1 / -1;
     }
 
-    .journal-image,
-    .journal-card:last-child .journal-image {
+    .journal-image {
         aspect-ratio: 4 / 3;
         border-radius: 1px;
+    }
+
+    .journal-card:last-child .journal-image {
+        aspect-ratio: 16 / 10;
     }
 
     .journal-info {
@@ -2507,6 +2562,11 @@
 
     .artist-discipline {
         font-size: 5.8px;
+    }
+
+    .artist-location {
+        max-width: 9ch;
+        font-size: 6.8px;
     }
 
     .artist-number {
