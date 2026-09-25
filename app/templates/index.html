@@ -44,7 +44,7 @@
                  alt=""
                  loading="eager">
         </div>
-        
+
 
 
         <div class="hero-overlay"></div>
@@ -372,7 +372,19 @@
 
 <!-- =========================================================
      ARTISTS
-     Five portraits across desktop AND mobile.
+
+     Always renders exactly 5 profiles.
+
+     For each of the 5 slots:
+       - If a real artist exists in that slot AND has an
+         uploaded image, their photo + name (linked to their
+         detail page) is shown.
+       - Otherwise, a themed placeholder profile is shown
+         instead — a discipline-based icon avatar paired with
+         a Kenyan name, matching the ARTSASA programme themes
+         (Painting, Sculpture, Photography, Woodwork, Mixed
+         Media). These placeholders are decorative only and
+         are not linked anywhere.
 ========================================================= -->
 <section class="artists-section" id="artists">
 
@@ -400,55 +412,149 @@
 
         </div>
 
-<div class="artists-grid">
+        <div class="artists-grid">
 
-    {% for artist in artists %}
+            {% with a1=artists.0 a2=artists.1 a3=artists.2 a4=artists.3 a5=artists.4 %}
 
-        <article class="artist-card">
+            <!-- ============ SLOT 1 — Painting ============ -->
+            <article class="artist-card">
+                {% if a1 and a1.image %}
+                    <a href="{% url 'artist_detail' a1.slug %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <img src="{{ a1.image.url }}" alt="{{ a1.name }}" loading="lazy">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist-name">{{ a1.name }}</h3>
+                            <p class="artist-location" title="{{ a1.location|default:'Contemporary Artist' }}">{{ a1.location|default:"Contemporary Artist" }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="artist-avatar artist-avatar-thematic avatar-theme-1" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.9 0-.5-.2-.9-.5-1.3-.3-.4-.4-.8-.1-1.2.3-.4.9-.5 1.4-.5H17a4 4 0 0 0 4-4c0-5-4.5-9-9-9Z"/>
+                            <circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none"/>
+                            <circle cx="9.5" cy="7" r="1" fill="currentColor" stroke="none"/>
+                            <circle cx="14" cy="7" r="1" fill="currentColor" stroke="none"/>
+                            <circle cx="16.5" cy="10" r="1" fill="currentColor" stroke="none"/>
+                        </svg>
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">Wanjiru Achieng</h3>
+                        <p class="artist-discipline">Painter</p>
+                    </div>
+                {% endif %}
+            </article>
 
-            <a href="{% url 'artist_detail' artist.slug %}" class="artist-link">
+            <!-- ============ SLOT 2 — Sculpture ============ -->
+            <article class="artist-card">
+                {% if a2 and a2.image %}
+                    <a href="{% url 'artist_detail' a2.slug %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <img src="{{ a2.image.url }}" alt="{{ a2.name }}" loading="lazy">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist-name">{{ a2.name }}</h3>
+                            <p class="artist-location" title="{{ a2.location|default:'Contemporary Artist' }}">{{ a2.location|default:"Contemporary Artist" }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="artist-avatar artist-avatar-thematic avatar-theme-2" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="7" y="11" width="10" height="9" rx="1"/>
+                            <path d="M9 11 12 4l3 7"/>
+                            <path d="M12 4v3"/>
+                        </svg>
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">Otieno Barasa</h3>
+                        <p class="artist-discipline">Sculptor</p>
+                    </div>
+                {% endif %}
+            </article>
 
-                <div class="artist-avatar">
+            <!-- ============ SLOT 3 — Photography ============ -->
+            <article class="artist-card">
+                {% if a3 and a3.image %}
+                    <a href="{% url 'artist_detail' a3.slug %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <img src="{{ a3.image.url }}" alt="{{ a3.name }}" loading="lazy">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist-name">{{ a3.name }}</h3>
+                            <p class="artist-location" title="{{ a3.location|default:'Contemporary Artist' }}">{{ a3.location|default:"Contemporary Artist" }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="artist-avatar artist-avatar-thematic avatar-theme-3" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="7" width="18" height="13" rx="2"/>
+                            <path d="M8 7 9.3 4.5h5.4L16 7"/>
+                            <circle cx="12" cy="13.5" r="3.4"/>
+                        </svg>
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">Amina Hassan</h3>
+                        <p class="artist-discipline">Photographer</p>
+                    </div>
+                {% endif %}
+            </article>
 
-                    {% if artist.image %}
-                        <img
-                            src="{{ artist.image.url }}"
-                            alt="{{ artist.name }}"
-                            loading="lazy"
-                        >
-                    {% endif %}
+            <!-- ============ SLOT 4 — Woodwork ============ -->
+            <article class="artist-card">
+                {% if a4 and a4.image %}
+                    <a href="{% url 'artist_detail' a4.slug %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <img src="{{ a4.image.url }}" alt="{{ a4.name }}" loading="lazy">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist-name">{{ a4.name }}</h3>
+                            <p class="artist-location" title="{{ a4.location|default:'Contemporary Artist' }}">{{ a4.location|default:"Contemporary Artist" }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="artist-avatar artist-avatar-thematic avatar-theme-4" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M3 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
+                            <path d="M3 13c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
+                            <path d="M3 17c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
+                        </svg>
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">Kiptoo Ndegwa</h3>
+                        <p class="artist-discipline">Woodworker</p>
+                    </div>
+                {% endif %}
+            </article>
 
-                </div>
+            <!-- ============ SLOT 5 — Mixed Media ============ -->
+            <article class="artist-card">
+                {% if a5 and a5.image %}
+                    <a href="{% url 'artist_detail' a5.slug %}" class="artist-link">
+                        <div class="artist-avatar">
+                            <img src="{{ a5.image.url }}" alt="{{ a5.name }}" loading="lazy">
+                        </div>
+                        <div class="artist-info">
+                            <h3 class="artist-name">{{ a5.name }}</h3>
+                            <p class="artist-location" title="{{ a5.location|default:'Contemporary Artist' }}">{{ a5.location|default:"Contemporary Artist" }}</p>
+                        </div>
+                    </a>
+                {% else %}
+                    <div class="artist-avatar artist-avatar-thematic avatar-theme-5" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="4" y="4" width="10" height="10" rx="1"/>
+                            <rect x="10" y="10" width="10" height="10" rx="1" opacity="0.55"/>
+                        </svg>
+                    </div>
+                    <div class="artist-info">
+                        <h3 class="artist-name">Nyambura Kimani</h3>
+                        <p class="artist-discipline">Mixed Media Artist</p>
+                    </div>
+                {% endif %}
+            </article>
 
-                <div class="artist-meta">
+            {% endwith %}
 
-                    <span class="artist-number">
-                        Artist {{ forloop.counter|stringformat:"02d" }}
-                    </span>
-
-                    <h3>{{ artist.name }}</h3>
-
-                    {% if artist.location %}
-                        <p class="artist-location" title="{{ artist.location }}">{{ artist.location }}</p>
-                    {% else %}
-                        <p class="artist-location" title="Contemporary Artist">Contemporary Artist</p>
-                    {% endif %}
-
-                </div>
-
-            </a>
-
-        </article>
-
-    {% empty %}
-
-        <div class="artists-empty">
-            <p>No artists have been added yet.</p>
         </div>
-
-    {% endfor %}
-
-</div>
 
         <div class="artists-bottom reveal">
 
@@ -721,7 +827,7 @@
                     </span>
 
                     <span>
-                        Mon — Fri, 08:00am — 08:00pm
+                        Mon — sat, 08:00am — 08:00pm
                     </span>
 
                 </li>
@@ -1312,6 +1418,12 @@
     color: inherit;
 }
 
+.artist-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+
 
 /* =============================================================
    CIRCULAR AVATAR
@@ -1385,41 +1497,49 @@
 
 
 /* =============================================================
-   NUMBER MARKER
+   THEMATIC PLACEHOLDER AVATARS
+
+   Shown whenever a slot has no real uploaded artist photo.
+   Each discipline gets its own accent colour, pulled from
+   the site's existing palette, plus a simple line-art icon
+   representing the medium.
 ============================================================= */
 
-.artist-number {
-    position: absolute;
-    right: 5px;
-    bottom: 8px;
-
-    width: 25px;
-    height: 25px;
-
+.artist-avatar-thematic {
     display: flex;
     align-items: center;
     justify-content: center;
-
-    border-radius: 50%;
-
-    background: var(--paper);
-    color: var(--terracotta-deep);
-
-    border: 1px solid rgba(33,30,27,.12);
-
-    font-size: 8px;
-    font-weight: 700;
-    letter-spacing: .08em;
-
-    box-shadow: 0 4px 12px rgba(33,30,27,.12);
-
-    transition:
-        background .3s ease,
-        color .3s ease;
 }
 
+.artist-avatar-thematic svg {
+    width: 42%;
+    height: 42%;
+    stroke: currentColor;
+    fill: none;
+    opacity: .92;
+}
 
-.artist-card:hover .artist-number {
+.avatar-theme-1 {
+    background: var(--rattan);
+    color: var(--midnight);
+}
+
+.avatar-theme-2 {
+    background: var(--terracotta);
+    color: var(--sandstone);
+}
+
+.avatar-theme-3 {
+    background: var(--midnight);
+    color: var(--sandstone);
+}
+
+.avatar-theme-4 {
+    background: var(--wine);
+    color: var(--sandstone);
+}
+
+.avatar-theme-5 {
     background: var(--terracotta-deep);
     color: var(--sandstone);
 }
@@ -2397,16 +2517,6 @@
         letter-spacing: .03em;
     }
 
-    .artist-number {
-        width: 18px;
-        height: 18px;
-
-        right: 0;
-        bottom: 2px;
-
-        font-size: 6px;
-    }
-
     .artists-bottom {
         margin-top: 40px;
         padding-top: 18px;
@@ -2567,12 +2677,6 @@
     .artist-location {
         max-width: 9ch;
         font-size: 6.8px;
-    }
-
-    .artist-number {
-        width: 16px;
-        height: 16px;
-        font-size: 5px;
     }
 
 }
