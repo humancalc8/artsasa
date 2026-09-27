@@ -8,8 +8,7 @@ from .views import (
     artwork_enquiry,
     artists,
     artist_detail,
-    exhibitions,
-    exhibition_detail,
+    
 
     # Cart
     cart,
@@ -33,8 +32,7 @@ from .views import (
     artwork_enquiry,
     artists,
     artist_detail,
-    exhibitions,
-    exhibition_detail,
+    
     blog,
     blog_detail,
     # Cart

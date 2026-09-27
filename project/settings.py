@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_ckeditor_5",
+    "django.contrib.sitemaps",
 
     # ARTSASA core application
     "app",
@@ -223,7 +224,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-DEBUG = False
+DEBUG = True
 # ============================================================
 # STATIC FILES
 # ============================================================
