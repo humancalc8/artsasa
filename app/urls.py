@@ -152,4 +152,5 @@ path(
     live_blog_seo_analyzer,
     name="live_blog_seo_analyzer",
 ),
+path("robots.txt", views.robots_txt, name="robots_txt"),
 ]

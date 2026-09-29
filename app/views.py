@@ -2357,3 +2357,14 @@ def terms(request):
         request,
         "terms.html"
     )
+
+from django.http import HttpResponse
+
+
+def robots_txt(request):
+    content = """User-agent: *
+Allow: /
+
+Sitemap: https://artsasa.com/sitemap.xml
+"""
+    return HttpResponse(content, content_type="text/plain")
