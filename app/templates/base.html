@@ -1,103 +1,230 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- =========================================================
+         BASIC DOCUMENT META
+    ========================================================== -->
 
-<title>{% block title %}ARTSASA — Contemporary Art Gallery{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta name="description"
-   content="{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
+    <!-- =========================================================
+         PRIMARY SEO
+    ========================================================== -->
 
-<meta name="theme-color" content="#211E1B">
+    <title>
+        {% block title %}ARTSASA — Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
+    </title>
 
-<!-- =========================================================
-     ARTSASA — FAVICON + SEARCH ENGINE IDENTITY
-========================================================= -->
+    <meta name="description"
+          content="{% block meta_description %}ARTSASA is a contemporary art gallery in Nairobi, Kenya, presenting contemporary African art, Kenyan artists, painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
 
-<link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}">
-<link rel="shortcut icon" href="{% static 'images/logo.png' %}">
-<link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
+    <meta name="author" content="ARTSASA Contemporary Art Gallery">
 
-<meta name="application-name" content="ARTSASA">
-<meta name="author" content="ARTSASA Contemporary Art Gallery">
-<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta name="robots"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
-<!-- =========================================================
-     OPEN GRAPH
-========================================================= -->
+    <meta name="googlebot"
+          content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="ARTSASA">
-<meta property="og:title" content="{% block og_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
-<meta property="og:description" content="{% block og_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
-<meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
-<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
-<meta property="og:image:alt" content="ARTSASA Contemporary Art Gallery — Nairobi, Kenya">
-<meta property="og:locale" content="en_KE">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{% block twitter_title %}ARTSASA — Contemporary Art Gallery in Nairobi{% endblock %}">
-<meta name="twitter:description" content="{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi.{% endblock %}">
-<meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}">
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://artsasa.com{{ request.path }}">
 
-<!-- =========================================================
-     STRUCTURED DATA
-========================================================= -->
+    <!-- =========================================================
+         SEARCH ENGINE / BRAND IDENTITY
+    ========================================================== -->
 
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "ARTSASA",
-    "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/logo.png' %}",
-    "description": "ARTSASA is an independent contemporary art gallery in Nairobi presenting painting, photography, sculpture, woodwork and mixed media.",
-    "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Nairobi",
-        "addressCountry": "KE"
+    <meta name="application-name" content="ARTSASA">
+
+    <meta name="apple-mobile-web-app-title" content="ARTSASA">
+
+    <meta name="theme-color" content="#211E1B">
+
+    <meta name="content-language" content="en">
+
+    <!-- =========================================================
+         FAVICON
+    ========================================================== -->
+
+    <link rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="48x48"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="shortcut icon"
+          href="{% static 'images/logo.png' %}">
+
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="{% static 'images/logo.png' %}">
+
+    <!-- =========================================================
+         OPEN GRAPH
+    ========================================================== -->
+
+    <meta property="og:type" content="website">
+
+    <meta property="og:site_name" content="ARTSASA">
+
+    <meta property="og:title"
+          content="{% block og_title %}ARTSASA — Contemporary Art Gallery in Nairobi, Kenya{% endblock %}">
+
+    <meta property="og:description"
+          content="{% block og_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA, a contemporary art gallery in Nairobi, Kenya.{% endblock %}">
+
+    <meta property="og:url"
+          content="https://artsasa.com{{ request.path }}">
+
+    <meta property="og:image"
+          content="https://artsasa.com{% static 'images/logo.png' %}">
+
+    <meta property="og:image:alt"
+          content="ARTSASA — Contemporary Art Gallery in Nairobi, Kenya">
+
+    <meta property="og:locale" content="en_KE">
+
+    <!-- =========================================================
+         TWITTER / X
+    ========================================================== -->
+
+    <meta name="twitter:card"
+          content="summary_large_image">
+
+    <meta name="twitter:title"
+          content="{% block twitter_title %}ARTSASA — Contemporary Art Gallery in Nairobi, Kenya{% endblock %}">
+
+    <meta name="twitter:description"
+          content="{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original artworks at ARTSASA in Nairobi, Kenya.{% endblock %}">
+
+    <meta name="twitter:image"
+          content="https://artsasa.com{% static 'images/logo.png' %}">
+
+    <meta name="twitter:image:alt"
+          content="ARTSASA — Contemporary Art Gallery in Nairobi, Kenya">
+
+    <!-- =========================================================
+         STRUCTURED DATA — ARTSASA ORGANIZATION
+    ========================================================== -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ArtGallery",
+        "@id": "https://artsasa.com/#organization",
+
+        "name": "ARTSASA",
+
+        "alternateName": "ARTSASA Gallery",
+
+        "url": "https://artsasa.com/",
+
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://artsasa.com{% static 'images/logo.png' %}"
+        },
+
+        "image": "https://artsasa.com{% static 'images/logo.png' %}",
+
+        "description": "ARTSASA is a contemporary art gallery in Nairobi, Kenya, presenting contemporary African art, Kenyan artists, painting, photography, sculpture, woodwork and mixed media.",
+
+        "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Kindaruma Road",
+            "addressLocality": "Nairobi",
+            "addressCountry": "KE"
+        },
+
+        "areaServed": {
+            "@type": "City",
+            "name": "Nairobi"
+        },
+
+        "sameAs": [
+            "https://www.instagram.com/artsasagallery/",
+            "https://www.tiktok.com/@artsasa",
+            "https://www.linkedin.com/company/artsasa/"
+        ]
     }
-}
-</script>
+    </script>
 
-<script type="application/ld+json">
-{
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ARTSASA",
-    "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'index' %}?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+    <!-- =========================================================
+         STRUCTURED DATA — WEBSITE
+    ========================================================== -->
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+
+        "@id": "https://artsasa.com/#website",
+
+        "name": "ARTSASA",
+
+        "alternateName": "ARTSASA Contemporary Art Gallery",
+
+        "url": "https://artsasa.com/",
+
+        "publisher": {
+            "@id": "https://artsasa.com/#organization"
+        }
     }
-}
-</script>
+    </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- =========================================================
+         FONTS
+    ========================================================== -->
 
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,0..72,400;1,0..72,500&family=Permanent+Marker&display=swap"
-      rel="stylesheet">
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
 
-<link rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
 
-<link rel="stylesheet"
-      href="{% static 'css/site.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,0..72,400;1,0..72,500&family=Permanent+Marker&display=swap"
+          rel="stylesheet">
 
-{% block extra_css %}{% endblock %}
+    <!-- =========================================================
+         FONT AWESOME
+    ========================================================== -->
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <!-- =========================================================
+         ARTSASA STYLESHEET
+    ========================================================== -->
+
+    <link rel="stylesheet"
+          href="{% static 'css/site.css' %}">
+
+    {% block extra_css %}{% endblock %}
+
 
 <style>
 
