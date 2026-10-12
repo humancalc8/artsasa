@@ -1,15 +1,55 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}About — ARTSASA Contemporary Art Gallery{% endblock %}
+{% block title %}About ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
 
-{% block meta_description %}Discover ARTSASA, an independent contemporary art gallery in Nairobi working with artists across painting, photography, sculpture, woodwork and mixed media.{% endblock %}
+{% block meta_description %}Learn about ARTSASA, an independent contemporary art gallery in Nairobi, Kenya, working with artists across painting, photography, sculpture, woodwork and mixed media.{% endblock %}
+
+{% block meta_keywords %}about ARTSASA, ARTSASA gallery, ARTSASA Nairobi, contemporary art gallery Nairobi, Kenyan art gallery, East African artists, visit art gallery Nairobi{% endblock %}
+
+{% block og_title %}About ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
+{% block og_description %}ARTSASA is an independent contemporary art gallery in Nairobi making room for artists, ideas and work made with intention.{% endblock %}
+{% block twitter_title %}About ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
+{% block twitter_description %}ARTSASA is an independent contemporary art gallery in Nairobi making room for artists, ideas and work made with intention.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    "@id": "https://artsasa.com{% url 'about' %}#webpage",
+    "url": "https://artsasa.com{% url 'about' %}",
+    "name": "About ARTSASA | Contemporary Art Gallery in Nairobi, Kenya",
+    "description": "ARTSASA is an independent contemporary art gallery in Nairobi, Kenya, working with artists across painting, photography, sculpture, woodwork and mixed media.",
+    "inLanguage": "en-KE",
+    "isPartOf": { "@id": "https://artsasa.com/#website" },
+    "about": { "@id": "https://artsasa.com/#organization" }
+}
+</script>
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+        {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "ARTSASA",
+            "item": "https://artsasa.com/"
+        },
+        {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "About",
+            "item": "https://artsasa.com{% url 'about' %}"
+        }
+    ]
+}
+</script>
+{% endblock %}
 
 {% block content %}
 
-<!-- =========================================================
-     ABOUT HERO
-========================================================= -->
 <section class="about-hero">
     <div class="site-container">
         <div class="about-hero-top">
@@ -17,7 +57,7 @@
             <span class="page-location">Nairobi · Kenya</span>
         </div>
         <div class="about-hero-title">
-            <h1 class="section-title">A gallery with a point <em>of view.</em></h1>
+            <h1 class="section-title">ARTSASA is a gallery with a point <em>of view.</em></h1>
         </div>
         <p class="about-intro reveal">
             ARTSASA is an independent contemporary art gallery based in Nairobi, Kenya.
@@ -27,15 +67,12 @@
 </section>
 
 
-<!-- =========================================================
-     MAIN ABOUT
-========================================================= -->
 <section class="about-main">
     <div class="site-container about-main-grid">
 
         <div class="about-image-wrap reveal">
             <div class="about-image">
-                <img src="{% static 'images/e.jpg' %}" alt="Artwork presented by ARTSASA Contemporary Art Gallery" loading="eager">
+                <img src="{% static 'images/e.jpg' %}" alt="Artwork presented by ARTSASA Contemporary Art Gallery in Nairobi" loading="eager">
             </div>
             <div class="image-caption"><span>ARTSASA Gallery</span><span>Nairobi, Kenya</span></div>
         </div>
@@ -47,7 +84,7 @@
             <div class="copy-body">
                 <p>ARTSASA works with artists whose practices explore identity, material, place, memory and the changing world around us.</p>
                 <p>Our programme brings together painting, photography, sculpture, woodwork, mixed media and other contemporary practices.</p>
-                <p>We are interested in work that has something to say — work that rewards attention and gives people a reason to stop, look and think.</p>
+                <p>We are interested in work that has something to say. It rewards attention and gives people a reason to stop, look and think.</p>
             </div>
 
             <div class="about-details">
@@ -61,9 +98,6 @@
 </section>
 
 
-<!-- =========================================================
-     STATEMENT
-========================================================= -->
 <section class="statement">
     <div class="site-container statement-inner">
         <div><span class="eyebrow">Our approach</span></div>
@@ -78,12 +112,6 @@
 </section>
 
 
-<!-- =========================================================
-     DISCIPLINES
-     Keyed to the gallery's own material palette rather than
-     an arbitrary 01–05 sequence — the order here doesn't mean
-     anything, so nothing pretends it does.
-========================================================= -->
 <section class="disciplines">
     <div class="site-container">
 
@@ -104,9 +132,6 @@
 </section>
 
 
-<!-- =========================================================
-     PHILOSOPHY
-========================================================= -->
 <section class="about-philosophy">
     <div class="site-container philosophy-grid">
         <div class="philosophy-copy reveal">
@@ -117,16 +142,13 @@
             <a href="{% url 'collection' %}" class="text-link">Explore the collection <span class="arrow">↗</span></a>
         </div>
         <div class="philosophy-image reveal">
-            <img src="{% static 'images/p.jpg' %}" alt="ARTSASA gallery interior" loading="lazy">
+            <img src="{% static 'images/p.jpg' %}" alt="Interior of the ARTSASA gallery in Nairobi" loading="lazy">
             <span class="philosophy-caption">Space for looking.</span>
         </div>
     </div>
 </section>
 
 
-<!-- =========================================================
-     VISIT
-========================================================= -->
 <section class="about-visit" id="visit">
     <div class="site-container">
         <div class="visit-top"><span class="eyebrow">Come by</span></div>
@@ -134,12 +156,12 @@
             <div class="visit-copy reveal">
                 <h2 class="section-title">Art is better <em>experienced</em> together.</h2>
                 <p class="body-copy">Visit ARTSASA to experience the current exhibition, meet the team and spend time with the work.</p>
-                <a href="mailto:hello@artsasa.com" class="text-link">Get in touch <span class="arrow">↗</span></a>
+                <a href="mailto:info@artsasa.com" class="text-link">Get in touch <span class="arrow">↗</span></a>
             </div>
             <div class="visit-details reveal">
-                <div><span class="detail-label">Location</span><strong>Kamiti Road at ecorn energy,Nairobi. Kenya</strong></div>
-                <div><span class="detail-label">Hours</span><strong>Monday — Saturday</strong></div>
-                <div><span class="detail-label">Visiting hours</span><strong>08:00am — 08:00pm</strong></div>
+                <div><span class="detail-label">Location</span><strong>Kamiti Road at ecorn energy, Nairobi, Kenya</strong></div>
+                <div><span class="detail-label">Hours</span><strong>Monday to Saturday</strong></div>
+                <div><span class="detail-label">Visiting hours</span><strong>08:00am to 08:00pm</strong></div>
             </div>
         </div>
     </div>
@@ -150,11 +172,6 @@
 
 {% block extra_css %}
 <style>
-
-/* =============================================================
-   ABOUT — page-specific layout only.
-============================================================= */
-
 .about-hero { padding: 150px 0 90px; background: var(--paper); }
 .about-hero-top { display: flex; justify-content: space-between; padding-bottom: 24px; border-bottom: 1px solid var(--line); font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
 .page-label { color: var(--terracotta); }
@@ -208,7 +225,6 @@
 .about-visit .visit-details { display: flex; flex-direction: column; gap: 26px; }
 .about-visit .visit-details > div { padding-bottom: 22px; border-bottom: 1px solid var(--line); }
 .about-visit .visit-details strong { display: block; margin-top: 8px; font-family: var(--font-display); font-size: 21px; font-weight: 400; }
-
 
 @media (max-width: 900px) {
     .about-main-grid, .statement-inner, .disciplines-header, .philosophy-grid, .about-visit .visit-grid { grid-template-columns: 1fr; gap: 45px; }
