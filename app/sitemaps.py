@@ -12,22 +12,20 @@ class ArtsasaSitemap(Sitemap):
         return "artsasa.com"
 
 
-class StaticViewSitemap(ArtsasaSitemap):
+from django.contrib.sitemaps import Sitemap
+from django.urls import reverse
+
+
+class StaticViewSitemap(Sitemap):
+    protocol = "https"
     changefreq = "weekly"
     priority = 0.8
 
     def items(self):
-        return [
-            "index",
-            "about",
-            "collection",
-            "artists",
-            "blog",
-        ]
+        return ["index", "collection", "artists", "blog", "about", "privacy", "terms"]
 
     def location(self, item):
         return reverse(item)
-
 
 class ArtworkSitemap(ArtsasaSitemap):
     changefreq = "weekly"

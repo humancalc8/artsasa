@@ -3,14 +3,16 @@
 
 {% block title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
 
-{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi, Kenya. Explore and collect original African art by Kenyan artists: painting, photography, sculpture, woodwork and mixed media.{% endblock %}
+{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi, Kenya. Explore and collect original African art by Kenyan and East African artists.{% endblock %}
 
-{% block meta_keywords %}ARTSASA, ARTSASA gallery, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art in Nairobi, original artworks Kenya{% endblock %}
+{% block meta_keywords %}ARTSASA, ARTSASA gallery, Art Sasa, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art in Nairobi, original artworks Kenya{% endblock %}
 
 {% block og_title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
 {% block og_description %}Visit ARTSASA in Nairobi to discover contemporary African art, Kenyan artists, exhibitions and original artworks for collectors.{% endblock %}
+{% block og_image %}https://artsasa.com{% static 'images/banner-1.jpg' %}{% endblock %}
 {% block twitter_title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
 {% block twitter_description %}Visit ARTSASA in Nairobi to discover contemporary African art, Kenyan artists, exhibitions and original artworks for collectors.{% endblock %}
+{% block twitter_image %}https://artsasa.com{% static 'images/banner-1.jpg' %}{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -20,13 +22,13 @@
     "@id": "https://artsasa.com/#webpage",
     "url": "https://artsasa.com/",
     "name": "ARTSASA | Contemporary Art Gallery in Nairobi, Kenya",
-    "description": "ARTSASA is an independent contemporary art gallery in Nairobi, Kenya presenting painting, photography, sculpture, woodwork and mixed media by Kenyan and African artists.",
+    "description": "ARTSASA is an independent contemporary art gallery in Nairobi, Kenya presenting painting, photography, sculpture, woodwork and mixed media by emerging and established artists from Kenya, East Africa and beyond.",
     "inLanguage": "en-KE",
     "isPartOf": { "@id": "https://artsasa.com/#website" },
     "about": { "@id": "https://artsasa.com/#organization" },
     "primaryImageOfPage": {
         "@type": "ImageObject",
-        "url": "https://artsasa.com{% static 'images/logo.png' %}"
+        "url": "https://artsasa.com{% static 'images/banner-1.jpg' %}"
     }
 }
 </script>
@@ -41,13 +43,13 @@
             <img src="{% static 'images/banner-1.jpg' %}" alt="" fetchpriority="high">
         </div>
         <div class="hero-slide">
-            <img src="{% static 'images/banner-2.jpg' %}" alt="" loading="eager">
+            <img src="{% static 'images/banner-2.jpg' %}" alt="" loading="lazy" decoding="async">
         </div>
         <div class="hero-slide">
-            <img src="{% static 'images/banner-3.jpg' %}" alt="" loading="eager">
+            <img src="{% static 'images/banner-3.jpg' %}" alt="" loading="lazy" decoding="async">
         </div>
         <div class="hero-slide">
-            <img src="{% static 'images/banner-4.jpg' %}" alt="" loading="eager">
+            <img src="{% static 'images/banner-4.jpg' %}" alt="" loading="lazy" decoding="async">
         </div>
         <div class="hero-overlay"></div>
     </div>
@@ -56,7 +58,7 @@
 
         <div class="hero-copy">
 
-            <span class="eyebrow hero-kicker">Imagine . Create</span>
+            <span class="eyebrow hero-kicker">ARTSASA · Contemporary Art Gallery, Nairobi</span>
 
             <h1 class="hero-title">
                 Art, unframed.
@@ -64,8 +66,8 @@
             </h1>
 
             <p class="hero-description">
-                ARTSASA is an independent gallery in Nairobi presenting artists working across
-                painting, photography, sculpture, woodwork and mixed media.
+                ARTSASA is an independent contemporary art gallery in Nairobi presenting artists
+                working across painting, photography, sculpture, woodwork and mixed media.
             </p>
 
             <div class="hero-actions">
@@ -102,13 +104,13 @@
 
         <div class="intro-copy reveal">
 
-            <p>A space for <em>artists, ideas</em> and work made with intention.</p>
+            <h2 class="intro-lead">A sanctuary for the <em>creative spirit</em>, deep inquiry, and intention taking form.</h2>
 
             <div class="intro-meta">
 
                 <p>
-                    We present contemporary art from Kenya, East Africa and beyond,
-                    from emerging voices to established practitioners.
+                    We present contemporary art by emerging and established artists
+                    from Kenya, East Africa, and beyond.
                 </p>
 
                 <a href="{% url 'about' %}" class="text-link">
@@ -438,7 +440,7 @@
                 </a>
 
                 <div class="journal-info">
-                    <span class="journal-date">May 28, 2026</span>
+                    <time class="journal-date" datetime="2026-05-28">May 28, 2026</time>
                     <h3 class="journal-title">Building a Contemporary Art Collection</h3>
                     <a href="{% url 'blog' %}" class="text-link journal-link">
                         Read more
@@ -455,7 +457,7 @@
                 </a>
 
                 <div class="journal-info">
-                    <span class="journal-date">May 12, 2026</span>
+                    <time class="journal-date" datetime="2026-05-12">May 12, 2026</time>
                     <h3 class="journal-title">Meet the Artist: Nderitu Wanjiku</h3>
                     <a href="{% url 'blog' %}" class="text-link journal-link">
                         Read more
@@ -472,7 +474,7 @@
                 </a>
 
                 <div class="journal-info">
-                    <span class="journal-date">April 30, 2026</span>
+                    <time class="journal-date" datetime="2026-04-30">April 30, 2026</time>
                     <h3 class="journal-title">Highlights from Our Latest Exhibition</h3>
                     <a href="{% url 'blog' %}" class="text-link journal-link">
                         Read more
@@ -508,7 +510,7 @@
                             <circle cx="12" cy="9.5" r="2.3"/>
                         </svg>
                     </span>
-                    <span>Kamiti Road at ecorn energy, Nairobi, Kenya</span>
+                    <address class="visit-address">ARTSASA, Kamiti Road at ecorn energy, Nairobi, Kenya</address>
                 </li>
 
                 <li>
@@ -565,7 +567,7 @@
                 </svg>
             </span>
 
-            <a href="https://maps.google.com/?q=-1.197600,36.901770&entry=gps" class="btn-solid visit-cta" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.google.com/maps/search/?api=1&query=-1.197600,36.901770" class="btn-solid visit-cta" target="_blank" rel="noopener noreferrer" aria-label="Get directions to ARTSASA gallery on Google Maps">
                 Get Directions
             </a>
 
@@ -608,8 +610,8 @@
 
 .intro { padding: clamp(90px, 10vw, 150px) 0; background: var(--rattan); color: var(--midnight); }
 .intro-grid { display: grid; grid-template-columns: .7fr 1.6fr; gap: 60px; }
-.intro-copy > p { max-width: 780px; margin: 0; font-family: var(--font-display); font-weight: 400; letter-spacing: -.015em; line-height: 1; font-size: clamp(38px, 4.6vw, 66px); }
-.intro-copy > p em { font-style: normal; color: var(--terracotta-deep); }
+.intro-copy > .intro-lead { max-width: 780px; margin: 0; font-family: var(--font-display); font-weight: 400; letter-spacing: -.015em; line-height: 1.04; font-size: clamp(32px, 3.9vw, 56px); }
+.intro-copy > .intro-lead em { font-style: normal; color: var(--terracotta-deep); }
 .intro-meta { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; margin-top: 55px; padding-top: 22px; border-top: 1px solid rgba(33,30,27,.2); }
 .intro-meta p { max-width: 380px; margin: 0; font-size: 13px; line-height: 1.8; color: var(--ink-soft); }
 
@@ -687,6 +689,7 @@
 .visit-list li { display: flex; align-items: center; gap: 14px; font-size: 13px; color: var(--ink-soft); }
 .visit-list li a { color: inherit; text-decoration: none; }
 .visit-list li a:hover { color: var(--terracotta-deep); }
+.visit-address { margin: 0; font-style: normal; }
 .visit-list li.visit-hours { margin-top: 4px; padding-top: 18px; border-top: 1px dashed rgba(33,30,27,.18); font-weight: 600; color: var(--midnight); }
 .visit-icon { flex: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(33,30,27,.05); border: 1px solid rgba(33,30,27,.14); color: var(--terracotta-deep); transition: background .3s ease, border-color .3s ease, transform .3s ease; }
 .visit-list li:hover .visit-icon { background: var(--terracotta-deep); border-color: var(--terracotta-deep); color: var(--sandstone); transform: translateY(-1px); }
@@ -755,6 +758,8 @@
 
     .intro-grid, .statement-inner { grid-template-columns: 1fr; gap: 30px; }
     .intro-grid > div:first-child, .statement-inner > div:first-child { margin-bottom: 10px; }
+    .intro-copy > .intro-lead { font-size: clamp(30px, 8.4vw, 42px); }
+    .intro-meta { grid-template-columns: 1fr; gap: 22px; margin-top: 38px; }
 
     .collection-header { flex-direction: column; align-items: flex-start; }
     .art-grid { grid-template-columns: repeat(2, 1fr); gap: 22px 14px; }

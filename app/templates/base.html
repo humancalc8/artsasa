@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en">
+<html lang="en-KE">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +8,7 @@
 <title>{% block title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}</title>
 
 <meta name="description" content="{% block meta_description %}ARTSASA is a contemporary art gallery in Nairobi, Kenya. Discover and collect original African art by Kenyan artists: painting, photography, sculpture, woodwork and mixed media. Visit ARTSASA on Kindaruma Road.{% endblock %}">
-<meta name="keywords" content="{% block meta_keywords %}ARTSASA, Artsasa gallery, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art Nairobi, original artworks Kenya{% endblock %}">
+<meta name="keywords" content="{% block meta_keywords %}ARTSASA, Artsasa gallery, Art Sasa, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art Nairobi, original artworks Kenya{% endblock %}">
 <meta name="author" content="ARTSASA Contemporary Art Gallery">
 
 <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
@@ -19,6 +19,7 @@
 <link rel="canonical" href="{% block canonical %}https://artsasa.com{{ request.path }}{% endblock %}">
 <link rel="alternate" hreflang="en-ke" href="https://artsasa.com{{ request.path }}">
 <link rel="alternate" hreflang="x-default" href="https://artsasa.com{{ request.path }}">
+<link rel="sitemap" type="application/xml" title="ARTSASA sitemap" href="https://artsasa.com/sitemap.xml">
 
 <meta name="application-name" content="ARTSASA">
 <meta name="apple-mobile-web-app-title" content="ARTSASA">
@@ -68,9 +69,13 @@
     },
     "image": "https://artsasa.com{% static 'images/logo.png' %}",
     "description": "ARTSASA is a contemporary art gallery in Nairobi, Kenya, presenting contemporary African art, Kenyan artists, painting, photography, sculpture, woodwork and mixed media.",
+    "slogan": "Imagine. Create",
     "telephone": "+254742814824",
     "email": "info@artsasa.com",
     "priceRange": "$$",
+    "currenciesAccepted": "KES",
+    "paymentAccepted": "M-Pesa",
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=ARTSASA+Contemporary+Art+Gallery+Nairobi",
     "address": {
         "@type": "PostalAddress",
         "streetAddress": "Kindaruma Road",
@@ -104,28 +109,22 @@
 }
 </script>
 
+{% if request.path == "/" %}
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": "https://artsasa.com/#website",
     "name": "ARTSASA",
-    "alternateName": ["ARTSASA Contemporary Art Gallery", "Artsasa"],
+    "alternateName": ["ARTSASA Contemporary Art Gallery", "Artsasa", "Art Sasa"],
     "url": "https://artsasa.com/",
     "inLanguage": "en-KE",
     "publisher": {
         "@id": "https://artsasa.com/#organization"
-    },
-    "potentialAction": {
-        "@type": "SearchAction",
-        "target": {
-            "@type": "EntryPoint",
-            "urlTemplate": "https://artsasa.com/?q={search_term_string}"
-        },
-        "query-input": "required name=search_term_string"
     }
 }
 </script>
+{% endif %}
 
 {% block structured_data %}{% endblock %}
 
@@ -141,6 +140,23 @@
 {% block extra_head %}{% endblock %}
 
 <style>
+.skip-link {
+    position: absolute;
+    left: 12px;
+    top: -60px;
+    z-index: 100000;
+    padding: 10px 16px;
+    background: #f1eadb;
+    color: #211E1B;
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: top .2s ease;
+}
+
+.skip-link:focus { top: 12px; }
+
 .page-loader {
     position: fixed;
     inset: 0;
@@ -414,45 +430,246 @@
     transform: translateY(-50%) translateX(0);
 }
 
-.till-card {
-    margin-top: 12px;
-    padding: 14px 14px 12px;
-    border: 1px solid rgba(185, 139, 93, .55);
-    border-radius: 10px;
-    background: rgba(185, 139, 93, .10);
+/* ---------- Footer: address + step 04 link ---------- */
+
+.footer-address {
+    margin: 0;
+    font-style: normal;
 }
 
-.till-label {
-    display: flex;
-    align-items: center;
-    gap: 7px;
+.footer-address p { margin: 0; }
+
+.pay-jump {
+    display: inline-block;
+    margin-top: 8px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid rgba(185, 139, 93, .55);
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    color: #d5b28a;
+    text-decoration: none;
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.pay-jump:hover,
+.pay-jump:focus-visible {
+    color: #f5eee4;
+    border-color: #f5eee4;
+}
+
+/* ---------- Payment section (full width, above footer-bottom) ---------- */
+
+#pay-by-mpesa { scroll-margin-top: 90px; }
+
+.pay {
+    margin-top: 56px;
+    padding: 44px 0 8px;
+    border-top: 1px solid rgba(241, 234, 219, .14);
+}
+
+.pay-grid {
+    display: grid;
+    grid-template-columns: 172px minmax(0, 1.05fr) minmax(0, 1fr);
+    column-gap: 56px;
+    align-items: start;
+}
+
+.pay-qr {
+    margin: 0;
+}
+
+.pay-qr-frame {
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid rgba(241, 234, 219, .35);
+}
+
+.pay-qr-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.pay-qr figcaption {
+    margin-top: 10px;
     font-family: "DM Sans", sans-serif;
     font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 1.6px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
     text-transform: uppercase;
-    color: #d5b28a;
+    color: rgba(241, 234, 219, .6);
 }
 
-.till-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 8px;
-}
-
-.till-number {
+.pay-eyebrow {
+    margin: 0 0 10px;
     font-family: "DM Sans", sans-serif;
-    font-size: 30px;
-    font-weight: 700;
-    letter-spacing: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: #b98b5d;
+}
+
+.pay-title {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 34px;
+    font-weight: 500;
     line-height: 1.1;
+    letter-spacing: -.2px;
+    color: #f5eee4;
+}
+
+.pay-lede {
+    max-width: 44ch;
+    margin: 12px 0 0;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.7;
+    color: rgba(241, 234, 219, .68);
+}
+
+.pay-details {
+    margin: 26px 0 0;
+    padding: 0;
+}
+
+.pay-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 14px 0;
+    border-top: 1px solid rgba(241, 234, 219, .12);
+}
+
+.pay-row:last-child { border-bottom: 1px solid rgba(241, 234, 219, .12); }
+
+.pay-row dt {
+    flex: 0 0 auto;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    color: rgba(241, 234, 219, .5);
+}
+
+.pay-row dd {
+    margin: 0;
+    text-align: right;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .3px;
+    color: #f5eee4;
+}
+
+.pay-till {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px 18px;
+}
+
+.pay-till-number {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: .14em;
+    font-variant-numeric: lining-nums tabular-nums;
     color: #f5eee4;
     cursor: text;
     -webkit-user-select: all;
     user-select: all;
+}
+
+.pay-copy {
+    padding: 0 0 2px;
+    border: 0;
+    border-bottom: 1px solid rgba(185, 139, 93, .55);
+    background: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .4px;
+    color: #d5b28a;
+    cursor: pointer;
+    transition: color .2s ease, border-color .2s ease;
+}
+
+.pay-copy:hover,
+.pay-copy:focus-visible {
+    color: #f5eee4;
+    border-color: #f5eee4;
+    outline: none;
+}
+
+.pay-copy.is-copied { color: #f5eee4; border-color: #f5eee4; }
+
+.pay-how-title {
+    margin: 0 0 14px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: #b98b5d;
+}
+
+.pay-steps {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: pay;
+}
+
+.pay-steps li {
+    position: relative;
+    counter-increment: pay;
+    padding: 0 0 18px 34px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: rgba(241, 234, 219, .72);
+}
+
+.pay-steps li::before {
+    content: counter(pay, decimal-leading-zero);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: #b98b5d;
+}
+
+.pay-steps strong {
+    color: #f5eee4;
+    font-weight: 600;
+}
+
+.pay-alt {
+    margin: 4px 0 0;
+    padding-top: 16px;
+    border-top: 1px solid rgba(241, 234, 219, .12);
+    font-family: "DM Sans", sans-serif;
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(241, 234, 219, .55);
+}
+
+.pay-alt strong {
+    color: rgba(241, 234, 219, .85);
+    font-weight: 600;
 }
 
 html {
@@ -463,11 +680,55 @@ html {
 #visit-gallery,
 #contact-footer { scroll-margin-top: 90px; }
 
+@media (max-width: 1080px) {
+    .pay-grid {
+        grid-template-columns: 172px minmax(0, 1fr);
+        column-gap: 40px;
+        row-gap: 40px;
+    }
+
+    .pay-how { grid-column: 1 / -1; }
+
+    .pay-steps {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        column-gap: 28px;
+    }
+}
+
+@media (max-width: 760px) {
+    .pay { margin-top: 40px; padding-top: 34px; }
+
+    .pay-grid {
+        grid-template-columns: 1fr;
+        row-gap: 30px;
+    }
+
+    .pay-qr { max-width: 188px; }
+
+    .pay-title { font-size: 30px; }
+
+    .pay-till { justify-content: flex-start; }
+
+    .pay-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .pay-row dd { text-align: left; }
+
+    .pay-till-number { font-size: 36px; }
+
+    .pay-steps { display: block; }
+}
+
 @media (max-width: 600px) {
     html { scroll-padding-top: 76px; }
 
     #visit-gallery,
-    #contact-footer { scroll-margin-top: 76px; }
+    #contact-footer,
+    #pay-by-mpesa { scroll-margin-top: 76px; }
 
     .loader-stage { width: 88vw; }
 
@@ -500,11 +761,6 @@ html {
     .artsasa-whatsapp-float i { font-size: 25px; }
 
     .artsasa-whatsapp-tooltip { display: none; }
-
-    .till-number {
-        font-size: 26px;
-        letter-spacing: 3px;
-    }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -524,12 +780,18 @@ html {
     .nav-sup.is-bump { animation: none; }
 
     .artsasa-whatsapp-float { transition: none; }
+
+    .pay-copy,
+    .pay-jump,
+    .skip-link { transition: none; }
 }
 </style>
 
 </head>
 
 <body>
+
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <div class="page-loader" id="pageLoader" aria-hidden="true">
     <div class="loader-stage">
@@ -1020,9 +1282,7 @@ html {
                 </a>
 
                 <p class="footer-description">
-                    ARTSASA is a contemporary art space in Nairobi connecting
-                    collectors with original works and emerging
-                    artistic voices.
+                    Artsasa. Explore our curated gallery of original drawings, paintings, sculpture and photography Connect directly with best selling artists. Imagine, Create.
                 </p>
 
                 <a href="{% url 'collection' %}" class="footer-discover-link">
@@ -1049,7 +1309,7 @@ html {
 
             <div class="footer-column">
 
-                <p class="footer-heading">How to Buy</p>
+                <p class="footer-heading">How to Buy Art</p>
 
                 <div class="footer-buy">
 
@@ -1078,34 +1338,15 @@ html {
                     </div>
 
                     <div class="footer-buy-step footer-buy-step-pay">
-
                         <span class="footer-step-number">04</span>
-
                         <div>
-
                             <strong>Make payment</strong>
-
                             <p>
-                                Once the price is confirmed, pay securely
-                                via M-Pesa and send us the confirmation
-                                message.
+                                Once the price is confirmed, pay via M-Pesa
+                                and send us the confirmation message.
                             </p>
-
-                            <div class="till-card">
-
-                                <span class="till-label">
-                                    <i class="fa-solid fa-mobile-screen-button"></i>
-                                    M-Pesa · Till Number
-                                </span>
-
-                                <div class="till-row">
-                                    <span class="till-number" id="tillNumber" data-till="973810">973810</span>
-                                </div>
-
-                            </div>
-
+                            <a href="#pay-by-mpesa" class="pay-jump">View till number and QR code</a>
                         </div>
-
                     </div>
 
                     <div class="footer-buy-step">
@@ -1128,7 +1369,9 @@ html {
 
                     <div class="footer-location-block">
                         <span class="footer-mini-label">Nairobi</span>
-                        <p>Kenya</p>
+                        <address class="footer-address">
+                            <p>Kindaruma Road, Nairobi, Kenya</p>
+                        </address>
                     </div>
 
                     <div class="footer-hours-block">
@@ -1203,6 +1446,81 @@ html {
             </div>
 
         </div>
+
+        <section class="pay" id="pay-by-mpesa" aria-labelledby="payHeading">
+
+            <div class="pay-grid">
+
+                <figure class="pay-qr">
+                    <div class="pay-qr-frame">
+                        <img src="{% static 'images/mpesa_till_qr.png' %}"
+                             alt="M-Pesa QR code for Buy Goods Till Number 973810, Catherines Art Nouveau"
+                             width="152" height="152" loading="lazy" decoding="async">
+                    </div>
+                    <figcaption>Scan to pay</figcaption>
+                </figure>
+
+                <div class="pay-main">
+
+                    <p class="pay-eyebrow">Lipa na M-Pesa</p>
+
+                    <h2 class="pay-title" id="payHeading">Pay for your artwork</h2>
+
+                    <p class="pay-lede">
+                        When we have confirmed the price of your piece, pay
+                        to our Buy Goods till from any network, then send
+                        us the confirmation message.
+                    </p>
+
+                    <dl class="pay-details">
+
+                        <div class="pay-row">
+                            <dt>Till number</dt>
+                            <dd class="pay-till">
+                                <span class="pay-till-number" id="tillNumber" data-till="973810">973810</span>
+                                <button type="button" class="pay-copy" id="tillCopy" aria-label="Copy till number 973810">Copy number</button>
+                            </dd>
+                        </div>
+
+                        <div class="pay-row">
+                            <dt>Business name</dt>
+                            <dd>Catherines Art Nouveau</dd>
+                        </div>
+
+                    </dl>
+
+                </div>
+
+                <div class="pay-how">
+
+                    <p class="pay-how-title">How to pay</p>
+
+                    <ol class="pay-steps">
+                        <li>
+                            <strong>Open M-Pesa</strong> and choose Lipa na M-Pesa,
+                            then Buy Goods and Services.
+                        </li>
+                        <li>
+                            <strong>Enter till number 973810</strong> and the amount
+                            we confirmed. The name shown should read Catherines Art Nouveau.
+                        </li>
+                        <li>
+                            <strong>Send us the confirmation message</strong> so we
+                            can reserve the work and arrange collection or delivery.
+                        </li>
+                    </ol>
+
+                    <p class="pay-alt">
+                        You can also scan the QR code, or dial <strong>*126#</strong>
+                        (Lipa na Bonga via My OneApp). Payments to the till work from
+                        Safaricom M-Pesa, Airtel Money and T-Kash.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
 
         <div class="footer-bottom">
 
@@ -1634,17 +1952,80 @@ html {
         }, 2400);
     };
 
+    /* ---------- Copy M-Pesa till number ---------- */
+
+    var tillBtn = $("#tillCopy");
+    var tillNum = $("#tillNumber");
+    var tillBtnTimer;
+
+    function tillCopied() {
+        if (!tillBtn) return;
+
+        tillBtn.classList.add("is-copied");
+        tillBtn.textContent = "Copied";
+
+        if (window.ARTSASA && window.ARTSASA.toast) {
+            window.ARTSASA.toast("Till number copied");
+        }
+
+        clearTimeout(tillBtnTimer);
+
+        tillBtnTimer = setTimeout(function () {
+            tillBtn.classList.remove("is-copied");
+            tillBtn.textContent = "Copy number";
+        }, 2000);
+    }
+
+    function tillFallbackCopy(text) {
+        try {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.setAttribute("readonly", "");
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            var ok = document.execCommand("copy");
+            document.body.removeChild(ta);
+            if (ok) tillCopied();
+        } catch (e) {}
+    }
+
+    if (tillBtn && tillNum) {
+        tillBtn.addEventListener("click", function () {
+            var text = tillNum.getAttribute("data-till") || tillNum.textContent.trim();
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(tillCopied).catch(function () {
+                    tillFallbackCopy(text);
+                });
+            } else {
+                tillFallbackCopy(text);
+            }
+        });
+    }
+
     var banner = $("#cookieBanner");
     var COOKIE_KEY = "artsasa_cookie_choice";
 
-    if (banner && !localStorage.getItem(COOKIE_KEY)) {
+    function readCookieChoice() {
+        try {
+            return localStorage.getItem(COOKIE_KEY);
+        } catch (e) {
+            return null;
+        }
+    }
+
+    if (banner && !readCookieChoice()) {
         setTimeout(function () {
             banner.classList.add("show");
         }, 900);
     }
 
     function decide(choice) {
-        localStorage.setItem(COOKIE_KEY, choice);
+        try {
+            localStorage.setItem(COOKIE_KEY, choice);
+        } catch (e) {}
         if (banner) banner.classList.remove("show");
     }
 
