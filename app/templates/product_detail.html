@@ -1,78 +1,138 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}
-{{ artwork.title }} — ARTSASA
+{% block title %}{{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} | ARTSASA{% endblock %}
+
+{% block meta_description %}{% if artwork.short_description %}{{ artwork.short_description|striptags|truncatechars:125 }}{% else %}Explore {{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} at ARTSASA, a contemporary art gallery in Nairobi, Kenya. View artwork details and enquire about acquisition.{% endif %}{% endblock %}
+
+{% block meta_keywords %}{{ artwork.title }}, ARTSASA, contemporary art Nairobi, Kenyan art, original artwork{% if artwork.artist %}, {{ artwork.artist.name }}{% endif %}{% if artwork.medium %}, {{ artwork.medium }}{% endif %}{% endblock %}
+
+{% block canonical %}https://artsasa.com{{ request.path }}{% endblock %}
+
+{% block og_title %}{{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} | ARTSASA{% endblock %}
+
+{% block og_description %}{% if artwork.short_description %}{{ artwork.short_description|striptags|truncatechars:200 }}{% else %}Discover {{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} at ARTSASA, a contemporary art gallery in Nairobi, Kenya.{% endif %}{% endblock %}
+
+{% block twitter_title %}{{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} | ARTSASA{% endblock %}
+
+{% block twitter_description %}{% if artwork.short_description %}{{ artwork.short_description|striptags|truncatechars:200 }}{% else %}Explore {{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %} at ARTSASA, Nairobi, Kenya.{% endif %}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VisualArtwork",
+  "@id": "https://artsasa.com{{ request.path }}#artwork",
+  "name": "{{ artwork.title|escapejs }}",
+  "url": "https://artsasa.com{{ request.path }}",
+  "inLanguage": "en-KE",
+  "artform": "Contemporary art",
+  {% if artwork.image %}
+  "image": "https://artsasa.com{{ artwork.image.url }}",
+  {% endif %}
+  {% if artwork.short_description %}
+  "description": "{{ artwork.short_description|striptags|escapejs }}",
+  {% elif artwork.description %}
+  "description": "{{ artwork.description|striptags|truncatechars:300|escapejs }}",
+  {% endif %}
+  {% if artwork.artist %}
+  "creator": {
+    "@type": "Person",
+    "name": "{{ artwork.artist.name|escapejs }}",
+    "url": "https://artsasa.com{% url 'artist_detail' artwork.artist.slug %}"
+  },
+  {% endif %}
+  {% if artwork.medium %}
+  "artMedium": "{{ artwork.medium|escapejs }}",
+  {% endif %}
+  {% if artwork.year %}
+  "dateCreated": "{{ artwork.year|escapejs }}",
+  {% endif %}
+  {% if artwork.category %}
+  "artworkSurface": "{{ artwork.category|escapejs }}",
+  {% endif %}
+  "isPartOf": {
+    "@type": "ArtGallery",
+    "@id": "https://artsasa.com/#organization",
+    "name": "ARTSASA",
+    "url": "https://artsasa.com/"
+  }
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://artsasa.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Collection",
+      "item": "https://artsasa.com{% url 'collection' %}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ artwork.title|escapejs }}",
+      "item": "https://artsasa.com{{ request.path }}"
+    }
+  ]
+}
+</script>
 {% endblock %}
+
 
 {% block content %}
 
 <main class="artwork-page">
 
-    <!-- =========================================================
-         BREADCRUMB
-    ========================================================== -->
-
     <section class="artwork-intro">
         <div class="site-container">
-
             <nav class="artwork-breadcrumb" aria-label="Breadcrumb">
-
-                <a href="{% url 'collection' %}">
-                    Collection
-                </a>
-
-                <span>/</span>
+                <a href="{% url 'collection' %}">Collection</a>
+                <span aria-hidden="true">/</span>
 
                 {% if artwork.category %}
                     <span>{{ artwork.category }}</span>
-                    <span>/</span>
+                    <span aria-hidden="true">/</span>
                 {% endif %}
 
-                <span aria-current="page">
-                    {{ artwork.title }}
-                </span>
-
+                <span aria-current="page">{{ artwork.title }}</span>
             </nav>
-
         </div>
     </section>
 
 
-    <!-- =========================================================
-         MAIN ARTWORK
-    ========================================================== -->
-
     <section class="artwork-main">
-
         <div class="site-container artwork-main-grid">
 
-            <!-- =================================================
-                 ARTWORK GALLERY
-            ================================================== -->
-
             <div class="artwork-gallery reveal">
-
                 <div class="artwork-main-image">
 
                     {% if artwork.image %}
-
                         <img
                             id="mainArtworkImage"
                             src="{{ artwork.image.url }}"
-                            alt="{{ artwork.title }}"
+                            alt="{{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %}{% if artwork.medium %}, {{ artwork.medium }}{% endif %}"
+                            fetchpriority="high"
+                            decoding="async"
                         >
-
                     {% else %}
-
                         <img
                             id="mainArtworkImage"
                             src="{% static 'images/painting.jpg' %}"
-                            alt="{{ artwork.title }}"
+                            alt="{{ artwork.title }}{% if artwork.artist %} by {{ artwork.artist.name }}{% endif %}"
+                            fetchpriority="high"
+                            decoding="async"
                         >
-
                     {% endif %}
-
 
                     <button
                         type="button"
@@ -82,353 +142,183 @@
                     >
                         <i class="fa-solid fa-expand" aria-hidden="true"></i>
                     </button>
-
                 </div>
 
-
-                <!-- THUMBNAILS -->
-
                 {% if artwork.image or artwork.images.all %}
-
-                    <div
-                        class="artwork-thumbnails"
-                        aria-label="Artwork images"
-                    >
+                    <div class="artwork-thumbnails" aria-label="Artwork images">
 
                         {% if artwork.image %}
-
                             <button
                                 type="button"
                                 class="artwork-thumb active"
                                 data-image="{{ artwork.image.url }}"
                                 aria-label="View main artwork image"
+                                aria-pressed="true"
                             >
-                                <img
-                                    src="{{ artwork.image.url }}"
-                                    alt=""
-                                >
+                                <img src="{{ artwork.image.url }}" alt="" loading="lazy">
                             </button>
-
                         {% endif %}
 
-
                         {% for image in artwork.images.all %}
-
                             {% if image.image %}
-
                                 <button
                                     type="button"
                                     class="artwork-thumb"
                                     data-image="{{ image.image.url }}"
                                     aria-label="View artwork image {{ forloop.counter }}"
+                                    aria-pressed="false"
                                 >
-                                    <img
-                                        src="{{ image.image.url }}"
-                                        alt=""
-                                        loading="lazy"
-                                    >
+                                    <img src="{{ image.image.url }}" alt="" loading="lazy">
                                 </button>
-
                             {% endif %}
-
                         {% endfor %}
 
                     </div>
-
                 {% endif %}
-
             </div>
 
-
-            <!-- =================================================
-                 ARTWORK INFORMATION
-            ================================================== -->
 
             <aside class="artwork-information reveal">
 
                 <div class="artwork-status-row">
-
                     <span class="eyebrow">
-
                         {% if artwork.category %}
                             {{ artwork.category }}
                         {% else %}
                             Contemporary Art
                         {% endif %}
-
                     </span>
 
-
                     {% if artwork.status %}
-
-                        <span
-                            class="availability
-                            {% if artwork.status|lower == 'sold' %}
-                                sold
-                            {% elif artwork.status|lower == 'reserved' %}
-                                reserved
-                            {% endif %}"
-                        >
+                        <span class="availability
+                            {% if artwork.status|lower == 'sold' %}sold
+                            {% elif artwork.status|lower == 'reserved' %}reserved
+                            {% endif %}">
                             {{ artwork.status }}
                         </span>
-
                     {% endif %}
-
                 </div>
 
-
-                <h1 class="artwork-title">
-                    {{ artwork.title }}
-                </h1>
-
+                <h1 class="artwork-title">{{ artwork.title }}</h1>
 
                 {% if artwork.artist %}
-
                     <a
                         href="{% url 'artist_detail' artwork.artist.slug %}"
                         class="artwork-artist"
                     >
                         {{ artwork.artist.name }}
                     </a>
-
                 {% endif %}
-
 
                 <div class="artwork-rule"></div>
 
-
                 {% if artwork.short_description %}
-
-                    <p class="artwork-lede">
-                        {{ artwork.short_description }}
-                    </p>
-
+                    <p class="artwork-lede">{{ artwork.short_description }}</p>
                 {% else %}
-
                     <p class="artwork-lede">
-                        A contemporary work presented by ARTSASA,
-                        exploring material, gesture and the language
-                        of the artist.
+                        Discover this contemporary artwork presented by ARTSASA,
+                        a Nairobi gallery supporting artistic practice and original work.
                     </p>
-
                 {% endif %}
-
-
-                <!-- =================================================
-                     DETAILS
-                ================================================== -->
 
                 <div class="artwork-details">
 
                     {% if artwork.artist %}
-
                         <div class="artwork-detail">
-                            <span class="detail-label">
-                                Artist
-                            </span>
-
-                            <span>
-                                {{ artwork.artist.name }}
-                            </span>
+                            <span class="detail-label">Artist</span>
+                            <span>{{ artwork.artist.name }}</span>
                         </div>
-
                     {% endif %}
-
 
                     {% if artwork.year %}
-
                         <div class="artwork-detail">
-                            <span class="detail-label">
-                                Year
-                            </span>
-
-                            <span>
-                                {{ artwork.year }}
-                            </span>
+                            <span class="detail-label">Year</span>
+                            <span>{{ artwork.year }}</span>
                         </div>
-
                     {% endif %}
-
 
                     {% if artwork.medium %}
-
                         <div class="artwork-detail">
-                            <span class="detail-label">
-                                Medium
-                            </span>
-
-                            <span>
-                                {{ artwork.medium }}
-                            </span>
+                            <span class="detail-label">Medium</span>
+                            <span>{{ artwork.medium }}</span>
                         </div>
-
                     {% endif %}
-
 
                     {% if artwork.dimensions %}
-
                         <div class="artwork-detail">
-                            <span class="detail-label">
-                                Dimensions
-                            </span>
-
-                            <span>
-                                {{ artwork.dimensions }}
-                            </span>
+                            <span class="detail-label">Dimensions</span>
+                            <span>{{ artwork.dimensions }}</span>
                         </div>
-
                     {% endif %}
 
-
                     {% if artwork.edition %}
-
                         <div class="artwork-detail">
-                            <span class="detail-label">
-                                Edition
-                            </span>
-
-                            <span>
-                                {{ artwork.edition }}
-                            </span>
+                            <span class="detail-label">Edition</span>
+                            <span>{{ artwork.edition }}</span>
                         </div>
-
                     {% endif %}
 
                 </div>
 
 
-                <!-- =================================================
-                     ACQUISITION
-                ================================================== -->
-
                 <div class="artwork-acquisition">
-
                     <div class="artwork-price">
-
-                        <span class="price-label">
-                            Acquisition
-                        </span>
-
+                        <span class="price-label">Acquisition</span>
 
                         {% if artwork.price %}
-
-                            <strong>
-                                KES {{ artwork.price|floatformat:0 }}
-                            </strong>
-
+                            <strong>KES {{ artwork.price|floatformat:0 }}</strong>
                         {% else %}
-
-                            <strong>
-                                Price on request
-                            </strong>
-
+                            <strong>Price on request</strong>
                         {% endif %}
-
                     </div>
 
-
-                    <!-- =================================================
-                         ACTIONS
-                    ================================================== -->
-
                     {% if artwork.status|lower != "sold" %}
-
                         <div class="artwork-actions">
-
-                            <!-- ADD TO CART -->
 
                             <button
                                 type="button"
                                 class="artwork-action-button cart-button"
                                 id="addArtworkToCart"
                                 data-artwork-id="{{ artwork.id }}"
-                                data-action="cart"
                                 aria-label="Add {{ artwork.title }} to cart"
                             >
-
                                 <span class="action-icon">
-                                    <i
-                                        class="fa-solid fa-cart-plus"
-                                        aria-hidden="true"
-                                    ></i>
+                                    <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
                                 </span>
-
-                                <span class="action-text">
-                                    Add to Cart
-                                </span>
-
-                                <span class="action-arrow">
-                                    ↗
-                                </span>
-
+                                <span class="action-text">Add to Cart</span>
+                                <span class="action-arrow" aria-hidden="true">↗</span>
                             </button>
-
-
-                            <!-- BUY NOW -->
 
                             <button
                                 type="button"
                                 class="artwork-action-button buy-button"
                                 id="buyArtworkNow"
                                 data-artwork-id="{{ artwork.id }}"
-                                data-action="buy"
                                 aria-label="Buy {{ artwork.title }} now"
                             >
-
                                 <span class="action-icon">
-                                    <i
-                                        class="fa-solid fa-bag-shopping"
-                                        aria-hidden="true"
-                                    ></i>
+                                    <i class="fa-solid fa-bag-shopping" aria-hidden="true"></i>
                                 </span>
-
-                                <span class="action-text">
-                                    Buy Now
-                                </span>
-
-                                <span class="action-arrow">
-                                    ↗
-                                </span>
-
+                                <span class="action-text">Buy Now</span>
+                                <span class="action-arrow" aria-hidden="true">↗</span>
                             </button>
-
-
-                            <!-- WISHLIST -->
 
                             <button
                                 type="button"
                                 class="artwork-action-button wishlist-button"
                                 id="addArtworkToWishlist"
                                 data-artwork-id="{{ artwork.id }}"
-                                data-action="wishlist"
                                 aria-label="Add {{ artwork.title }} to wishlist"
+                                aria-pressed="false"
                             >
-
                                 <span class="action-icon">
-
-                                    <i
-                                        id="wishlistIcon"
-                                        class="fa-regular fa-heart"
-                                        aria-hidden="true"
-                                    ></i>
-
+                                    <i id="wishlistIcon" class="fa-regular fa-heart" aria-hidden="true"></i>
                                 </span>
-
-                                <span
-                                    class="action-text"
-                                    id="wishlistActionText"
-                                >
-                                    Add to Wishlist
-                                </span>
-
-                                <span class="action-arrow">
-                                    ♡
-                                </span>
-
+                                <span class="action-text" id="wishlistActionText">Add to Wishlist</span>
+                                <span class="action-arrow" aria-hidden="true">♡</span>
                             </button>
 
                         </div>
-
 
                         <div
                             class="action-status"
@@ -437,404 +327,216 @@
                             aria-atomic="true"
                         ></div>
 
-
                     {% else %}
-
                         <div class="sold-message">
-
-                            <i
-                                class="fa-solid fa-circle-check"
-                                aria-hidden="true"
-                            ></i>
-
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
                             This work has been acquired.
-
                         </div>
-
                     {% endif %}
-
                 </div>
 
-
                 <p class="acquisition-note">
-                    For information regarding availability, condition,
-                    provenance, delivery or viewing, please contact ARTSASA.
+                    For information regarding availability, condition, provenance,
+                    delivery or viewing, please contact ARTSASA.
                 </p>
 
-
                 {% if artwork.status|lower != "sold" %}
-
-                    <button
-                        type="button"
-                        class="enquiry-trigger"
-                        id="openEnquiry"
-                    >
-
-                        <span>
-                            Enquire about this artwork
-                        </span>
-
-                        <span>
-                            ↗
-                        </span>
-
+                    <button type="button" class="enquiry-trigger" id="openEnquiry">
+                        <span>Enquire about this artwork</span>
+                        <span aria-hidden="true">↗</span>
                     </button>
-
                 {% endif %}
 
             </aside>
-
         </div>
-
     </section>
 
-
-    <!-- =========================================================
-         ABOUT THE WORK
-    ========================================================== -->
 
     <section class="work-story">
-
         <div class="site-container work-story-grid">
-
             <div class="story-label">
-                <span class="eyebrow">
-                    About the work
-                </span>
+                <span class="eyebrow">About the work</span>
             </div>
-
 
             <div class="story-content reveal">
-
                 {% if artwork.description %}
-
-                    <div class="story-text">
-                        {{ artwork.description|linebreaks }}
-                    </div>
-
+                    <div class="story-text">{{ artwork.description|linebreaks }}</div>
                 {% else %}
-
-                    <h2>
-                        A work made with intention.
-                    </h2>
-
+                    <h2>A work made with intention.</h2>
                     <p class="story-text">
-                        This work forms part of the ARTSASA programme,
-                        presenting contemporary practice through material,
-                        process and individual artistic voice.
+                        This work forms part of the ARTSASA programme, presenting
+                        contemporary practice through material, process and individual
+                        artistic voice.
                     </p>
-
                 {% endif %}
-
             </div>
-
         </div>
-
     </section>
 
 
-    <!-- =========================================================
-         ARTIST
-    ========================================================== -->
-
     {% if artwork.artist %}
-
         <section class="artist-section">
-
             <div class="site-container">
-
                 <div class="section-small-heading">
-
-                    <span class="eyebrow">
-                        The artist
-                    </span>
-
+                    <span class="eyebrow">The artist</span>
                 </div>
 
-
                 <div class="artist-feature">
-
                     <div class="artist-feature-image">
-
                         {% if artwork.artist.image %}
-
                             <img
                                 src="{{ artwork.artist.image.url }}"
-                                alt="{{ artwork.artist.name }}"
+                                alt="Portrait of {{ artwork.artist.name }}"
                                 loading="lazy"
+                                decoding="async"
                             >
-
                         {% else %}
-
                             <img
                                 src="{% static 'images/artist-placeholder.jpg' %}"
-                                alt="{{ artwork.artist.name }}"
+                                alt="Artist image placeholder for {{ artwork.artist.name }}"
                                 loading="lazy"
+                                decoding="async"
                             >
-
                         {% endif %}
-
                     </div>
 
-
                     <div class="artist-feature-copy">
-
-                        <h2>
-                            {{ artwork.artist.name }}
-                        </h2>
-
+                        <h2>{{ artwork.artist.name }}</h2>
 
                         {% if artwork.artist.bio %}
-
-                            <p>
-                                {{ artwork.artist.bio|truncatewords:80 }}
-                            </p>
-
+                            <p>{{ artwork.artist.bio|truncatewords:80 }}</p>
                         {% else %}
-
                             <p>
-                                Discover the practice, ideas and works
-                                of {{ artwork.artist.name }}.
+                                Discover the practice, ideas and works of
+                                {{ artwork.artist.name }}.
                             </p>
-
                         {% endif %}
-
 
                         <a
                             href="{% url 'artist_detail' artwork.artist.slug %}"
                             class="text-link"
                         >
-                            <span>
-                                View artist
-                            </span>
-
-                            <span class="arrow">
-                                ↗
-                            </span>
-
+                            <span>View artist</span>
+                            <span class="arrow" aria-hidden="true">↗</span>
                         </a>
-
                     </div>
-
                 </div>
-
             </div>
-
         </section>
-
     {% endif %}
 
 
-    <!-- =========================================================
-         EXHIBITION
-    ========================================================== -->
-
     {% if artwork.exhibition %}
-
         <section class="exhibition-context">
-
             <div class="site-container exhibition-context-grid">
-
                 <div>
-                    <span class="eyebrow">
-                        Exhibition
-                    </span>
+                    <span class="eyebrow">Exhibition</span>
                 </div>
 
-
                 <div class="exhibition-context-copy reveal">
-
-                    <h2>
-                        {{ artwork.exhibition.title }}
-                    </h2>
-
+                    <h2>{{ artwork.exhibition.title }}</h2>
 
                     {% if artwork.exhibition.start_date %}
-
                         <p class="exhibition-date">
-
                             {{ artwork.exhibition.start_date|date:"d M Y" }}
-
                             {% if artwork.exhibition.end_date %}
-
-                                —
-                                {{ artwork.exhibition.end_date|date:"d M Y" }}
-
+                                — {{ artwork.exhibition.end_date|date:"d M Y" }}
                             {% endif %}
-
                         </p>
-
                     {% endif %}
 
-
                     {% if artwork.exhibition.description %}
-
                         <p class="exhibition-copy">
                             {{ artwork.exhibition.description|truncatewords:70 }}
                         </p>
-
                     {% endif %}
-
 
                     <a
                         href="{% url 'exhibition_detail' artwork.exhibition.slug %}"
                         class="text-link"
                     >
-
-                        <span>
-                            View exhibition
-                        </span>
-
-                        <span class="arrow">
-                            ↗
-                        </span>
-
+                        <span>View exhibition</span>
+                        <span class="arrow" aria-hidden="true">↗</span>
                     </a>
-
                 </div>
-
             </div>
-
         </section>
-
     {% endif %}
 
 
-    <!-- =========================================================
-         RELATED WORKS
-    ========================================================== -->
-
     {% if related_artworks %}
-
         <section class="related-works">
-
             <div class="site-container">
-
                 <div class="related-header">
-
                     <div>
-
-                        <span class="eyebrow">
-                            Continue exploring
-                        </span>
-
-                        <h2 class="section-title">
-                            Works you may like.
-                        </h2>
-
+                        <span class="eyebrow">Continue exploring</span>
+                        <h2 class="section-title">Works you may like.</h2>
                     </div>
 
-
-                    <a
-                        href="{% url 'collection' %}"
-                        class="text-link"
-                    >
-
-                        <span>
-                            View collection
-                        </span>
-
-                        <span class="arrow">
-                            ↗
-                        </span>
-
+                    <a href="{% url 'collection' %}" class="text-link">
+                        <span>View collection</span>
+                        <span class="arrow" aria-hidden="true">↗</span>
                     </a>
-
                 </div>
 
-
                 <div class="related-grid">
-
                     {% for related in related_artworks %}
-
                         <article class="related-card">
-
                             <a
                                 href="{% url 'product_detail' related.slug %}"
                                 class="related-image"
                             >
-
                                 {% if related.image %}
-
                                     <img
                                         src="{{ related.image.url }}"
-                                        alt="{{ related.title }}"
+                                        alt="{{ related.title }}{% if related.artist %} by {{ related.artist.name }}{% endif %}"
                                         loading="lazy"
+                                        decoding="async"
                                     >
-
                                 {% else %}
-
                                     <img
                                         src="{% static 'images/painting.jpg' %}"
                                         alt="{{ related.title }}"
                                         loading="lazy"
+                                        decoding="async"
                                     >
-
                                 {% endif %}
-
                             </a>
 
-
                             <div class="related-info">
-
                                 <div>
-
                                     <h3>
-                                        {{ related.title }}
+                                        <a href="{% url 'product_detail' related.slug %}">
+                                            {{ related.title }}
+                                        </a>
                                     </h3>
 
-
                                     {% if related.artist %}
-
-                                        <p>
-                                            {{ related.artist.name }}
-                                        </p>
-
+                                        <p>{{ related.artist.name }}</p>
                                     {% endif %}
-
 
                                     {% if related.medium %}
-
-                                        <span>
-                                            {{ related.medium }}
-                                        </span>
-
+                                        <span>{{ related.medium }}</span>
                                     {% endif %}
-
                                 </div>
-
 
                                 <a
                                     href="{% url 'product_detail' related.slug %}"
                                     aria-label="View {{ related.title }}"
                                     class="related-arrow"
-                                >
-                                    ↗
-                                </a>
-
+                                >↗</a>
                             </div>
-
                         </article>
-
                     {% endfor %}
-
                 </div>
-
             </div>
-
         </section>
-
     {% endif %}
 
 </main>
 
 
-<!-- =========================================================
-     FLOATING CONTACT
-========================================================= -->
-
 <div class="floating-contact">
-
     <a
         href="https://wa.me/254700000000"
         class="floating-contact-link whatsapp-link"
@@ -843,12 +545,8 @@
         aria-label="Chat with ARTSASA on WhatsApp"
         title="WhatsApp ARTSASA"
     >
-        <i
-            class="fa-brands fa-whatsapp"
-            aria-hidden="true"
-        ></i>
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
     </a>
-
 
     <a
         href="tel:+254700000000"
@@ -856,59 +554,32 @@
         aria-label="Call ARTSASA"
         title="Call ARTSASA"
     >
-        <i
-            class="fa-solid fa-phone"
-            aria-hidden="true"
-        ></i>
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
     </a>
-
 </div>
 
-
-<!-- =========================================================
-     FULLSCREEN VIEWER
-========================================================= -->
 
 <div
     class="artwork-viewer"
     id="artworkViewer"
     aria-hidden="true"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Full-size artwork viewer"
 >
-
     <button
         type="button"
         class="viewer-close"
         id="closeArtworkViewer"
         aria-label="Close artwork viewer"
-    >
-        ×
-    </button>
+    >×</button>
 
-
-    <img
-        id="viewerImage"
-        src=""
-        alt=""
-    >
-
+    <img id="viewerImage" src="" alt="">
 </div>
 
 
-<!-- =========================================================
-     ENQUIRY PANEL
-========================================================= -->
-
-<div
-    class="enquiry-modal"
-    id="enquiryModal"
-    aria-hidden="true"
->
-
-    <div
-        class="enquiry-backdrop"
-        id="closeEnquiry"
-    ></div>
-
+<div class="enquiry-modal" id="enquiryModal" aria-hidden="true">
+    <div class="enquiry-backdrop" id="closeEnquiry"></div>
 
     <div
         class="enquiry-panel"
@@ -916,2807 +587,726 @@
         aria-modal="true"
         aria-labelledby="enquiryTitle"
     >
-
         <button
             type="button"
             class="enquiry-close"
             id="closeEnquiryButton"
             aria-label="Close enquiry"
-        >
-            ×
-        </button>
+        >×</button>
 
+        <span class="eyebrow">Artwork enquiry</span>
 
-        <span class="eyebrow">
-            Artwork enquiry
-        </span>
-
-
-        <h2 id="enquiryTitle">
-            Interested in this work?
-        </h2>
-
+        <h2 id="enquiryTitle">Interested in this work?</h2>
 
         <p class="enquiry-intro">
-
             {{ artwork.title }}
-
-            {% if artwork.artist %}
-                · {{ artwork.artist.name }}
-            {% endif %}
-
+            {% if artwork.artist %} · {{ artwork.artist.name }}{% endif %}
         </p>
-
 
         <form
             method="post"
             action="{% url 'artwork_enquiry' artwork.slug %}"
             class="enquiry-form"
         >
-
             {% csrf_token %}
 
-
             <div class="form-field">
-
-                <label for="name">
-                    Name
-                </label>
-
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    autocomplete="name"
-                >
-
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" required autocomplete="name">
             </div>
 
-
             <div class="form-field">
-
-                <label for="email">
-                    Email
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    autocomplete="email"
-                >
-
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required autocomplete="email">
             </div>
 
-
             <div class="form-field">
-
-                <label for="phone">
-                    Phone
-                </label>
-
-                <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    autocomplete="tel"
-                >
-
+                <label for="phone">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel">
             </div>
 
-
             <div class="form-field">
-
-                <label for="message">
-                    Message
-                </label>
-
-                <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
-                >I'm interested in {{ artwork.title }}.</textarea>
-
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5">I'm interested in {{ artwork.title }}.</textarea>
             </div>
 
-
-            <button
-                type="submit"
-                class="form-submit"
-            >
-
-                <span>
-                    Send enquiry
-                </span>
-
-                <span>
-                    ↗
-                </span>
-
+            <button type="submit" class="form-submit">
+                <span>Send enquiry</span>
+                <span aria-hidden="true">↗</span>
             </button>
 
-
             <p class="form-note">
-                ARTSASA will contact you regarding availability,
-                viewing and acquisition.
+                ARTSASA will contact you regarding availability, viewing and acquisition.
             </p>
-
         </form>
-
     </div>
-
 </div>
 
 {% endblock %}
 
 
 {% block extra_css %}
-
 <style>
-
-.artwork-page {
-    background: var(--paper);
-    color: var(--midnight);
-}
-
-.artwork-intro {
-    padding: 38px 0 25px;
-}
-
-.artwork-breadcrumb {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin: 0;
-    font-size: 10px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.artwork-breadcrumb a {
-    color: inherit;
-    text-decoration: none;
-    transition: color .25s ease;
-}
-
-.artwork-breadcrumb a:hover {
-    color: var(--terracotta);
-}
-
-.artwork-main {
-    padding: 20px 0 120px;
-}
-
-.artwork-main-grid {
-    display: grid;
-    grid-template-columns:
-        minmax(0, 1.25fr)
-        minmax(350px, .75fr);
-    gap: clamp(55px, 8vw, 120px);
-    align-items: start;
-}
-
-.artwork-gallery {
-    min-width: 0;
-}
-
-.artwork-main-image {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 600px;
-    background: var(--sandstone-deep);
-    overflow: hidden;
-}
-
-.artwork-main-image img {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-height: 82vh;
-    object-fit: contain;
-    transition: transform .8s var(--ease);
-}
-
-.artwork-main-image:hover img {
-    transform: scale(1.015);
-}
-
-.image-expand {
-    position: absolute;
-    right: 18px;
-    bottom: 18px;
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(33,30,27,.25);
-    background: rgba(241,234,219,.9);
-    color: var(--midnight);
-    cursor: pointer;
-    transition:
-        background .25s ease,
-        color .25s ease,
-        transform .25s ease;
-}
-
-.image-expand:hover {
-    background: var(--midnight);
-    color: var(--paper);
-    transform: translateY(-2px);
-}
-
-.artwork-thumbnails {
-    display: flex;
-    gap: 10px;
-    margin-top: 14px;
-    overflow-x: auto;
-    scrollbar-width: thin;
-}
-
-.artwork-thumb {
-    flex: 0 0 76px;
-    width: 76px;
-    height: 76px;
-    padding: 0;
-    border: 1px solid transparent;
-    background: transparent;
-    cursor: pointer;
-    overflow: hidden;
-    transition: border-color .25s ease;
-}
-
-.artwork-thumb:hover {
-    border-color: rgba(161,92,59,.5);
-}
-
-.artwork-thumb.active {
-    border-color: var(--terracotta);
-}
-
-.artwork-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.artwork-information {
-    position: sticky;
-    top: 120px;
-}
-
-.artwork-status-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.artwork-status-row .eyebrow {
-    margin: 0;
-}
-
-.availability {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: #6E8B5E;
-}
-
-.availability::before {
-    content: "";
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #6E8B5E;
-}
-
-.availability.sold {
-    color: var(--muted);
-}
-
-.availability.sold::before {
-    background: var(--concrete);
-}
-
-.availability.reserved {
-    color: var(--terracotta-deep);
-}
-
-.availability.reserved::before {
-    background: var(--rattan);
-}
-
-.artwork-title {
-    margin: 28px 0 12px;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(44px, 5vw, 72px);
-    line-height: .96;
-    letter-spacing: -.025em;
-}
-
-.artwork-artist {
-    display: inline-block;
-    color: var(--midnight);
-    font-family: var(--font-display);
-    font-size: 20px;
-    text-decoration: none;
-    border-bottom: 1px solid transparent;
-    transition: border-color .25s ease;
-}
-
-.artwork-artist:hover {
-    border-color: var(--midnight);
-}
-
-.artwork-rule {
-    width: 100%;
-    height: 1px;
-    margin: 30px 0;
-    background: var(--line);
-}
-
-.artwork-lede {
-    max-width: 500px;
-    margin: 0 0 35px;
-    font-family: var(--font-reading);
-    font-style: italic;
-    font-optical-sizing: auto;
-    font-size: 19px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-}
-
-.artwork-details {
-    border-top: 1px solid var(--line);
-}
-
-.artwork-detail {
-    display: grid;
-    grid-template-columns: 130px 1fr;
-    gap: 20px;
-    padding: 14px 0;
-    border-bottom: 1px solid var(--line);
-    font-family: var(--font-body);
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.detail-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-}
-
-.artwork-acquisition {
-    margin-top: 38px;
-}
-
-.artwork-price {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 22px;
-}
-
-.price-label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.artwork-price strong {
-    font-family: var(--font-display);
-    font-size: 27px;
-    font-weight: 400;
-}
-
-.artwork-actions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 4px;
-}
-
-.artwork-action-button {
-    min-height: 52px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 15px;
-    border: 1px solid var(--midnight);
-    background: transparent;
-    color: var(--midnight);
-    font-family: var(--font-body);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .09em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition:
-        background .25s ease,
-        color .25s ease,
-        border-color .25s ease,
-        transform .2s ease,
-        opacity .2s ease;
-}
-
-.artwork-action-button:hover {
-    background: var(--midnight);
-    color: var(--paper);
-}
-
-.artwork-action-button:active {
-    transform: translateY(1px);
-}
-
-.artwork-action-button:disabled {
-    cursor: wait;
-    opacity: .65;
-}
-
-.artwork-action-button .action-icon {
-    width: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    flex-shrink: 0;
-}
-
-.artwork-action-button .action-text {
-    flex: 1;
-    text-align: left;
-    white-space: nowrap;
-}
-
-.artwork-action-button .action-arrow {
-    font-size: 15px;
-    flex-shrink: 0;
-}
-
-.cart-button {
-    background: var(--midnight);
-    color: var(--paper);
-}
-
-.cart-button:hover {
-    background: transparent;
-    color: var(--midnight);
-}
-
-.buy-button {
-    background: var(--terracotta);
-    border-color: var(--terracotta);
-    color: var(--paper);
-}
-
-.buy-button:hover {
-    background: transparent;
-    color: var(--terracotta);
-    border-color: var(--terracotta);
-}
-
-.wishlist-button {
-    grid-column: 1 / -1;
-}
-
-.wishlist-button.is-active {
-    background: var(--paper);
-    border-color: var(--terracotta);
-    color: var(--terracotta);
-}
-
-.wishlist-button.is-active:hover {
-    background: var(--terracotta);
-    color: var(--paper);
-}
-
-.wishlist-button .action-icon {
-    transition: transform .2s ease;
-}
-
-.wishlist-button:hover .action-icon,
-.wishlist-button.is-active .action-icon {
-    transform: scale(1.08);
-}
-
-.action-status {
-    min-height: 20px;
-    margin-top: 12px;
-    font-size: 10px;
-    line-height: 1.5;
-    color: var(--muted);
-}
-
-.action-status.success {
-    color: var(--terracotta);
-}
-
-.action-status.error {
-    color: #9B3C32;
-}
-
-.enquiry-trigger {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 18px;
-    padding: 15px 0;
-    border: 0;
-    border-top: 1px solid var(--line);
-    background: transparent;
-    color: var(--midnight);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: color .25s ease;
-}
-
-.enquiry-trigger:hover {
-    color: var(--terracotta);
-}
-
-.sold-message {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 17px;
-    border: 1px solid var(--line);
-    font-size: 11px;
-    letter-spacing: .08em;
-    text-transform: uppercase;
-}
-
-.sold-message i {
-    color: var(--muted);
-}
-
-.acquisition-note {
-    margin: 18px 0 0;
-    font-size: 11px;
-    line-height: 1.7;
-    color: var(--muted);
-}
-
-.floating-contact {
-    position: fixed;
-    right: 22px;
-    bottom: 24px;
-    z-index: 9000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-}
-
-.floating-contact-link {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    text-decoration: none;
-    font-size: 21px;
-    box-shadow: 0 7px 20px rgba(0,0,0,.18);
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease;
-}
-
-.floating-contact-link:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 11px 26px rgba(0,0,0,.24);
-}
-
-.whatsapp-link {
-    background: #25D366;
-    color: #fff;
-}
-
-.call-link {
-    background: var(--midnight);
-    color: var(--paper);
-}
-
-.work-story {
-    padding: clamp(90px, 10vw, 150px) 0;
-    background: var(--rattan);
-}
-
-.work-story-grid {
-    display: grid;
-    grid-template-columns: .7fr 1.6fr;
-    gap: 60px;
-}
-
-.story-content {
-    max-width: 760px;
+.artwork-page{background:var(--paper);color:var(--midnight)}
+.artwork-intro{padding:38px 0 25px}
+.artwork-breadcrumb{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.artwork-breadcrumb a{color:inherit;text-decoration:none;transition:color .25s ease}
+.artwork-breadcrumb a:hover{color:var(--terracotta)}
+.artwork-main{padding:20px 0 120px}
+.artwork-main-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(350px,.75fr);gap:clamp(55px,8vw,120px);align-items:start}
+.artwork-gallery{min-width:0}
+.artwork-main-image{position:relative;display:flex;align-items:center;justify-content:center;min-height:600px;background:var(--sandstone-deep);overflow:hidden}
+.artwork-main-image img{display:block;width:100%;height:auto;max-height:82vh;object-fit:contain;transition:transform .8s var(--ease)}
+.artwork-main-image:hover img{transform:scale(1.015)}
+.image-expand{position:absolute;right:18px;bottom:18px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(33,30,27,.25);background:rgba(241,234,219,.9);color:var(--midnight);cursor:pointer;transition:background .25s ease,color .25s ease,transform .25s ease}
+.image-expand:hover{background:var(--midnight);color:var(--paper);transform:translateY(-2px)}
+.artwork-thumbnails{display:flex;gap:10px;margin-top:14px;overflow-x:auto;scrollbar-width:thin}
+.artwork-thumb{flex:0 0 76px;width:76px;height:76px;padding:0;border:1px solid transparent;background:transparent;cursor:pointer;overflow:hidden;transition:border-color .25s ease}
+.artwork-thumb:hover{border-color:rgba(161,92,59,.5)}
+.artwork-thumb.active{border-color:var(--terracotta)}
+.artwork-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.artwork-information{position:sticky;top:120px}
+.artwork-status-row{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.artwork-status-row .eyebrow{margin:0}
+.availability{display:inline-flex;align-items:center;gap:7px;font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#6E8B5E}
+.availability:before{content:"";width:6px;height:6px;border-radius:50%;background:#6E8B5E}
+.availability.sold{color:var(--muted)}
+.availability.sold:before{background:var(--concrete)}
+.availability.reserved{color:var(--terracotta-deep)}
+.availability.reserved:before{background:var(--rattan)}
+.artwork-title{margin:28px 0 12px;font-family:var(--font-display);font-weight:400;font-size:clamp(44px,5vw,72px);line-height:.96;letter-spacing:-.025em}
+.artwork-artist{display:inline-block;color:var(--midnight);font-family:var(--font-display);font-size:20px;text-decoration:none;border-bottom:1px solid transparent;transition:border-color .25s ease}
+.artwork-artist:hover{border-color:var(--midnight)}
+.artwork-rule{width:100%;height:1px;margin:30px 0;background:var(--line)}
+.artwork-lede{max-width:500px;margin:0 0 35px;font-family:var(--font-reading);font-style:italic;font-optical-sizing:auto;font-size:19px;line-height:1.6;color:var(--ink-soft)}
+.artwork-details{border-top:1px solid var(--line)}
+.artwork-detail{display:grid;grid-template-columns:130px 1fr;gap:20px;padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--font-body);font-size:13px;line-height:1.5}
+.detail-label{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--terracotta)}
+.artwork-acquisition{margin-top:38px}
+.artwork-price{display:flex;flex-direction:column;gap:8px;margin-bottom:22px}
+.price-label{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+.artwork-price strong{font-family:var(--font-display);font-size:27px;font-weight:400}
+.artwork-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.artwork-action-button{min-height:52px;display:flex;align-items:center;gap:12px;padding:13px 15px;border:1px solid var(--midnight);background:transparent;color:var(--midnight);font-family:var(--font-body);font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;cursor:pointer;transition:background .25s ease,color .25s ease,border-color .25s ease,transform .2s ease,opacity .2s ease}
+.artwork-action-button:hover{background:var(--midnight);color:var(--paper)}
+.artwork-action-button:active{transform:translateY(1px)}
+.artwork-action-button:disabled{cursor:wait;opacity:.65}
+.artwork-action-button .action-icon{width:20px;display:inline-flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.artwork-action-button .action-text{flex:1;text-align:left;white-space:nowrap}
+.artwork-action-button .action-arrow{font-size:15px;flex-shrink:0}
+.cart-button{background:var(--midnight);color:var(--paper)}
+.cart-button:hover{background:transparent;color:var(--midnight)}
+.buy-button{background:var(--terracotta);border-color:var(--terracotta);color:var(--paper)}
+.buy-button:hover{background:transparent;color:var(--terracotta);border-color:var(--terracotta)}
+.wishlist-button{grid-column:1/-1}
+.wishlist-button.is-active{background:var(--paper);border-color:var(--terracotta);color:var(--terracotta)}
+.wishlist-button.is-active:hover{background:var(--terracotta);color:var(--paper)}
+.wishlist-button .action-icon{transition:transform .2s ease}
+.wishlist-button:hover .action-icon,.wishlist-button.is-active .action-icon{transform:scale(1.08)}
+.action-status{min-height:20px;margin-top:12px;font-size:10px;line-height:1.5;color:var(--muted)}
+.action-status.success{color:var(--terracotta)}
+.action-status.error{color:#9B3C32}
+.enquiry-trigger{width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding:15px 0;border:0;border-top:1px solid var(--line);background:transparent;color:var(--midnight);font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:color .25s ease}
+.enquiry-trigger:hover{color:var(--terracotta)}
+.sold-message{display:flex;align-items:center;gap:10px;padding:17px;border:1px solid var(--line);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.sold-message i{color:var(--muted)}
+.acquisition-note{margin:18px 0 0;font-size:11px;line-height:1.7;color:var(--muted)}
+.floating-contact{position:fixed;right:22px;bottom:24px;z-index:9000;display:flex;flex-direction:column;align-items:center;gap:15px}
+.floating-contact-link{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%;text-decoration:none;font-size:21px;box-shadow:0 7px 20px rgba(0,0,0,.18);transition:transform .25s ease,box-shadow .25s ease}
+.floating-contact-link:hover{transform:translateY(-4px) scale(1.05);box-shadow:0 11px 26px rgba(0,0,0,.24)}
+.whatsapp-link{background:#25D366;color:#fff}
+.call-link{background:var(--midnight);color:var(--paper)}
+.work-story{padding:clamp(90px,10vw,150px) 0;background:var(--rattan)}
+.work-story-grid{display:grid;grid-template-columns:.7fr 1.6fr;gap:60px}
+.story-content{max-width:760px}
+.story-content h2{margin:0 0 30px;font-family:var(--font-display);font-weight:400;font-size:clamp(40px,5vw,70px);line-height:1}
+.story-text{max-width:650px;font-family:var(--font-reading);font-style:italic;font-optical-sizing:auto;font-size:17px;line-height:1.8;color:var(--ink-soft)}
+.story-text p{margin:0 0 22px}
+.artist-section{padding:clamp(90px,10vw,150px) 0;background:var(--paper)}
+.section-small-heading{margin-bottom:45px}
+.artist-feature{display:grid;grid-template-columns:.7fr 1.3fr;gap:clamp(40px,7vw,100px);align-items:center}
+.artist-feature-image{aspect-ratio:1/1.1;overflow:hidden;background:var(--sandstone-deep)}
+.artist-feature-image img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85)}
+.artist-feature-copy{max-width:620px}
+.artist-feature-copy h2{margin:0 0 25px;font-family:var(--font-display);font-size:clamp(42px,5vw,70px);font-weight:400;line-height:1}
+.artist-feature-copy p{max-width:550px;margin:0 0 30px;font-family:var(--font-reading);font-style:italic;font-optical-sizing:auto;font-size:17px;line-height:1.75;color:var(--ink-soft)}
+.exhibition-context{padding:clamp(90px,10vw,150px) 0;background:var(--midnight);color:var(--sandstone)}
+.exhibition-context-grid{display:grid;grid-template-columns:.7fr 1.6fr;gap:60px}
+.exhibition-context-copy{max-width:760px}
+.exhibition-context-copy h2{margin:0 0 12px;font-family:var(--font-display);font-size:clamp(44px,5vw,72px);font-weight:400;line-height:.98}
+.exhibition-date{margin:0 0 28px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--rattan)}
+.exhibition-copy{max-width:600px;margin-bottom:30px;font-family:var(--font-reading);font-style:italic;font-optical-sizing:auto;font-size:16px;line-height:1.75;color:rgba(241,234,219,.72)}
+.exhibition-context .text-link{color:var(--sandstone)}
+.related-works{padding:clamp(90px,10vw,150px) 0;background:var(--paper)}
+.related-header{display:flex;justify-content:space-between;align-items:end;gap:40px;margin-bottom:55px}
+.related-header .section-title{margin:20px 0 0}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.related-image{display:block;aspect-ratio:.85;overflow:hidden;background:var(--sandstone-deep)}
+.related-image img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s var(--ease)}
+.related-card:hover .related-image img{transform:scale(1.035)}
+.related-info{display:flex;justify-content:space-between;gap:20px;padding-top:16px}
+.related-info h3{margin:0 0 6px;font-family:var(--font-display);font-size:22px;font-weight:400}
+.related-info h3 a{color:inherit;text-decoration:none}
+.related-info h3 a:hover{color:var(--terracotta)}
+.related-info p{margin:0 0 6px;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--terracotta)}
+.related-info span{font-size:10px;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.related-arrow{color:var(--midnight);text-decoration:none;font-size:18px}
+.artwork-viewer{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;padding:50px;background:rgba(33,30,27,.96);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}
+.artwork-viewer.open{opacity:1;visibility:visible}
+.artwork-viewer img{max-width:95vw;max-height:90vh;object-fit:contain}
+.viewer-close{position:absolute;top:20px;right:25px;width:45px;height:45px;border:1px solid rgba(241,234,219,.4);background:transparent;color:var(--sandstone);font-size:28px;cursor:pointer}
+.enquiry-modal{position:fixed;inset:0;z-index:10000;visibility:hidden;opacity:0;transition:opacity .3s ease,visibility .3s ease}
+.enquiry-modal.open{visibility:visible;opacity:1}
+.enquiry-backdrop{position:absolute;inset:0;background:rgba(33,30,27,.65)}
+.enquiry-panel{position:absolute;top:0;right:0;width:min(520px,100%);height:100%;overflow-y:auto;padding:70px 45px;background:var(--paper);transform:translateX(100%);transition:transform .45s var(--ease)}
+.enquiry-modal.open .enquiry-panel{transform:translateX(0)}
+.enquiry-close{position:absolute;top:22px;right:25px;border:0;background:transparent;font-size:30px;color:var(--midnight);cursor:pointer}
+.enquiry-panel h2{margin:24px 0 12px;font-family:var(--font-display);font-size:clamp(42px,6vw,65px);font-weight:400;line-height:.98}
+.enquiry-intro{margin:0 0 40px;font-size:13px;color:var(--muted)}
+.enquiry-form{display:flex;flex-direction:column;gap:23px}
+.form-field{display:flex;flex-direction:column;gap:9px}
+.form-field label{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--terracotta)}
+.form-field input,.form-field textarea{width:100%;padding:13px 0;border:0;border-bottom:1px solid rgba(33,30,27,.25);background:transparent;color:var(--midnight);font-size:14px;outline:none;border-radius:0}
+.form-field textarea{resize:vertical}
+.form-field input:focus,.form-field textarea:focus{border-color:var(--midnight)}
+.form-submit{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:17px 20px;border:1px solid var(--midnight);background:var(--midnight);color:var(--paper);font-size:10px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;cursor:pointer;transition:background .25s ease,color .25s ease}
+.form-submit:hover{background:transparent;color:var(--midnight)}
+.form-note{margin:0;font-size:10px;line-height:1.7;color:var(--muted)}
+
+/* Progressive enhancement: content remains visible if JavaScript fails. */
+.js-reveal-enabled .reveal{opacity:0;transform:translateY(18px)}
+.js-reveal-enabled .reveal.visible{opacity:1;transform:translateY(0)}
+.reveal{transition:opacity .7s ease,transform .7s ease}
+body.modal-open{overflow:hidden}
+
+@media(max-width:1000px){
+.artwork-main-grid{grid-template-columns:1fr}
+.artwork-information{position:static;max-width:720px}
+.artwork-main-image{min-height:500px}
+.artist-feature{grid-template-columns:1fr 1fr}
+.related-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+.artwork-intro{padding-top:25px}
+.artwork-main{padding-bottom:80px}
+.artwork-main-grid{gap:55px}
+.artwork-main-image{min-height:390px}
+.artwork-title{font-size:clamp(43px,14vw,70px)}
+.artwork-lede{font-size:17px}
+.artwork-detail{grid-template-columns:110px 1fr}
+.artwork-actions{grid-template-columns:1fr}
+.artwork-action-button{width:100%}
+.wishlist-button{grid-column:auto}
+.work-story-grid,.exhibition-context-grid{grid-template-columns:1fr;gap:30px}
+.artist-feature{grid-template-columns:1fr;gap:35px}
+.artist-feature-image{max-width:500px}
+.related-header{flex-direction:column;align-items:flex-start}
+.related-grid{grid-template-columns:repeat(2,1fr);gap:30px}
+.enquiry-panel{padding:65px 25px 40px}
+.artwork-viewer{padding:20px}
+.floating-contact{right:16px;bottom:18px;gap:11px}
+.floating-contact-link{width:44px;height:44px;font-size:19px}
+}
+@media(max-width:420px){
+.related-grid{grid-template-columns:1fr}
+.artwork-detail{grid-template-columns:95px 1fr;gap:12px}
+.artwork-main-image{min-height:300px}
+}
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
-
-.story-content h2 {
-    margin: 0 0 30px;
-    font-family: var(--font-display);
-    font-weight: 400;
-    font-size: clamp(40px, 5vw, 70px);
-    line-height: 1;
-}
-
-.story-text {
-    max-width: 650px;
-    font-family: var(--font-reading);
-    font-style: italic;
-    font-optical-sizing: auto;
-    font-size: 17px;
-    line-height: 1.8;
-    color: var(--ink-soft);
-}
-
-.story-text p {
-    margin: 0 0 22px;
-}
-
-.artist-section {
-    padding: clamp(90px, 10vw, 150px) 0;
-    background: var(--paper);
-}
-
-.section-small-heading {
-    margin-bottom: 45px;
-}
-
-.artist-feature {
-    display: grid;
-    grid-template-columns: .7fr 1.3fr;
-    gap: clamp(40px, 7vw, 100px);
-    align-items: center;
-}
-
-.artist-feature-image {
-    aspect-ratio: 1 / 1.1;
-    overflow: hidden;
-    background: var(--sandstone-deep);
-}
-
-.artist-feature-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    filter: saturate(.85);
-}
-
-.artist-feature-copy {
-    max-width: 620px;
-}
-
-.artist-feature-copy h2 {
-    margin: 0 0 25px;
-    font-family: var(--font-display);
-    font-size: clamp(42px, 5vw, 70px);
-    font-weight: 400;
-    line-height: 1;
-}
-
-.artist-feature-copy p {
-    max-width: 550px;
-    margin: 0 0 30px;
-    font-family: var(--font-reading);
-    font-style: italic;
-    font-optical-sizing: auto;
-    font-size: 17px;
-    line-height: 1.75;
-    color: var(--ink-soft);
-}
-
-.exhibition-context {
-    padding: clamp(90px, 10vw, 150px) 0;
-    background: var(--midnight);
-    color: var(--sandstone);
-}
-
-.exhibition-context-grid {
-    display: grid;
-    grid-template-columns: .7fr 1.6fr;
-    gap: 60px;
-}
-
-.exhibition-context-copy {
-    max-width: 760px;
-}
-
-.exhibition-context-copy h2 {
-    margin: 0 0 12px;
-    font-family: var(--font-display);
-    font-size: clamp(44px, 5vw, 72px);
-    font-weight: 400;
-    line-height: .98;
-}
-
-.exhibition-date {
-    margin: 0 0 28px;
-    font-size: 11px;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: var(--rattan);
-}
-
-.exhibition-copy {
-    max-width: 600px;
-    margin-bottom: 30px;
-    font-family: var(--font-reading);
-    font-style: italic;
-    font-optical-sizing: auto;
-    font-size: 16px;
-    line-height: 1.75;
-    color: rgba(241,234,219,.72);
-}
-
-.exhibition-context .text-link {
-    color: var(--sandstone);
-}
-
-.related-works {
-    padding: clamp(90px, 10vw, 150px) 0;
-    background: var(--paper);
-}
-
-.related-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 40px;
-    margin-bottom: 55px;
-}
-
-.related-header .section-title {
-    margin: 20px 0 0;
-}
-
-.related-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-}
-
-.related-image {
-    display: block;
-    aspect-ratio: .85;
-    overflow: hidden;
-    background: var(--sandstone-deep);
-}
-
-.related-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform .7s var(--ease);
-}
-
-.related-card:hover .related-image img {
-    transform: scale(1.035);
-}
-
-.related-info {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-    padding-top: 16px;
-}
-
-.related-info h3 {
-    margin: 0 0 6px;
-    font-family: var(--font-display);
-    font-size: 22px;
-    font-weight: 400;
-}
-
-.related-info p {
-    margin: 0 0 6px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-}
-
-.related-info span {
-    font-size: 10px;
-    font-weight: 500;
-    letter-spacing: .07em;
-    text-transform: uppercase;
-    color: var(--muted);
-}
-
-.related-arrow {
-    color: var(--midnight);
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.artwork-viewer {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 50px;
-    background: rgba(33,30,27,.96);
-    opacity: 0;
-    visibility: hidden;
-    transition:
-        opacity .3s ease,
-        visibility .3s ease;
-}
-
-.artwork-viewer.open {
-    opacity: 1;
-    visibility: visible;
-}
-
-.artwork-viewer img {
-    max-width: 95vw;
-    max-height: 90vh;
-    object-fit: contain;
-}
-
-.viewer-close {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    width: 45px;
-    height: 45px;
-    border: 1px solid rgba(241,234,219,.4);
-    background: transparent;
-    color: var(--sandstone);
-    font-size: 28px;
-    cursor: pointer;
-}
-
-.enquiry-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 10000;
-    visibility: hidden;
-    opacity: 0;
-    transition:
-        opacity .3s ease,
-        visibility .3s ease;
-}
-
-.enquiry-modal.open {
-    visibility: visible;
-    opacity: 1;
-}
-
-.enquiry-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(33,30,27,.65);
-}
-
-.enquiry-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: min(520px, 100%);
-    height: 100%;
-    overflow-y: auto;
-    padding: 70px 45px;
-    background: var(--paper);
-    transform: translateX(100%);
-    transition: transform .45s var(--ease);
-}
-
-.enquiry-modal.open .enquiry-panel {
-    transform: translateX(0);
-}
-
-.enquiry-close {
-    position: absolute;
-    top: 22px;
-    right: 25px;
-    border: 0;
-    background: transparent;
-    font-size: 30px;
-    color: var(--midnight);
-    cursor: pointer;
-}
-
-.enquiry-panel h2 {
-    margin: 24px 0 12px;
-    font-family: var(--font-display);
-    font-size: clamp(42px, 6vw, 65px);
-    font-weight: 400;
-    line-height: .98;
-}
-
-.enquiry-intro {
-    margin: 0 0 40px;
-    font-size: 13px;
-    color: var(--muted);
-}
-
-.enquiry-form {
-    display: flex;
-    flex-direction: column;
-    gap: 23px;
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 9px;
-}
-
-.form-field label {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    color: var(--terracotta);
-}
-
-.form-field input,
-.form-field textarea {
-    width: 100%;
-    padding: 13px 0;
-    border: 0;
-    border-bottom: 1px solid rgba(33,30,27,.25);
-    background: transparent;
-    color: var(--midnight);
-    font-size: 14px;
-    outline: none;
-    border-radius: 0;
-}
-
-.form-field textarea {
-    resize: vertical;
-}
-
-.form-field input:focus,
-.form-field textarea:focus {
-    border-color: var(--midnight);
-}
-
-.form-submit {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 10px;
-    padding: 17px 20px;
-    border: 1px solid var(--midnight);
-    background: var(--midnight);
-    color: var(--paper);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .13em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition:
-        background .25s ease,
-        color .25s ease;
-}
-
-.form-submit:hover {
-    background: transparent;
-    color: var(--midnight);
-}
-
-.form-note {
-    margin: 0;
-    font-size: 10px;
-    line-height: 1.7;
-    color: var(--muted);
-}
-
-.reveal {
-    opacity: 0;
-    transform: translateY(18px);
-    transition:
-        opacity .7s ease,
-        transform .7s ease;
-}
-
-.reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-body.modal-open {
-    overflow: hidden;
-}
-
-@media (max-width: 1000px) {
-
-    .artwork-main-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .artwork-information {
-        position: static;
-        max-width: 720px;
-    }
-
-    .artwork-main-image {
-        min-height: 500px;
-    }
-
-    .artist-feature {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .related-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-}
-
-@media (max-width: 700px) {
-
-    .artwork-intro {
-        padding-top: 25px;
-    }
-
-    .artwork-main {
-        padding-bottom: 80px;
-    }
-
-    .artwork-main-grid {
-        gap: 55px;
-    }
-
-    .artwork-main-image {
-        min-height: 390px;
-    }
-
-    .artwork-title {
-        font-size: clamp(43px, 14vw, 70px);
-    }
-
-    .artwork-lede {
-        font-size: 17px;
-    }
-
-    .artwork-detail {
-        grid-template-columns: 110px 1fr;
-    }
-
-    .artwork-actions {
-        grid-template-columns: 1fr;
-    }
-
-    .artwork-action-button {
-        width: 100%;
-    }
-
-    .wishlist-button {
-        grid-column: auto;
-    }
-
-    .work-story-grid,
-    .exhibition-context-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-
-    .artist-feature {
-        grid-template-columns: 1fr;
-        gap: 35px;
-    }
-
-    .artist-feature-image {
-        max-width: 500px;
-    }
-
-    .related-header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .related-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-    }
-
-    .enquiry-panel {
-        padding: 65px 25px 40px;
-    }
-
-    .artwork-viewer {
-        padding: 20px;
-    }
-
-    .floating-contact {
-        right: 16px;
-        bottom: 18px;
-        gap: 11px;
-    }
-
-    .floating-contact-link {
-        width: 44px;
-        height: 44px;
-        font-size: 19px;
-    }
-
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .reveal,
-    .artwork-viewer,
-    .enquiry-modal,
-    .enquiry-panel,
-    .artwork-main-image img,
-    .related-image img,
-    .artwork-action-button,
-    .floating-contact-link {
-        transition: none;
-    }
-
-}
-
 </style>
-
 {% endblock %}
 
 
 {% block extra_js %}
-
 <script>
-
 document.addEventListener("DOMContentLoaded", function () {
-
     "use strict";
 
+    document.documentElement.classList.add("js-reveal-enabled");
 
-    /* =========================================================
-       ELEMENTS
-    ========================================================== */
+    const mainImage = document.getElementById("mainArtworkImage");
+    const thumbnails = document.querySelectorAll(".artwork-thumb");
+    const viewer = document.getElementById("artworkViewer");
+    const viewerImage = document.getElementById("viewerImage");
+    const openViewer = document.getElementById("openArtworkViewer");
+    const closeViewer = document.getElementById("closeArtworkViewer");
 
-    const mainImage =
-        document.getElementById("mainArtworkImage");
+    const cartButton = document.getElementById("addArtworkToCart");
+    const buyButton = document.getElementById("buyArtworkNow");
+    const wishlistButton = document.getElementById("addArtworkToWishlist");
+    const wishlistIcon = document.getElementById("wishlistIcon");
+    const wishlistText = document.getElementById("wishlistActionText");
+    const actionStatus = document.getElementById("artworkActionStatus");
 
-    const thumbnails =
-        document.querySelectorAll(".artwork-thumb");
+    const enquiryModal = document.getElementById("enquiryModal");
+    const openEnquiry = document.getElementById("openEnquiry");
+    const closeEnquiry = document.getElementById("closeEnquiry");
+    const closeEnquiryButton = document.getElementById("closeEnquiryButton");
 
-    const viewer =
-        document.getElementById("artworkViewer");
+    const artworkId = cartButton
+        ? cartButton.dataset.artworkId
+        : (wishlistButton ? wishlistButton.dataset.artworkId : "");
 
-    const viewerImage =
-        document.getElementById("viewerImage");
-
-    const openViewer =
-        document.getElementById("openArtworkViewer");
-
-    const closeViewer =
-        document.getElementById("closeArtworkViewer");
-
-    const cartButton =
-        document.getElementById("addArtworkToCart");
-
-    const buyButton =
-        document.getElementById("buyArtworkNow");
-
-    const wishlistButton =
-        document.getElementById("addArtworkToWishlist");
-
-    const wishlistIcon =
-        document.getElementById("wishlistIcon");
-
-    const wishlistText =
-        document.getElementById("wishlistActionText");
-
-    const actionStatus =
-        document.getElementById("artworkActionStatus");
-
-    const enquiryModal =
-        document.getElementById("enquiryModal");
-
-    const openEnquiry =
-        document.getElementById("openEnquiry");
-
-    const closeEnquiry =
-        document.getElementById("closeEnquiry");
-
-    const closeEnquiryButton =
-        document.getElementById("closeEnquiryButton");
-
-
-    const artworkId =
-        cartButton
-            ? cartButton.dataset.artworkId
-            : (
-                wishlistButton
-                    ? wishlistButton.dataset.artworkId
-                    : ""
-            );
-
-
-    /* =========================================================
-       URLS
-       IMPORTANT:
-       Use Django's real URL names directly.
-    ========================================================== */
-
-    const CART_ADD_URL =
-        "{% url 'add_to_cart' artwork.id %}";
-
-    const CART_URL =
-        "{% url 'cart' %}";
-
-    const WISHLIST_ADD_URL =
-        "{% url 'add_to_wishlist' %}";
-
-    const WISHLIST_REMOVE_URL =
-        "{% url 'remove_from_wishlist' %}";
-
-    const WISHLIST_COUNT_URL =
-        "{% url 'wishlist_count' %}";
-
-    const CART_COUNT_URL =
-        "{% url 'cart_count' %}";
-
-
-    /* =========================================================
-       CSRF
-    ========================================================== */
+    const CART_ADD_URL = "{% url 'add_to_cart' artwork.id %}";
+    const CART_URL = "{% url 'cart' %}";
+    const WISHLIST_ADD_URL = "{% url 'add_to_wishlist' %}";
+    const WISHLIST_REMOVE_URL = "{% url 'remove_from_wishlist' %}";
+    const WISHLIST_COUNT_URL = "{% url 'wishlist_count' %}";
+    const CART_COUNT_URL = "{% url 'cart_count' %}";
 
     function getCookie(name) {
-
-        let cookieValue = null;
-
-        if (
-            document.cookie &&
-            document.cookie !== ""
-        ) {
-
-            const cookies =
-                document.cookie.split(";");
-
-            for (
-                let cookie of cookies
-            ) {
-
+        let value = null;
+        if (document.cookie) {
+            document.cookie.split(";").forEach(function (cookie) {
                 cookie = cookie.trim();
-
-                if (
-                    cookie.substring(
-                        0,
-                        name.length + 1
-                    ) === name + "="
-                ) {
-
-                    cookieValue =
-                        decodeURIComponent(
-                            cookie.substring(
-                                name.length + 1
-                            )
-                        );
-
-                    break;
-
+                if (cookie.startsWith(name + "=")) {
+                    value = decodeURIComponent(cookie.slice(name.length + 1));
                 }
-
-            }
-
+            });
         }
-
-        return cookieValue;
-
+        return value;
     }
 
-
-    const csrfToken =
-        getCookie("csrftoken") ||
-        "{{ csrf_token }}";
-
-
-    /* =========================================================
-       SAFE JSON RESPONSE
-    ========================================================== */
+    const csrfToken = getCookie("csrftoken") || "{{ csrf_token }}";
 
     async function readResponse(response) {
-
-        const text =
-            await response.text();
-
+        const text = await response.text();
         let data = {};
-
         if (text) {
-
             try {
-
-                data =
-                    JSON.parse(text);
-
+                data = JSON.parse(text);
             } catch (error) {
-
-                data = {
-                    success: response.ok,
-                    message: text
-                };
-
+                data = { success: response.ok, message: text };
             }
-
         }
-
         if (!response.ok) {
-
-            throw new Error(
-                data.message ||
-                data.error ||
-                "The server could not complete the request."
-            );
-
+            throw new Error(data.message || data.error || "The server could not complete the request.");
         }
-
         return data;
-
     }
-
-
-    /* =========================================================
-       STATUS MESSAGE
-    ========================================================== */
 
     function showStatus(message, type) {
-
-        if (!actionStatus) {
-            return;
-        }
-
-        actionStatus.textContent =
-            message || "";
-
-        actionStatus.className =
-            "action-status";
-
-        if (type) {
-
-            actionStatus.classList.add(
-                type
-            );
-
-        }
-
+        if (!actionStatus) return;
+        actionStatus.textContent = message || "";
+        actionStatus.className = "action-status";
+        if (type) actionStatus.classList.add(type);
     }
 
-
-    /* =========================================================
-       BUTTON LOADING
-    ========================================================== */
-
-    function setButtonLoading(
-        button,
-        loadingText
-    ) {
-
-        if (!button) {
-            return;
-        }
-
+    function setButtonLoading(button, loadingText) {
+        if (!button) return;
         button.disabled = true;
-
-        const text =
-            button.querySelector(
-                ".action-text"
-            );
-
+        const text = button.querySelector(".action-text");
         if (text) {
-
-            if (
-                !button.dataset.originalText
-            ) {
-
-                button.dataset.originalText =
-                    text.textContent.trim();
-
+            if (!button.dataset.originalText) {
+                button.dataset.originalText = text.textContent.trim();
             }
-
-            text.textContent =
-                loadingText;
-
+            text.textContent = loadingText;
         }
-
     }
-
 
     function restoreButton(button) {
-
-        if (!button) {
-            return;
-        }
-
+        if (!button) return;
         button.disabled = false;
-
-        const text =
-            button.querySelector(
-                ".action-text"
-            );
-
-        if (
-            text &&
-            button.dataset.originalText
-        ) {
-
-            text.textContent =
-                button.dataset.originalText;
-
+        const text = button.querySelector(".action-text");
+        if (text && button.dataset.originalText) {
+            text.textContent = button.dataset.originalText;
         }
-
     }
-
-
-    /* =========================================================
-       COUNT EXTRACTION
-       Supports several backend response formats.
-    ========================================================== */
 
     function extractCount(data, keys) {
+        if (typeof data === "number" && Number.isFinite(data)) return data;
+        if (typeof data === "string" && /^\d+$/.test(data.trim())) return parseInt(data.trim(), 10);
+        if (!data || typeof data !== "object") return null;
 
-        if (
-            typeof data === "number" &&
-            Number.isFinite(data)
-        ) {
-
-            return data;
-
-        }
-
-
-        if (
-            typeof data === "string" &&
-            /^\d+$/.test(data.trim())
-        ) {
-
-            return parseInt(
-                data.trim(),
-                10
-            );
-
-        }
-
-
-        if (
-            !data ||
-            typeof data !== "object"
-        ) {
-
-            return null;
-
-        }
-
-
-        for (
-            const key of keys
-        ) {
-
-            if (
-                data[key] !== undefined &&
-                data[key] !== null &&
-                !Number.isNaN(
-                    Number(data[key])
-                )
-            ) {
-
-                return Math.max(
-                    0,
-                    parseInt(
-                        data[key],
-                        10
-                    )
-                );
-
+        for (const key of keys) {
+            if (data[key] !== undefined && data[key] !== null && !Number.isNaN(Number(data[key]))) {
+                return Math.max(0, parseInt(data[key], 10));
             }
-
         }
-
-
         return null;
-
     }
 
+    function renderBadge(desktopId, mobileId, count) {
+        count = Math.max(0, parseInt(count || 0, 10));
+        const display = count > 99 ? "99+" : String(count);
 
-    /* =========================================================
-       RENDER A COUNT DIRECTLY
-       This guarantees all four badges update.
-    ========================================================== */
-
-    function renderBadge(
-        desktopId,
-        mobileId,
-        count
-    ) {
-
-        count =
-            Math.max(
-                0,
-                parseInt(count || 0, 10)
-            );
-
-
-        const display =
-            count > 99
-                ? "99+"
-                : String(count);
-
-
-        [
-            desktopId,
-            mobileId
-        ].forEach(function (id) {
-
-            const element =
-                document.getElementById(id);
-
-            if (!element) {
-                return;
-            }
-
-            element.textContent =
-                display;
-
-            element.classList.toggle(
-                "is-empty",
-                count === 0
-            );
-
-            element.classList.toggle(
-                "has-items",
-                count > 0
-            );
-
+        [desktopId, mobileId].forEach(function (id) {
+            const element = document.getElementById(id);
+            if (!element) return;
+            element.textContent = display;
+            element.classList.toggle("is-empty", count === 0);
+            element.classList.toggle("has-items", count > 0);
         });
-
     }
 
-
-    /* =========================================================
-       LOCAL STORAGE
-    ========================================================== */
-
-    function saveLocalCount(
-        key,
-        count
-    ) {
-
+    function saveLocalCount(key, count) {
         try {
-
-            localStorage.setItem(
-                key,
-                String(count)
-            );
-
+            localStorage.setItem(key, String(count));
         } catch (error) {
-
-            console.warn(
-                "ARTSASA localStorage unavailable:",
-                error
-            );
-
+            console.warn("ARTSASA localStorage unavailable:", error);
         }
-
     }
-
-
-    /* =========================================================
-       REFRESH CART COUNT
-       SERVER IS AUTHORITATIVE.
-    ========================================================== */
 
     async function refreshCartCount() {
-
         try {
+            const response = await fetch(CART_COUNT_URL, {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store",
+                headers: {
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
 
-            const response =
-                await fetch(
-                    CART_COUNT_URL,
-                    {
-                        method: "GET",
-                        credentials: "same-origin",
-                        cache: "no-store",
-                        headers: {
-                            "Accept":
-                                "application/json",
-                            "X-Requested-With":
-                                "XMLHttpRequest"
-                        }
-                    }
-                );
+            const data = await readResponse(response);
+            const count = extractCount(data, ["count", "cart_count", "total", "items_count"]);
 
-
-            const data =
-                await readResponse(
-                    response
-                );
-
-
-            const count =
-                extractCount(
-                    data,
-                    [
-                        "count",
-                        "cart_count",
-                        "total",
-                        "items_count"
-                    ]
-                );
-
-
-            if (
-                count !== null
-            ) {
-
-                renderBadge(
-                    "cartCount",
-                    "cartCountMobile",
-                    count
-                );
-
-                saveLocalCount(
-                    "artsasa_cart_count",
-                    count
-                );
-
+            if (count !== null) {
+                renderBadge("cartCount", "cartCountMobile", count);
+                saveLocalCount("artsasa_cart_count", count);
                 return count;
-
             }
-
         } catch (error) {
-
-            console.warn(
-                "Unable to refresh cart count:",
-                error
-            );
-
+            console.warn("Unable to refresh cart count:", error);
         }
-
-
         return null;
-
     }
-
-
-    /* =========================================================
-       REFRESH WISHLIST COUNT
-       THIS IS THE IMPORTANT FIX.
-    ========================================================== */
 
     async function refreshWishlistCount() {
-
         try {
+            const response = await fetch(WISHLIST_COUNT_URL, {
+                method: "GET",
+                credentials: "same-origin",
+                cache: "no-store",
+                headers: {
+                    "Accept": "application/json",
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
 
-            const response =
-                await fetch(
-                    WISHLIST_COUNT_URL,
-                    {
-                        method: "GET",
-                        credentials: "same-origin",
-                        cache: "no-store",
-                        headers: {
-                            "Accept":
-                                "application/json",
-                            "X-Requested-With":
-                                "XMLHttpRequest"
-                        }
-                    }
-                );
+            const data = await readResponse(response);
+            const count = extractCount(data, ["count", "wishlist_count", "total", "items_count"]);
 
-
-            const data =
-                await readResponse(
-                    response
-                );
-
-
-            const count =
-                extractCount(
-                    data,
-                    [
-                        "count",
-                        "wishlist_count",
-                        "total",
-                        "items_count"
-                    ]
-                );
-
-
-            if (
-                count !== null
-            ) {
-
-                renderBadge(
-                    "wishlistCount",
-                    "wishlistCountMobile",
-                    count
-                );
-
-                saveLocalCount(
-                    "artsasa_wishlist_count",
-                    count
-                );
-
+            if (count !== null) {
+                renderBadge("wishlistCount", "wishlistCountMobile", count);
+                saveLocalCount("artsasa_wishlist_count", count);
                 return count;
-
             }
-
         } catch (error) {
-
-            console.warn(
-                "Unable to refresh wishlist count:",
-                error
-            );
-
+            console.warn("Unable to refresh wishlist count:", error);
         }
-
-
         return null;
-
     }
-
-
-    /* =========================================================
-       REFRESH BOTH
-    ========================================================== */
 
     async function refreshAllCounts() {
-
-        await Promise.allSettled([
-            refreshCartCount(),
-            refreshWishlistCount()
-        ]);
-
+        await Promise.allSettled([refreshCartCount(), refreshWishlistCount()]);
     }
 
+    window.ARTSASA = window.ARTSASA || {};
+    window.ARTSASA.refreshCounts = refreshAllCounts;
+    window.ARTSASA.refreshWishlistCount = refreshWishlistCount;
+    window.ARTSASA.refreshCartCount = refreshCartCount;
 
-    /* =========================================================
-       EXPOSE COUNT FUNCTIONS TO BASE.HTML
-    ========================================================== */
-
-    window.ARTSASA =
-        window.ARTSASA || {};
-
-    window.ARTSASA.refreshCounts =
-        refreshAllCounts;
-
-    window.ARTSASA.refreshWishlistCount =
-        refreshWishlistCount;
-
-    window.ARTSASA.refreshCartCount =
-        refreshCartCount;
-
-
-    /* =========================================================
-       THUMBNAIL SWITCHING
-    ========================================================== */
-
+    /* Artwork thumbnails */
     thumbnails.forEach(function (thumb) {
+        thumb.addEventListener("click", function () {
+            const image = thumb.dataset.image;
+            if (!image || !mainImage) return;
 
-        thumb.addEventListener(
-            "click",
-            function () {
-
-                const image =
-                    thumb.dataset.image;
-
-                if (
-                    !image ||
-                    !mainImage
-                ) {
-
-                    return;
-
-                }
-
-
-                mainImage.src =
-                    image;
-
-
-                thumbnails.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                thumb.classList.add(
-                    "active"
-                );
-
-            }
-        );
-
+            mainImage.src = image;
+            thumbnails.forEach(function (item) {
+                item.classList.remove("active");
+                item.setAttribute("aria-pressed", "false");
+            });
+            thumb.classList.add("active");
+            thumb.setAttribute("aria-pressed", "true");
+        });
     });
 
-
-    /* =========================================================
-       FULLSCREEN VIEWER
-    ========================================================== */
-
+    /* Fullscreen viewer */
     function openArtworkViewer() {
-
-        if (
-            !mainImage ||
-            !viewer ||
-            !viewerImage
-        ) {
-
-            return;
-
-        }
-
-
-        viewerImage.src =
-            mainImage.src;
-
-        viewerImage.alt =
-            mainImage.alt;
-
-        viewer.classList.add(
-            "open"
-        );
-
-        viewer.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-        document.body.classList.add(
-            "modal-open"
-        );
-
+        if (!mainImage || !viewer || !viewerImage) return;
+        viewerImage.src = mainImage.src;
+        viewerImage.alt = mainImage.alt;
+        viewer.classList.add("open");
+        viewer.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
+        if (closeViewer) closeViewer.focus();
     }
-
 
     function closeArtworkViewerFunction() {
-
-        if (!viewer) {
-            return;
-        }
-
-        viewer.classList.remove(
-            "open"
-        );
-
-        viewer.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-        document.body.classList.remove(
-            "modal-open"
-        );
-
+        if (!viewer) return;
+        viewer.classList.remove("open");
+        viewer.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+        if (openViewer) openViewer.focus();
     }
 
-
-    if (openViewer) {
-
-        openViewer.addEventListener(
-            "click",
-            openArtworkViewer
-        );
-
-    }
-
-
-    if (closeViewer) {
-
-        closeViewer.addEventListener(
-            "click",
-            closeArtworkViewerFunction
-        );
-
-    }
-
+    if (openViewer) openViewer.addEventListener("click", openArtworkViewer);
+    if (closeViewer) closeViewer.addEventListener("click", closeArtworkViewerFunction);
 
     if (viewer) {
-
-        viewer.addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target === viewer
-                ) {
-
-                    closeArtworkViewerFunction();
-
-                }
-
-            }
-        );
-
+        viewer.addEventListener("click", function (event) {
+            if (event.target === viewer) closeArtworkViewerFunction();
+        });
     }
 
-
-    /* =========================================================
-       ADD TO CART
-    ========================================================== */
-
+    /* Add to cart */
     if (cartButton) {
+        cartButton.addEventListener("click", async function () {
+            if (cartButton.disabled || !artworkId) return;
 
-        cartButton.addEventListener(
-            "click",
-            async function () {
+            setButtonLoading(cartButton, "Adding...");
+            showStatus("", "");
 
-                if (
-                    cartButton.disabled ||
-                    !artworkId
-                ) {
+            try {
+                const formData = new FormData();
+                formData.append("artwork_id", artworkId);
 
-                    return;
+                const response = await fetch(CART_ADD_URL, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                });
 
+                const data = await readResponse(response);
+                if (data.success === false) {
+                    throw new Error(data.message || "Unable to add artwork to cart.");
                 }
 
+                const count = extractCount(data, ["cart_count", "count", "total"]);
+                if (count !== null) {
+                    renderBadge("cartCount", "cartCountMobile", count);
+                    saveLocalCount("artsasa_cart_count", count);
+                }
 
-                setButtonLoading(
-                    cartButton,
-                    "Adding..."
-                );
+                await refreshCartCount();
+
+                const text = cartButton.querySelector(".action-text");
+                if (text) text.textContent = "In Cart";
 
                 showStatus(
-                    "",
-                    ""
+                    data.already_in_cart
+                        ? "This artwork is already in your cart."
+                        : "Artwork added to your cart.",
+                    "success"
                 );
-
-
-                try {
-
-                    const formData =
-                        new FormData();
-
-                    formData.append(
-                        "artwork_id",
-                        artworkId
-                    );
-
-
-                    /*
-                     * IMPORTANT:
-                     * Use Django's real URL directly.
-                     */
-                    const response =
-                        await fetch(
-                            CART_ADD_URL,
-                            {
-                                method: "POST",
-
-                                credentials:
-                                    "same-origin",
-
-                                headers: {
-                                    "X-CSRFToken":
-                                        csrfToken,
-
-                                    "X-Requested-With":
-                                        "XMLHttpRequest",
-
-                                    "Accept":
-                                        "application/json"
-                                },
-
-                                body:
-                                    formData
-                            }
-                        );
-
-
-                    const data =
-                        await readResponse(
-                            response
-                        );
-
-
-                    if (
-                        data.success === false
-                    ) {
-
-                        throw new Error(
-                            data.message ||
-                            "Unable to add artwork to cart."
-                        );
-
-                    }
-
-
-                    const cartCount =
-                        extractCount(
-                            data,
-                            [
-                                "cart_count",
-                                "count",
-                                "total"
-                            ]
-                        );
-
-
-                    if (
-                        cartCount !== null
-                    ) {
-
-                        renderBadge(
-                            "cartCount",
-                            "cartCountMobile",
-                            cartCount
-                        );
-
-                        saveLocalCount(
-                            "artsasa_cart_count",
-                            cartCount
-                        );
-
-                    }
-
-
-                    /*
-                     * Always ask the server for the
-                     * authoritative value afterwards.
-                     */
-                    await refreshCartCount();
-
-
-                    const text =
-                        cartButton.querySelector(
-                            ".action-text"
-                        );
-
-
-                    cartButton.classList.add(
-                        "is-added"
-                    );
-
-
-                    if (text) {
-
-                        text.textContent =
-                            "In Cart";
-
-                    }
-
-
-                    showStatus(
-                        data.already_in_cart
-                            ? "This artwork is already in your cart."
-                            : "Artwork added to your cart.",
-                        "success"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "ARTSASA cart error:",
-                        error
-                    );
-
-
-                    showStatus(
-                        error.message ||
-                        "Something went wrong while adding the artwork to your cart.",
-                        "error"
-                    );
-
-                } finally {
-
-                    setTimeout(
-                        function () {
-
-                            cartButton.classList.remove(
-                                "is-added"
-                            );
-
-                            restoreButton(
-                                cartButton
-                            );
-
-                            const text =
-                                cartButton.querySelector(
-                                    ".action-text"
-                                );
-
-                            if (text) {
-
-                                text.textContent =
-                                    "Add to Cart";
-
-                            }
-
-                        },
-                        1300
-                    );
-
-                }
-
+            } catch (error) {
+                console.error("ARTSASA cart error:", error);
+                showStatus(error.message || "Unable to add this artwork to your cart.", "error");
+            } finally {
+                setTimeout(function () {
+                    restoreButton(cartButton);
+                }, 1300);
             }
-        );
-
+        });
     }
 
-
-    /* =========================================================
-       BUY NOW
-    ========================================================== */
-
+    /* Buy now */
     if (buyButton) {
+        buyButton.addEventListener("click", async function () {
+            if (buyButton.disabled || !artworkId) return;
 
-        buyButton.addEventListener(
-            "click",
-            async function () {
+            setButtonLoading(buyButton, "Preparing...");
+            showStatus("", "");
 
-                if (
-                    buyButton.disabled ||
-                    !artworkId
-                ) {
+            try {
+                const formData = new FormData();
+                formData.append("artwork_id", artworkId);
 
-                    return;
+                const response = await fetch(CART_ADD_URL, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                });
 
+                const data = await readResponse(response);
+                if (data.success === false) {
+                    throw new Error(data.message || "Unable to prepare this artwork for purchase.");
                 }
 
-
-                setButtonLoading(
-                    buyButton,
-                    "Preparing..."
-                );
-
-                showStatus(
-                    "",
-                    ""
-                );
-
-
-                try {
-
-                    const formData =
-                        new FormData();
-
-                    formData.append(
-                        "artwork_id",
-                        artworkId
-                    );
-
-
-                    const response =
-                        await fetch(
-                            CART_ADD_URL,
-                            {
-                                method: "POST",
-
-                                credentials:
-                                    "same-origin",
-
-                                headers: {
-                                    "X-CSRFToken":
-                                        csrfToken,
-
-                                    "X-Requested-With":
-                                        "XMLHttpRequest",
-
-                                    "Accept":
-                                        "application/json"
-                                },
-
-                                body:
-                                    formData
-                            }
-                        );
-
-
-                    const data =
-                        await readResponse(
-                            response
-                        );
-
-
-                    if (
-                        data.success === false
-                    ) {
-
-                        throw new Error(
-                            data.message ||
-                            "Unable to prepare this artwork for purchase."
-                        );
-
-                    }
-
-
-                    await refreshCartCount();
-
-
-                    window.location.href =
-                        CART_URL;
-
-                } catch (error) {
-
-                    console.error(
-                        "ARTSASA buy-now error:",
-                        error
-                    );
-
-
-                    showStatus(
-                        error.message ||
-                        "Unable to continue to purchase.",
-                        "error"
-                    );
-
-
-                    restoreButton(
-                        buyButton
-                    );
-
-                }
-
+                await refreshCartCount();
+                window.location.href = CART_URL;
+            } catch (error) {
+                console.error("ARTSASA buy-now error:", error);
+                showStatus(error.message || "Unable to continue to purchase.", "error");
+                restoreButton(buyButton);
             }
-        );
-
+        });
     }
 
-
-    /* =========================================================
-       WISHLIST
-    ========================================================== */
-
+    /* Wishlist */
     if (wishlistButton) {
+        wishlistButton.addEventListener("click", async function () {
+            if (wishlistButton.disabled || !artworkId) return;
 
-        wishlistButton.addEventListener(
-            "click",
-            async function () {
+            const wasActive = wishlistButton.classList.contains("is-active");
+            setButtonLoading(wishlistButton, wasActive ? "Removing..." : "Saving...");
+            showStatus("", "");
 
-                if (
-                    wishlistButton.disabled ||
-                    !artworkId
-                ) {
+            try {
+                const formData = new FormData();
+                formData.append("artwork_id", artworkId);
+                formData.append("id", artworkId);
 
-                    return;
+                const endpoint = wasActive ? WISHLIST_REMOVE_URL : WISHLIST_ADD_URL;
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    credentials: "same-origin",
+                    headers: {
+                        "X-CSRFToken": csrfToken,
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Accept": "application/json"
+                    },
+                    body: formData
+                });
 
+                const data = await readResponse(response);
+                if (data.success === false) {
+                    throw new Error(data.message || "Unable to update wishlist.");
                 }
 
-
-                const currentlyActive =
-                    wishlistButton.classList.contains(
-                        "is-active"
-                    );
-
-
-                setButtonLoading(
-                    wishlistButton,
-                    currentlyActive
-                        ? "Removing..."
-                        : "Saving..."
-                );
-
-
-                showStatus(
-                    "",
-                    ""
-                );
-
-
-                try {
-
-                    const formData =
-                        new FormData();
-
-                    /*
-                     * Send the ID in both common forms.
-                     * This is harmless and makes the
-                     * frontend compatible with the current
-                     * Django wishlist views.
-                     */
-                    formData.append(
-                        "artwork_id",
-                        artworkId
-                    );
-
-                    formData.append(
-                        "id",
-                        artworkId
-                    );
-
-
-                    const endpoint =
-                        currentlyActive
-                            ? WISHLIST_REMOVE_URL
-                            : WISHLIST_ADD_URL;
-
-
-                    const response =
-                        await fetch(
-                            endpoint,
-                            {
-                                method: "POST",
-
-                                credentials:
-                                    "same-origin",
-
-                                headers: {
-                                    "X-CSRFToken":
-                                        csrfToken,
-
-                                    "X-Requested-With":
-                                        "XMLHttpRequest",
-
-                                    "Accept":
-                                        "application/json"
-                                },
-
-                                body:
-                                    formData
-                            }
-                        );
-
-
-                    const data =
-                        await readResponse(
-                            response
-                        );
-
-
-                    if (
-                        data.success === false
-                    ) {
-
-                        throw new Error(
-                            data.message ||
-                            "Unable to update wishlist."
-                        );
-
-                    }
-
-
-                    /*
-                     * Different Django implementations
-                     * may return `active`, `added`,
-                     * `in_wishlist`, or simply success.
-                     */
-                    let active;
-
-
-                    if (
-                        typeof data.active ===
-                        "boolean"
-                    ) {
-
-                        active =
-                            data.active;
-
-                    } else if (
-                        typeof data.in_wishlist ===
-                        "boolean"
-                    ) {
-
-                        active =
-                            data.in_wishlist;
-
-                    } else if (
-                        typeof data.added ===
-                        "boolean"
-                    ) {
-
-                        active =
-                            data.added;
-
-                    } else {
-
-                        active =
-                            !currentlyActive;
-
-                    }
-
-
-                    /*
-                     * Update the heart immediately.
-                     */
-                    wishlistButton.classList.toggle(
-                        "is-active",
-                        active
-                    );
-
-
-                    if (wishlistIcon) {
-
-                        wishlistIcon.className =
-                            active
-                                ? "fa-solid fa-heart"
-                                : "fa-regular fa-heart";
-
-                    }
-
-
-                    if (wishlistText) {
-
-                        wishlistText.textContent =
-                            active
-                                ? "In Wishlist"
-                                : "Add to Wishlist";
-
-                    }
-
-
-                    wishlistButton.setAttribute(
-                        "aria-label",
-                        active
-                            ? "Remove {{ artwork.title|escapejs }} from wishlist"
-                            : "Add {{ artwork.title|escapejs }} to wishlist"
-                    );
-
-
-                    /*
-                     * If the backend supplied the count,
-                     * use it immediately.
-                     */
-                    const returnedWishlistCount =
-                        extractCount(
-                            data,
-                            [
-                                "wishlist_count",
-                                "count",
-                                "total"
-                            ]
-                        );
-
-
-                    if (
-                        returnedWishlistCount !== null
-                    ) {
-
-                        renderBadge(
-                            "wishlistCount",
-                            "wishlistCountMobile",
-                            returnedWishlistCount
-                        );
-
-                        saveLocalCount(
-                            "artsasa_wishlist_count",
-                            returnedWishlistCount
-                        );
-
-                    }
-
-
-                    /*
-                     * CRITICAL:
-                     * Ask Django for the actual count after
-                     * the mutation. This prevents the
-                     * superscript from becoming stale.
-                     */
-                    await refreshWishlistCount();
-
-
-                    /*
-                     * Tell base.html / other page scripts
-                     * that the wishlist changed.
-                     */
-                    document.dispatchEvent(
-                        new CustomEvent(
-                            "artsasa:wishlist-updated",
-                            {
-                                detail: {
-                                    artworkId:
-                                        artworkId,
-                                    active:
-                                        active
-                                }
-                            }
-                        )
-                    );
-
-
-                    showStatus(
-                        active
-                            ? "Artwork saved to your wishlist."
-                            : "Artwork removed from your wishlist.",
-                        "success"
-                    );
-
-
-                } catch (error) {
-
-                    console.error(
-                        "ARTSASA wishlist error:",
-                        error
-                    );
-
-
-                    showStatus(
-                        error.message ||
-                        "Something went wrong while updating your wishlist.",
-                        "error"
-                    );
-
-                } finally {
-
-                    restoreButton(
-                        wishlistButton
-                    );
-
+                let active;
+                if (typeof data.active === "boolean") {
+                    active = data.active;
+                } else if (typeof data.in_wishlist === "boolean") {
+                    active = data.in_wishlist;
+                } else if (typeof data.added === "boolean") {
+                    active = data.added;
+                } else {
+                    active = !wasActive;
                 }
 
-            }
-        );
-
-    }
-
-
-    /* =========================================================
-       INITIAL WISHLIST STATE
-    ========================================================== */
-
-    {% if wishlist_ids %}
-
-        if (
-            wishlistButton &&
-            artworkId
-        ) {
-
-            const wishlistIds = [
-
-                {% for id in wishlist_ids %}
-
-                    "{{ id }}"
-
-                    {% if not forloop.last %}
-                        ,
-                    {% endif %}
-
-                {% endfor %}
-
-            ];
-
-
-            if (
-                wishlistIds.includes(
-                    String(artworkId)
-                )
-            ) {
-
-                wishlistButton.classList.add(
-                    "is-active"
-                );
-
+                wishlistButton.classList.toggle("is-active", active);
+                wishlistButton.setAttribute("aria-pressed", String(active));
 
                 if (wishlistIcon) {
-
-                    wishlistIcon.className =
-                        "fa-solid fa-heart";
-
+                    wishlistIcon.className = active
+                        ? "fa-solid fa-heart"
+                        : "fa-regular fa-heart";
                 }
-
 
                 if (wishlistText) {
-
-                    wishlistText.textContent =
-                        "In Wishlist";
-
+                    wishlistText.textContent = active ? "In Wishlist" : "Add to Wishlist";
                 }
 
+                wishlistButton.setAttribute(
+                    "aria-label",
+                    active
+                        ? "Remove {{ artwork.title|escapejs }} from wishlist"
+                        : "Add {{ artwork.title|escapejs }} to wishlist"
+                );
+
+                const count = extractCount(data, ["wishlist_count", "count", "total"]);
+                if (count !== null) {
+                    renderBadge("wishlistCount", "wishlistCountMobile", count);
+                    saveLocalCount("artsasa_wishlist_count", count);
+                }
+
+                await refreshWishlistCount();
+
+                document.dispatchEvent(new CustomEvent("artsasa:wishlist-updated", {
+                    detail: { artworkId: artworkId, active: active }
+                }));
+
+                showStatus(
+                    active
+                        ? "Artwork saved to your wishlist."
+                        : "Artwork removed from your wishlist.",
+                    "success"
+                );
+            } catch (error) {
+                console.error("ARTSASA wishlist error:", error);
+                showStatus(error.message || "Unable to update wishlist.", "error");
+            } finally {
+                restoreButton(wishlistButton);
             }
+        });
+    }
 
+    /* Initial wishlist state supplied by Django */
+    {% if wishlist_ids %}
+    if (wishlistButton && artworkId) {
+        const wishlistIds = [
+            {% for id in wishlist_ids %}
+                "{{ id|escapejs }}"{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+
+        if (wishlistIds.includes(String(artworkId))) {
+            wishlistButton.classList.add("is-active");
+            wishlistButton.setAttribute("aria-pressed", "true");
+
+            if (wishlistIcon) wishlistIcon.className = "fa-solid fa-heart";
+            if (wishlistText) wishlistText.textContent = "In Wishlist";
         }
-
+    }
     {% endif %}
 
-
-    /* =========================================================
-       INITIAL SERVER COUNT SYNC
-    ========================================================== */
-
-    /*
-     * This makes sure the detail page does not rely on
-     * an old localStorage number.
-     */
     refreshAllCounts();
 
-
-    /* =========================================================
-       ENQUIRY MODAL
-    ========================================================== */
-
+    /* Enquiry modal */
     function openEnquiryModal() {
+        if (!enquiryModal) return;
+        enquiryModal.classList.add("open");
+        enquiryModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("modal-open");
 
-        if (!enquiryModal) {
-            return;
-        }
-
-        enquiryModal.classList.add(
-            "open"
-        );
-
-        enquiryModal.setAttribute(
-            "aria-hidden",
-            "false"
-        );
-
-        document.body.classList.add(
-            "modal-open"
-        );
-
+        const firstField = enquiryModal.querySelector('input[name="name"]');
+        if (firstField) firstField.focus();
     }
-
 
     function closeEnquiryModal() {
-
-        if (!enquiryModal) {
-            return;
-        }
-
-        enquiryModal.classList.remove(
-            "open"
-        );
-
-        enquiryModal.setAttribute(
-            "aria-hidden",
-            "true"
-        );
-
-        document.body.classList.remove(
-            "modal-open"
-        );
-
+        if (!enquiryModal) return;
+        enquiryModal.classList.remove("open");
+        enquiryModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+        if (openEnquiry) openEnquiry.focus();
     }
 
+    if (openEnquiry) openEnquiry.addEventListener("click", openEnquiryModal);
+    if (closeEnquiry) closeEnquiry.addEventListener("click", closeEnquiryModal);
+    if (closeEnquiryButton) closeEnquiryButton.addEventListener("click", closeEnquiryModal);
 
-    if (openEnquiry) {
+    document.addEventListener("keydown", function (event) {
+        if (event.key !== "Escape") return;
+        closeArtworkViewerFunction();
+        closeEnquiryModal();
+    });
 
-        openEnquiry.addEventListener(
-            "click",
-            openEnquiryModal
-        );
+    /* Reveal animation */
+    const revealElements = document.querySelectorAll(".reveal");
 
-    }
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(function (entries, observerInstance) {
+            entries.forEach(function (entry) {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add("visible");
+                observerInstance.unobserve(entry.target);
+            });
+        }, { threshold: 0.12 });
 
-
-    if (closeEnquiry) {
-
-        closeEnquiry.addEventListener(
-            "click",
-            closeEnquiryModal
-        );
-
-    }
-
-
-    if (closeEnquiryButton) {
-
-        closeEnquiryButton.addEventListener(
-            "click",
-            closeEnquiryModal
-        );
-
-    }
-
-
-    /* =========================================================
-       ESCAPE KEY
-    ========================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key !== "Escape"
-            ) {
-
-                return;
-
-            }
-
-
-            closeArtworkViewerFunction();
-            closeEnquiryModal();
-
-        }
-    );
-
-
-    /* =========================================================
-       REVEAL ANIMATION
-    ========================================================== */
-
-    const revealElements =
-        document.querySelectorAll(
-            ".reveal"
-        );
-
-
-    if (
-        "IntersectionObserver" in window
-    ) {
-
-        const observer =
-            new IntersectionObserver(
-                function (
-                    entries,
-                    observer
-                ) {
-
-                    entries.forEach(
-                        function (entry) {
-
-                            if (
-                                !entry.isIntersecting
-                            ) {
-
-                                return;
-
-                            }
-
-
-                            entry.target.classList.add(
-                                "visible"
-                            );
-
-
-                            observer.unobserve(
-                                entry.target
-                            );
-
-                        }
-                    );
-
-                },
-                {
-                    threshold: .12
-                }
-            );
-
-
-        revealElements.forEach(
-            function (element) {
-
-                observer.observe(
-                    element
-                );
-
-            }
-        );
-
+        revealElements.forEach(function (element) {
+            observer.observe(element);
+        });
     } else {
-
-        revealElements.forEach(
-            function (element) {
-
-                element.classList.add(
-                    "visible"
-                );
-
-            }
-        );
-
+        revealElements.forEach(function (element) {
+            element.classList.add("visible");
+        });
     }
-
 });
-
 </script>
-
 {% endblock %}

@@ -1,61 +1,61 @@
+
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}ARTSASA Journal | Contemporary African Art, Artists and Exhibitions{% endblock %}
+{% block title %}ARTSASA Journal | Contemporary African Art & Kenyan Artists{% endblock %}
 
-{% block meta_description %}Read the ARTSASA Journal: stories, artists, exhibitions and ideas from a contemporary art gallery in Nairobi exploring Kenyan and African art.{% endblock %}
+{% block meta_description %}Explore the ARTSASA Journal for stories on contemporary African art, Kenyan artists, exhibitions in Nairobi, original artwork and the ideas shaping Kenya's art scene.{% endblock %}
 
-{% block meta_keywords %}ARTSASA journal, ARTSASA blog, contemporary African art, Kenyan artists, art exhibitions Nairobi, art stories Kenya, collecting African art{% endblock %}
+{% block meta_keywords %}ARTSASA, ARTSASA Journal, ARTSASA art gallery, contemporary African art, Kenyan artists, contemporary art gallery Nairobi, art exhibitions Kenya, original Kenyan art, African art collecting{% endblock %}
 
 {% block canonical %}https://artsasa.com{{ request.path }}{% if page_obj and page_obj.number > 1 %}?page={{ page_obj.number }}{% endif %}{% endblock %}
 
-{% block og_title %}ARTSASA Journal | Contemporary African Art, Artists and Exhibitions{% endblock %}
-{% block og_description %}Stories, artists, exhibitions and ideas from ARTSASA, a contemporary art gallery in Nairobi exploring Kenyan and African art.{% endblock %}
-{% block twitter_title %}ARTSASA Journal | Contemporary African Art, Artists and Exhibitions{% endblock %}
-{% block twitter_description %}Stories, artists, exhibitions and ideas from ARTSASA, a contemporary art gallery in Nairobi exploring Kenyan and African art.{% endblock %}
+{% block og_title %}ARTSASA Journal | Contemporary African Art & Kenyan Artists{% endblock %}
+
+{% block og_description %}Discover contemporary African art, Kenyan artists, exhibitions and original stories from ARTSASA, an independent contemporary art gallery in Nairobi, Kenya.{% endblock %}
+
+{% block twitter_title %}ARTSASA Journal | Contemporary African Art & Kenyan Artists{% endblock %}
+
+{% block twitter_description %}Discover contemporary African art, Kenyan artists, exhibitions and original stories from ARTSASA in Nairobi, Kenya.{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "Blog",
-    "@id": "https://artsasa.com{% url 'blog' %}#blog",
-    "url": "https://artsasa.com{% url 'blog' %}",
-    "name": "ARTSASA Journal",
-    "description": "Stories, artists, exhibitions and ideas from ARTSASA, a contemporary art gallery in Nairobi exploring Kenyan and African art.",
-    "inLanguage": "en-KE",
-    "isPartOf": { "@id": "https://artsasa.com/#website" },
-    "publisher": { "@id": "https://artsasa.com/#organization" },
-    "blogPost": [{% for post in posts %}
-        {
-            "@type": "BlogPosting",
-            "headline": "{{ post.title|escapejs }}",
-            "url": "https://artsasa.com{{ post.get_absolute_url }}",
-            "datePublished": "{% if post.published_at %}{{ post.published_at|date:'c' }}{% else %}{{ post.created_at|date:'c' }}{% endif %}",
-            "author": { "@type": "Organization", "name": "ARTSASA" },
-            "publisher": { "@id": "https://artsasa.com/#organization" }
-        }{% if not forloop.last %},{% endif %}{% endfor %}
-    ]
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "@id": "https://artsasa.com{% url 'blog' %}#blog",
+  "url": "https://artsasa.com{% url 'blog' %}",
+  "name": "ARTSASA Journal",
+  "description": "Stories about contemporary African art, Kenyan artists, exhibitions in Nairobi and the ideas shaping Kenya's art scene.",
+  "inLanguage": "en-KE",
+  "isPartOf": {
+    "@id": "https://artsasa.com/#website"
+  },
+  "publisher": {
+    "@id": "https://artsasa.com/#organization"
+  }
 }
 </script>
+
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-        {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "ARTSASA",
-            "item": "https://artsasa.com/"
-        },
-        {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Journal",
-            "item": "https://artsasa.com{% url 'blog' %}"
-        }
-    ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "@id": "https://artsasa.com{% url 'blog' %}#breadcrumb",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "ARTSASA",
+      "item": "https://artsasa.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Journal",
+      "item": "https://artsasa.com{% url 'blog' %}"
+    }
+  ]
 }
 </script>
 {% endblock %}
@@ -74,132 +74,695 @@
     --journal-rattan: #C9BB9F;
 }
 
-.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 
-.artsasa-journal { background: var(--journal-paper); color: var(--journal-ink); overflow: hidden; }
-.journal-shell { width: min(1380px, calc(100% - 64px)); margin: 0 auto; }
+.artsasa-journal {
+    background: var(--journal-paper);
+    color: var(--journal-ink);
+    overflow: hidden;
+}
 
-.journal-masthead { padding: clamp(80px, 10vw, 155px) 0 72px; border-bottom: 1px solid var(--journal-line); }
-.journal-masthead-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr); gap: 80px; align-items: end; }
-.journal-kicker { display: flex; align-items: center; gap: 14px; margin-bottom: 26px; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--journal-terra-dark); }
-.journal-kicker::before { content: ""; width: 42px; height: 1px; background: var(--journal-terra); }
-.journal-title { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(76px, 10.5vw, 158px); font-weight: 500; line-height: .76; letter-spacing: -.06em; }
-.journal-title em { font-style: italic; font-weight: 400; }
-.journal-introduction { max-width: 500px; margin: 0 0 7px auto; font-family: "DM Sans", sans-serif; font-size: 14px; line-height: 1.9; color: var(--journal-muted); }
-.journal-introduction strong { color: var(--journal-ink); font-weight: 600; }
+.journal-shell {
+    width: min(1380px, calc(100% - 64px));
+    margin: 0 auto;
+}
 
-.journal-topics { display: flex; align-items: center; gap: 9px; padding: 18px 0; border-bottom: 1px solid var(--journal-line); overflow-x: auto; scrollbar-width: none; }
-.journal-topics::-webkit-scrollbar { display: none; }
-.journal-topic { flex: 0 0 auto; padding: 9px 16px; border: 1px solid var(--journal-line); border-radius: 999px; color: var(--journal-ink); text-decoration: none; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: background .25s ease, color .25s ease, border-color .25s ease, transform .25s ease; }
-.journal-topic:hover { background: var(--journal-ink); border-color: var(--journal-ink); color: var(--journal-white); transform: translateY(-2px); }
+.journal-masthead {
+    padding: clamp(80px, 10vw, 155px) 0 72px;
+    border-bottom: 1px solid var(--journal-line);
+}
 
-.journal-featured { padding: 90px 0 115px; }
-.journal-section-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 27px; }
-.journal-section-label span:first-child { font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }
-.journal-section-number { font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-style: italic; color: var(--journal-muted); }
-.journal-featured-link { display: block; color: inherit; text-decoration: none; }
-.journal-featured-frame { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(320px, .75fr); min-height: 610px; background: var(--journal-white); }
-.journal-featured-image { position: relative; width: 100%; height: 610px; overflow: hidden; background: var(--journal-paper-deep); }
-.journal-featured-image img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center center; transition: transform 1s cubic-bezier(.2,.65,.2,1); }
-.journal-featured-link:hover .journal-featured-image img { transform: scale(1.035); }
-.journal-featured-image::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,.015), transparent 55%, rgba(0,0,0,.12)); pointer-events: none; }
-.journal-featured-copy { display: flex; flex-direction: column; justify-content: space-between; padding: clamp(34px, 4.5vw, 66px); }
-.journal-featured-meta { display: flex; justify-content: space-between; gap: 20px; font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--journal-muted); }
-.journal-featured-category { color: var(--journal-terra-dark); }
-.journal-featured-heading { margin: 45px 0 24px; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(46px, 4.4vw, 72px); font-weight: 500; line-height: .91; letter-spacing: -.045em; }
-.journal-featured-excerpt { max-width: 475px; margin: 0; font-family: "Newsreader", "Cormorant Garamond", Georgia, serif; font-size: 18px; font-weight: 400; font-style: italic; line-height: 1.65; letter-spacing: -.005em; color: var(--journal-muted); }
-.journal-read { display: inline-flex; align-items: center; gap: 13px; width: fit-content; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
-.journal-read i { font-size: 12px; transition: transform .3s ease; }
-.journal-featured-link:hover .journal-read i { transform: translateX(6px); }
+.journal-masthead-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(300px, .75fr);
+    gap: 80px;
+    align-items: end;
+}
 
-.journal-divider { display: flex; align-items: center; gap: 25px; margin: 0 0 110px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-style: italic; color: var(--journal-muted); }
-.journal-divider::before, .journal-divider::after { content: ""; height: 1px; flex: 1; background: var(--journal-line); }
+.journal-kicker {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 26px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--journal-terra-dark);
+}
 
-.journal-latest { padding-bottom: 120px; }
-.journal-latest-heading { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 22px; margin-bottom: 44px; border-bottom: 1px solid var(--journal-line); }
-.journal-latest-title { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(46px, 5vw, 72px); font-weight: 500; line-height: .9; letter-spacing: -.045em; }
-.journal-latest-count { font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--journal-muted); }
+.journal-kicker::before {
+    content: "";
+    width: 42px;
+    height: 1px;
+    background: var(--journal-terra);
+}
 
-.journal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 58px 28px; }
-.journal-card { min-width: 0; }
-.journal-card-link { display: block; color: inherit; text-decoration: none; }
-.journal-card-image { position: relative; width: 100%; aspect-ratio: 4 / 3; overflow: hidden; background: var(--journal-paper-deep); }
-.journal-card-image img { width: 100%; height: 100%; display: block; object-fit: cover; object-position: center center; transition: transform .8s cubic-bezier(.2,.65,.2,1); }
-.journal-card-link:hover .journal-card-image img { transform: scale(1.045); }
-.journal-card-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; opacity: 0; background: rgba(33, 30, 27, .16); transition: opacity .3s ease; }
-.journal-card-overlay span { width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--journal-white); color: var(--journal-ink); transform: translateY(9px); transition: transform .3s ease; }
-.journal-card-link:hover .journal-card-overlay { opacity: 1; }
-.journal-card-link:hover .journal-card-overlay span { transform: translateY(0); }
-.journal-card-info { padding-top: 21px; }
-.journal-card-meta { display: flex; align-items: center; gap: 12px; margin-bottom: 13px; font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--journal-muted); }
-.journal-card-meta::before { content: ""; width: 20px; height: 1px; background: var(--journal-terra); }
-.journal-card-title { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(29px, 2.5vw, 38px); font-weight: 500; line-height: .96; letter-spacing: -.03em; transition: color .25s ease; }
-.journal-card-link:hover .journal-card-title { color: var(--journal-terra-dark); }
-.journal-card-excerpt { max-width: 450px; margin: 15px 0 0; font-family: "Newsreader", "Cormorant Garamond", Georgia, serif; font-size: 16px; font-weight: 400; font-style: italic; line-height: 1.65; color: var(--journal-muted); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.journal-title {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(76px, 10.5vw, 158px);
+    font-weight: 500;
+    line-height: .76;
+    letter-spacing: -.06em;
+}
 
-.journal-statement { margin-bottom: 120px; padding: clamp(60px, 8vw, 105px) clamp(28px, 7vw, 95px); background: var(--journal-ink); color: var(--journal-white); }
-.journal-statement-grid { display: grid; grid-template-columns: .65fr 1.35fr; gap: 70px; align-items: start; }
-.journal-statement-label { font-family: "DM Sans", sans-serif; font-size: 9px; font-weight: 700; letter-spacing: .17em; text-transform: uppercase; color: var(--journal-rattan); }
-.journal-statement-text { margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(38px, 4vw, 61px); font-weight: 400; line-height: 1.03; letter-spacing: -.035em; }
-.journal-statement-text em { color: var(--journal-rattan); font-style: italic; }
+.journal-title em {
+    font-style: italic;
+    font-weight: 400;
+}
 
-.journal-pagination { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 0 0 120px; }
-.journal-page { min-width: 42px; height: 42px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid var(--journal-line); color: var(--journal-ink); text-decoration: none; font-family: "DM Sans", sans-serif; font-size: 10px; font-weight: 600; transition: background .25s ease, color .25s ease, border-color .25s ease; }
-.journal-page:hover, .journal-page.is-active { background: var(--journal-ink); border-color: var(--journal-ink); color: var(--journal-white); }
+.journal-introduction {
+    max-width: 500px;
+    margin: 0 0 7px auto;
+    font-family: "DM Sans", sans-serif;
+    font-size: 14px;
+    line-height: 1.9;
+    color: var(--journal-muted);
+}
 
-.journal-empty { padding: 110px 30px; text-align: center; border-top: 1px solid var(--journal-line); border-bottom: 1px solid var(--journal-line); }
-.journal-empty h2 { margin: 0 0 13px; font-family: "Cormorant Garamond", Georgia, serif; font-size: 54px; font-weight: 500; letter-spacing: -.035em; }
-.journal-empty p { margin: 0; font-family: "Newsreader", Georgia, serif; font-size: 17px; font-style: italic; color: var(--journal-muted); }
+.journal-introduction strong {
+    color: var(--journal-ink);
+    font-weight: 600;
+}
+
+/* Topics */
+
+.journal-topics {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--journal-line);
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.journal-topics::-webkit-scrollbar {
+    display: none;
+}
+
+.journal-topic {
+    flex: 0 0 auto;
+    padding: 9px 16px;
+    border: 1px solid var(--journal-line);
+    border-radius: 999px;
+    color: var(--journal-ink);
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    transition: background .25s ease, color .25s ease,
+                border-color .25s ease;
+}
+
+.journal-topic:hover,
+.journal-topic:focus-visible {
+    background: var(--journal-ink);
+    border-color: var(--journal-ink);
+    color: var(--journal-white);
+}
+
+/* Featured story */
+
+.journal-featured {
+    padding: 90px 0 115px;
+}
+
+.journal-section-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 27px;
+}
+
+.journal-section-label span:first-child {
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+}
+
+.journal-section-number {
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--journal-muted);
+}
+
+.journal-featured-link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.journal-featured-frame {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(320px, .75fr);
+    min-height: 610px;
+    background: var(--journal-white);
+}
+
+.journal-featured-image {
+    position: relative;
+    width: 100%;
+    height: 610px;
+    overflow: hidden;
+    background: var(--journal-paper-deep);
+}
+
+.journal-featured-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 1s cubic-bezier(.2, .65, .2, 1);
+}
+
+.journal-featured-link:hover .journal-featured-image img {
+    transform: scale(1.035);
+}
+
+.journal-featured-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 35px;
+    padding: clamp(34px, 4.5vw, 66px);
+}
+
+.journal-featured-meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--journal-muted);
+}
+
+.journal-featured-category {
+    color: var(--journal-terra-dark);
+}
+
+.journal-featured-heading {
+    margin: 45px 0 24px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(46px, 4.4vw, 72px);
+    font-weight: 500;
+    line-height: .91;
+    letter-spacing: -.045em;
+}
+
+.journal-featured-excerpt {
+    max-width: 475px;
+    margin: 0;
+    font-family: "Newsreader", "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--journal-muted);
+}
+
+.journal-read {
+    display: inline-flex;
+    align-items: center;
+    gap: 13px;
+    width: fit-content;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+}
+
+.journal-read i {
+    font-size: 12px;
+    transition: transform .3s ease;
+}
+
+.journal-featured-link:hover .journal-read i {
+    transform: translateX(6px);
+}
+
+/* Archive */
+
+.journal-divider {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin: 0 0 110px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 18px;
+    font-style: italic;
+    color: var(--journal-muted);
+}
+
+.journal-divider::before,
+.journal-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: var(--journal-line);
+}
+
+.journal-latest {
+    padding-bottom: 120px;
+}
+
+.journal-latest-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 22px;
+    margin-bottom: 44px;
+    border-bottom: 1px solid var(--journal-line);
+}
+
+.journal-latest-title {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(46px, 5vw, 72px);
+    font-weight: 500;
+    line-height: .9;
+    letter-spacing: -.045em;
+}
+
+.journal-latest-count {
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--journal-muted);
+}
+
+.journal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 58px 28px;
+}
+
+.journal-card {
+    min-width: 0;
+}
+
+.journal-card-link {
+    display: block;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+.journal-card-image {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background: var(--journal-paper-deep);
+}
+
+.journal-card-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .8s cubic-bezier(.2, .65, .2, 1);
+}
+
+.journal-card-link:hover .journal-card-image img {
+    transform: scale(1.045);
+}
+
+.journal-card-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    background: rgba(33, 30, 27, .16);
+    transition: opacity .3s ease;
+}
+
+.journal-card-overlay span {
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--journal-white);
+    color: var(--journal-ink);
+    transform: translateY(9px);
+    transition: transform .3s ease;
+}
+
+.journal-card-link:hover .journal-card-overlay,
+.journal-card-link:focus-visible .journal-card-overlay {
+    opacity: 1;
+}
+
+.journal-card-link:hover .journal-card-overlay span,
+.journal-card-link:focus-visible .journal-card-overlay span {
+    transform: translateY(0);
+}
+
+.journal-card-info {
+    padding-top: 21px;
+}
+
+.journal-card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 13px;
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--journal-muted);
+}
+
+.journal-card-meta::before {
+    content: "";
+    width: 20px;
+    height: 1px;
+    background: var(--journal-terra);
+}
+
+.journal-card-title {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(29px, 2.5vw, 38px);
+    font-weight: 500;
+    line-height: .96;
+    letter-spacing: -.03em;
+    transition: color .25s ease;
+}
+
+.journal-card-link:hover .journal-card-title {
+    color: var(--journal-terra-dark);
+}
+
+.journal-card-excerpt {
+    max-width: 450px;
+    margin: 15px 0 0;
+    font-family: "Newsreader", "Cormorant Garamond", Georgia, serif;
+    font-size: 16px;
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--journal-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Brand statement */
+
+.journal-statement {
+    margin-bottom: 120px;
+    padding: clamp(60px, 8vw, 105px) clamp(28px, 7vw, 95px);
+    background: var(--journal-ink);
+    color: var(--journal-white);
+}
+
+.journal-statement-grid {
+    display: grid;
+    grid-template-columns: .65fr 1.35fr;
+    gap: 70px;
+    align-items: start;
+}
+
+.journal-statement-label {
+    font-family: "DM Sans", sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .17em;
+    text-transform: uppercase;
+    color: var(--journal-rattan);
+}
+
+.journal-statement-text {
+    margin: 0;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: clamp(38px, 4vw, 61px);
+    font-weight: 400;
+    line-height: 1.03;
+    letter-spacing: -.035em;
+}
+
+.journal-statement-text em {
+    color: var(--journal-rattan);
+    font-style: italic;
+}
+
+/* Pagination */
+
+.journal-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0 0 120px;
+}
+
+.journal-page {
+    min-width: 42px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px;
+    border: 1px solid var(--journal-line);
+    color: var(--journal-ink);
+    text-decoration: none;
+    font-family: "DM Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    transition: background .25s ease, color .25s ease,
+                border-color .25s ease;
+}
+
+.journal-page:hover,
+.journal-page.is-active {
+    background: var(--journal-ink);
+    border-color: var(--journal-ink);
+    color: var(--journal-white);
+}
+
+.journal-page.is-active {
+    cursor: default;
+}
+
+/* Empty state */
+
+.journal-empty {
+    padding: 110px 30px;
+    text-align: center;
+    border-top: 1px solid var(--journal-line);
+    border-bottom: 1px solid var(--journal-line);
+}
+
+.journal-empty h2 {
+    margin: 0 0 13px;
+    font-family: "Cormorant Garamond", Georgia, serif;
+    font-size: 54px;
+    font-weight: 500;
+    letter-spacing: -.035em;
+}
+
+.journal-empty p {
+    margin: 0;
+    font-family: "Newsreader", Georgia, serif;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--journal-muted);
+}
+
+.journal-topic:focus-visible,
+.journal-featured-link:focus-visible,
+.journal-card-link:focus-visible,
+.journal-page:focus-visible {
+    outline: 2px solid var(--journal-terra);
+    outline-offset: 4px;
+}
+
+/* Tablet */
 
 @media (max-width: 1000px) {
-    .journal-masthead-grid { grid-template-columns: 1fr; gap: 38px; }
-    .journal-introduction { margin-left: 0; }
-    .journal-featured-frame { grid-template-columns: 1fr; }
-    .journal-featured-image { height: 500px; }
-    .journal-featured-copy { min-height: 430px; }
-    .journal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .journal-statement-grid { grid-template-columns: 1fr; gap: 32px; }
+    .journal-masthead-grid {
+        grid-template-columns: 1fr;
+        gap: 38px;
+    }
+
+    .journal-introduction {
+        margin-left: 0;
+    }
+
+    .journal-featured-frame {
+        grid-template-columns: 1fr;
+    }
+
+    .journal-featured-image {
+        height: 500px;
+    }
+
+    .journal-featured-copy {
+        min-height: 430px;
+    }
+
+    .journal-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .journal-statement-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
 }
+
+/* Mobile */
 
 @media (max-width: 650px) {
-    .journal-shell { width: calc(100% - 36px); }
-    .journal-masthead { padding: 68px 0 48px; }
-    .journal-title { font-size: clamp(66px, 19vw, 105px); }
-    .journal-introduction { font-size: 13px; line-height: 1.8; }
-    .journal-featured { padding: 60px 0 80px; }
-    .journal-featured-image { height: 360px; }
-    .journal-featured-copy { min-height: 430px; padding: 30px; }
-    .journal-featured-heading { margin-top: 34px; font-size: 46px; }
-    .journal-featured-excerpt { font-size: 17px; }
-    .journal-grid { grid-template-columns: 1fr; gap: 55px; }
-    .journal-card-image { aspect-ratio: 5 / 4; }
-    .journal-card-title { font-size: 34px; }
-    .journal-card-excerpt { font-size: 16px; }
-    .journal-latest { padding-bottom: 80px; }
-    .journal-divider { margin-bottom: 80px; font-size: 16px; }
-    .journal-statement { margin-bottom: 80px; padding: 52px 28px; }
-    .journal-statement-text { font-size: 40px; }
-    .journal-pagination { padding-bottom: 80px; }
+    .journal-shell {
+        width: calc(100% - 36px);
+    }
+
+    .journal-masthead {
+        padding: 68px 0 48px;
+    }
+
+    .journal-title {
+        font-size: clamp(66px, 19vw, 105px);
+    }
+
+    .journal-introduction {
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .journal-featured {
+        padding: 60px 0 80px;
+    }
+
+    .journal-featured-image {
+        height: 360px;
+    }
+
+    .journal-featured-copy {
+        min-height: 430px;
+        padding: 30px;
+    }
+
+    .journal-featured-heading {
+        margin-top: 34px;
+        font-size: 46px;
+    }
+
+    .journal-featured-excerpt {
+        font-size: 17px;
+    }
+
+    .journal-grid {
+        grid-template-columns: 1fr;
+        gap: 55px;
+    }
+
+    .journal-card-image {
+        aspect-ratio: 5 / 4;
+    }
+
+    .journal-card-title {
+        font-size: 34px;
+    }
+
+    .journal-card-excerpt {
+        font-size: 16px;
+    }
+
+    .journal-latest {
+        padding-bottom: 80px;
+    }
+
+    .journal-divider {
+        margin-bottom: 80px;
+        font-size: 16px;
+    }
+
+    .journal-statement {
+        margin-bottom: 80px;
+        padding: 52px 28px;
+    }
+
+    .journal-statement-text {
+        font-size: 40px;
+    }
+
+    .journal-pagination {
+        padding-bottom: 80px;
+    }
+
+    .journal-empty h2 {
+        font-size: 42px;
+    }
 }
 
+/* Respect reduced-motion preferences */
+
 @media (prefers-reduced-motion: reduce) {
-    .journal-card-image img, .journal-featured-image img, .journal-topic, .journal-page, .journal-card-overlay, .journal-card-overlay span, .journal-card-title, .journal-read i { transition: none !important; }
+    .journal-card-image img,
+    .journal-featured-image img,
+    .journal-topic,
+    .journal-page,
+    .journal-card-overlay,
+    .journal-card-overlay span,
+    .journal-card-title,
+    .journal-read i {
+        transition: none !important;
+    }
 }
 </style>
 {% endblock %}
 
 {% block content %}
 
-<div class="artsasa-journal">
+<main class="artsasa-journal">
 
-    <section class="journal-masthead">
+    <!-- Journal introduction -->
 
+    <header class="journal-masthead">
         <div class="journal-shell">
-
             <div class="journal-masthead-grid">
 
                 <div>
-
                     <div class="journal-kicker">ARTSASA Journal</div>
 
                     <h1 class="journal-title">
@@ -207,7 +770,6 @@
                         <em>Ideas.</em><br>
                         Stories.
                     </h1>
-
                 </div>
 
                 <p class="journal-introduction">
@@ -219,45 +781,63 @@
                 </p>
 
             </div>
-
         </div>
-
-    </section>
-
+    </header>
 
     <div class="journal-shell">
 
-        <nav class="journal-topics" aria-label="Journal topics">
-            <a href="{% url 'blog' %}" class="journal-topic">All Stories</a>
-            <a href="{% url 'artists' %}" class="journal-topic">Artists</a>
-            <a href="{% url 'collection' %}" class="journal-topic">Art &amp; Collection</a>
-            <a href="{% url 'about' %}" class="journal-topic">The Gallery</a>
+        <!-- Internal links -->
+
+        <nav class="journal-topics" aria-label="Explore ARTSASA">
+            <a href="{% url 'blog' %}" class="journal-topic" aria-current="page">
+                All Stories
+            </a>
+            <a href="{% url 'artists' %}" class="journal-topic">
+                Artists
+            </a>
+            <a href="{% url 'collection' %}" class="journal-topic">
+                Art &amp; Collection
+            </a>
+            <a href="{% url 'about' %}" class="journal-topic">
+                The Gallery
+            </a>
         </nav>
 
     </div>
 
-
     <div class="journal-shell">
+
+        <!-- Featured article -->
 
         {% if featured_post %}
 
-        <section class="journal-featured">
+        <section class="journal-featured" aria-labelledby="journal-featured-title">
 
             <div class="journal-section-label">
                 <span>Editor's selection</span>
                 <span class="journal-section-number">01</span>
             </div>
 
-            <a href="{{ featured_post.get_absolute_url }}" class="journal-featured-link">
+            <a href="{{ featured_post.get_absolute_url }}"
+               class="journal-featured-link">
 
                 <article class="journal-featured-frame">
 
                     <div class="journal-featured-image">
 
                         {% if featured_post.featured_image %}
-                            <img src="{{ featured_post.featured_image.url }}" alt="{{ featured_post.title }}" loading="eager">
+                        <img
+                            src="{{ featured_post.featured_image.url }}"
+                            alt="{{ featured_post.title }}"
+                            loading="eager"
+                            fetchpriority="high"
+                        >
                         {% else %}
-                            <img src="{% static 'images/logo.png' %}" alt="ARTSASA">
+                        <img
+                            src="{% static 'images/logo.png' %}"
+                            alt="ARTSASA contemporary art gallery"
+                            loading="eager"
+                        >
                         {% endif %}
 
                     </div>
@@ -265,25 +845,38 @@
                     <div class="journal-featured-copy">
 
                         <div>
-
                             <div class="journal-featured-meta">
 
                                 <span class="journal-featured-category">
-                                    {% if featured_post.category %}{{ featured_post.category.name }}{% else %}Journal{% endif %}
+                                    {% if featured_post.category %}
+                                        {{ featured_post.category.name }}
+                                    {% else %}
+                                        ARTSASA Journal
+                                    {% endif %}
                                 </span>
 
-                                <span>
-                                    {% if featured_post.published_at %}{{ featured_post.published_at|date:"d M Y" }}{% else %}{{ featured_post.created_at|date:"d M Y" }}{% endif %}
-                                </span>
+                                <time datetime="{% if featured_post.published_at %}{{ featured_post.published_at|date:'c' }}{% else %}{{ featured_post.created_at|date:'c' }}{% endif %}">
+                                    {% if featured_post.published_at %}
+                                        {{ featured_post.published_at|date:"d M Y" }}
+                                    {% else %}
+                                        {{ featured_post.created_at|date:"d M Y" }}
+                                    {% endif %}
+                                </time>
 
                             </div>
 
-                            <h2 class="journal-featured-heading">{{ featured_post.title }}</h2>
+                            <h2 id="journal-featured-title"
+                                class="journal-featured-heading">
+                                {{ featured_post.title }}
+                            </h2>
 
                             <p class="journal-featured-excerpt">
-                                {% if featured_post.excerpt %}{{ featured_post.excerpt }}{% else %}{{ featured_post.content|striptags|truncatewords:42 }}{% endif %}
+                                {% if featured_post.excerpt %}
+                                    {{ featured_post.excerpt }}
+                                {% else %}
+                                    {{ featured_post.content|striptags|truncatewords:42 }}
+                                {% endif %}
                             </p>
-
                         </div>
 
                         <span class="journal-read">
@@ -301,23 +894,25 @@
 
         {% endif %}
 
-
-        <div class="journal-divider">
+        <div class="journal-divider" aria-hidden="true">
             <span>From the ARTSASA archive</span>
         </div>
 
+        <!-- Article archive -->
 
-        <section class="journal-latest">
+        <section class="journal-latest" aria-labelledby="journal-latest-title">
 
             <div class="journal-latest-heading">
 
-                <h2 class="journal-latest-title">Latest stories</h2>
+                <h2 id="journal-latest-title" class="journal-latest-title">
+                    Latest stories
+                </h2>
 
                 {% if posts %}
-                    <span class="journal-latest-count">
-                        {{ posts|length }}
-                        {% if posts|length == 1 %}story{% else %}stories{% endif %}
-                    </span>
+                <span class="journal-latest-count">
+                    {{ posts|length }}
+                    {% if posts|length == 1 %}story{% else %}stories{% endif %}
+                </span>
                 {% endif %}
 
             </div>
@@ -330,21 +925,32 @@
 
                 <article class="journal-card">
 
-                    <a href="{{ post.get_absolute_url }}" class="journal-card-link">
+                    <a href="{{ post.get_absolute_url }}"
+                       class="journal-card-link">
 
                         <div class="journal-card-image">
 
                             {% if post.featured_image %}
-                                <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" loading="lazy">
+                            <img
+                                src="{{ post.featured_image.url }}"
+                                alt="{{ post.title }}"
+                                loading="lazy"
+                                decoding="async"
+                            >
                             {% else %}
-                                <img src="{% static 'images/logo.png' %}" alt="ARTSASA">
+                            <img
+                                src="{% static 'images/logo.png' %}"
+                                alt="ARTSASA contemporary art gallery"
+                                loading="lazy"
+                                decoding="async"
+                            >
                             {% endif %}
 
-                            <div class="journal-card-overlay">
+                            <span class="journal-card-overlay" aria-hidden="true">
                                 <span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                                    <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                 </span>
-                            </div>
+                            </span>
 
                         </div>
 
@@ -353,21 +959,33 @@
                             <div class="journal-card-meta">
 
                                 <span>
-                                    {% if post.category %}{{ post.category.name }}{% else %}Journal{% endif %}
+                                    {% if post.category %}
+                                        {{ post.category.name }}
+                                    {% else %}
+                                        ARTSASA Journal
+                                    {% endif %}
                                 </span>
 
-                                {% if post.published_at %}
-                                    <span>{{ post.published_at|date:"d M Y" }}</span>
-                                {% else %}
-                                    <span>{{ post.created_at|date:"d M Y" }}</span>
-                                {% endif %}
+                                <time datetime="{% if post.published_at %}{{ post.published_at|date:'c' }}{% else %}{{ post.created_at|date:'c' }}{% endif %}">
+                                    {% if post.published_at %}
+                                        {{ post.published_at|date:"d M Y" }}
+                                    {% else %}
+                                        {{ post.created_at|date:"d M Y" }}
+                                    {% endif %}
+                                </time>
 
                             </div>
 
-                            <h3 class="journal-card-title">{{ post.title }}</h3>
+                            <h3 class="journal-card-title">
+                                {{ post.title }}
+                            </h3>
 
                             <p class="journal-card-excerpt">
-                                {% if post.excerpt %}{{ post.excerpt }}{% else %}{{ post.content|striptags|truncatewords:28 }}{% endif %}
+                                {% if post.excerpt %}
+                                    {{ post.excerpt }}
+                                {% else %}
+                                    {{ post.content|striptags|truncatewords:28 }}
+                                {% endif %}
                             </p>
 
                         </div>
@@ -380,28 +998,58 @@
 
             </div>
 
+            <!-- Pagination -->
+
             {% if page_obj and page_obj.has_other_pages %}
 
-            <nav class="journal-pagination" aria-label="Journal pagination">
+            <nav class="journal-pagination" aria-label="Journal pages">
 
                 {% if page_obj.has_previous %}
-                    <a href="?page={{ page_obj.previous_page_number }}" class="journal-page" aria-label="Previous page" rel="prev">
-                        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
-                    </a>
+                <a
+                    href="?page={{ page_obj.previous_page_number }}"
+                    class="journal-page"
+                    aria-label="Previous page"
+                    rel="prev"
+                >
+                    <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+                </a>
                 {% endif %}
 
                 {% for number in page_obj.paginator.page_range %}
+
                     {% if page_obj.number == number %}
-                        <span class="journal-page is-active">{{ number }}</span>
+
+                    <span
+                        class="journal-page is-active"
+                        aria-current="page"
+                        aria-label="Page {{ number }}"
+                    >
+                        {{ number }}
+                    </span>
+
                     {% else %}
-                        <a href="?page={{ number }}" class="journal-page">{{ number }}</a>
+
+                    <a
+                        href="?page={{ number }}"
+                        class="journal-page"
+                        aria-label="Page {{ number }}"
+                    >
+                        {{ number }}
+                    </a>
+
                     {% endif %}
+
                 {% endfor %}
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}" class="journal-page" aria-label="Next page" rel="next">
-                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                    </a>
+                <a
+                    href="?page={{ page_obj.next_page_number }}"
+                    class="journal-page"
+                    aria-label="Next page"
+                    rel="next"
+                >
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
                 {% endif %}
 
             </nav>
@@ -411,26 +1059,32 @@
             {% else %}
 
             <div class="journal-empty">
-                <h2>The journal is opening soon.</h2>
-                <p>Stories from the artists and exhibitions at ARTSASA will appear here.</p>
+                <h3>The journal is opening soon.</h3>
+                <p>
+                    Stories from the artists and exhibitions at ARTSASA
+                    will appear here.
+                </p>
             </div>
 
             {% endif %}
 
         </section>
 
+        <!-- Brand positioning -->
 
-        <section class="journal-statement">
+        <section class="journal-statement" aria-labelledby="journal-statement-title">
 
             <div class="journal-statement-grid">
 
-                <div class="journal-statement-label">About the journal</div>
+                <div class="journal-statement-label">
+                    About ARTSASA Journal
+                </div>
 
-                <p class="journal-statement-text">
+                <h2 id="journal-statement-title" class="journal-statement-text">
                     We look beyond the frame, into the
                     <em>people, places and ideas</em>
                     that make contemporary African art matter.
-                </p>
+                </h2>
 
             </div>
 
@@ -438,41 +1092,6 @@
 
     </div>
 
-</div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const cards = document.querySelectorAll(".journal-card, .journal-featured-frame");
-
-    if (!("IntersectionObserver" in window)) {
-        cards.forEach(function (card) {
-            card.style.opacity = "1";
-            card.style.transform = "none";
-        });
-        return;
-    }
-
-    cards.forEach(function (card) {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(18px)";
-        card.style.transition = "opacity .65s ease, transform .65s cubic-bezier(.2,.65,.2,1)";
-    });
-
-    const observer = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-            observer.unobserve(entry.target);
-        });
-    }, { threshold: 0.08 });
-
-    cards.forEach(function (card) {
-        observer.observe(card);
-    });
-
-});
-</script>
+</main>
 
 {% endblock %}

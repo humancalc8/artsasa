@@ -7,8 +7,8 @@
 <meta name="google-site-verification" content="fc8PULFg5TYWyoIBJ8gQTsZmubhsRjO2DpX2FucVJkw" />
 <title>{% block title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}</title>
 
-<meta name="description" content="{% block meta_description %}ARTSASA is a contemporary art gallery in Nairobi, Kenya. Discover and collect original African art by Kenyan artists: painting, photography, sculpture, woodwork and mixed media. Visit ARTSASA on Kindaruma Road.{% endblock %}">
-<meta name="keywords" content="{% block meta_keywords %}ARTSASA, Artsasa gallery, Art Sasa, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art Nairobi, original artworks Kenya{% endblock %}">
+<meta name="description" content="{% block meta_description %}ARTSASA is a contemporary art gallery on Kamiti Road, Nairobi, Kenya. Discover and collect original African art by Kenyan artists: painting, photography, sculpture, woodwork and mixed media.{% endblock %}">
+<meta name="keywords" content="{% block meta_keywords %}ARTSASA, Artsasa, Art Sasa, ARTSASA gallery, ARTSASA Nairobi, ARTSASA Kenya, artsasa.com, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art Nairobi, original artworks Kenya{% endblock %}">
 <meta name="author" content="ARTSASA Contemporary Art Gallery">
 
 <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1{% endblock %}">
@@ -25,18 +25,14 @@
 <meta name="apple-mobile-web-app-title" content="ARTSASA">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#211E1B">
-<meta name="content-language" content="en">
 
 <meta name="geo.region" content="KE-30">
 <meta name="geo.placename" content="Nairobi">
-<meta name="geo.position" content="-1.2921;36.8219">
-<meta name="ICBM" content="-1.2921, 36.8219">
+<meta name="geo.position" content="-1.1976;36.9018">
+<meta name="ICBM" content="-1.1976, 36.9018">
 
-<link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
 <link rel="icon" type="image/png" sizes="48x48" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/logo.png' %}">
-<link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/logo.png' %}">
+<link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/logo.png' %}">
 <link rel="shortcut icon" href="{% static 'images/logo.png' %}">
 <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/logo.png' %}">
 
@@ -61,32 +57,31 @@
     "@type": "ArtGallery",
     "@id": "https://artsasa.com/#organization",
     "name": "ARTSASA",
-    "alternateName": ["ARTSASA Gallery", "Artsasa", "ARTSASA Contemporary Art Gallery", "Art Sasa"],
+    "alternateName": ["Artsasa", "Art Sasa", "ARTSASA Gallery", "ARTSASA Contemporary Art Gallery"],
     "url": "https://artsasa.com/",
     "logo": {
         "@type": "ImageObject",
         "url": "https://artsasa.com{% static 'images/logo.png' %}"
     },
     "image": "https://artsasa.com{% static 'images/logo.png' %}",
-    "description": "ARTSASA is a contemporary art gallery in Nairobi, Kenya, presenting contemporary African art, Kenyan artists, painting, photography, sculpture, woodwork and mixed media.",
+    "description": "ARTSASA is a contemporary art gallery on Kamiti Road, Nairobi, Kenya, presenting contemporary African art by Kenyan artists: painting, photography, sculpture, woodwork and mixed media.",
     "slogan": "Imagine. Create",
     "telephone": "+254742814824",
     "email": "info@artsasa.com",
-    "priceRange": "$$",
     "currenciesAccepted": "KES",
     "paymentAccepted": "M-Pesa",
-    "hasMap": "https://www.google.com/maps/search/?api=1&query=ARTSASA+Contemporary+Art+Gallery+Nairobi",
+    "hasMap": "https://www.google.com/maps/search/?api=1&query=-1.197600,36.901770",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Kindaruma Road",
+        "streetAddress": "Kamiti Road, at ecorn energy",
         "addressLocality": "Nairobi",
         "addressRegion": "Nairobi County",
         "addressCountry": "KE"
     },
     "geo": {
         "@type": "GeoCoordinates",
-        "latitude": -1.2921,
-        "longitude": 36.8219
+        "latitude": -1.1976,
+        "longitude": 36.9018
     },
     "openingHoursSpecification": [
         {
@@ -96,14 +91,9 @@
             "closes": "20:00"
         }
     ],
-    "areaServed": {
-        "@type": "City",
-        "name": "Nairobi"
-    },
     "sameAs": [
         "https://www.instagram.com/artsasagallery/",
         "https://www.tiktok.com/@artsasa",
-        "https://www.linkedin.com/company/artsasa/",
         "https://ke.linkedin.com/company/artsasa"
     ]
 }
@@ -116,11 +106,16 @@
     "@type": "WebSite",
     "@id": "https://artsasa.com/#website",
     "name": "ARTSASA",
-    "alternateName": ["ARTSASA Contemporary Art Gallery", "Artsasa", "Art Sasa"],
+    "alternateName": ["Artsasa", "Art Sasa", "ARTSASA Gallery", "ARTSASA Contemporary Art Gallery"],
     "url": "https://artsasa.com/",
     "inLanguage": "en-KE",
     "publisher": {
         "@id": "https://artsasa.com/#organization"
+    },
+    "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://artsasa.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
     }
 }
 </script>
@@ -1282,7 +1277,7 @@ html {
                 </a>
 
                 <p class="footer-description">
-                    Artsasa. Explore our curated gallery of original drawings, paintings, sculpture and photography Connect directly with best selling artists. Imagine, Create.
+                    ARTSASA is a contemporary art gallery in Nairobi, Kenya. Explore our curated collection of original drawings, paintings, sculpture and photography. Connect directly with best selling artists. Imagine, Create.
                 </p>
 
                 <a href="{% url 'collection' %}" class="footer-discover-link">
@@ -1370,7 +1365,7 @@ html {
                     <div class="footer-location-block">
                         <span class="footer-mini-label">Nairobi</span>
                         <address class="footer-address">
-                            <p>Kindaruma Road, Nairobi, Kenya</p>
+                            <p>Kamiti Road, at ecorn energy, Nairobi, Kenya</p>
                         </address>
                     </div>
 
@@ -1395,7 +1390,7 @@ html {
 
                     </div>
 
-                    <a href="https://www.google.com/maps/search/?api=1&query=ARTSASA+Contemporary+Art+Gallery+Nairobi" class="footer-contact-link" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.google.com/maps/search/?api=1&query=-1.197600,36.901770" class="footer-contact-link" target="_blank" rel="noopener noreferrer">
                         <i class="fa-solid fa-location-arrow"></i>
                         <span>Get directions</span>
                     </a>
@@ -1570,6 +1565,11 @@ html {
     </div>
 
 </footer>
+
+<a href="https://wa.me/254742814824?text=Hello%20ARTSASA%2C%20I%27d%20like%20to%20enquire%20about%20an%20artwork." class="artsasa-whatsapp-float" target="_blank" rel="noopener noreferrer" aria-label="Chat with ARTSASA on WhatsApp">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <span class="artsasa-whatsapp-tooltip">Chat with us on WhatsApp</span>
+</a>
 
 <div class="artsasa-toast" id="artsasaToast"></div>
 
@@ -2044,11 +2044,28 @@ html {
         });
     }
 
+    /* ---------- Brand loader: shown once per browser session ---------- */
+
     var loader = $("#pageLoader");
     var LOADER_DURATION = 3000;
+    var LOADER_SEEN_KEY = "artsasa_loader_seen";
     var loaderTimer = null;
 
     var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function loaderSeen() {
+        try {
+            return sessionStorage.getItem(LOADER_SEEN_KEY) === "1";
+        } catch (e) {
+            return false;
+        }
+    }
+
+    function markLoaderSeen() {
+        try {
+            sessionStorage.setItem(LOADER_SEEN_KEY, "1");
+        } catch (e) {}
+    }
 
     function showLoader() {
         if (!loader) return;
@@ -2252,6 +2269,10 @@ html {
     function startLoader() {
         if (!loader) return;
 
+        /* Already shown this session: skip it so navigation stays fast. */
+        if (loaderSeen()) return;
+
+        markLoaderSeen();
         showLoader();
 
         var run = function () {
@@ -2281,47 +2302,6 @@ html {
     } else {
         startLoader();
     }
-
-    window.addEventListener("pageshow", function (event) {
-        if (event.persisted) startLoader();
-    });
-
-    document.addEventListener("click", function (e) {
-        var link = e.target.closest ? e.target.closest("a") : null;
-        if (!link) return;
-
-        var href = link.getAttribute("href");
-        if (!href) return;
-
-        if (
-            link.target === "_blank" ||
-            link.hasAttribute("download") ||
-            href.charAt(0) === "#" ||
-            href.indexOf("mailto:") === 0 ||
-            href.indexOf("tel:") === 0 ||
-            href.indexOf("javascript:") === 0
-        ) {
-            return;
-        }
-
-        if (link.hostname && link.hostname !== window.location.hostname) return;
-
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
-
-        if (link.pathname === window.location.pathname && link.hash) return;
-
-        showLoader();
-    });
-
-    document.addEventListener("submit", function (e) {
-        if (e.target && e.target.classList.contains("search-form")) {
-            showLoader();
-        }
-    });
-
-    window.addEventListener("beforeunload", function () {
-        showLoader();
-    });
 
     var reveals = $$(".reveal");
 

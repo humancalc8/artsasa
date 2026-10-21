@@ -3,16 +3,20 @@
 
 {% block title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
 
-{% block meta_description %}ARTSASA is an independent contemporary art gallery in Nairobi, Kenya. Explore and collect original African art by Kenyan and East African artists.{% endblock %}
+{% block meta_description %}ARTSASA is a contemporary art gallery on Kamiti Road, Nairobi. Discover and buy original African art by Kenyan and East African artists. Pay easily via M-Pesa.{% endblock %}
 
-{% block meta_keywords %}ARTSASA, ARTSASA gallery, Art Sasa, ARTSASA Nairobi, art gallery Nairobi, contemporary art Kenya, African art, Kenyan artists, buy art in Nairobi, original artworks Kenya{% endblock %}
+{% block meta_keywords %}ARTSASA, Artsasa, Art Sasa, ARTSASA gallery, ARTSASA Nairobi, ARTSASA Kenya, artsasa.com, art gallery Nairobi, contemporary African art, Kenyan artists, buy art in Nairobi, original artworks Kenya{% endblock %}
 
 {% block og_title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
-{% block og_description %}Visit ARTSASA in Nairobi to discover contemporary African art, Kenyan artists, exhibitions and original artworks for collectors.{% endblock %}
+{% block og_description %}Original paintings, photography, sculpture and woodwork by Kenyan and East African artists at ARTSASA, Nairobi.{% endblock %}
 {% block og_image %}https://artsasa.com{% static 'images/banner-1.jpg' %}{% endblock %}
 {% block twitter_title %}ARTSASA | Contemporary Art Gallery in Nairobi, Kenya{% endblock %}
-{% block twitter_description %}Visit ARTSASA in Nairobi to discover contemporary African art, Kenyan artists, exhibitions and original artworks for collectors.{% endblock %}
+{% block twitter_description %}Original paintings, photography, sculpture and woodwork by Kenyan and East African artists at ARTSASA, Nairobi.{% endblock %}
 {% block twitter_image %}https://artsasa.com{% static 'images/banner-1.jpg' %}{% endblock %}
+
+{% block extra_head %}
+<link rel="preload" as="image" href="{% static 'images/banner-1.jpg' %}" fetchpriority="high">
+{% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
@@ -22,7 +26,7 @@
     "@id": "https://artsasa.com/#webpage",
     "url": "https://artsasa.com/",
     "name": "ARTSASA | Contemporary Art Gallery in Nairobi, Kenya",
-    "description": "ARTSASA is an independent contemporary art gallery in Nairobi, Kenya presenting painting, photography, sculpture, woodwork and mixed media by emerging and established artists from Kenya, East Africa and beyond.",
+    "description": "ARTSASA is a contemporary art gallery on Kamiti Road, Nairobi, Kenya, presenting painting, photography, sculpture, woodwork and mixed media by emerging and established artists from Kenya, East Africa and beyond.",
     "inLanguage": "en-KE",
     "isPartOf": { "@id": "https://artsasa.com/#website" },
     "about": { "@id": "https://artsasa.com/#organization" },
@@ -40,7 +44,7 @@
 
     <div class="hero-banner" aria-hidden="true">
         <div class="hero-slide active">
-            <img src="{% static 'images/banner-1.jpg' %}" alt="" fetchpriority="high">
+            <img src="{% static 'images/banner-1.jpg' %}" alt="" fetchpriority="high" decoding="async">
         </div>
         <div class="hero-slide">
             <img src="{% static 'images/banner-2.jpg' %}" alt="" loading="lazy" decoding="async">
@@ -61,12 +65,12 @@
             <span class="eyebrow hero-kicker">ARTSASA · Contemporary Art Gallery, Nairobi</span>
 
             <h1 class="hero-title">
+                <span class="hero-title-brand">ARTSASA</span>
                 Art, unframed.
-                <span class="visually-hidden">ARTSASA, contemporary art gallery in Nairobi, Kenya</span>
             </h1>
 
             <p class="hero-description">
-                ARTSASA is an independent contemporary art gallery in Nairobi presenting artists
+                ARTSASA is a contemporary art gallery in Nairobi presenting artists
                 working across painting, photography, sculpture, woodwork and mixed media.
             </p>
 
@@ -114,7 +118,7 @@
                 </p>
 
                 <a href="{% url 'about' %}" class="text-link">
-                    About the gallery
+                    About ARTSASA
                     <span class="arrow">↗</span>
                 </a>
 
@@ -156,7 +160,7 @@
 
             <article class="art-piece reveal">
                 <div class="art-image">
-                    <img src="{% static 'images/19.jpg' %}" alt="Contemporary painting at ARTSASA gallery Nairobi" loading="lazy">
+                    <img src="{% static 'images/19.jpg' %}" alt="Quiet Forms, contemporary painting exhibited at ARTSASA, Nairobi" loading="lazy" decoding="async">
                     <div class="art-overlay"><span>Painting</span></div>
                 </div>
                 <div class="art-info">
@@ -168,7 +172,7 @@
 
             <article class="art-piece reveal">
                 <div class="art-image">
-                    <img src="{% static 'images/21.jpg' %}" alt="Contemporary sculpture at ARTSASA gallery Nairobi" loading="lazy">
+                    <img src="{% static 'images/21.jpg' %}" alt="Material Memory, mixed media sculpture at ARTSASA, Nairobi" loading="lazy" decoding="async">
                     <div class="art-overlay"><span>Sculpture</span></div>
                 </div>
                 <div class="art-info">
@@ -180,7 +184,7 @@
 
             <article class="art-piece reveal">
                 <div class="art-image">
-                    <img src="{% static 'images/2.jpg' %}" alt="Contemporary woodwork by Kenyan artists at ARTSASA" loading="lazy">
+                    <img src="{% static 'images/2.jpg' %}" alt="Grain &amp; Form, Kenyan woodwork at ARTSASA, Nairobi" loading="lazy" decoding="async">
                     <div class="art-overlay"><span>Woodwork</span></div>
                 </div>
                 <div class="art-info">
@@ -192,7 +196,7 @@
 
             <article class="art-piece reveal">
                 <div class="art-image">
-                    <img src="{% static 'images/6.jpg' %}" alt="Contemporary photography at ARTSASA gallery Nairobi" loading="lazy">
+                    <img src="{% static 'images/6.jpg' %}" alt="Passing Light, contemporary photography at ARTSASA, Nairobi" loading="lazy" decoding="async">
                     <div class="art-overlay"><span>Photography</span></div>
                 </div>
                 <div class="art-info">
@@ -234,6 +238,7 @@
 </section>
 
 
+{% if artists %}
 <section class="artists-section" id="artists">
 
     <div class="site-container">
@@ -257,146 +262,31 @@
 
         <div class="artists-grid">
 
-            {% with a1=artists.0 a2=artists.1 a3=artists.2 a4=artists.3 a5=artists.4 %}
-
+            {% for a in artists|slice:":5" %}
             <article class="artist-card">
-                {% if a1 and a1.image %}
-                    <a href="{% url 'artist_detail' a1.slug %}" class="artist-link">
+                <a href="{% url 'artist_detail' a.slug %}" class="artist-link">
+                    {% if a.image %}
                         <div class="artist-avatar">
-                            <img src="{{ a1.image.url }}" alt="{{ a1.name }}, artist at ARTSASA" loading="lazy">
+                            <img src="{{ a.image.url }}" alt="{{ a.name }}, artist at ARTSASA" loading="lazy" decoding="async">
                         </div>
-                        <div class="artist-info">
-                            <h3 class="artist-name">{{ a1.name }}</h3>
-                            <p class="artist-location" title="{{ a1.location|default:'Contemporary Artist' }}">{{ a1.location|default:"Contemporary Artist" }}</p>
+                    {% else %}
+                        <div class="artist-avatar artist-avatar-thematic avatar-theme-{{ forloop.counter }}" aria-hidden="true">
+                            <span class="artist-initial">{{ a.name|slice:":1"|upper }}</span>
                         </div>
-                    </a>
-                {% else %}
-                    <div class="artist-avatar artist-avatar-thematic avatar-theme-1" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-1.9 0-.5-.2-.9-.5-1.3-.3-.4-.4-.8-.1-1.2.3-.4.9-.5 1.4-.5H17a4 4 0 0 0 4-4c0-5-4.5-9-9-9Z"/>
-                            <circle cx="7.5" cy="10.5" r="1" fill="currentColor" stroke="none"/>
-                            <circle cx="9.5" cy="7" r="1" fill="currentColor" stroke="none"/>
-                            <circle cx="14" cy="7" r="1" fill="currentColor" stroke="none"/>
-                            <circle cx="16.5" cy="10" r="1" fill="currentColor" stroke="none"/>
-                        </svg>
-                    </div>
+                    {% endif %}
                     <div class="artist-info">
-                        <h3 class="artist-name">Wanjiru Achieng</h3>
-                        <p class="artist-discipline">Painter</p>
+                        <h3 class="artist-name">{{ a.name }}</h3>
+                        <p class="artist-location" title="{{ a.location|default:'Contemporary Artist' }}">{{ a.location|default:"Contemporary Artist" }}</p>
                     </div>
-                {% endif %}
+                </a>
             </article>
-
-            <article class="artist-card">
-                {% if a2 and a2.image %}
-                    <a href="{% url 'artist_detail' a2.slug %}" class="artist-link">
-                        <div class="artist-avatar">
-                            <img src="{{ a2.image.url }}" alt="{{ a2.name }}, artist at ARTSASA" loading="lazy">
-                        </div>
-                        <div class="artist-info">
-                            <h3 class="artist-name">{{ a2.name }}</h3>
-                            <p class="artist-location" title="{{ a2.location|default:'Contemporary Artist' }}">{{ a2.location|default:"Contemporary Artist" }}</p>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="artist-avatar artist-avatar-thematic avatar-theme-2" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="7" y="11" width="10" height="9" rx="1"/>
-                            <path d="M9 11 12 4l3 7"/>
-                            <path d="M12 4v3"/>
-                        </svg>
-                    </div>
-                    <div class="artist-info">
-                        <h3 class="artist-name">Otieno Barasa</h3>
-                        <p class="artist-discipline">Sculptor</p>
-                    </div>
-                {% endif %}
-            </article>
-
-            <article class="artist-card">
-                {% if a3 and a3.image %}
-                    <a href="{% url 'artist_detail' a3.slug %}" class="artist-link">
-                        <div class="artist-avatar">
-                            <img src="{{ a3.image.url }}" alt="{{ a3.name }}, artist at ARTSASA" loading="lazy">
-                        </div>
-                        <div class="artist-info">
-                            <h3 class="artist-name">{{ a3.name }}</h3>
-                            <p class="artist-location" title="{{ a3.location|default:'Contemporary Artist' }}">{{ a3.location|default:"Contemporary Artist" }}</p>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="artist-avatar artist-avatar-thematic avatar-theme-3" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="3" y="7" width="18" height="13" rx="2"/>
-                            <path d="M8 7 9.3 4.5h5.4L16 7"/>
-                            <circle cx="12" cy="13.5" r="3.4"/>
-                        </svg>
-                    </div>
-                    <div class="artist-info">
-                        <h3 class="artist-name">Amina Hassan</h3>
-                        <p class="artist-discipline">Photographer</p>
-                    </div>
-                {% endif %}
-            </article>
-
-            <article class="artist-card">
-                {% if a4 and a4.image %}
-                    <a href="{% url 'artist_detail' a4.slug %}" class="artist-link">
-                        <div class="artist-avatar">
-                            <img src="{{ a4.image.url }}" alt="{{ a4.name }}, artist at ARTSASA" loading="lazy">
-                        </div>
-                        <div class="artist-info">
-                            <h3 class="artist-name">{{ a4.name }}</h3>
-                            <p class="artist-location" title="{{ a4.location|default:'Contemporary Artist' }}">{{ a4.location|default:"Contemporary Artist" }}</p>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="artist-avatar artist-avatar-thematic avatar-theme-4" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <path d="M3 9c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
-                            <path d="M3 13c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
-                            <path d="M3 17c2.5-2 4.5-2 7 0s4.5 2 7 0 4.5-2 4 0"/>
-                        </svg>
-                    </div>
-                    <div class="artist-info">
-                        <h3 class="artist-name">Kiptoo Ndegwa</h3>
-                        <p class="artist-discipline">Woodworker</p>
-                    </div>
-                {% endif %}
-            </article>
-
-            <article class="artist-card">
-                {% if a5 and a5.image %}
-                    <a href="{% url 'artist_detail' a5.slug %}" class="artist-link">
-                        <div class="artist-avatar">
-                            <img src="{{ a5.image.url }}" alt="{{ a5.name }}, artist at ARTSASA" loading="lazy">
-                        </div>
-                        <div class="artist-info">
-                            <h3 class="artist-name">{{ a5.name }}</h3>
-                            <p class="artist-location" title="{{ a5.location|default:'Contemporary Artist' }}">{{ a5.location|default:"Contemporary Artist" }}</p>
-                        </div>
-                    </a>
-                {% else %}
-                    <div class="artist-avatar artist-avatar-thematic avatar-theme-5" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                            <rect x="4" y="4" width="10" height="10" rx="1"/>
-                            <rect x="10" y="10" width="10" height="10" rx="1" opacity="0.55"/>
-                        </svg>
-                    </div>
-                    <div class="artist-info">
-                        <h3 class="artist-name">Nyambura Kimani</h3>
-                        <p class="artist-discipline">Mixed Media Artist</p>
-                    </div>
-                {% endif %}
-            </article>
-
-            {% endwith %}
+            {% endfor %}
 
         </div>
 
         <div class="artists-bottom reveal">
 
-            <p>Five perspectives. Different materials. One evolving conversation.</p>
+            <p>Different materials. One evolving conversation.</p>
 
             <a href="{% url 'artists' %}" class="artists-bottom-link">
                 Explore the artists
@@ -408,6 +298,7 @@
     </div>
 
 </section>
+{% endif %}
 
 
 <section class="journal" id="journal">
@@ -436,7 +327,7 @@
             <article class="journal-card reveal">
 
                 <a href="{% url 'blog' %}" class="journal-image">
-                    <img src="{% static 'images/a.jpg' %}" alt="Visitor viewing a curated contemporary art collection at ARTSASA" loading="lazy">
+                    <img src="{% static 'images/a.jpg' %}" alt="Visitor viewing a curated contemporary art collection at ARTSASA" loading="lazy" decoding="async">
                 </a>
 
                 <div class="journal-info">
@@ -453,7 +344,7 @@
             <article class="journal-card reveal">
 
                 <a href="{% url 'blog' %}" class="journal-image">
-                    <img src="{% static 'images/h.jpg' %}" alt="Close-up of a vivid abstract painting by a featured ARTSASA artist" loading="lazy">
+                    <img src="{% static 'images/h.jpg' %}" alt="Close-up of a vivid abstract painting by a featured ARTSASA artist" loading="lazy" decoding="async">
                 </a>
 
                 <div class="journal-info">
@@ -470,7 +361,7 @@
             <article class="journal-card reveal">
 
                 <a href="{% url 'blog' %}" class="journal-image">
-                    <img src="{% static 'images/b.jpg' %}" alt="Wide interior view of the ARTSASA gallery showcasing recent exhibition highlights" loading="lazy">
+                    <img src="{% static 'images/b.jpg' %}" alt="Wide interior view of the ARTSASA gallery showcasing recent exhibition highlights" loading="lazy" decoding="async">
                 </a>
 
                 <div class="journal-info">
@@ -497,7 +388,7 @@
 
         <div class="visit-copy reveal">
 
-            <span class="eyebrow">Visit the Gallery</span>
+            <span class="eyebrow">Visit ARTSASA</span>
 
             <h2 class="section-title">Experience art in person.</h2>
 
@@ -547,7 +438,7 @@
         </div>
 
         <div class="visit-image reveal">
-            <img src="{% static 'images/i.jpg' %}" alt="Inside ARTSASA contemporary art gallery in Nairobi" loading="lazy">
+            <img src="{% static 'images/i.jpg' %}" alt="Inside ARTSASA contemporary art gallery in Nairobi" loading="lazy" decoding="async">
         </div>
 
         <div class="visit-map reveal">
@@ -567,7 +458,7 @@
                 </svg>
             </span>
 
-            <a href="https://www.google.com/maps/search/?api=1&query=-1.197600,36.901770" class="btn-solid visit-cta" target="_blank" rel="noopener noreferrer" aria-label="Get directions to ARTSASA gallery on Google Maps">
+            <a href="https://www.google.com/maps/search/?api=1&query=-1.197600,36.901770" class="btn-solid visit-cta" target="_blank" rel="noopener noreferrer" aria-label="Get directions to ARTSASA gallery on Kamiti Road, Nairobi, on Google Maps">
                 Get Directions
             </a>
 
@@ -593,6 +484,7 @@
 .hero-kicker { color: var(--rattan); margin-bottom: 26px; }
 .hero-kicker::before { background: var(--rattan); }
 .hero-title { margin: 0; font-family: var(--font-display); font-weight: 400; letter-spacing: -.02em; line-height: .92; font-size: clamp(56px, 8vw, 108px); }
+.hero-title-brand { display: block; margin-bottom: 18px; font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 700; letter-spacing: .32em; line-height: 1.2; text-transform: uppercase; color: var(--rattan); }
 .hero-description { max-width: 420px; margin: 30px 0 40px; font-size: 14px; line-height: 1.75; color: rgba(241,234,219,.82); }
 .hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 .hero-cta-solid { display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--midnight); background: var(--sandstone); border: 1px solid var(--sandstone); border-radius: 3px; box-shadow: 0 14px 30px rgba(0,0,0,.25); transition: background .3s ease, color .3s ease, border-color .3s ease, transform .3s ease, box-shadow .3s ease; }
@@ -650,7 +542,7 @@
 .artist-card:hover .artist-avatar { transform: translateY(-6px); box-shadow: 0 0 0 1px rgba(33,30,27,.08), 0 20px 40px rgba(33,30,27,.15); }
 .artist-card:hover .artist-avatar img { transform: scale(1.07); filter: saturate(1) contrast(1); }
 .artist-avatar-thematic { display: flex; align-items: center; justify-content: center; }
-.artist-avatar-thematic svg { width: 42%; height: 42%; stroke: currentColor; fill: none; opacity: .92; }
+.artist-initial { font-family: var(--font-display); font-size: clamp(28px, 4vw, 48px); line-height: 1; }
 .avatar-theme-1 { background: var(--rattan); color: var(--midnight); }
 .avatar-theme-2 { background: var(--terracotta); color: var(--sandstone); }
 .avatar-theme-3 { background: var(--midnight); color: var(--sandstone); }
@@ -658,7 +550,6 @@
 .avatar-theme-5 { background: var(--terracotta-deep); color: var(--sandstone); }
 .artist-info { padding-top: 20px; text-align: center; }
 .artist-name { margin: 0 0 6px; font-family: var(--font-display); font-weight: 400; font-size: clamp(14px, 1.45vw, 19px); line-height: 1.15; letter-spacing: -.005em; color: var(--midnight); }
-.artist-discipline { margin: 0; font-size: 9px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--terracotta-deep); }
 .artist-location { margin: 0; font-size: 11px; line-height: 1.4; color: var(--ink-soft); white-space: nowrap; }
 .artists-bottom { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: 30px; margin-top: 60px; padding-top: 22px; border-top: 1px solid rgba(33,30,27,.14); }
 .artists-bottom p { margin: 0; font-size: 11px; line-height: 1.7; letter-spacing: .04em; color: var(--ink-soft); }
@@ -706,29 +597,6 @@
 .visit-cta { position: relative; z-index: 2; display: inline-flex; align-items: center; justify-content: center; padding: 15px 30px; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--sandstone); background: var(--terracotta-deep); border: 1px solid var(--terracotta-deep); border-radius: 3px; box-shadow: 0 10px 24px rgba(33,30,27,.22); transition: background .3s ease, border-color .3s ease, transform .3s ease; }
 .visit-cta:hover { background: var(--midnight); border-color: var(--midnight); transform: translateY(-1px); }
 
-.newsletter { position: relative; overflow: hidden; background: linear-gradient(120deg, var(--wine) 0%, var(--wine-deep) 100%); color: var(--sandstone); }
-.newsletter-texture { position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .5; background-image: radial-gradient(560px 320px at 8% 20%, rgba(241,234,219,.06), transparent 60%), radial-gradient(480px 280px at 92% 80%, rgba(241,234,219,.05), transparent 60%); }
-.newsletter-frame { position: absolute; right: clamp(-40px, 4vw, 40px); bottom: clamp(-60px, -4vw, -20px); z-index: 0; width: clamp(180px, 22vw, 320px); height: clamp(180px, 22vw, 320px); color: var(--rattan); opacity: .16; pointer-events: none; }
-.newsletter-mark { width: 100%; height: 100%; }
-.newsletter-inner { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 60px; padding: clamp(56px, 7vw, 84px) 0; }
-.newsletter-eyebrow { color: var(--rattan); }
-.newsletter-eyebrow::before { background: var(--rattan); }
-.newsletter-title { margin: 20px 0 14px; font-family: var(--font-display); font-weight: 400; letter-spacing: -.015em; line-height: 1.05; font-size: clamp(30px, 3.4vw, 44px); }
-.newsletter-desc { margin: 0; max-width: 420px; font-size: 13px; line-height: 1.75; color: rgba(241,234,219,.72); }
-.newsletter-form { width: 100%; max-width: 440px; justify-self: end; }
-.newsletter-field { display: flex; align-items: stretch; background: rgba(241,234,219,.06); border: 1px solid rgba(241,234,219,.28); border-radius: 4px; padding: 5px; transition: border-color .3s ease, background .3s ease; }
-.newsletter-field:focus-within { border-color: var(--terracotta); background: rgba(241,234,219,.1); }
-.newsletter-input { flex: 1; min-width: 0; background: transparent; border: none; outline: none; padding: 13px 16px; font-family: inherit; font-size: 13px; color: var(--sandstone); letter-spacing: .01em; }
-.newsletter-input::placeholder { color: rgba(241,234,219,.5); }
-.newsletter-submit { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; font-family: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--wine-deep); background: var(--sandstone); border: none; border-radius: 2px; cursor: pointer; transition: background .3s ease, color .3s ease, transform .3s ease, gap .3s ease; }
-.newsletter-submit-arrow { transition: transform .3s ease; }
-.newsletter-submit:hover { background: var(--terracotta); color: var(--sandstone); }
-.newsletter-submit:hover .newsletter-submit-arrow { transform: translateX(3px); }
-.newsletter-submit:active { transform: scale(.97); }
-.newsletter-submit:focus-visible { outline: 2px solid var(--terracotta); outline-offset: 3px; }
-.newsletter-note { margin: 14px 2px 0; font-size: 11px; line-height: 1.6; color: rgba(241,234,219,.45); }
-.newsletter-note.is-success { color: var(--rattan); }
-
 .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 
 @media (max-width: 1000px) {
@@ -741,9 +609,6 @@
     .visit-copy { grid-column: 1 / -1; }
     .visit-image { min-height: 320px; }
     .visit-map { min-height: 320px; }
-    .newsletter-inner { grid-template-columns: 1fr; gap: 34px; text-align: left; }
-    .newsletter-form { justify-self: stretch; max-width: none; }
-    .newsletter-frame { width: 220px; height: 220px; }
     .artists-grid { gap: 18px; }
     .artist-avatar { max-width: 130px; }
 }
@@ -751,6 +616,7 @@
 @media (max-width: 700px) {
     .hero-layout { padding: 130px 0 90px; align-items: center; text-align: left; }
     .hero-title { font-size: clamp(52px, 15vw, 80px); }
+    .hero-title-brand { font-size: 11px; letter-spacing: .28em; margin-bottom: 14px; }
     .hero-actions { width: 100%; }
     .hero-cta-solid, .hero-cta { flex: 1 1 auto; text-align: center; }
     .hero-dots { left: 50%; right: auto; transform: translateX(-50%); }
@@ -777,7 +643,6 @@
     .artist-avatar { width: 100%; max-width: none; }
     .artist-info { padding-top: 10px; }
     .artist-name { font-size: 10px; line-height: 1.15; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .artist-discipline { font-size: 6.5px; letter-spacing: .07em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .artist-location { max-width: 11ch; margin: 0 auto; overflow: hidden; text-overflow: ellipsis; font-size: 7.5px; letter-spacing: .03em; }
     .artists-bottom { margin-top: 40px; padding-top: 18px; display: block; }
     .artists-bottom p { max-width: 250px; font-size: 9px; }
@@ -798,17 +663,11 @@
     .visit-image { min-height: 280px; }
     .visit-map { min-height: 260px; padding: 24px; }
     .visit-map-pin { top: 26%; right: 18%; }
-
-    .newsletter-field { flex-direction: column; gap: 8px; background: none; border: none; padding: 0; }
-    .newsletter-input { border: 1px solid rgba(241,234,219,.28); border-radius: 3px; background: rgba(241,234,219,.06); }
-    .newsletter-submit { justify-content: center; border-radius: 3px; }
-    .newsletter-frame { display: none; }
 }
 
 @media (max-width: 390px) {
     .artists-grid { gap: 6px; }
     .artist-name { font-size: 8.5px; }
-    .artist-discipline { font-size: 5.8px; }
     .artist-location { max-width: 9ch; font-size: 6.8px; }
 }
 </style>
