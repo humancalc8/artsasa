@@ -799,7 +799,6 @@ body.menu-open .site-header,
 body.menu-open .page-content,
 body.menu-open .newsletter-band,
 body.menu-open .site-footer > .site-container,
-body.menu-open .artsasa-whatsapp-float,
 body.avatar-open .site-header,
 body.avatar-open .page-content,
 body.avatar-open .newsletter-band,
@@ -2775,10 +2774,7 @@ body.menu-open .avatar-fab-wrap {
     function startLoader() {
         if (!loader) return;
 
-        /* Already shown this session: skip it so navigation stays fast. */
-        if (loaderSeen()) return;
-
-        markLoaderSeen();
+        /* Plays on every page load, so it shows when switching pages too. */
         showLoader();
 
         var run = function () {
@@ -2802,6 +2798,14 @@ body.menu-open .avatar-fab-wrap {
             hideLoader();
         }, LOADER_DURATION);
     }
+
+    /* Back/forward cache restore: never leave a stale loader on screen. */
+    window.addEventListener("pageshow", function (e) {
+        if (e.persisted) {
+            stopWordAnimations();
+            hideLoader();
+        }
+    });
 
     if (document.readyState === "loading") {
         document.addEventListener("DOMContentLoaded", startLoader);
